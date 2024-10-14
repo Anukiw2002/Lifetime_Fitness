@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertical Navbar</title>
+    <link rel="stylesheet" href="typography.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="body">
+    <!-- Menu Icon for smaller screens -->
+    <div class="menu-icon">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <img src="LFT-2.png" alt="Lifetime Fitness" class="logo">
+        <a href="#" class="nav-link">Dashboard</a>
+        <a href="#" class="nav-link">Members</a>
+        <a href="#" class="nav-link">Workout</a>
+        <a href="#" class="nav-link">Notifications</a>
+        <a href="#" class="nav-link">Reports</a>
+
+        <!-- Bottom links for Settings and Log Out -->
+        <div class="bottom-links">
+            <a href="#" class="nav-link"><i class="fas fa-cog icon"></i>Settings</a>
+            <a href="#" class="nav-link"><i class="fas fa-sign-out-alt icon"></i>Log out</a>
+        </div>
+    </div>
+
+    <!-- JavaScript to toggle navbar -->
+    <script>
+        const menuIcon = document.querySelector('.menu-icon');
+        const navbar = document.querySelector('.navbar');
+
+        menuIcon.addEventListener('click', () => {
+            menuIcon.classList.toggle('active');
+            navbar.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
