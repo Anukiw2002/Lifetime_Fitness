@@ -1,0 +1,108 @@
+/* Base Grid Styles */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -15px;
+}
+
+[class*="col-"] {
+    padding: 15px;
+    flex: 1;
+}
+
+/* Column Widths */
+.col-1 {
+    flex: 0 0 8.33%;
+}
+.col-2 {
+    flex: 0 0 16.66%;
+}
+.col-3 {
+    flex: 0 0 25%;
+}
+.col-4 {
+    flex: 0 0 33.33%;
+}
+.col-5 {
+    flex: 0 0 41.66%;
+}
+.col-6 {
+    flex: 0 0 50%;
+}
+.col-7 {
+    flex: 0 0 58.33%;
+}
+.col-8 {
+    flex: 0 0 66.66%;
+}
+.col-9 {
+    flex: 0 0 75%;
+}
+.col-10 {
+    flex: 0 0 83.33%;
+}
+.col-11 {
+    flex: 0 0 91.66%;
+}
+.col-12 {
+    flex: 0 0 100%;
+}
+
+/* Responsive Breakpoints */
+/* Mobile view */
+@media (max-width: 768px) {
+    .col-sm-12 {
+        flex: 0 0 100%;
+    }
+    .col-sm-6 {
+        flex: 0 0 50%;
+    }
+    .col-sm-4 {
+        flex: 0 0 33.33%;
+    }
+    .col-sm-3 {
+        flex: 0 0 25%;
+    }
+    /* Add more classes as needed */
+}
+
+/* Tablet view */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .col-md-12 {
+        flex: 0 0 100%;
+    }
+    .col-md-6 {
+        flex: 0 0 50%;
+    }
+    .col-md-4 {
+        flex: 0 0 33.33%;
+    }
+    .col-md-3 {
+        flex: 0 0 25%;
+    }
+    /* Add more classes as needed */
+}
+
+/* Desktop view */
+@media (min-width: 1025px) {
+    .col-lg-12 {
+        flex: 0 0 100%;
+    }
+    .col-lg-6 {
+        flex: 0 0 50%;
+    }
+    .col-lg-4 {
+        flex: 0 0 33.33%;
+    }
+    .col-lg-3 {
+        flex: 0 0 25%;
+    }
+    /* Add more classes as needed */
+}
