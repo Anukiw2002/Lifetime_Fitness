@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2d2d2d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    transform: scale(1.2); /* Adjust the scale to enlarge everything */
+    transform-origin: center; /* Center the scaling */
+}
+
+.container {
+    background-color: #f5f5f5;
+    padding: 50px; /* Increased padding */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 600px; /* Increased width */
+    text-align: center;
+    margin-top: 400px;
+}
+
+h1 {
+    margin-bottom: 30px;
+    font-size: 32px; /* Increased font size */
+    color: #333;
+}
+
+.form-section {
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 20px; /* Increased font size */
+    color: #333;
+}
+
+h2 {
+    font-size: 28px; /* Larger font size for "Select Category" */
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.category {
+    display: flex;
+    flex-direction: column; /* Changed to column for vertical alignment */
+    align-items: flex-start; /* Align items to the start */
+    margin-top: 20px;
+}
+
+.radio {
+    display: flex;
+    align-items: center;
+    font-size: 20px; /* Increased font size */
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.radio input {
+    display: none;
+}
+
+.radio-custom {
+    width: 20px; /* Increased size */
+    height: 20px; /* Increased size */
+    border-radius: 50%;
+    border: 2px solid #d9534f;
+    margin-right: 12px;
+    position: relative;
+}
+
+.radio input:checked + .radio-custom {
+    background-color: #d9534f;
+}
+
+input[type="number"] {
+    padding: 6px; /* Decreased padding */
+    font-size: 14px; /* Decreased font size */
+    border-radius: 6px;
+    border: 1px solid #d9534f;
+    width: calc(100% - 24px); /* Adjusted width */
+    margin-top: 10px;
+    outline: none;
+}
+
+input[type="number"]:focus {
+    border-color: #b53d3a;
+}
+
+.submit-button {
+    background-color: #d9534f;
+    color: white;
+    padding: 14px 24px; /* Increased padding */
+    font-size: 20px; /* Increased font size */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.submit-button:hover {
+    background-color: #b53d3a;
+}
+
+.view-leaderboard{
+    background-color: #d9534f;
+    color: white;
+    padding: 14px 24px; /* Increased padding */
+    font-size: 20px; /* Increased font size */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
