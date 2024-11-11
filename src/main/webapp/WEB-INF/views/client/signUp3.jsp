@@ -16,12 +16,12 @@
                 <div class="step-number">1</div>
                 <span>General details</span>
             </div>
-            <div class="step-line"></div>
+            <div class="step-line1"></div>
             <div class="step active">
                 <div class="step-number">2</div>
                 <span>Medical History</span>
             </div>
-            <div class="step-line"></div>
+            <div class="step-line2"></div>
             <div class="step">
                 <div class="step-number">3</div>
                 <span>Membership plan</span>
