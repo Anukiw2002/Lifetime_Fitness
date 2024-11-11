@@ -32,7 +32,7 @@
         </div>
         <div class="stat-item">
             <span class="label">BMI:</span>
-            <span class="value">12%</span>
+            <span class="value">22.5</span>
         </div>
         <div class="stat-item">
             <span class="label">Weight:</span>
@@ -55,21 +55,18 @@
             <h3>Fitness Goals</h3>
             <p>Target Weight: 75 kg</p>
             <p>Weekly Goal: 4 sessions</p>
-            <p>Goal Progress: 75%</p>
         </div>
         <div class="metric-card">
             <h3>Recent Activities</h3>
             <ul class="activity-list">
                 <li>Cardio Session - 45 mins</li>
                 <li>Weight Training - Upper Body</li>
-                <li>Yoga Class</li>
-                <li>Swimming - 30 mins</li>
             </ul>
         </div>
     </div>
 
     <div class="action-buttons">
-        <button class="edit-profile" onclick="location.href='edit-profile.jsp'">Edit Profile</button>
+        <button class="edit-profile" onclick="location.href='${pageContext.request.contextPath}/client/editProfile.jsp'">Edit Profile</button>
         <button class="view-schedule" onclick="location.href='schedule.jsp'">View Schedule</button>
         <button class="book-class" onclick="location.href='book-class.jsp'">Book Class</button>
     </div>
