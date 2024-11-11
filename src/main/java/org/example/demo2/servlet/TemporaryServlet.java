@@ -25,6 +25,8 @@ public class TemporaryServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/client/signUp3.jsp").forward(request, response);
         } else if ("page4".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/client/resetPassword.jsp").forward(request, response);
+        } else if ("page5".equals(page)) {
+            request.getRequestDispatcher("/WEB-INF/views/client/resetPasswordForm.jsp").forward(request, response);
         } else {
             // Default or error page
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
