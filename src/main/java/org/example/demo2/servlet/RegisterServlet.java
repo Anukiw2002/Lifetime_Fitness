@@ -45,7 +45,7 @@ public class RegisterServlet extends HttpServlet {
             User user = new User(username, email, hashedPassword);
             userDAO.registerUser(user);
 
-            sendAlert(response, "Registration successful. Please log in.", "/jsp/login.jsp");
+            sendAlert(response, "Registration successful. Please log in.", "/jsp/logIn.jsp");
         } catch (SQLException e) {
             e.printStackTrace();
             sendAlert(response, "An error occurred while processing your registration.", "/jsp/register.jsp");
