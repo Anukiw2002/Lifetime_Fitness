@@ -4,9 +4,6 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical History - Lifetime Fitness</title>
-    <%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/reset.css">--%>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/forms.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/button.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/medicalHistory.css">
 </head>
 <body>
@@ -34,8 +31,10 @@
         <form class="medical-form">
             <div class="question-group">
                 <div class="question">
-                    <label>1. Have you had a significant medical condition, surgical operation or surgery ? If "Yes" please describe</label>
-                    <input type="text" class="form-input">
+                    <div class="question-content">
+                        <label>1. Have you had a significant medical condition, surgical operation or surgery ? If "Yes" please describe</label>
+                        <input type="text" class="form-input">
+                    </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q1" value="yes"> Yes</label>
                         <label><input type="radio" name="q1" value="no"> No</label>
@@ -43,8 +42,10 @@
                 </div>
 
                 <div class="question">
-                    <label>2. Do you take any medication on a regular basis ? If "Yes" please describe</label>
-                    <input type="text" class="form-input">
+                    <div class="question-content">
+                        <label>2. Do you take any medication on a regular basis ? If "Yes" please describe</label>
+                        <input type="text" class="form-input">
+                    </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q2" value="yes"> Yes</label>
                         <label><input type="radio" name="q2" value="no"> No</label>
@@ -52,7 +53,9 @@
                 </div>
 
                 <div class="question">
-                    <label>3. Do you suffer from chest pain either at rest or during exercise ?</label>
+                    <div class="question-content">
+                        <label>3. Do you suffer from chest pain either at rest or during exercise ?</label>
+                    </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q3" value="yes"> Yes</label>
                         <label><input type="radio" name="q3" value="no"> No</label>
@@ -60,7 +63,9 @@
                 </div>
 
                 <div class="question">
-                    <label>4. Do you suffer from back pain?</label>
+                    <div class="question-content">
+                        <label>4. Do you suffer from back pain?</label>
+                    </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q4" value="yes"> Yes</label>
                         <label><input type="radio" name="q4" value="no"> No</label>
@@ -68,8 +73,10 @@
                 </div>
 
                 <div class="question">
-                    <label>5. Do you have any bone or joint problem that could be aggravated by exercise ? If "Yes" please describe</label>
-                    <input type="text" class="form-input">
+                    <div class="question-content">
+                        <label>5. Do you have any bone or joint problem that could be aggravated by exercise ? If "Yes" please describe</label>
+                        <input type="text" class="form-input">
+                    </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q5" value="yes"> Yes</label>
                         <label><input type="radio" name="q5" value="no"> No</label>
@@ -77,7 +84,9 @@
                 </div>
 
                 <div class="question">
-                    <label>6. Do you suffer from low/high blood pressure ?</label>
+                    <div class="question-content">
+                        <label>6. Do you suffer from low/high blood pressure ?</label>
+                    </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q6" value="yes"> Yes</label>
                         <label><input type="radio" name="q6" value="no"> No</label>
@@ -85,41 +94,47 @@
                 </div>
 
                 <div class="question">
-                    <label>7. Do you suffer from diabetes ? If "Yes" When did you check your sugar levels last and how much was it ?</label>
-                    <input type="text" class="form-input">
+                    <div class="question-content">
+                        <label>7. Do you suffer from diabetes ? If "Yes" When did you check your sugar levels last and how much was it ?</label>
+                        <input type="text" class="form-input">
+                    </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q7" value="yes"> Yes</label>
                         <label><input type="radio" name="q7" value="no"> No</label>
                     </div>
                 </div>
 
-                <div class="question">
+                <div class="question no-radio">
                     <label>8. How would you rate your own level of stress ? At work ? At home ?</label>
                     <input type="text" class="form-input">
                 </div>
 
                 <div class="question">
-                    <label>9. Do you smoke ? If "Yes" how many per day ? If an ex-smoker, when did you stop ?</label>
-                    <input type="text" class="form-input">
+                    <div class="question-content">
+                        <label>9. Do you smoke ? If "Yes" how many per day ? If an ex-smoker, when did you stop ?</label>
+                        <input type="text" class="form-input">
+                    </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q9" value="yes"> Yes</label>
                         <label><input type="radio" name="q9" value="no"> No</label>
                     </div>
                 </div>
 
-                <div class="question">
+                <div class="question no-radio">
                     <label>10. What is your current level of activity ?</label>
                     <input type="text" class="form-input">
                 </div>
 
-                <div class="question">
+                <div class="question no-radio">
                     <label>11. What are the objectives of participating in structured exercises?</label>
                     <input type="text" class="form-input">
                 </div>
 
                 <div class="question">
-                    <label>12. Do you have any other medical condition that hasn't been mentioned above ? If "Yes" please describe</label>
-                    <input type="text" class="form-input">
+                    <div class="question-content">
+                        <label>12. Do you have any other medical condition that hasn't been mentioned above ? If "Yes" please describe</label>
+                        <input type="text" class="form-input">
+                    </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q12" value="yes"> Yes</label>
                         <label><input type="radio" name="q12" value="no"> No</label>
