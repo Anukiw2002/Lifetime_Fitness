@@ -17,7 +17,9 @@ public class TemporaryServlet extends HttpServlet {
         // Forward to the appropriate JSP view based on the parameter
         if ("clientDashboard".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/client/Dummy.jsp").forward(request, response);
-        } else if ("page2".equals(page)) {
+        } else if ("page1".equals(page)) {
+            request.getRequestDispatcher("/WEB-INF/views/client/signUp1.jsp").forward(request, response);
+        }else if ("page2".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/client/signUp2.jsp").forward(request, response);
         } else if ("page3".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/client/signUp3.jsp").forward(request, response);
