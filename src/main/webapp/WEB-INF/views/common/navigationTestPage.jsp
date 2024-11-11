@@ -65,7 +65,8 @@
         <a href="${pageContext.request.contextPath}/testView?page=page6" class="nav-item">Sign Up Step 4</a>
         <a href="${pageContext.request.contextPath}/testView?page=page7" class="nav-item">Member Profile</a>
         <a href="${pageContext.request.contextPath}/testView?page=page8" class="nav-item">Edit Profile</a>
-    </div>
+        <a href="${pageContext.request.contextPath}/testView?page=page11" class="nav-item">Member Management</a>
+    </div
 </div>
 </body>
 </html>
