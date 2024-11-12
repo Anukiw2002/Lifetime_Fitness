@@ -7,15 +7,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/navbar")
+public class NavbarServlet extends HttpServlet {
 
-@WebServlet("/logout")
-public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Invalidate the session
-        request.getSession().invalidate();
-
-        // Redirect to login page
-        response.sendRedirect("logIn.jsp");
+        // Forward the request to navbar.html
+        request.getRequestDispatcher("/WEB-INF/views/common/navbar.jsp").forward(request, response);
     }
 }
