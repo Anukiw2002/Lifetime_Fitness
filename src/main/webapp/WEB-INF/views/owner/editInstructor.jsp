@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+<jsp:include page="../common/verticalNavBar.jsp" />
+<div class="main-content">
 <div class="container">
     <div class="profile-header">
         <h1>Edit Instructor Profile</h1>
@@ -96,5 +98,6 @@
         alert('Changes saved successfully!');
     });
 </script>
+</div>
 </body>
 </html>

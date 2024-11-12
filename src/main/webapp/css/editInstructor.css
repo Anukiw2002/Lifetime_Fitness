@@ -7,6 +7,16 @@ body {
     padding: 20px;
 }
 
+.main-content {
+    flex: 1;
+    margin-left: 250px; /* Should match navbar width */
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+    position: relative;
+    z-index: 1;
+}
+
 .container {
     max-width: 1000px;
     margin: 0 auto;

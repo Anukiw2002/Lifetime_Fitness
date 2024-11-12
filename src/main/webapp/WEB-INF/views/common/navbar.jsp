@@ -1,16 +1,15 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsive Navbar with Dropdown</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/navbar.css">
+    <link rel="stylesheet" href="css/navbar.css">
 </head>
 <body>
 <div class="navbar-container">
     <!-- Update the path to the logo image -->
-    <img src="<%= request.getContextPath() %>/images/LogoWhite.png" alt="Lifetime Fitness Logo" class="logo">
+    <img src="images/LogoWhite.png" alt="Lifetime Fitness Logo" class="logo">
     <nav class="navbar">
         <ul class="nav-links">
             <li><a href="#">Home</a></li>
@@ -44,6 +43,16 @@
     </div>
 </div>
 
-<script src="<%= request.getContextPath() %>/js/navbar.js"></script>
+<!-- JavaScript code added directly to the HTML file -->
+<script>
+    const hamburger = document.querySelector('.hamburger');
+    const navbar = document.querySelector('.navbar');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    hamburger.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+        dropdownMenu.classList.toggle('active');
+    });
+</script>
 </body>
 </html>
