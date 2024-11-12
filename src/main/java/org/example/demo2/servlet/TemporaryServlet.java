@@ -41,6 +41,10 @@ public class TemporaryServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/owner/memberManagement.jsp").forward(request, response);
         } else if ("page12".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/owner/editMember.jsp").forward(request, response);
+        } else if ("page13".equals(page)) {
+            request.getRequestDispatcher("/WEB-INF/views/owner/instructorManagement.jsp").forward(request, response);
+        } else if ("page14".equals(page)) {
+            request.getRequestDispatcher("/WEB-INF/views/owner/").forward(request, response);
         } else {
             // Default or error page
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
