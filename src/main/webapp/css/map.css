@@ -1,0 +1,115 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Unique Contact Section */
+.unique-contact-section {
+    color: white;
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto; /* Center on page */
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px; /* Slightly rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.unique-contact-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #f0f0f0; /* Lighter text for contrast */
+}
+
+/* Unique Contact Container */
+.unique-contact-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* Unique Contact Form */
+.unique-contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+}
+
+.unique-contact-form input,
+.unique-contact-form textarea,
+.unique-contact-form button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.unique-contact-form input,
+.unique-contact-form textarea {
+    background-color: #e6e6e6; /* Light grey background */
+    color: #333;
+}
+
+.unique-contact-form textarea {
+    resize: none;
+    height: 120px;
+}
+
+.unique-contact-form button {
+    background-color: #ff6b6b; /* Distinct button color */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.unique-contact-form button:hover {
+    background-color: #ff4b4b; /* Darker shade on hover */
+}
+
+/* Unique Map Container */
+.unique-map-container {
+    flex: 1.3;
+    background-color: #b3b3b3;
+    height: 300px; /* Taller map */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .unique-contact-container {
+        flex-direction: column;
+        align-items: center; /* Center-align for smaller screens */
+    }
+
+    .unique-map-container {
+        height: 250px;
+        width: 100%; /* Full-width on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .unique-contact-title {
+        font-size: 1.8rem; /* Slightly smaller title */
+    }
+
+    .unique-contact-form input,
+    .unique-contact-form textarea,
+    .unique-contact-form button {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+
+    .unique-map-container {
+        height: 200px;
+    }
+}

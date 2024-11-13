@@ -39,7 +39,7 @@ body, html {
 /* Styling for the H1 */
 .container h1 {
     position: absolute;
-    top: 40%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
@@ -54,7 +54,7 @@ body, html {
 /* Styling for the Button */
 .cta-button {
     position: absolute;
-    top: 55%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
@@ -368,7 +368,7 @@ p {
     margin: 0;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1060px) {
     .pricing-container {
         flex-wrap: wrap;
         justify-content: center;
@@ -386,7 +386,7 @@ p {
 }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     .pricing-card {
         width: 100%;
         margin-bottom: 20px;
@@ -416,7 +416,7 @@ p {
     }
 }
 
-@media (max-width: 498px) {
+@media (max-width: 550px) {
     .pricing-card {
         width: 100%;
         padding: 15px;
