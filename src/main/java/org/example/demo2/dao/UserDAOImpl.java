@@ -14,16 +14,17 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     public void registerUser(User user) throws SQLException {
-        String sql = "INSERT INTO users (username, email, hashed_password) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO users (full_name, username, email, hashed_password) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             if (conn == null) {
                 throw new SQLException("Unable to establish a database connection.");
             }
-            stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getEmail());
-            stmt.setString(3, user.getHashedPassword());
+            stmt.setString(1, user.getFullName());  // Set full name
+            stmt.setString(2, user.getUsername());
+            stmt.setString(3, user.getEmail());
+            stmt.setString(4, user.getHashedPassword());
             stmt.executeUpdate();
         }
     }
@@ -75,6 +76,7 @@ public class UserDAOImpl implements IUserDAO {
                     String hashedPassword = rs.getString("hashed_password");
                     if (verifyPassword(plainPassword, hashedPassword)) {
                         return new User(
+                                rs.getString("full_name"),  // Fetch full name
                                 rs.getString("username"),
                                 rs.getString("email"),
                                 hashedPassword,
@@ -117,6 +119,7 @@ public class UserDAOImpl implements IUserDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new User(
+                            rs.getString("full_name"),  // Fetch full name
                             rs.getString("username"),
                             rs.getString("email"),
                             rs.getString("hashed_password"),
@@ -142,6 +145,7 @@ public class UserDAOImpl implements IUserDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new User(
+                            rs.getString("full_name"),  // Fetch full name
                             rs.getString("username"),
                             rs.getString("email"),
                             rs.getString("hashed_password"),
@@ -156,7 +160,7 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     public void updatePassword(String email, String newPassword) throws SQLException {
-        String sql = "UPDATE users SET hashed_password = ? WHERE email = ?";
+        String sql = "UPDATE users SET hashed_password = ?, reset_token = NULL, token_expiry = NULL WHERE email = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
