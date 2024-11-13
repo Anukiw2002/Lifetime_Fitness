@@ -11,7 +11,7 @@
 <div class="container">
     <div class="header">
         <h1>Membership Plans Management</h1>
-        <button class="add-plan-btn" onclick="openAddPlanModal()">
+        <button class="add-plan-btn" onclick="window.location.href='${pageContext.request.contextPath}/MembershipPlan?action=add'">
             <i class="fas fa-plus"></i> Add New Plan
         </button>
     </div>

@@ -19,7 +19,7 @@ public class MembershipPlan extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/views/owner/viewMembershipPlans.jsp").forward(request, response);
                 break;
             case "add":
-                request.getRequestDispatcher("addPlan.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/owner/addMembershipPlan.jsp").forward(request, response);
                 break;
             case "edit":
                 request.getRequestDispatcher("editPlan.jsp").forward(request, response);
