@@ -25,7 +25,7 @@ public class MembershipPlan extends HttpServlet {
                 request.getRequestDispatcher("editPlan.jsp").forward(request, response);
                 break;
             case "delete":
-                request.getRequestDispatcher("deleteConfirmation.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/owner/deleteMembershipPlan.jsp").forward(request, response);
                 break;
             default:
                 response.sendRedirect("errorPage.jsp"); // Redirect to an error page if action is invalid

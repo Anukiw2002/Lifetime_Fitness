@@ -50,7 +50,7 @@
             </div>
             <div class="plan-actions">
                 <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                <button class="delete-btn" data-plan-name="Platinum Membership" data-plan-type="Platinum" onclick="showConfirmationModal('Platinum Membership', 'Platinum')"><i class="fas fa-trash"></i></button>
                 <button class="status-btn active">Active</button>
             </div>
         </div>
@@ -82,7 +82,7 @@
             </div>
             <div class="plan-actions">
                 <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                <button class="delete-btn" data-plan-name="Gold Membership" data-plan-type="Gold" onclick="showConfirmationModal('Gold Membership', 'Gold')"><i class="fas fa-trash"></i></button>
                 <button class="status-btn active">Active</button>
             </div>
         </div>
@@ -119,7 +119,7 @@
             </div>
             <div class="plan-actions">
                 <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                <button class="delete-btn" data-plan-name="Silver Membership" data-plan-type="Silver" onclick="showConfirmationModal('Silver Membership', 'Silver')"><i class="fas fa-trash"></i></button>
                 <button class="status-btn active">Active</button>
             </div>
         </div>
@@ -145,48 +145,63 @@
             </div>
             <div class="plan-actions">
                 <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                <button class="delete-btn" data-plan-name="Day Pass" data-plan-type="Day Pass" onclick="showConfirmationModal('Day Pass', 'Day Pass')"><i class="fas fa-trash"></i></button>
                 <button class="status-btn active">Active</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Add/Edit Plan Modal -->
-<div id="planModal" class="modal">
+<div id="confirm-modal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2 id="modalTitle">Add New Plan</h2>
-        <form id="planForm">
-            <div class="form-group">
-                <label>Plan Name:</label>
-                <input type="text" name="planName" required>
-            </div>
-            <div class="form-group">
-                <label>Time Slot:</label>
-                <input type="text" name="timeSlot" required>
-            </div>
-            <div class="form-group">
-                <label>Features:</label>
-                <textarea name="features" rows="4" required></textarea>
-            </div>
-            <div class="form-group">
-                <label>Plan Options:</label>
-                <div id="planOptions">
-                    <div class="option-row">
-                        <input type="text" placeholder="Option Name" required>
-                        <input type="number" placeholder="Price" required>
-                        <button type="button" onclick="removeOption(this)">Remove</button>
-                    </div>
-                </div>
-                <button type="button" onclick="addOption()">Add Option</button>
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="save-btn">Save Plan</button>
-                <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
-            </div>
-        </form>
+        <h2>Are you sure you want to delete this plan?</h2>
+        <p>This plan will be archived and can be restored later if needed.</p>
+        <div class="modal-buttons">
+            <button type="button" class="confirm-btn">Yes, Delete</button>
+            <button type="button" class="cancel-btn">Cancel</button>
+        </div>
     </div>
 </div>
+
+<script>
+    // Get the modal and its elements
+    const modal = document.getElementById("confirm-modal");
+    const confirmBtn = document.querySelector(".confirm-btn");
+    const cancelBtn = document.querySelector(".cancel-btn");
+    const deleteBtns = document.querySelectorAll(".delete-btn");
+
+    // Add click event listener to the delete buttons
+    deleteBtns.forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+            const planName = event.target.dataset.planName;
+            const planType = event.target.dataset.planType;
+            showConfirmationModal(planName, planType);
+        });
+    });
+
+    // Add click event listener to the confirm and cancel buttons
+    confirmBtn.addEventListener("click", () => {
+        // Perform soft delete logic here
+        // e.g., send a request to the server to archive the plan
+        modal.style.display = "none";
+    });
+
+    cancelBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    // Close the modal when clicking outside of it
+    window.addEventListener("click", (event) => {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    function showConfirmationModal(planName, planType) {
+        const modalContent = document.querySelector(".modal-content");
+        modalContent.querySelector("h2").textContent = `Are you sure you want to delete the ${planName} plan?`;
+        modal.style.display = "block";
+    }
+</script>
 </body>
 </html>
