@@ -12,11 +12,16 @@ body {
 }
 
 .navbar-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
-
+    margin-top: 3px;
     justify-content: space-between;
-    height: 130px;
+    height: 100px;
 }
 
 .logo {
