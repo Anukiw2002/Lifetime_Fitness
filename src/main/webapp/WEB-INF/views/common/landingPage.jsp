@@ -17,7 +17,7 @@
     <img src="/images/image1.jpg" alt="Logo" class="logo">
     <h1 >FOCUS GAIN ATTAIN</h1>
     <!-- Added Button -->
-    <button class="cta-button">JOIN NOW</button>
+    <a href="testView?page=page1" class="cta-button">JOIN NOW</a>
 </div>
 <div class="carousel-container" id="carousel1">
     <h2>WHY CHOOSE US ?</h2>
