@@ -19,7 +19,7 @@
                     <div class="step-number">1</div>
                     <span>Basic Information</span>
                 </div>
-                <div class="step-line2"></div>
+                <div class="step-line1"></div>
                 <div class="step active">
                     <div class="step-number">2</div>
                     <span>Professional Bio</span>
@@ -84,7 +84,7 @@
                 </div>
 
                 <div class="button-group">
-                    <button type="button" class="back-button" onclick="window.location.href='/selfOnboarding/step2'">Back</button>
+                    <button type="button" class="back-button" onclick="window.location.href='/selfOnboarding/step1'">Back</button>
                     <button type="submit" class="next-button">Continue</button>
                 </div>
             </form>
