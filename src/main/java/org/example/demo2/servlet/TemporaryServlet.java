@@ -54,9 +54,6 @@ public class TemporaryServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/owner/addInstructor.jsp").forward(request, response);
         } else if ("page15".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/owner/editInstructor.jsp").forward(request, response);
-
-
-
         } else if ("page16".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/owner/addClient.jsp").forward(request, response);
         } else if ("page17".equals(page)) {
