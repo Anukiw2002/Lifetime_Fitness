@@ -12,23 +12,39 @@ import org.example.demo2.dao.UserDAO;
 import org.example.demo2.model.User;
 import org.example.demo2.util.HashUtil;
 
-@WebServlet("/")
+
+@WebServlet("/signup")
 public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
 
-        if (username == null || username.isEmpty() || email == null || email.isEmpty() ||
-                password == null || password.isEmpty() || !isValidEmail(email)) {
-            sendAlert(response, "Valid username, email, and password are required.", "/jsp/register.jsp");
+        System.out.println("Full Name: " + firstName);
+        System.out.println("Username: " + lastName);
+        System.out.println("Email: " + email);
+        System.out.println("Password: " + password);
+        System.out.println("Confirm Password: " + confirmPassword);
+
+        // Validate inputs
+        if (firstName == null || firstName.isEmpty() || lastName == null || lastName.isEmpty() ||
+                email == null || email.isEmpty() || password == null || password.isEmpty() ||
+                confirmPassword == null || confirmPassword.isEmpty() || !isValidEmail(email)) {
+            sendAlert(response, "All fields are required with a valid email format.", "testView?page=page1");
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            sendAlert(response, "Passwords do not match.", "testView?page=page1");
             return;
         }
 
         if (password.length() < 8) {
-            sendAlert(response, "Password must be at least 8 characters long.", "/jsp/register.jsp");
+            sendAlert(response, "Password must be at least 8 characters long.", "testView?page=page1");
             return;
         }
 
@@ -37,24 +53,25 @@ public class RegisterServlet extends HttpServlet {
         try {
             UserDAO userDAO = new UserDAO();
 
-            if (userDAO.usernameExists(username) || userDAO.emailExists(email)) {
-                sendAlert(response, "Username or email already exists.", "/jsp/register.jsp");
+            if (userDAO.usernameExists(firstName) || userDAO.emailExists(email)) {
+                sendAlert(response, "Username or email already exists.", "testView?page=page1");
                 return;
             }
 
-            User user = new User(username, email, hashedPassword);
+            // Register the user with fullName
+            User user = new User(firstName, lastName, email, hashedPassword);
             userDAO.registerUser(user);
 
-            sendAlert(response, "Registration successful. Please log in.", "/jsp/logIn.jsp");
+            sendAlert(response, "Registration successful. Please log in.", "testView?page=login");
         } catch (SQLException e) {
             e.printStackTrace();
-            sendAlert(response, "An error occurred while processing your registration.", "/jsp/register.jsp");
+            sendAlert(response, "An error occurred while processing your registration.", "testView?page=page1");
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/jsp/register.jsp").forward(request, response);
+        request.getRequestDispatcher("testView?page=page1").forward(request, response);
     }
 
     private boolean isValidEmail(String email) {
@@ -75,4 +92,6 @@ public class RegisterServlet extends HttpServlet {
                 .replace("'", "\\'")
                 .replace("\"", "\\\"");
     }
+
+
 }

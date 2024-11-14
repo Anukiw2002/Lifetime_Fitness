@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Ishan Maduranga
-  Date: 11/11/2024
-  Time: 11:58 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ include file="navbar.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,14 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Reference to the CSS file -->
     <link rel="stylesheet" href="/css/landingPage.css">
+    <link rel="stylesheet" href="/css/map.css">
+
+
     <title>Landing Page</title>
 </head>
 <body>
-<div class="container">
+<div class="container" id="home">
     <img src="/images/image1.jpg" alt="Logo" class="logo">
-    <h1>FOCUS GAIN ATTAIN</h1>
+    <h1 >FOCUS GAIN ATTAIN</h1>
     <!-- Added Button -->
-    <button class="cta-button">JOIN NOW</button>
+    <a href="testView?page=page1" class="cta-button">JOIN NOW</a>
 </div>
 <div class="carousel-container" id="carousel1">
     <h2>WHY CHOOSE US ?</h2>
@@ -36,13 +33,13 @@
         </div>
         <button class="carousel-btn next-btn">&#10095;</button>
     </div>
-    <div class="carousel-indicators">
+    <div  class="carousel-indicators" id="about">
 
     </div>
 </div>
 
 <div class="about-section">
-    <h1>ABOUT OUR GYM</h1>
+    <h1 >ABOUT OUR GYM</h1>
 
     <p class="intro-text">
         Lifetime Fitness is a well-maintained gym located in Thalawathugoda. With our state-of-the-art equipment,
@@ -113,12 +110,12 @@
         </div>
         <button class="carousel-btn next-btn">&#10095;</button>
     </div>
-    <div class="carousel-indicators">
+    <div class="carousel-indicators" id="pricing">
 
     </div>
 </div>
 <section class="pricing-section">
-    <h1>MEMBER PRICING</h1>
+    <h1 >MEMBER PRICING</h1>
     <div class="pricing-container">
         <div class="pricing-card platinum">
             <div class="card-header">
@@ -157,11 +154,65 @@
         </div>
     </div>
     <br
-    <p>Day Pass: Rs. 1,500</p>
+    <p id="contact us">Day Pass: Rs. 1,500</p>
 </section>
 
 
-<script src="/js/landingPage.js"></script>
+<script>
+    document.querySelectorAll('.carousel-container').forEach(carousel => {
+        const track = carousel.querySelector('.carousel-track');
+        const slides = Array.from(track.children);
+        const nextButton = carousel.querySelector('.next-btn');
+        const prevButton = carousel.querySelector('.prev-btn');
+        const indicators = carousel.querySelector('.carousel-indicators');
+        let currentIndex = 0;
+
+        // Create dots based on the number of slides
+        slides.forEach((_, index) => {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            indicators.appendChild(dot);
+        });
+
+        const dots = Array.from(indicators.children);
+
+        function updateSlidePosition() {
+            track.style.transform = `translateX(-${currentIndex * (slides[0].offsetWidth + 30)}px)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentIndex].classList.add('active');
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentIndex < slides.length - 1) {
+                currentIndex++;
+            } else {
+                currentIndex = 0; // Loop back to the first image
+            }
+            updateSlidePosition();
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+            } else {
+                currentIndex = slides.length - 1; // Loop to the last image
+            }
+            updateSlidePosition();
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                updateSlidePosition();
+            });
+        });
+    });
+
+</script>
 </body>
 </html>
+<%@ include file="map.jsp" %>
+
+<%@ include file="footer.jsp" %>
 
