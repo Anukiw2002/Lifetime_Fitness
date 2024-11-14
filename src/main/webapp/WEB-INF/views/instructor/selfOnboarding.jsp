@@ -38,7 +38,7 @@
 
     <div class="content-card">
         <h1>Basic Information</h1>
-        <form id="basicInfoForm" action="${pageContext.request.contextPath}/instructor-onboarding/step1" method="post">
+        <form id="basicInfoForm" action="${pageContext.request.contextPath}/selfOnboarding/step2" method="post">
             <div class="form-section">
                 <div class="photo-upload">
                     <div class="photo-preview" id="photoPreview">
@@ -93,6 +93,8 @@
                     <input type="tel" id="emergencyPhone" name="emergencyPhone" required>
                 </div>
             </div>
+                    </div>
+                </div>
 
             <div class="form-section">
                 <div class="form-group full-width">
@@ -129,5 +131,7 @@
         });
     });
 </script>
+</div>
+</div>
 </body>
 </html>

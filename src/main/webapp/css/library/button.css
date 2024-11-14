@@ -1,3 +1,12 @@
+:root {
+   --bg-color: #333;
+   --primary-red: #5D0C0B;
+   --secondary-red: #C73938;
+   --light-gray: #D9D9D9;
+   --font-size-normal: 18px;
+   --font-size-large: 22px;
+   --font-size-xlarge: 26px;
+}
 /* buttons.css */
 
 .gym-button-1 {
@@ -66,6 +75,69 @@
    background-color: #ffc401; 
    color: #000000; 
    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.button-group {
+   display: flex;
+   justify-content: space-between;
+   margin-top: 2rem;
+   padding-top: 2rem;
+   border-top: 1px solid #eee;
+}
+/*In use till the end of the file*/
+.next-button {
+   background-color: var(--secondary-red);
+   color: white;
+   padding: 0.75rem 2rem;
+   border: none;
+   border-radius: 4px;
+   font-size: var(--font-size-normal);
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+
+.next-button:hover {
+   background-color: var(--primary-red);
+}
+
+.back-button {
+   background-color: #444444;
+   color: white;
+   padding: 0.75rem 2rem;
+   border: none;
+   border-radius: 4px;
+   font-size: var(--font-size-normal);
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+
+.back-button:hover {
+   background-color: #393939;
+}
+
+.remove-btn {
+   background: none;
+   border: none;
+   color: #dc3545;
+   font-size: 1.5rem;
+   cursor: pointer;
+   padding: 0.25rem 0.5rem;
+}
+
+.add-btn {
+   background: none;
+   border: 2px dashed #73C177FF;
+   color: #73C177FF;
+   padding: 0.75rem;
+   border-radius: 6px;
+   cursor: pointer;
+   width: 100%;
+   font-size: 16px;
+   transition: all 0.2s;
+}
+
+.add-btn:hover {
+   background-color: rgb(97, 128, 99);
 }
 
 /*progress tracker*/

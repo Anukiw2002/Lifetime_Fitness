@@ -18,7 +18,7 @@
             <p class="subtitle">Please set a new password to continue</p>
         </div>
 
-        <form id="passwordChangeForm" action="${pageContext.request.contextPath}/instructor/update-password" method="post" onsubmit="return validateForm(event)">
+        <form id="passwordChangeForm" action="${pageContext.request.contextPath}/selfOnboarding/step1" method="post">
             <div class="password-fields">
                 <div class="form-group">
                     <label for="currentPassword">Current Password</label>

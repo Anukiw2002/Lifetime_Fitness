@@ -16,13 +16,14 @@ public class SelfOnboardingServlet extends HttpServlet {
         String step = request.getPathInfo();
 
         switch (step) {
+            case "/verify":
+                request.getRequestDispatcher("/WEB-INF/views/instructor/firstLogInPage.jsp").forward(request, response);
+                break;
             case "/step1":
-                request.getRequestDispatcher("/WEB-INF/views/instructor/firstLogInPage.jsp")
-                        .forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/instructor/selfOnboarding.jsp").forward(request, response);
                 break;
             case "/step2":
-                request.getRequestDispatcher("/WEB-INF/views/instructor/selfOnboarding.jsp")
-                        .forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/instructor/selfOnboarding2.jsp").forward(request, response);
                 break;
             default:
                 response.sendRedirect("/instructor-onboarding/step1");
@@ -36,9 +37,9 @@ public class SelfOnboardingServlet extends HttpServlet {
         // This will be used later for form submission
         String step = request.getPathInfo();
 
-        if ("/step1".equals(step)) {
+        if ("/verify".equals(step)) {
             // Later: Process form data here
-            response.sendRedirect("/instructor-onboarding/step2");
+            response.sendRedirect("/selfOnboarding/step1");
         }
     }
 }
