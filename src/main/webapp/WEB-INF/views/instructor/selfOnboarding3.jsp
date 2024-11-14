@@ -221,7 +221,7 @@
                 </div>
                 <div class="button-group">
                     <button type="button" class="back-button" onclick="window.location.href='/selfOnboarding/step2'">Back</button>
-                    <button type="submit" class="next-button">Continue</button>
+                    <button type="submit" class="next-button" onclick="window.location.href='/selfOnboarding/step4'">Continue</button>
                 </div>
             </div>
         </div>
