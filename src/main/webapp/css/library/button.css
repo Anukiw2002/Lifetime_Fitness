@@ -16,54 +16,8 @@
 }
 
 .gym-button-1-primary:hover {
-   background-color: #871210; 
-   color: #ffffff; 
-   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+   background-color: #871210;
+   color: #ffffff;
 }
 
 
-/* buttons.css */
-
-.gym-button-2 {
-   font-size: 16px;
-   padding: 10px 20px;
-   border-radius: 20px;
-   border: none;
-   cursor: pointer;
-   transition: background-color 0.3s ease;
-}
-
-.gym-button-2-primary {
-   background-color: #C73938; 
-   color: #ffffff; 
-   
-}
-
-.gym-button-2-primary:hover {
-   background-color: #ee4848; 
-   color: #ffffff; 
-   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-}
-
-/* buttons.css */
-
-.gym-button-3 {
-   font-size: 16px;
-   padding: 10px 20px;
-   border-radius: 20px;
-   border: none;
-   cursor: pointer;
-   transition: background-color 0.3s ease;
-}
-
-.gym-button-3-primary {
-   background-color: #FFEA01; 
-   color: #000000; 
-   
-}
-
-.gym-button-3-primary:hover {
-   background-color: #ffc401; 
-   color: #000000; 
-   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-}

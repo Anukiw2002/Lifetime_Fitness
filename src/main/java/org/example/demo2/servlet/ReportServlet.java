@@ -18,6 +18,12 @@ public class ReportServlet extends HttpServlet {
     private static final String PASS = "Ishn@2002";  // Update with your DB password
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Forward to the form page (e.g., reportForm.jsp) where users can submit their report
+        request.getRequestDispatcher("/jsp/report.jsp").forward(request, response);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve form data (User's report details
         String name = request.getParameter("name") != null ? request.getParameter("name") : "";

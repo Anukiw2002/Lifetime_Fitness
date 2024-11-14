@@ -74,7 +74,7 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html");
         response.getWriter().println("<script type=\"text/javascript\">");
         response.getWriter().println("alert('" + message + "');");
-        response.getWriter().println("window.location.href = '" + response.encodeURL("login.jsp") + "';");
+        response.getWriter().println("window.location.href = '" + response.encodeURL("logIn.jsp") + "';");
         response.getWriter().println("</script>");
     }
 }

@@ -4,15 +4,25 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+    <!-- Welcome File -->
+    <welcome-file-list>
+        <welcome-file>signUp1.jsp</welcome-file> <!-- Make sure signUp1.jsp exists or adjust the name accordingly -->
+    </welcome-file-list>
 
-        <servlet>
-            <servlet-name>RegisterServlet</servlet-name>
-            <servlet-class>org.example.demo2.servlet.RegisterServlet</servlet-class>
-        </servlet>
-        <servlet-mapping>
-            <servlet-name>RegisterServlet</servlet-name>
-            <url-pattern>/register</url-pattern>
-        </servlet-mapping>
+    <!-- RegisterServlet Configuration -->
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>org.example.demo2.servlet.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+
+
+    <!-- Static Resource Handling (CSS & Images) -->
+    <!-- These can be omitted if the default servlet is handling them already. -->
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/css/*</url-pattern>

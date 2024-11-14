@@ -25,7 +25,7 @@ public class SessionCheckFilter implements Filter {
         if (session != null && session.getAttribute("user") != null) {
             chain.doFilter(request, response); // User is logged in, continue request
         } else {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp"); // Redirect to login page
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/logIn.jsp"); // Redirect to login page
         }
     }
 

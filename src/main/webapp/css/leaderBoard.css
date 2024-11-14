@@ -1,0 +1,179 @@
+/* General body styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Leaderboard container styling */
+.leaderboard {
+    width: 70%;
+    max-width: 900px;
+    background: linear-gradient(145deg, #2d2d2d, #242424);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 8px 8px 15px #0d0d0d, -8px -8px 15px #383838;
+}
+
+/* Leaderboard header styling */
+.leaderboard h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #e0e0e0;
+    border-bottom: 2px solid #5c5c5c;
+    padding-bottom: 15px;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0; /* Reset the spacing for cleaner borders */
+    background-color: #3e3e3e;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Table header and cell styling */
+th, td {
+    padding: 18px 15px;
+    text-align: center;
+    font-size: 18px;
+    color: #f1f1f1;
+    border-left: 1px solid #2c2c2c; /* Add left border for separation */
+    border-right: 1px solid #2c2c2c; /* Add right border for separation */
+}
+
+th {
+    background-color: #5c5c5c;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* Remove double border at the edges */
+th:first-child, td:first-child {
+    border-left: none;
+}
+
+th:last-child, td:last-child {
+    border-right: none;
+}
+
+/* Table row styling */
+tbody tr:nth-child(even) {
+    background-color: #4a4a4a;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #3b3b3b;
+}
+
+/* Table hover effects */
+tbody tr:hover {
+    background-color: #6b6b6b;
+    cursor: pointer;
+}
+
+/* Styling for table borders */
+th, td {
+    border-bottom: 1px solid #2c2c2c; /* Add bottom border */
+}
+
+/* Additional styling for the first row and last row */
+th:first-child,
+td:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+th:last-child,
+td:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+/* Responsive Design */
+
+/* Tablet devices (768px and up) */
+@media (max-width: 768px) {
+    .leaderboard {
+        width: 90%;
+        padding: 20px;
+    }
+
+    th, td {
+        padding: 12px 10px;
+        font-size: 16px;
+    }
+
+    .leaderboard h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+}
+
+/* Mobile devices (480px and down) */
+@media (max-width: 480px) {
+    .leaderboard {
+        width: 100%;
+        padding: 15px;
+    }
+
+    table {
+        border-radius: 0;
+        border-spacing: 0;
+    }
+
+    /* Hide table headers */
+    thead {
+        display: none;
+    }
+
+    /* Stack each cell content vertically */
+    tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #2c2c2c;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #4a4a4a;
+    }
+
+    td {
+        display: block;
+        text-align: right;
+        font-size: 16px;
+        padding: 10px;
+        border-bottom: 1px solid #3b3b3b;
+        position: relative;
+    }
+
+    /* Last td should not have a border */
+    td:last-child {
+        border-bottom: none;
+    }
+
+    /* Display the label before each cell content */
+    td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #c7c7c7;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        font-size: 14px;
+    }
+
+    /* Adjust the leaderboard title for smaller screens */
+    .leaderboard h1 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+}

@@ -36,7 +36,7 @@ public class ResetPasswordServlet extends HttpServlet {
                     userDAO.updatePassword(user.getEmail(), hashedPassword);
                     userDAO.setResetToken(user.getEmail(), null, null); // Clear the reset token
                     request.setAttribute("message", "Password successfully reset. You can now log in.");
-                    request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+                    request.getRequestDispatcher("/jsp/logIn.jsp").forward(request, response);
                 } else {
                     request.setAttribute("message", "Invalid or expired token.");
                     request.getRequestDispatcher("/jsp/resetPassword.jsp").forward(request, response);
