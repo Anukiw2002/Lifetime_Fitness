@@ -1,0 +1,97 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #2E2E2E;
+    color: white;
+}
+
+/* Sidebar Styles */
+.verticalNavBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px; /* Adjust width as needed */
+    height: 100vh;
+    background-color: #2E2E2E;
+    z-index: 10; /* Ensures it stays above other content */
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Navbar Styles (if applicable) */
+.navbar {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #2E2E2E;
+    border-bottom: 1px solid #444;
+}
+
+.navbar-item {
+    height: 50px;
+    margin-left: 10px;
+}
+
+/* Main Content Section */
+.learning-content-customer {
+    margin-left: 220px; /* Space for the sidebar */
+    padding: 20px;
+}
+
+/* Content Section */
+.content-section {
+    background-color: #2E2E2E;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Section Headers */
+.checkout-our-videos, .read-our-blog {
+    font-size: 1.5em;
+    margin: 20px 0;
+    color: #fff;
+    border-bottom: 2px solid #b3004b;
+    padding-bottom: 10px;
+}
+
+/* Video and Blog Sections */
+.video-section, .blog-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Video and Blog Boxes */
+.video-box, .blog-box {
+    flex: 1 1 calc(30% - 20px); /* Adjusts for a responsive layout */
+    min-width: 250px;
+    height: 150px;
+    background-color: #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1.2em;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover Effect for Video and Blog Boxes */
+.video-box:hover, .blog-box:hover {
+    background-color: #b3004b;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Adjustments for Smaller Screens */
+@media (max-width: 768px) {
+    .learning-content-customer {
+        margin-left: 0;
+    }
+
+    .video-box, .blog-box {
+        flex: 1 1 100%;
+    }
+}
