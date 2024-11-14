@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/button.css">
 </head>
 <body>
+<jsp:include page="../common/verticalNavBar.jsp" />
 <div class="payment-container">
     <h2 class="payment-title">Make your payment here</h2>
     <p class="payment-info">Please select your payment method</p>
