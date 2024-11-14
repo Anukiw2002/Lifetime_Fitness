@@ -6,30 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructor Onboarding - Basic Information</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/selfOnboarding.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/button.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/typography.css">
 </head>
 <body>
+<jsp:include page="../common/verticalNavBar.jsp" />
+<div class="main-content">
 <div class="container">
     <div class="header">
-        <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
         <div class="progress-steps">
             <div class="step active">
-                <span class="step-number">1</span>
-                <span class="step-text">Basic Information</span>
+                <div class="step-number">1</div>
+                <span>Basic Information</span>
             </div>
+            <div class="step-line2"></div>
             <div class="step">
-                <span class="step-number">2</span>
-                <span class="step-text">Professional Bio</span>
+                <div class="step-number">2</div>
+                <span>Professional Bio</span>
             </div>
+            <div class="step-line2"></div>
             <div class="step">
-                <span class="step-number">3</span>
-                <span class="step-text">Availability</span>
+                <div class="step-number">3</div>
+                <span>Availability and Schedule</span>
             </div>
+            <div class="step-line2"></div>
             <div class="step">
-                <span class="step-number">4</span>
-                <span class="step-text">Payment</span>
+                <div class="step-number">4</div>
+                <span>Payment Preferences</span>
             </div>
         </div>
-    </div>
 
     <div class="content-card">
         <h1>Basic Information</h1>
@@ -68,8 +73,11 @@
                 </div>
             </div>
 
-            <div class="form-section emergency-contact">
+
+                <div>
                 <h2>Emergency Contact</h2>
+                    <div>
+                        <div class="form-section emergency-contact">
                 <div class="form-group">
                     <label for="emergencyName">Contact Name</label>
                     <input type="text" id="emergencyName" name="emergencyName" required>

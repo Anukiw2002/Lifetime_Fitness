@@ -21,7 +21,8 @@ public class SelfOnboardingServlet extends HttpServlet {
                         .forward(request, response);
                 break;
             case "/step2":
-                // Handle step 2 navigation
+                request.getRequestDispatcher("/WEB-INF/views/instructor/selfOnboarding.jsp")
+                        .forward(request, response);
                 break;
             default:
                 response.sendRedirect("/instructor-onboarding/step1");
