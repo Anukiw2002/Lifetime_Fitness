@@ -54,3 +54,24 @@ h1 {
 .exercise-row button:hover {
     background-color: #777;
 }
+
+.create-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.create-button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.create-button:hover {
+    background-color: #007bb5;
+}
