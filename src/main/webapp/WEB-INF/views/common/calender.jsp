@@ -1,50 +1,47 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Booking Calendar</title>
-    <style>
-        .booked { color: red; }
-        .available { color: green; cursor: pointer; }
-    </style>
+    <link rel="stylesheet" href="path/to/calendar.css">
 </head>
 <body>
-<h1>Booking Calendar</h1>
-<table border="1">
-    <tr>
-        <th>Date</th>
-        <th>Time Slot</th>
-        <th>Status</th>
-    </tr>
-    <c:forEach var="day" begin="1" end="30">
-        <c:set var="date" value="${'2024-11-' + (day < 10 ? '0' + day : day)}" />
-        <c:set var="isBooked" value="false" />
+
+<div class="calendar-container">
+    <div class="calendar-header">
+        <span class="month-nav">&#x25C0;</span>
+        <h2>October 2024</h2>
+        <span class="month-nav">&#x25B6;</span>
+    </div>
+    <table class="calendar-table">
+        <!-- Day Headers -->
         <tr>
-            <td>${date}</td>
-            <td>10:00 AM - 11:00 AM</td>
-            <td>
-                <c:choose>
-                    <c:when test="${not empty bookedSlots}">
-                        <c:forEach var="slot" items="${bookedSlots}">
-                            <c:if test="${slot.date == date && slot.timeSlot == '10:00 AM - 11:00 AM'}">
-                                <span class="booked">Booked</span>
-                                <c:set var="isBooked" value="true" />
-                            </c:if>
-                        </c:forEach>
-                        <c:if test="${empty isBooked}">
-                            <a href="book?date=${date}&time=10:00 AM - 11:00 AM" class="available">Book Now</a>
-                        </c:if>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="book?date=${date}&time=10:00 AM - 11:00 AM" class="available">Book Now</a>
-                    </c:otherwise>
-                </c:choose>
-            </td>
+            <th class="time-slot-header">Time Slot</th>
+            <c:forEach var="day" begin="3" end="9">
+                <th>Sun ${day}</th>
+            </c:forEach>
         </tr>
-    </c:forEach>
-</table>
+
+        <!-- Define time slots -->
+        <c:set var="timeSlots" value="${['4 am - 5 am', '5 am - 6 am', '6 am - 7 am', '7 am - 8 am', '8 am - 9 am', '9 am - 10 am', '10 am - 11 am', '11 am - 12 pm', '12 pm - 1 pm', '1 pm - 2 pm', '2 pm - 3 pm', '3 pm - 4 pm', '4 pm - 5 pm', '5 pm - 6 pm', '6 pm - 7 pm', '7 pm - 8 pm', '8 pm - 9 pm', '9 pm - 10 pm', '10 pm - 11 pm', '11 pm - 12 am']}" />
+
+        <!-- Generate rows for each time slot -->
+        <c:forEach var="timeSlot" items="${timeSlots}">
+            <tr>
+                <td class="time-slot">${timeSlot}</td>
+                <c:forEach var="day" begin="3" end="9">
+                    <td class="slot available">
+                        <a href="book?date=2024-10-${day}&time=${timeSlot}">Book</a>
+                    </td>
+                </c:forEach>
+            </tr>
+        </c:forEach>
+    </table>
+</div>
+
 </body>
 </html>
