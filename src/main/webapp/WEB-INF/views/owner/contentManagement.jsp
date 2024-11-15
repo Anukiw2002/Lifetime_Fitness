@@ -7,7 +7,7 @@
     <title>Content Management</title>
 
     <!-- Link to existing navbar and main styles -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/contentManagementClient.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/contentManagementOwner.css" />
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
@@ -17,8 +17,13 @@
 <jsp:include page="../common/verticalNavBar.jsp" />
 
 <div class="learning-content-customer">
-
     <div class="content-section">
+        <!-- Button container for Video Upload and Edit -->
+        <div class="button-container1">
+            <button class="action-button" onclick="location.href='${pageContext.request.contextPath}/uploadVideo.jsp'">Upload</button>
+            <button class="action-button" onclick="location.href='${pageContext.request.contextPath}/editVideo.jsp'">Edit</button>
+        </div>
+
         <h2 class="section-title">Checkout our Videos</h2>
         <div class="video-section">
             <div class="video-box">Video 1</div>
@@ -27,6 +32,12 @@
             <div class="video-box">Video 4</div>
             <div class="video-box">Video 5</div>
             <div class="video-box">Video 6</div>
+        </div>
+
+        <!-- Button container for Blog Upload and Edit -->
+        <div class="button-container2">
+            <button class="action-button" onclick="location.href='${pageContext.request.contextPath}/uploadBlog.jsp'">Upload</button>
+            <button class="action-button" onclick="location.href='${pageContext.request.contextPath}/editBlog.jsp'">Edit</button>
         </div>
 
         <h2 class="section-title">Read Our Blog</h2>

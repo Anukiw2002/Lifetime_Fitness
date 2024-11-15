@@ -25,8 +25,22 @@ public class TemporaryServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/client").forward(request, response);
         } else if ("ownerDashboard".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/owner - dashboard.jsp").forward(request, response);
+        }else if ("page29".equals(page)) {
+            request.getRequestDispatcher("/WEB-INF/views/client/payment.jsp").forward(request, response);
         }else if ("page30".equals(page)) {
         request.getRequestDispatcher("/WEB-INF/views/client/contentManagement.jsp").forward(request, response);
+        }else if ("page31".equals(page)) {
+            request.getRequestDispatcher("/WEB-INF/views/owner/contentManagement.jsp").forward(request, response);
+        }else if ("page32".equals(page)) {
+            request.getRequestDispatcher("/WEB-INF/views/owner/uploadVideo.jsp").forward(request, response);
+        }else if ("page33".equals(page)) {
+            request.getRequestDispatcher("/WEB-INF/views/owner/uploadSuccess.jsp").forward(request, response);
+        }else if ("page34".equals(page)) {
+            request.getRequestDispatcher("/WEB-INF/views/owner/uploadBlog.jsp").forward(request, response);
+
+
+
+
 
 
 
