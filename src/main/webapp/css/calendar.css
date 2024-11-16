@@ -1,0 +1,81 @@
+<style>
+    /* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Calendar container styling */
+#calendar {
+    width: 90%;
+    max-width: 1000px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* FullCalendar time slot styling */
+.fc-timeGrid-slotLane-frame {
+    border-top: none !important; /* Remove the dividing line between half-hour slots */
+}
+
+/* Adjust slot height if necessary */
+.fc-timeGrid-slot {
+    height: 3em; /* Customize slot height as needed */
+}
+
+/* Time slot labels (e.g., "12am-1am") */
+.fc-timegrid-slot-label {
+    background-color: #ffffff; /* Set background color for labels */
+    font-weight: bold;
+    color: #333;
+    padding: 0 5px; /* Adjust padding if necessary */
+}
+
+/* Style for selected slots */
+.fc-highlight {
+    background-color: #cce5ff !important; /* Customize the highlight color for selected slots */
+}
+
+/* Customize appearance of events */
+.fc-event, .fc-event-dot {
+    background-color: #5cb85c !important; /* Set color for events */
+    color: #ffffff !important; /* Text color inside events */
+    border: none !important;
+    border-radius: 4px;
+}
+
+/* Style for available slots */
+.slot.available a {
+    color: #5cb85c;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.2s, background-color 0.2s;
+    padding: 8px 15px;
+    border-radius: 4px;
+    display: inline-block;
+    width: 100%;   /* Ensure the link takes the full width of the cell */
+}
+
+.slot.available a:hover {
+    background-color: #e8f5e9;
+    color: #3d8b3d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #calendar {
+        width: 95%;
+    }
+    .fc-timegrid-slot-label {
+        font-size: 0.8em;
+    }
+}
+</style>

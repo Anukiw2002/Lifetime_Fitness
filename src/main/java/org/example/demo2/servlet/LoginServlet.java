@@ -60,7 +60,8 @@ public class LoginServlet extends HttpServlet {
                 // Create a session and redirect to dashboard
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                response.sendRedirect(request.getContextPath() + "/jsp/dashboard.jsp");
+                request.getRequestDispatcher("/WEB-INF/views/client/userDetails.jsp").forward(request, response);
+
             } else {
                 sendAlert(response, "Invalid password.");
             }
