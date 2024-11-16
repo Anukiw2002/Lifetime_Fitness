@@ -19,8 +19,8 @@ public class BookingServlet extends HttpServlet{
             case "/owner":
                 request.getRequestDispatcher("/WEB-INF/views/owner/viewBookings.jsp").forward(request, response);
                 break;
-            case "/step1":
-                request.getRequestDispatcher("/WEB-INF/views/instructor/selfOnboarding.jsp").forward(request, response);
+            case "/constraints":
+                request.getRequestDispatcher("/WEB-INF/views/owner/bookingConstraints.jsp").forward(request, response);
                 break;
             default:
                 response.sendRedirect("/instructor-onboarding/step1");
