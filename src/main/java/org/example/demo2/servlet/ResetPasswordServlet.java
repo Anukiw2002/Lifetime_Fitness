@@ -6,8 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.demo2.dao.UserDAO;
-import org.example.demo2.util.HashUtil;
 import org.example.demo2.model.User;
+import org.example.demo2.util.HashUtil;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,38 +17,63 @@ public class ResetPasswordServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String token = request.getParameter("token");
-        String newPassword = request.getParameter("password");
+        String resetCode = request.getParameter("resetCode");
+        String newPassword = request.getParameter("newPassword");
+        String confirmPassword = request.getParameter("confirmPassword");
 
-        if (token == null || token.isEmpty() || newPassword == null || newPassword.isEmpty() || newPassword.length() < 8) {
-            request.setAttribute("message", "Valid token and new password (at least 8 characters) are required.");
-            request.getRequestDispatcher("/jsp/resetPassword.jsp").forward(request, response);
+        // Debugging
+        System.out.println("Received resetCode: " + resetCode);
+        System.out.println("Received newPassword: " + newPassword);
+        System.out.println("Received confirmPassword: " + confirmPassword);
+
+        // Validate inputs
+        if (resetCode == null || resetCode.isEmpty() ||
+                newPassword == null || newPassword.isEmpty() ||
+                confirmPassword == null || confirmPassword.isEmpty()) {
+            request.setAttribute("message", "All fields are required.");
+            request.getRequestDispatcher("/WEB-INF/views/client/resetPasswordForm.jsp").forward(request, response);
             return;
         }
 
-        UserDAO userDAO = new UserDAO();
+        if (!newPassword.equals(confirmPassword)) {
+            request.setAttribute("message", "Passwords do not match.");
+            request.getRequestDispatcher("/WEB-INF/views/client/resetPasswordForm.jsp").forward(request, response);
+            return;
+        }
+
+        if (newPassword.length() < 8) {
+            request.setAttribute("message", "Password must be at least 8 characters.");
+            request.getRequestDispatcher("/WEB-INF/views/client/resetPasswordForm.jsp").forward(request, response);
+            return;
+        }
+
         try {
-            boolean isValidToken = userDAO.validatePasswordResetToken(token);
-            if (isValidToken) {
-                User user = userDAO.getUserByResetToken(token);
-                if (user != null) {
-                    String hashedPassword = HashUtil.hashPassword(newPassword);
-                    userDAO.updatePassword(user.getEmail(), hashedPassword);
-                    userDAO.setResetToken(user.getEmail(), null, null); // Clear the reset token
-                    request.setAttribute("message", "Password successfully reset. You can now log in.");
-                    request.getRequestDispatcher("/jsp/logIn.jsp").forward(request, response);
-                } else {
-                    request.setAttribute("message", "Invalid or expired token.");
-                    request.getRequestDispatcher("/jsp/resetPassword.jsp").forward(request, response);
-                }
-            } else {
-                request.setAttribute("message", "Invalid or expired token.");
-                request.getRequestDispatcher("/jsp/resetPassword.jsp").forward(request, response);
+            UserDAO userDAO = new UserDAO();
+            User user = userDAO.getUserByResetToken(resetCode);
+
+            if (user == null) {
+                request.setAttribute("message", "Invalid or expired reset code.");
+                request.getRequestDispatcher("/WEB-INF/views/client/resetPasswordForm.jsp").forward(request, response);
+                return;
             }
+
+            // Hash the new password and update the user
+            String hashedPassword = HashUtil.hashPassword(newPassword);
+            userDAO.updatePassword(user.getEmail(), hashedPassword);
+
+            // Clear the reset token
+            userDAO.setResetToken(user.getEmail(), null, null);
+
+            System.out.println("Password reset successful for user: " + user.getEmail());
+
+            // Redirect to login page
+            request.getRequestDispatcher("/WEB-INF/views/client/login.jsp").forward(request, response);
+
         } catch (SQLException e) {
+            System.err.println("Error occurred during password reset:");
             e.printStackTrace();
-            request.setAttribute("message", "An error occurred while processing your request.");
-            request.getRequestDispatcher("/jsp/resetPassword.jsp").forward(request, response);
+            request.setAttribute("message", "An error occurred while resetting your password. Please try again.");
+            request.getRequestDispatcher("/WEB-INF/views/client/resetPasswordForm.jsp").forward(request, response);
         }
     }
 }

@@ -9,8 +9,8 @@ import org.example.demo2.dao.UserDAO;
 import org.example.demo2.model.User;
 import org.example.demo2.util.EmailUtil;
 import org.example.demo2.util.TokenUtil;
-import jakarta.mail.MessagingException;
 
+import jakarta.mail.MessagingException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -22,36 +22,57 @@ public class ForgotPasswordServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
 
-        if (email == null || email.isEmpty()) {
+        // Validate email input
+        if (email == null || email.trim().isEmpty()) {
             request.setAttribute("message", "Email is required.");
-            request.getRequestDispatcher("/jsp/forgotPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/client/resetPassword.jsp").forward(request, response);
             return;
         }
 
         UserDAO userDAO = new UserDAO();
+
         try {
+            // Check if the user exists in the database
             User user = userDAO.getUserByEmail(email);
             if (user != null) {
+                // Generate a reset token and expiry time
                 String token = TokenUtil.generateToken();
                 Timestamp expiry = new Timestamp(System.currentTimeMillis() + 3600 * 1000); // 1 hour expiry
+
+                // Save the token and expiry in the database
                 userDAO.setResetToken(email, token, expiry);
-                String resetLink = request.getRequestURL().toString().replace(request.getServletPath(), "/resetPassword?token=" + token);
-                String emailBody = "To reset your password, click the following link: " + resetLink;
+
+                // Create the email content
+                String resetLink = request.getRequestURL()
+                        .toString()
+                        .replace(request.getServletPath(), "/resetPassword?token=" + token);
+
+                String emailBody = "<p>Hi " + user.getFullName() + ",</p>"
+                        + "<p>Your password reset code is: <strong>" + token + "</strong></p>"
+                        + "<p>This code will expire in 1 hour.</p>"
+                        + "<p>If you did not request this, please ignore this email.</p>";
+
+                // Send the email
                 try {
                     EmailUtil.sendEmail(email, "Password Reset Request", emailBody);
-                    request.setAttribute("message", "Password reset link has been sent to your email.");
+                    request.setAttribute("message", "A reset code has been sent to your email.");
                 } catch (MessagingException e) {
                     e.printStackTrace();
                     request.setAttribute("message", "Failed to send email. Please try again later.");
                 }
             } else {
-                request.setAttribute("message", "No account found with that email.");
+                // If user not found, show an appropriate message
+                request.setAttribute("message", "No account found with the provided email.");
             }
+
+            // Redirect to the reset code entry page
+            request.getRequestDispatcher("/WEB-INF/views/client/resetPasswordForm.jsp").forward(request, response);
+
+
         } catch (SQLException e) {
             e.printStackTrace();
-            request.setAttribute("message", "An error occurred while processing your request.");
+            request.setAttribute("message", "An error occurred while processing your request. Please try again later.");
+            request.getRequestDispatcher("/WEB-INF/views/client/resetPassword.jsp").forward(request, response);
         }
-
-        request.getRequestDispatcher("/jsp/forgotPassword.jsp").forward(request, response);
     }
 }

@@ -10,8 +10,8 @@ public class EmailUtil {
 
     private static final String SMTP_HOST = "smtp.gmail.com"; // Your SMTP server
     private static final String SMTP_PORT = "587"; // Your SMTP port
-    private static final String SMTP_USER = "ishanmadurangai661@gmail.com"; // Your SMTP username
-    private static final String SMTP_PASSWORD = "your-email-password"; // Your SMTP password
+    private static final String SMTP_USER = "ishanmadurangai662@gmail.com"; // Your SMTP username
+    private static final String SMTP_PASSWORD = "kifz nhjl sgyo ojgj"; // Your SMTP password
 
     public static void sendEmail(String to, String subject, String body) throws MessagingException {
         Properties properties = new Properties();
