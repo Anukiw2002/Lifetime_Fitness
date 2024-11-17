@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/newWorkout.css">
 </head>
 <body>
-<div class="container">
+<div class="main-container">
+    <jsp:include page="../common/verticalNavBar.jsp" />
     <h1>New Workout</h1>
     <form action="addWorkout" method="post">
         <!-- Exercise rows -->

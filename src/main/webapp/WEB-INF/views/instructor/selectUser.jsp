@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/selectUser.css">
 </head>
 <body>
-<div class="container">
+<div class="main-container">
+  <jsp:include page="../common/verticalNavBar.jsp" />
   <label for="userSelect" class="label">Select User :</label>
   <select id="userSelect" class="dropdown">
     <option>Dropdown</option>

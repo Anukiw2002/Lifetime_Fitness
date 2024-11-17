@@ -19,6 +19,16 @@ body {
     flex-direction: column;
 }
 
+.main-container {
+    flex: 1;
+    margin-left: 250px; /* Should match navbar width */
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+    position: center;
+    z-index: 1;
+}
+
 /* Label styling */
 .label {
     margin-bottom: 5px;
