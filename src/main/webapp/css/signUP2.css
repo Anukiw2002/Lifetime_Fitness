@@ -45,45 +45,6 @@ body {
     margin-bottom: 30px;
 }
 
-/* Progress Steps */
-.signup-progress-steps {
-    display: flex;
-    align-items: center;
-    margin-bottom: 40px;
-}
-
-.signup-step {
-    display: flex;
-    align-items: center;
-    color: #ffffff;
-    font-size: 14px;
-}
-
-.signup-step-number {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: #333;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 8px;
-    font-size: 12px;
-}
-
-.signup-step.active .signup-step-number {
-    background-color: white;
-    color: black;
-}
-
-.signup-step-line {
-    height: 1px;
-    background-color: #333;
-    width: 100px;
-    margin: 0 15px;
-}
-
 /* Form Elements */
 .signup-form-group {
     margin-bottom: 20px;

@@ -10,6 +10,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor/selfOnboarding.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner/instructorManagement.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner/viewBookings.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner/viewMembershipPlans.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/index.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>
     </option>

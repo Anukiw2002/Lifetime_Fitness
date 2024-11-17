@@ -43,6 +43,14 @@ select {
     margin-top: 5px;
 }
 
+input[type="time"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
 .pricing-type {
     display: flex;
     gap: 20px;
