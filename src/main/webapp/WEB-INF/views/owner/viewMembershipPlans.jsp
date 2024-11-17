@@ -23,29 +23,18 @@
                 <h2>Platinum Membership</h2>
                 <p class="time-slot">4:00 am to 12:00 Midnight</p>
             </div>
-            <div class="plan-features">
-                <ul>
-                    <li><i class="fas fa-check"></i> Access to all premium equipment</li>
-                    <li><i class="fas fa-check"></i> Personal trainer sessions</li>
-                    <li><i class="fas fa-check"></i> Spa & Sauna access</li>
-                    <li><i class="fas fa-check"></i> Group classes included</li>
-                </ul>
-            </div>
             <div class="plan-options">
                 <div class="option">
                     <span>Gents</span>
                     <span class="price">Rs. 65,000</span>
-                    <button class="select-btn">Select</button>
                 </div>
                 <div class="option">
                     <span>Ladies</span>
                     <span class="price">Rs. 65,000</span>
-                    <button class="select-btn">Select</button>
                 </div>
                 <div class="option">
                     <span>Couple</span>
                     <span class="price">Rs. 85,000</span>
-                    <button class="select-btn">Select</button>
                 </div>
             </div>
             <div class="plan-actions">
@@ -61,23 +50,14 @@
                 <h2>Gold Membership</h2>
                 <p class="time-slot">4:00 am to 4:30 pm</p>
             </div>
-            <div class="plan-features">
-                <ul>
-                    <li><i class="fas fa-check"></i> Access to all equipment</li>
-                    <li><i class="fas fa-check"></i> 2 Personal trainer sessions</li>
-                    <li><i class="fas fa-check"></i> Group classes included</li>
-                </ul>
-            </div>
             <div class="plan-options">
                 <div class="option">
                     <span>Gents</span>
                     <span class="price">Rs. 48,000</span>
-                    <button class="select-btn">Select</button>
                 </div>
                 <div class="option">
                     <span>Ladies</span>
                     <span class="price">Rs. 48,000</span>
-                    <button class="select-btn">Select</button>
                 </div>
             </div>
             <div class="plan-actions">
@@ -93,28 +73,18 @@
                 <h2>Silver Membership</h2>
                 <p class="time-slot">4:00 am to 12:00 Midnight</p>
             </div>
-            <div class="plan-features">
-                <ul>
-                    <li><i class="fas fa-check"></i> Basic equipment access</li>
-                    <li><i class="fas fa-check"></i> 1 Personal trainer session</li>
-                    <li><i class="fas fa-check"></i> Pay-per-class option</li>
-                </ul>
-            </div>
             <div class="plan-options">
                 <div class="option">
                     <span>6 Months</span>
                     <span class="price">Rs. 45,000</span>
-                    <button class="select-btn">Select</button>
                 </div>
                 <div class="option">
                     <span>3 Months</span>
                     <span class="price">Rs. 35,000</span>
-                    <button class="select-btn">Select</button>
                 </div>
                 <div class="option">
                     <span>1 Month</span>
                     <span class="price">Rs. 15,000</span>
-                    <button class="select-btn">Select</button>
                 </div>
             </div>
             <div class="plan-actions">
@@ -130,17 +100,10 @@
                 <h2>Day Pass</h2>
                 <p class="time-slot">4:00 am to 12:00 Midnight</p>
             </div>
-            <div class="plan-features">
-                <ul>
-                    <li><i class="fas fa-check"></i> Single day access to facilities</li>
-                    <li><i class="fas fa-check"></i> Basic equipment access</li>
-                </ul>
-            </div>
             <div class="plan-options">
                 <div class="option">
                     <span>Individual</span>
                     <span class="price">Rs. 1,500</span>
-                    <button class="select-btn">Select</button>
                 </div>
             </div>
             <div class="plan-actions">
