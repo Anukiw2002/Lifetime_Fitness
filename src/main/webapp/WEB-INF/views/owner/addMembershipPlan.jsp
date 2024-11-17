@@ -3,107 +3,170 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Add New Membership Plan</title>
+    <title>Gym Plan Management</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/addMembershipPlan.css">
 </head>
 <body>
-<div class="container">
-    <h1>Add New Membership Plan</h1>
-    <form id="membershipForm" action="addPlan" method="POST">
-        <div class="form-group">
-            <label for="planName">Plan Name</label>
-            <input type="text" id="planName" name="planName" required>
-        </div>
-
-        <div class="form-group">
-            <label for="timeRange">Time Range</label>
-            <input type="text" id="timeRange" name="timeRange" placeholder="e.g., 4:00 am to 12:00 Midnight" required>
-        </div>
-
-        <div class="form-group duration-container">
-            <label>Duration Options</label>
-            <div class="duration-options">
-                <button type="button" class="btn-add-duration">+ Add Duration Option</button>
-                <div class="duration-item">
-                    <input type="number" name="durationValue[]" placeholder="Duration" min="1" required>
-                    <select name="durationType[]" required>
-                        <option value="days">Days</option>
-                        <option value="months">Months</option>
-                        <option value="years">Years</option>
-                    </select>
-                    <input type="number" name="durationPrice[]" placeholder="Price (Rs.)" required>
-                    <button type="button" class="btn-remove-duration">×</button>
+<jsp:include page="../common/verticalNavBar.jsp" />
+<div class="main-content">
+    <div class="container">
+        <div class="content-card">
+            <h2>Add Membership Plan</h2>
+            <form id="planForm" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label>Plan Name</label>
+                    <input type="text" id="planName" name="planName" required placeholder="Enter plan name">
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <label>Pricing Structure</label>
-            <div class="pricing-type">
-                <input type="radio" id="uniformPricing" name="pricingType" value="uniform" checked>
-                <label for="uniformPricing">Uniform Pricing</label>
-
-                <input type="radio" id="categoryPricing" name="pricingType" value="category">
-                <label for="categoryPricing">Category-based Pricing</label>
-            </div>
-        </div>
-
-        <div class="pricing-container" id="uniformPricingContainer">
-            <div class="price-group">
-                <label for="uniformPrice">Price (Rs.)</label>
-                <input type="number" id="uniformPrice" name="uniformPrice" placeholder="Enter price">
-            </div>
-        </div>
-
-        <div class="pricing-container" id="categoryPricingContainer" style="display: none;">
-            <div class="price-group">
-                <label for="gentsPrice">Gents Price (Rs.)</label>
-                <input type="number" id="gentsPrice" name="gentsPrice" placeholder="Enter price for gents">
-            </div>
-
-            <div class="price-group">
-                <label for="ladiesPrice">Ladies Price (Rs.)</label>
-                <input type="number" id="ladiesPrice" name="ladiesPrice" placeholder="Enter price for ladies">
-            </div>
-
-            <div class="price-group">
-                <label for="couplePrice">Couple Price (Rs.)</label>
-                <input type="number" id="couplePrice" name="couplePrice" placeholder="Enter price for couples">
-            </div>
-        </div>
-
-        <div class="features-container">
-            <label>Features</label>
-            <div class="features-list">
-                <div class="feature-item">
-                    <input type="checkbox" id="feature1" name="features" value="premium">
-                    <label for="feature1">Access to all premium equipment</label>
+                <div class="form-group">
+                    <label>Duration</label>
+                    <div style="display: flex; gap: 20px;">
+                        <div style="flex: 1;">
+                            <label>Start Time</label>
+                            <input type="time" id="startTime" name="startTime" value="04:00" required>
+                        </div>
+                        <div style="flex: 1;">
+                            <label>End Time</label>
+                            <input type="time" id="endTime" name="endTime" value="12:00" required>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature-item">
-                    <input type="checkbox" id="feature2" name="features" value="trainer">
-                    <label for="feature2">Personal trainer sessions</label>
-                </div>
-                <div class="feature-item">
-                    <input type="checkbox" id="feature3" name="features" value="spa">
-                    <label for="feature3">Spa & Sauna access</label>
-                </div>
-                <div class="feature-item">
-                    <input type="checkbox" id="feature4" name="features" value="classes">
-                    <label for="feature4">Group classes included</label>
-                </div>
-            </div>
-            <div class="custom-feature">
-                <input type="text" id="newFeature" placeholder="Enter new feature">
-                <button type="button" class="btn-add-feature">+ Add Feature</button>
-            </div>
-        </div>
 
-        <div class="form-actions">
-            <button type="submit" class="btn-submit">Add Plan</button>
-            <button type="button" class="btn-cancel" onclick="window.history.back()">Cancel</button>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="isActive" name="isActive" checked>
+                        Is Active
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>Duration Options</label>
+                    <div id="durationOptions">
+                        <!-- Duration options will be added here -->
+                    </div>
+                    <button type="button" onclick="addDuration()">Add Duration Option</button>
+                </div>
+
+                <div class="pricing-options">
+                    <label>Pricing Type</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="pricingType" value="uniform" checked onclick="togglePricing('uniform')">
+                            Uniform Pricing
+                        </label>
+                        <label>
+                            <input type="radio" name="pricingType" value="category" onclick="togglePricing('category')">
+                            Category Pricing
+                        </label>
+                    </div>
+
+                    <div id="uniformPricing" class="form-group">
+                        <label>Uniform Price</label>
+                        <input type="number" id="uniformPrice" name="uniformPrice" placeholder="Enter price">
+                    </div>
+
+                    <div id="categoryPricing" class="form-group" style="display:none;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                            <div>
+                                <label>Gents Price</label>
+                                <input type="number" id="gentsPrice" name="gentsPrice" placeholder="Enter gents price">
+                            </div>
+                            <div>
+                                <label>Ladies Price</label>
+                                <input type="number" id="ladiesPrice" name="ladiesPrice" placeholder="Enter ladies price">
+                            </div>
+                            <div>
+                                <label>Couple Price</label>
+                                <input type="number" id="couplePrice" name="couplePrice" placeholder="Enter couple price">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit">Add Plan</button>
+                    <button type="reset">Reset</button>
+                    <button type="button" onclick="cancelForm()">Cancel</button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
-<script src="${pageContext.request.contextPath}/js/addMembershipPlan.js"></script>
+
+<script>
+    function validateForm() {
+        const planName = document.getElementById('planName').value;
+        const startTime = document.getElementById('startTime').value;
+        const endTime = document.getElementById('endTime').value;
+
+        if (!planName) {
+            alert('Please enter a plan name');
+            return false;
+        }
+
+        if (startTime >= endTime) {
+            alert('End time must be after start time');
+            return false;
+        }
+
+        return true;
+    }
+
+    function addDuration() {
+        const container = document.getElementById('durationOptions');
+        const newDuration = document.createElement('div');
+        newDuration.className = 'duration-option';
+        newDuration.innerHTML = `
+                <input type="number" placeholder="Duration" required>
+                <select required>
+                    <option value="">Select Type</option>
+                    <option value="days">Days</option>
+                    <option value="months">Months</option>
+                    <option value="years">Years</option>
+                </select>
+                <input type="number" placeholder="Price" required>
+                <button type="button" onclick="removeDuration(this)">Remove</button>
+            `;
+        container.appendChild(newDuration);
+    }
+
+    function removeDuration(button) {
+        button.parentElement.remove();
+    }
+
+    function togglePricing(type) {
+        const uniformPricing = document.getElementById('uniformPricing');
+        const categoryPricing = document.getElementById('categoryPricing');
+
+        if (type === 'uniform') {
+            uniformPricing.style.display = 'block';
+            categoryPricing.style.display = 'none';
+        } else {
+            uniformPricing.style.display = 'none';
+            categoryPricing.style.display = 'block';
+        }
+    }
+
+    function addFeature() {
+        const customFeature = document.getElementById('customFeature').value;
+        if (!customFeature) return;
+
+        const featuresContainer = document.getElementById('customFeatures');
+        const featureDiv = document.createElement('div');
+        featureDiv.innerHTML = `
+                <input type="checkbox" name="features" value="${customFeature}" checked>
+                <label>${customFeature}</label>
+                <button type="button" onclick="this.parentElement.remove()">Remove</button>
+            `;
+        featuresContainer.appendChild(featureDiv);
+        document.getElementById('customFeature').value = '';
+    }
+
+    function cancelForm() {
+        if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
+            window.location.href = 'index.jsp'; // Replace with your desired URL
+        }
+    }
+</script>
 </body>
 </html>
