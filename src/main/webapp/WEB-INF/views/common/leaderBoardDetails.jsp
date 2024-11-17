@@ -59,7 +59,10 @@
             <p>(For the weight-based categories, KG will be considered)</p>
         </div>
         <button type="submit" class="submit-button">Submit</button><br/><br/><br/>
-        <button type="button" class="view-leaderboard">View LeaderBoard</button>
+        <a href="/leaderBoard">
+            <button type="button" class="view-leaderboard">View LeaderBoard</button>
+        </a>
+
     </form>
 </div>
 </body>
