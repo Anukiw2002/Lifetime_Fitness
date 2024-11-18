@@ -4,45 +4,85 @@ body {
     color: white;
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     margin: 0;
+    padding: 0;
+    height: 100vh;
 }
 
-/* Container */
+/* Main Container for Navbar and Workouts Section */
+.main-container {
+    flex: 1;
+    margin-left: 250px; /* Should match navbar width */
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+    position: center;
+    z-index: 1;
+}
+
+/* Vertical Navbar */
+.main-container jsp\:include {
+    flex: 0 0 200px; /* Fixed width for navbar */
+}
+
+/* Container for My Workouts Section */
 .container {
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 1200px;
 }
 
 /* Header */
 h1 {
     font-size: 2em;
     margin-bottom: 20px;
+    text-align: left;
 }
 
-/* Workout Card Styles */
+/* Workout Cards Wrapper */
+.workout-cards {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 300px; /* Restrict cards to a fixed width */
+}
+
+/* Workout Card Wrapper */
+.workout-card-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%; /* Ensure cards fit within the defined width */
+}
+
+/* Workout Link Styling */
+.workout-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    flex-grow: 1;
+}
+
+/* Workout Card Content */
 .workout-card {
     display: flex;
     align-items: center;
-    background-color: #1e1e1e;
-    border-radius: 8px;
-    margin: 10px 0;
-    padding: 10px;
     color: white;
     text-decoration: none;
 }
 
-.workout-link {
-    text-decoration: none;
-    color: inherit;
-}
-
+/* Workout Image */
 .workout-image {
-    flex: 0 0 80px;
-    height: 80px;
+    width: 60px; /* Adjusted size for images */
+    height: 60px;
     background-size: cover;
     background-position: center;
     border-radius: 5px;
@@ -60,9 +100,30 @@ h1 {
     color: #bbb;
 }
 
+/* Delete Button */
+.delete-form {
+    margin-left: auto;
+}
+
+.delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #e60000;
+}
+
 /* Create New Workout Link */
 .create-new {
     margin-top: 20px;
+    text-align: left;
 }
 
 .create-new a {
