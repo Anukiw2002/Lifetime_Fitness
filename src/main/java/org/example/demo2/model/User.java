@@ -9,30 +9,36 @@ public class User {
     private String hashedPassword;
     private String resetToken;
     private Timestamp tokenExpiry;
+    private String role;
 
-    // Constructor with fullName, username, email, and hashedPassword
-    public User(String fullName, String username, String email, String hashedPassword) {
+    // Constructor with fullName, username, email, hashedPassword, and role
+    public User(String fullName, String username, String email, String hashedPassword, String role) {
         this.fullName = fullName;
         this.username = username;
         this.email = email;
         this.hashedPassword = hashedPassword;
+        this.role = role;
     }
-    public User(String fullName, String username, String email, String hashedPassword, Timestamp tokenExpiry) {
+
+    // Constructor with fullName, username, email, hashedPassword, tokenExpiry, and role
+    public User(String fullName, String username, String email, String hashedPassword, Timestamp tokenExpiry, String role) {
         this.fullName = fullName;
         this.username = username;
         this.email = email;
         this.hashedPassword = hashedPassword;
         this.tokenExpiry = tokenExpiry;
+        this.role = role;
     }
 
-    // Constructor with fullName, username, email, hashedPassword, resetToken, and tokenExpiry
-    public User(String fullName, String username, String email, String hashedPassword, String resetToken, Timestamp tokenExpiry) {
+    // Constructor with all fields: fullName, username, email, hashedPassword, resetToken, tokenExpiry, and role
+    public User(String fullName, String username, String email, String hashedPassword, String resetToken, Timestamp tokenExpiry, String role) {
         this.fullName = fullName;
         this.username = username;
         this.email = email;
         this.hashedPassword = hashedPassword;
-        this.resetToken = resetToken;
-        this.tokenExpiry = tokenExpiry;
+        this.resetToken = (resetToken != null) ? resetToken : ""; // Handle null resetToken
+        this.tokenExpiry = tokenExpiry; // Allow tokenExpiry to be null
+        this.role = role;
     }
 
     // Getters and setters for all fields
@@ -82,5 +88,27 @@ public class User {
 
     public void setTokenExpiry(Timestamp tokenExpiry) {
         this.tokenExpiry = tokenExpiry;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    // ToString method for debugging
+    @Override
+    public String toString() {
+        return "User{" +
+                "fullName='" + fullName + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", hashedPassword='" + hashedPassword + '\'' +
+                ", resetToken='" + resetToken + '\'' +
+                ", tokenExpiry=" + tokenExpiry +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

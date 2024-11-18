@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="navbar-container">
-  <img src="/images/logo.png" alt="Lifetime Fitness Logo" class="logo">
+  <img src="/images/LogoWhite.png" alt="Lifetime Fitness Logo" class="logo">
   <nav class="navbar">
     <ul class="nav-links">
       <li><a href="#">Home</a></li>
