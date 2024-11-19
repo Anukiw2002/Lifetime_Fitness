@@ -8,6 +8,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/verticalNavBar.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor/selfOnBoarding2.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor/selfOnboarding.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner/addMembershipPlan.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner/instructorManagement.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner/viewBookings.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner/viewMembershipPlans.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner" />
