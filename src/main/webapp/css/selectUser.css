@@ -1,0 +1,63 @@
+/* Set a dark background */
+body {
+    background-color: #333;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: large;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200vh;
+    margin: 0;
+}
+
+/* Container for centering content */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.main-container {
+    flex: 1;
+    margin-left: 250px; /* Should match navbar width */
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+    position: center;
+    z-index: 1;
+}
+
+/* Label styling */
+.label {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+/* Dropdown styling */
+.dropdown {
+    width: 200px;
+    padding: 8px;
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    appearance: none; /* Removes default arrow in some browsers */
+    cursor: pointer;
+}
+
+/* Style for the dropdown options */
+.dropdown option {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Custom arrow */
+.dropdown::after {
+    content: "▼";
+    font-size: 12px;
+    position: absolute;
+    right: 10px;
+}

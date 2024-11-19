@@ -21,6 +21,26 @@ public class WorkoutServlet extends HttpServlet {
         else if ("workout".equals(page)){
             request.getRequestDispatcher("/WEB-INF/views/instructor/workout.jsp").forward(request, response);
         }
+        else if ("selectUser".equals(page)) {
+            // Forward to the dropdown UI JSP page
+            request.getRequestDispatcher("/WEB-INF/views/instructor/selectUser.jsp").forward(request, response);
+        }
+
+        else if ("workoutStats".equals(page)) {
+            // Forward to the dropdown UI JSP page
+            request.getRequestDispatcher("/WEB-INF/views/client/workoutStats.jsp").forward(request, response);
+        }
+
+        else if ("workoutLogs".equals(page)) {
+            // Forward to the dropdown UI JSP page
+            request.getRequestDispatcher("/WEB-INF/views/client/workoutLogs.jsp").forward(request, response);
+        }
+
+        else if ("clientWorkout".equals(page)) {
+            // Forward to the dropdown UI JSP page
+            request.getRequestDispatcher("/WEB-INF/views/client/clientWorkout.jsp").forward(request, response);
+        }
+
         else {
             // Default to the workout options JSP page
             request.getRequestDispatcher("/WEB-INF/views/instructor/createAndUpdateWorkout.jsp").forward(request, response);

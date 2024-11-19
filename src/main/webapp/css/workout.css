@@ -3,22 +3,32 @@ body {
     background-color: #333;
     color: white;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start; /* Align to the left */
+    align-items: flex-start;    /* Align to the top */
     height: 100vh;
     margin: 0;
 }
 
-.container {
-    text-align: center;
-    background-color: #333;
-    padding: 20px;
-    border-radius: 8px;
+.main-container {
+    flex: 1;
+    margin-left: 250px; /* Should match navbar width */
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+    position: center;
+    z-index: 1;
+}
+
+.workout-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Full width within container */
+    gap: 20px;
 }
 
 h1 {
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .workout-list {
@@ -34,7 +44,7 @@ h1 {
 }
 
 .workout-input {
-    width: 200px;
+    flex: 1;
     height: 30px;
     background-color: #e0e0e0;
     border: none;

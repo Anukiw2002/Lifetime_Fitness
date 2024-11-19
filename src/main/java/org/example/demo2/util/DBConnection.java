@@ -5,12 +5,33 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    public static Connection getConnection() throws SQLException {
+    private static final String URL = "jdbc:postgresql://localhost:5432/LifetimeFitness";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "user123";
+
+    static {
         try {
             Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/auth_db", "postgres", "Ishn@2002");
         } catch (ClassNotFoundException e) {
-            throw new SQLException("PostgreSQL driver not found.", e);
+            e.printStackTrace();
+            throw new RuntimeException("Failed to load PostgreSQL driver", e);
         }
     }
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    public static void main(String[] args) {
+        try (Connection connection = DBConnection.getConnection()) {
+            if (connection != null) {
+                System.out.println("Database connected successfully!");
+            } else {
+                System.out.println("Failed to connect to the database.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error connecting to the database: " + e.getMessage());
+            e.printStackTrace();
+        }
+}
 }

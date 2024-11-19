@@ -13,12 +13,13 @@
         <h2 class="signup-heading">Forgot Password</h2>
         <h4>Reset your password</h4>
         <br>
-        <form action="/testView?page=page5" method="GET">
+        <!-- Update the form action to point to the servlet -->
+        <form action="${pageContext.request.contextPath}/forgotPassword" method="POST">
             <div class="signup-form-group">
-                <input type="email" placeholder="Enter your email" class="signup-input" required>
+                <input type="email" name="email" placeholder="Enter your email" class="signup-input" required>
             </div>
             <button type="submit" class="signup-button">Send Code</button>
-            </form>
+        </form>
     </div>
     <div class="signup-image-section" style="background-image: url('${pageContext.request.contextPath}/images/ClientSignUpFormImg.jpg')">
     </div>

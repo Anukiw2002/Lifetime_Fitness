@@ -9,25 +9,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.text.ParseException; // Required for handling ParseException
+import java.util.Date;
 
 public class UserDAO implements IUserDAO {
 
     @Override
     public void registerUser(User user) throws SQLException {
-        String sql = "INSERT INTO users (full_name, username, email, hashed_password) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (full_name, username, email, hashed_password, role) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            if (conn == null) {
-                System.err.println("registerUser: Unable to establish a database connection.");
-                throw new SQLException("Database connection is null.");
-            }
 
             stmt.setString(1, user.getFullName());
             stmt.setString(2, user.getUsername());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getHashedPassword());
+            stmt.setString(5, user.getRole());
 
             int rowsAffected = stmt.executeUpdate();
             System.out.println("registerUser: User registered successfully. Rows affected: " + rowsAffected);
@@ -46,16 +45,9 @@ public class UserDAO implements IUserDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            if (conn == null) {
-                System.err.println("validatePasswordResetToken: Unable to establish a database connection.");
-                throw new SQLException("Database connection is null.");
-            }
-
             stmt.setString(1, token);
             try (ResultSet rs = stmt.executeQuery()) {
-                boolean exists = rs.next();
-                System.out.println("validatePasswordResetToken: Token " + (exists ? "exists" : "does not exist"));
-                return exists;
+                return rs.next();
             }
 
         } catch (SQLException e) {
@@ -72,16 +64,9 @@ public class UserDAO implements IUserDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            if (conn == null) {
-                System.err.println("emailExists: Unable to establish a database connection.");
-                throw new SQLException("Database connection is null.");
-            }
-
             stmt.setString(1, email);
             try (ResultSet rs = stmt.executeQuery()) {
-                boolean exists = rs.next();
-                System.out.println("emailExists: Email " + (exists ? "already exists" : "does not exist"));
-                return exists;
+                return rs.next();
             }
 
         } catch (SQLException e) {
@@ -98,16 +83,9 @@ public class UserDAO implements IUserDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            if (conn == null) {
-                System.err.println("usernameExists: Unable to establish a database connection.");
-                throw new SQLException("Database connection is null.");
-            }
-
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
-                boolean exists = rs.next();
-                System.out.println("usernameExists: Username " + (exists ? "already exists" : "does not exist"));
-                return exists;
+                return rs.next();
             }
 
         } catch (SQLException e) {
@@ -124,27 +102,30 @@ public class UserDAO implements IUserDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            if (conn == null) {
-                System.err.println("authenticateUser: Unable to establish a database connection.");
-                throw new SQLException("Database connection is null.");
-            }
-
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     String hashedPassword = rs.getString("hashed_password");
+
                     if (verifyPassword(plainPassword, hashedPassword)) {
-                        System.out.println("authenticateUser: Authentication successful for username '" + username + "'");
+                        // Fetch reset_token and token_expiry
+                        String resetToken = rs.getString("reset_token");
+                        Timestamp tokenExpiry = rs.getTimestamp("token_expiry");
+
+                        // Debugging logs
+                        System.out.println("reset_token: " + resetToken);
+                        System.out.println("token_expiry: " + tokenExpiry);
+
+                        // Return the User object
                         return new User(
                                 rs.getString("full_name"),
                                 rs.getString("username"),
                                 rs.getString("email"),
                                 hashedPassword,
-                                rs.getString("reset_token"),
-                                rs.getTimestamp("token_expiry")
+                                resetToken,
+                                tokenExpiry,
+                                rs.getString("role")
                         );
-                    } else {
-                        System.out.println("authenticateUser: Authentication failed for username '" + username + "'");
                     }
                 }
                 return null;
@@ -157,29 +138,61 @@ public class UserDAO implements IUserDAO {
         }
     }
 
+
+
+
+
     @Override
-    public void setResetToken(String email, String token, Timestamp expiry) throws SQLException {
-        String sql = "UPDATE users SET reset_token = ?, token_expiry = ? WHERE email = ?";
+    public User getUserByEmail(String email) throws SQLException {
+        String sql = "SELECT * FROM users WHERE email = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            if (conn == null) {
-                System.err.println("setResetToken: Unable to establish a database connection.");
-                throw new SQLException("Database connection is null.");
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Fetch reset_token
+                    String resetToken = rs.getString("reset_token");
+                    System.out.println("reset_token: " + resetToken);
+
+                    // Fetch token_expiry as String and convert to Timestamp
+                    String tokenExpiryString = rs.getString("token_expiry");
+                    Timestamp tokenExpiry = null;
+                    if (tokenExpiryString != null) {
+                        try {
+                            tokenExpiry = Timestamp.valueOf(tokenExpiryString);
+                        } catch (IllegalArgumentException e) {
+                            System.err.println("Error converting token_expiry: " + tokenExpiryString);
+                            e.printStackTrace();
+                        }
+                    }
+
+                    // Return the User object
+                    return new User(
+                            rs.getString("full_name"),
+                            rs.getString("username"),
+                            rs.getString("email"),
+                            rs.getString("hashed_password"),
+                            resetToken,
+                            tokenExpiry,
+                            rs.getString("role")
+                    );
+                }
+                return null;
             }
 
-            stmt.setString(1, token);
-            stmt.setTimestamp(2, expiry);
-            stmt.setString(3, email);
-            int rowsAffected = stmt.executeUpdate();
-            System.out.println("setResetToken: Rows affected: " + rowsAffected);
-
         } catch (SQLException e) {
-            System.err.println("setResetToken: Error setting reset token for email '" + email + "'");
+            System.err.println("getUserByEmail: Error retrieving user by email '" + email + "'");
             e.printStackTrace();
             throw e;
         }
+    }
+
+
+    @Override
+    public boolean verifyPassword(String plainPassword, String hashedPassword) {
+        return BCrypt.checkpw(plainPassword, hashedPassword);
     }
 
     @Override
@@ -189,16 +202,11 @@ public class UserDAO implements IUserDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            if (conn == null) {
-                System.err.println("updatePassword: Unable to establish a database connection.");
-                throw new SQLException("Database connection is null.");
-            }
-
             String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
             stmt.setString(1, hashedPassword);
             stmt.setString(2, email);
-            int rowsAffected = stmt.executeUpdate();
-            System.out.println("updatePassword: Rows affected: " + rowsAffected);
+
+            stmt.executeUpdate();
 
         } catch (SQLException e) {
             System.err.println("updatePassword: Error updating password for email '" + email + "'");
@@ -206,73 +214,63 @@ public class UserDAO implements IUserDAO {
             throw e;
         }
     }
+
     @Override
-    public User getUserByEmail(String email) throws SQLException {
-        String sql = "SELECT * FROM users WHERE email = ?";
+    public User getUserByResetToken(String token) throws SQLException {
+        String sql = "SELECT * FROM users WHERE reset_token = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            if (conn == null) {
-                System.err.println("getUserByEmail: Unable to establish a database connection.");
-                throw new SQLException("Database connection is null.");
-            }
-
-            stmt.setString(1, email);
+            stmt.setString(1, token);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    System.out.println("getUserByEmail: User found with email '" + email + "'");
+                    // Debugging logs
+                    System.out.println("Fetched user for reset_token: " + token);
+
+                    // Return the User object
                     return new User(
                             rs.getString("full_name"),
                             rs.getString("username"),
                             rs.getString("email"),
                             rs.getString("hashed_password"),
                             rs.getString("reset_token"),
-                            rs.getTimestamp("token_expiry")
-                    );
-                } else {
-                    System.out.println("getUserByEmail: No user found with email '" + email + "'");
-                }
-            }
-
-        } catch (SQLException e) {
-            System.err.println("getUserByEmail: Error retrieving user by email '" + email + "'");
-            e.printStackTrace();
-            throw e;
-        }
-
-        return null;
-    }
-
-    @Override
-    public User getUserByResetToken(String token) throws SQLException{
-        String sql = "SELECT * FROM users WHERE reset_token = ?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if (conn == null) {
-                System.err.println("getUserByResetToken: Unable to establish a database connection.");
-                throw new SQLException("Database connection is null.");
-            }
-            stmt.setString(1, token);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return new User(
-                            rs.getString("full_name"),  // Fetch full name
-                            rs.getString("username"),
-                            rs.getString("email"),
-                            rs.getString("hashed_password"),
-                            rs.getString("reset_token"),
-                            rs.getTimestamp("token_expiry")
+                            rs.getTimestamp("token_expiry"),
+                            rs.getString("role")
                     );
                 }
                 return null;
             }
+
+        } catch (SQLException e) {
+            System.err.println("getUserByResetToken: Error fetching user for reset token '" + token + "'");
+            e.printStackTrace();
+            throw e;
         }
     }
 
 
+    // Corrected setResetToken method with Timestamp expiry
     @Override
-    public boolean verifyPassword(String plainPassword, String hashedPassword) {
-        return BCrypt.checkpw(plainPassword, hashedPassword);
+    public void setResetToken(String email, String token, Timestamp expiry) throws SQLException {
+        String sql = "UPDATE users SET reset_token = ?, token_expiry = ? WHERE email = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, token);
+            stmt.setTimestamp(2, expiry);
+            stmt.setString(3, email);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.err.println("setResetToken: Error setting reset token for email '" + email + "'");
+            e.printStackTrace();
+            throw e;
+        }
     }
+
+    // Overloaded setResetToken method for String expiryString
+
 }

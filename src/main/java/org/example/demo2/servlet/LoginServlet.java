@@ -57,10 +57,26 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {
             boolean passwordMatch = userDAO.verifyPassword(password, user.getHashedPassword());
             if (passwordMatch) {
-                // Create a session and redirect to dashboard
+                // Create a session and redirect based on the user's role
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                response.sendRedirect(request.getContextPath() + "/jsp/dashboard.jsp");
+
+                // Role-based redirection
+                switch (user.getRole()) {
+                    case "client":
+                        request.getRequestDispatcher("/WEB-INF/views/client/memberProfile.jsp").forward(request, response);
+                        break;
+                    case "owner":
+                        request.getRequestDispatcher("/WEB-INF/views/owner/memberManagement.jsp").forward(request, response);
+                        break;
+                    case "instructor":
+                        request.getRequestDispatcher("/WEB-INF/views/instructor/selfOnboarding.jsp").forward(request, response);
+                        break;
+                    default:
+                        sendAlert(response, "Unknown user role.");
+                        break;
+                }
+
             } else {
                 sendAlert(response, "Invalid password.");
             }

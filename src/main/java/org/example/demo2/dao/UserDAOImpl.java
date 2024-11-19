@@ -14,17 +14,15 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     public void registerUser(User user) throws SQLException {
-        String sql = "INSERT INTO users (full_name, username, email, hashed_password) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (full_name, username, email, hashed_password, role) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if (conn == null) {
-                throw new SQLException("Unable to establish a database connection.");
-            }
-            stmt.setString(1, user.getFullName());  // Set full name
+            stmt.setString(1, user.getFullName());
             stmt.setString(2, user.getUsername());
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getHashedPassword());
+            stmt.setString(5, user.getRole()); // Include role
             stmt.executeUpdate();
         }
     }
@@ -35,9 +33,6 @@ public class UserDAOImpl implements IUserDAO {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if (conn == null) {
-                throw new SQLException("Unable to establish a database connection.");
-            }
             stmt.setString(1, email);
             try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next();
@@ -51,9 +46,6 @@ public class UserDAOImpl implements IUserDAO {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if (conn == null) {
-                throw new SQLException("Unable to establish a database connection.");
-            }
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next();
@@ -67,22 +59,12 @@ public class UserDAOImpl implements IUserDAO {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if (conn == null) {
-                throw new SQLException("Unable to establish a database connection.");
-            }
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     String hashedPassword = rs.getString("hashed_password");
                     if (verifyPassword(plainPassword, hashedPassword)) {
-                        return new User(
-                                rs.getString("full_name"),  // Fetch full name
-                                rs.getString("username"),
-                                rs.getString("email"),
-                                hashedPassword,
-                                rs.getString("reset_token"),
-                                rs.getTimestamp("token_expiry")
-                        );
+                        return mapUserFromResultSet(rs);
                     }
                 }
                 return null;
@@ -96,9 +78,6 @@ public class UserDAOImpl implements IUserDAO {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if (conn == null) {
-                throw new SQLException("Unable to establish a database connection.");
-            }
             stmt.setString(1, token);
             stmt.setTimestamp(2, expiry);
             stmt.setString(3, email);
@@ -112,20 +91,10 @@ public class UserDAOImpl implements IUserDAO {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if (conn == null) {
-                throw new SQLException("Unable to establish a database connection.");
-            }
             stmt.setString(1, token);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new User(
-                            rs.getString("full_name"),  // Fetch full name
-                            rs.getString("username"),
-                            rs.getString("email"),
-                            rs.getString("hashed_password"),
-                            rs.getString("reset_token"),
-                            rs.getTimestamp("token_expiry")
-                    );
+                    return mapUserFromResultSet(rs);
                 }
                 return null;
             }
@@ -138,20 +107,10 @@ public class UserDAOImpl implements IUserDAO {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if (conn == null) {
-                throw new SQLException("Unable to establish a database connection.");
-            }
             stmt.setString(1, email);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new User(
-                            rs.getString("full_name"),  // Fetch full name
-                            rs.getString("username"),
-                            rs.getString("email"),
-                            rs.getString("hashed_password"),
-                            rs.getString("reset_token"),
-                            rs.getTimestamp("token_expiry")
-                    );
+                    return mapUserFromResultSet(rs);
                 }
                 return null;
             }
@@ -164,9 +123,6 @@ public class UserDAOImpl implements IUserDAO {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if (conn == null) {
-                throw new SQLException("Unable to establish a database connection.");
-            }
             String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
             stmt.setString(1, hashedPassword);
             stmt.setString(2, email);
@@ -185,13 +141,40 @@ public class UserDAOImpl implements IUserDAO {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            if (conn == null) {
-                throw new SQLException("Unable to establish a database connection.");
-            }
             stmt.setString(1, token);
             try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next();
             }
         }
     }
+
+    private User mapUserFromResultSet(ResultSet rs) throws SQLException {
+        // Fetch reset_token
+        String resetToken = rs.getString("reset_token");
+        System.out.println("reset_token: " + resetToken);
+
+        // Fetch token_expiry as String and convert to Timestamp
+        String tokenExpiryString = rs.getString("token_expiry");
+        Timestamp tokenExpiry = null;
+        if (tokenExpiryString != null) {
+            try {
+                tokenExpiry = Timestamp.valueOf(tokenExpiryString);
+            } catch (IllegalArgumentException e) {
+                System.err.println("Error converting token_expiry: " + tokenExpiryString);
+                e.printStackTrace();
+            }
+        }
+
+        // Return the User object
+        return new User(
+                rs.getString("full_name"),
+                rs.getString("username"),
+                rs.getString("email"),
+                rs.getString("hashed_password"),
+                resetToken,
+                tokenExpiry,
+                rs.getString("role")
+        );
+    }
+
 }
