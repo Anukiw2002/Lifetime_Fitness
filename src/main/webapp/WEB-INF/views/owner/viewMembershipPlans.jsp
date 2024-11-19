@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,16 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewMembershipPlans.css">
 </head>
 <body>
+<%!
+    public String formatDurationType(int value, String durationType) {
+        // Ensure correct pluralization based on actual database input
+        if (durationType == null) return "";
+
+        // Return singular or plural based on value
+        return value == 1 ? durationType : durationType + "s";
+    }
+%>
+
 <div style="display: none;">
     Debug Info:
     membershipPlans attribute exists: ${not empty membershipPlans}
@@ -39,14 +50,26 @@
                             <%-- Handle Uniform Pricing --%>
                             <c:when test="${plan.pricingType eq 'uniform'}">
                                 <div class="option">
-                                    <span>
+                                    <span>Individual -
                                         ${duration.durationValue}
-                                        <c:choose>
-                                            <c:when test="${duration.durationValue eq 1}">${duration.durationType}</c:when>
-                                            <c:otherwise>${duration.durationType}s</c:otherwise>
-                                        </c:choose>
+                                        <%
+                                            // Get current duration from the page context
+                                            Object durationObj = pageContext.getAttribute("duration");
+                                            if (durationObj != null) {
+                                                // Assuming the object has getDurationValue() and getDurationType() methods
+                                                java.lang.reflect.Method getDurationValueMethod = durationObj.getClass().getMethod("getDurationValue");
+                                                java.lang.reflect.Method getDurationTypeMethod = durationObj.getClass().getMethod("getDurationType");
+
+                                                int durationValue = (Integer) getDurationValueMethod.invoke(durationObj);
+                                                String durationType = (String) getDurationTypeMethod.invoke(durationObj);
+
+                                                out.print(formatDurationType(durationValue, durationType));
+                                            }
+                                        %>
                                     </span>
-                                    <span class="price">Rs. ${duration.uniformPricing[0].price}</span>
+                                    <span class="price">Rs.
+                                        <fmt:formatNumber value="${duration.uniformPricing[0].price}" type="number" pattern="#,##,###"/>
+                                    </span>
                                 </div>
                             </c:when>
 
@@ -54,8 +77,17 @@
                             <c:when test="${plan.pricingType eq 'category'}">
                                 <c:forEach var="pricing" items="${duration.categoryPricing}">
                                     <div class="option">
-                                        <span>${pricing.category}</span>
-                                        <span class="price">Rs. ${pricing.price}</span>
+                                        <span>
+                                            <c:choose>
+                                                <c:when test="${pricing.category eq 'Male'}">Gents - Annual</c:when>
+                                                <c:when test="${pricing.category eq 'Female'}">Ladies - Annual</c:when>
+                                                <c:when test="${pricing.category eq 'Couple'}">Couples - Annual</c:when>
+                                                <c:otherwise>${pricing.category} - Annual</c:otherwise>
+                                            </c:choose>
+                                        </span>
+                                        <span class="price">Rs.
+                                            <fmt:formatNumber value="${pricing.price}" type="number" pattern="#,##,###"/>
+                                        </span>
                                     </div>
                                 </c:forEach>
                             </c:when>
@@ -79,6 +111,7 @@
     </div>
 </div>
 
+<%-- Rest of the existing code remains the same --%>
 <div id="confirm-modal" class="modal">
     <div class="modal-content">
         <h2>Are you sure you want to delete this plan?</h2>
