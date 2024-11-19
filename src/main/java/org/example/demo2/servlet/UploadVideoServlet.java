@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/UploadVideoServlet")
+@WebServlet("/uploadVideo")
 public class UploadVideoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve form data
@@ -20,7 +20,7 @@ public class UploadVideoServlet extends HttpServlet {
         System.out.println("Video Uploaded: " + videoName + " - " + videoLink);
 
         // Redirect to a success page or show a success message
-        response.sendRedirect("uploadSuccess.jsp"); // Create this JSP page for confirmation if needed
+        request.getRequestDispatcher("/WEB-INF/views/owner/uploadSuccess.jsp").forward(request, response); // Create this JSP page for confirmation if needed
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/UploadBlogServlet")
+@WebServlet("/uploadBlog")
 public class UploadBlogServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve form data
@@ -15,12 +15,12 @@ public class UploadBlogServlet extends HttpServlet {
         String blogContent = request.getParameter("blogContent");
         String blogImage = request.getParameter("blogImage");
 
-        // Process the data, e.g., save it to a database (assuming a method `saveBlog` exists)
-        // Here, a simple success message is printed as a placeholder.
+        // Log the uploaded blog details (for debugging purposes)
         System.out.println("Blog Uploaded: " + blogTitle + " - " + blogContent);
 
-        // Redirect to a success page or show a success message
-        response.sendRedirect("uploadSuccess.jsp"); // Create this JSP page for confirmation if needed
+        // Forward the request to the uploadSuccess.jsp page
+        request.setAttribute("blogTitle", blogTitle); // Pass data if needed
+        request.getRequestDispatcher("/WEB-INF/views/owner/uploadSuccess.jsp").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -12,7 +12,7 @@
 <jsp:include page="../common/verticalNavBar.jsp" />
 <div class="upload-container">
     <h2>Upload a Video</h2>
-    <form action="${pageContext.request.contextPath}/UploadVideoServlet" method="post">
+    <form action="${pageContext.request.contextPath}/uploadVideo" method="post" class="payment-form">
         <label for="videoName">Video Name:</label>
         <input type="text" id="videoName" name="videoName" required />
 

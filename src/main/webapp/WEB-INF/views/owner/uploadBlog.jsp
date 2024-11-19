@@ -12,16 +12,20 @@
 <jsp:include page="../common/verticalNavBar.jsp" />
 <div class="upload-container">
     <h2>Upload a Blog</h2>
-    <form action="${pageContext.request.contextPath}/UploadBlogServlet" method="post">
+    <form action="${pageContext.request.contextPath}/uploadBlog" method="post">
+        <!-- Blog Title -->
         <label for="blogTitle">Blog Title:</label>
-        <input type="text" id="blogTitle" name="blogTitle" required />
+        <input type="text" id="blogTitle" name="blogTitle" placeholder="Enter the blog title" required />
 
-        <label for="blogContent">Content:</label>
-        <textarea id="blogContent" name="blogContent" rows="10" required></textarea>
+        <!-- Blog Link -->
+        <label for="blogLink">Link to the Blog:</label>
+        <input type="url" id="blogLink" name="blogLink" placeholder="https://example.com/blog" required />
 
-        <label for="blogImage">Image URL (Optional):</label>
-        <input type="url" id="blogImage" name="blogImage" placeholder="https://example.com/image.jpg" />
+        <!-- Blog Description -->
+        <label for="blogDescription">Blog Description:</label>
+        <textarea id="blogDescription" name="blogDescription" rows="6" placeholder="Enter a brief description of the blog" required></textarea>
 
+        <!-- Submit Button -->
         <button type="submit" class="submit-button">Upload Blog</button>
     </form>
 </div>

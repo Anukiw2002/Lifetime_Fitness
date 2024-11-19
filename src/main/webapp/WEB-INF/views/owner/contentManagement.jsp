@@ -16,12 +16,14 @@
 <body style="background-color: #2E2E2E; color: white; font-family: 'Inter', sans-serif;">
 <jsp:include page="../common/verticalNavBar.jsp" />
 
+
 <div class="learning-content-customer">
     <div class="content-section">
         <!-- Button container for Video Upload and Edit -->
         <div class="button-container1">
-            <button class="action-button" onclick="location.href='${pageContext.request.contextPath}/uploadVideo.jsp'">Upload</button>
+            <button class="action-button" onclick="location.href='${pageContext.request.contextPath}/uploadVideo'">Upload</button>
             <button class="action-button" onclick="location.href='${pageContext.request.contextPath}/editVideo.jsp'">Edit</button>
+            <button class="action-button" onclick="location.href='${pageContext.request.contextPath}/deleteVideo'">Edit</button>
         </div>
 
         <h2 class="section-title">Checkout our Videos</h2>
@@ -38,6 +40,7 @@
         <div class="button-container2">
             <button class="action-button" onclick="location.href='${pageContext.request.contextPath}/uploadBlog.jsp'">Upload</button>
             <button class="action-button" onclick="location.href='${pageContext.request.contextPath}/editBlog.jsp'">Edit</button>
+            <button class="action-button" onclick="location.href='${pageContext.request.contextPath}/deleteBlog.jsp'">Edit</button>
         </div>
 
         <h2 class="section-title">Read Our Blog</h2>
