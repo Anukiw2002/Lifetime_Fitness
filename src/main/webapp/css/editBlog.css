@@ -1,0 +1,100 @@
+/* Reset and global styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #2E2E2E;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container styles */
+.edit-container {
+    background-color: #606060;
+    padding: 30px; /* Slightly smaller padding for the edit page */
+    border-radius: 10px;
+    width: 380px; /* Adjusted width for a compact design */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-left: 600px;
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+/* Labels */
+label {
+    font-size: 0.9em;
+    margin-top: 10px;
+    display: block;
+    color: #ddd;
+}
+
+/* Inputs and Textarea */
+input[type="text"],
+input[type="url"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #555;
+    color: #fff;
+    font-size: 0.9em;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus,
+textarea:focus {
+    outline: none;
+    border: 2px solid #ffffff;
+}
+
+/* Button */
+.submit-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #555555;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #2e2e2e;
+}
+
+/* Additional styles for smaller screens */
+@media (max-width: 600px) {
+    .edit-container {
+        width: 90%; /* Full width on smaller screens */
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    label {
+        font-size: 0.85em;
+    }
+
+    .submit-button {
+        font-size: 0.85em;
+    }
+}
