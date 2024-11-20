@@ -14,14 +14,30 @@ import java.sql.ResultSet;
 
 @WebServlet("/editBlog")
 public class EditBlogServlet extends HttpServlet {
+
+    // Utility method for database connection
+    private Connection getConnection() throws Exception {
+        String dbUrl = System.getenv("DB_URL");  // Use environment variables for credentials
+        String dbUser = System.getenv("DB_USER");
+        String dbPassword = System.getenv("DB_PASSWORD");
+        return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int blogId = Integer.parseInt(request.getParameter("blogId"));
+        String blogIdParam = request.getParameter("blogId");
         String blogTitle = request.getParameter("blogTitle");
         String blogLink = request.getParameter("blogLink");
         String blogDescription = request.getParameter("blogDescription");
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/your_database", "username", "password")) {
+        if (blogIdParam == null || blogTitle == null || blogLink == null || blogDescription == null) {
+            request.setAttribute("error", "Invalid input. Please ensure all fields are filled.");
+            request.getRequestDispatcher("/WEB-INF/views/owner/editBlog.jsp").forward(request, response);
+            return;
+        }
+
+        try (Connection connection = getConnection()) {
+            int blogId = Integer.parseInt(blogIdParam);
             String updateQuery = "UPDATE blogs SET title = ?, link = ?, description = ? WHERE id = ?";
             try (PreparedStatement stmt = connection.prepareStatement(updateQuery)) {
                 stmt.setString(1, blogTitle);
@@ -34,7 +50,8 @@ public class EditBlogServlet extends HttpServlet {
                     request.setAttribute("message", "Blog updated successfully.");
                     request.getRequestDispatcher("/WEB-INF/views/owner/editSuccess.jsp").forward(request, response);
                 } else {
-                    response.sendRedirect("editBlog.jsp?error=update_failed");
+                    request.setAttribute("error", "Blog update failed. Please try again.");
+                    request.getRequestDispatcher("/WEB-INF/views/owner/editBlog.jsp").forward(request, response);
                 }
             }
         } catch (Exception e) {
@@ -44,24 +61,31 @@ public class EditBlogServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int blogId = Integer.parseInt(request.getParameter("blogId"));
+        String blogIdParam = request.getParameter("blogId");
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/your_database", "username", "password")) {
+        if (blogIdParam == null || blogIdParam.isEmpty()) {
+            request.setAttribute("error", "Blog ID is required.");
+            request.getRequestDispatcher("/WEB-INF/views/owner/editBlog.jsp").forward(request, response);
+            return;
+        }
+
+        try (Connection connection = getConnection()) {
+            int blogId = Integer.parseInt(blogIdParam);
             String selectQuery = "SELECT * FROM blogs WHERE id = ?";
             try (PreparedStatement stmt = connection.prepareStatement(selectQuery)) {
                 stmt.setInt(1, blogId);
 
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
-                        // Pass the data directly as attributes
+                        // Pass the data as attributes
                         request.setAttribute("blogId", rs.getInt("id"));
                         request.setAttribute("blogTitle", rs.getString("title"));
                         request.setAttribute("blogLink", rs.getString("link"));
                         request.setAttribute("blogDescription", rs.getString("description"));
-
                         request.getRequestDispatcher("/WEB-INF/views/owner/editBlog.jsp").forward(request, response);
                     } else {
-                        response.sendRedirect("editBlog.jsp?error=not_found");
+                        request.setAttribute("error", "No blog found with the given ID.");
+                        request.getRequestDispatcher("/WEB-INF/views/owner/editBlog.jsp").forward(request, response);
                     }
                 }
             }
