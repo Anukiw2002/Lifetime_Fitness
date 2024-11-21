@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical History - Lifetime Fitness</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/medicalHistory.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/button.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/typography.css">
 </head>
 <body>
 <div class="container">

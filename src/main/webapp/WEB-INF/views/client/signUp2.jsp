@@ -5,26 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up - Lifetime Fitness</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/signUP2.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/button.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/typography.css">
 </head>
 <body>
 <div class="signup-container">
   <div class="signup-form-section">
     <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="signup-logo">
-    <h2 class="signup-heading">Let's get you started</h2>
+    <h2 class="signup-heading" style="color: white;">Let's get you started</h2>
 
-    <div class="signup-progress-steps">
-      <div class="signup-step active">
-        <div class="signup-step-number">1</div>
+
+    <div class="progress-steps">
+      <div class="step active">
+        <div class="step-number">1</div>
         <span>General details</span>
       </div>
-      <div class="signup-step-line"></div>
-      <div class="signup-step">
-        <div class="signup-step-number">2</div>
+      <div class="step-line2"></div>
+      <div class="step">
+        <div class="step-number">2</div>
         <span>Medical History</span>
       </div>
-      <div class="signup-step-line"></div>
-      <div class="signup-step">
-        <div class="signup-step-number">3</div>
+      <div class="step-line2"></div>
+      <div class="step">
+        <div class="step-number">3</div>
         <span>Membership plan</span>
       </div>
     </div>

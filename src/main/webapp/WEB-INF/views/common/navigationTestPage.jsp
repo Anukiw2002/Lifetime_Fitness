@@ -71,7 +71,7 @@
         <a href="${pageContext.request.contextPath}/testView?page=page14" class="nav-item">Add Instructor</a>
         <a href="${pageContext.request.contextPath}/testView?page=page15" class="nav-item">Edit Instructor</a>
         <a href="${pageContext.request.contextPath}/testView?page=page16" class="nav-item">Add client</a>
-        <a href="${pageContext.request.contextPath}/testView?page=page17" class="nav-item">View Plans</a>
+        <a href="${pageContext.request.contextPath}/membership/view" class="nav-item">View Plans</a>
         <a href="${pageContext.request.contextPath}/testView?page=page18" class="nav-item">Edit Plan</a>
     </div>
 </div>

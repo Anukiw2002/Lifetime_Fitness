@@ -5,6 +5,8 @@
     <title>Lifetime Fitness - Choose Your Plan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/signUp4.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/button.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/typography.css">
 </head>
 <body>
 <div class="container">
@@ -19,12 +21,12 @@
             <div class="step-number">1</div>
             <span>General details</span>
         </div>
-        <div class="step-line"></div>
+        <div class="step-line1"></div>
         <div class="step completed">
             <div class="step-number">2</div>
             <span>Medical History</span>
         </div>
-        <div class="step-line"></div>
+        <div class="step-line1"></div>
         <div class="step active">
             <div class="step-number">3</div>
             <span>Membership plan</span>
@@ -32,14 +34,14 @@
     </div>
 
     <!-- Main Content -->
-    <h1 class="main-title">Choose your plan</h1>
+    <h1 class="main-title" style="color: white;">Choose your plan</h1>
 
     <div class="membership-grid">
         <!-- Platinum Membership -->
         <div class="membership-card platinum">
             <div class="popular-badge">Most Popular</div>
             <div class="card-header">
-                <h2><i class="fas fa-star"></i> Platinum Membership</h2>
+                <h2 style="color: white;"><i class="fas fa-star"></i> Platinum Membership</h2>
                 <div class="timing">
                     <i class="far fa-clock"></i>
                     4:00 am to 12:00 Midnight
@@ -81,7 +83,7 @@
         <!-- Gold Membership -->
         <div class="membership-card gold">
             <div class="card-header">
-                <h2><i class="fas fa-star"></i> Gold Membership</h2>
+                <h2 style="color: white;"><i class="fas fa-star"></i> Gold Membership</h2>
                 <div class="timing">
                     <i class="far fa-clock"></i>
                     4:00 am to 4:30 pm
@@ -115,7 +117,7 @@
         <!-- Silver Membership -->
         <div class="membership-card silver">
             <div class="card-header">
-                <h2><i class="fas fa-star"></i> Silver Membership</h2>
+                <h2 style="color: white;"><i class="fas fa-star"></i> Silver Membership</h2>
                 <div class="timing">
                     <i class="far fa-clock"></i>
                     4:00 am to 12:00 Midnight
@@ -156,7 +158,7 @@
         <!-- Day Pass -->
         <div class="membership-card day-pass">
             <div class="card-header">
-                <h2><i class="fas fa-star"></i> Day Pass</h2>
+                <h2 style="color: white;"><i class="fas fa-star"></i> Day Pass</h2>
                 <div class="timing">
                     <i class="far fa-clock"></i>
                     4:00 am to 12:00 Midnight

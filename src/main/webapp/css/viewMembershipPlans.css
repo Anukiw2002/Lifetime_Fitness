@@ -63,28 +63,6 @@ body {
     font-size: 0.9em;
 }
 
-.plan-features {
-    font-size: 1.1em;
-    padding: 20px;
-}
-
-.plan-features ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.plan-features li {
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.plan-features i {
-    color: #C73938;
-}
-
 .plan-options {
     padding: 0 20px;
 }
@@ -105,16 +83,6 @@ body {
     font-size: 1.25em;
     font-weight: bold;
     color: white;
-}
-
-.select-btn {
-    font-size: 1em;
-    background-color: #C73938;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
 .plan-actions {
