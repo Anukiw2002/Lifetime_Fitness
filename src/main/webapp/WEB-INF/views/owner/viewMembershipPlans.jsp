@@ -95,7 +95,7 @@
                     </c:forEach>
                 </div>
                 <div class="plan-actions">
-                    <button class="edit-btn" >
+                    <button class="edit-btn" onclick="window.location.href='${pageContext.request.contextPath}/membership/update?planId=${plan.planId}'">
                         <i class="fas fa-edit"></i>
                     </button>
                     <button class="delete-btn"
