@@ -36,7 +36,7 @@ public class ForgotPasswordServlet extends HttpServlet {
             User user = userDAO.getUserByEmail(email);
             if (user != null) {
                 // Generate a reset token and expiry time
-                String token = TokenUtil.generateToken();
+                String token = TokenUtil.generateNumericToken(6); // Generate a 6-digit numeric token
                 Timestamp expiry = new Timestamp(System.currentTimeMillis() + 3600 * 1000); // 1 hour expiry
 
                 // Save the token and expiry in the database
@@ -60,10 +60,8 @@ public class ForgotPasswordServlet extends HttpServlet {
                     e.printStackTrace();
                     request.setAttribute("message", "Failed to send email. Please try again later.");
                 }
-            } else {
-                // If user not found, show an appropriate message
-                request.setAttribute("message", "No account found with the provided email.");
             }
+
 
             // Redirect to the reset code entry page
             request.getRequestDispatcher("/WEB-INF/views/client/resetPasswordForm.jsp").forward(request, response);
