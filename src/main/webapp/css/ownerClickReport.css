@@ -1,0 +1,109 @@
+/* General body styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #333; /* Dark background */
+    color: #fff;
+    display: flex;
+}
+
+/* Main content styling */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+}
+
+.main-content h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Buttons container */
+.buttons-container {
+    margin-top: 300px;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+/* Action buttons */
+.action-button {
+    background-color: #ff4d4d; /* Red button color */
+    color: white;
+    border: none;
+    padding: 20px 35px;
+    font-size: 1.3em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #cc0000; /* Darker red on hover */
+}
+.total{
+    display: flex;
+    margin: 200px 0 0 430px;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 1024px) {
+    .total {
+        margin: 150px 100px 0 100px; /* Adjust margins for smaller screens */
+    }
+    .buttons-container {
+        gap: 40px; /* Reduce gap between buttons */
+        margin-top: 150px; /* Adjust spacing */
+    }
+
+    .action-button {
+        padding: 15px 25px;
+        font-size: 1.1em;
+    }
+
+    .main-content h1 {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 768px) {
+    .total {
+        margin: 150px 50px 0 50px; /* Adjust margins for smaller screens */
+    }
+
+    .buttons-container {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 20px;
+    }
+
+    .action-button {
+        width: 80%; /* Buttons take up more horizontal space */
+        margin: 0 auto; /* Center buttons */
+    }
+
+    .main-content h1 {
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 480px) {
+    .total {
+        margin: 100px 20px 0 20px; /* Further reduce margins */
+    }
+
+    .main-content h1 {
+        font-size: 1.2em;
+    }
+
+    .action-button {
+        padding: 10px 20px;
+        font-size: 1em;
+        width: 100%; /* Buttons take full width */
+    }
+
+    .buttons-container {
+        gap: 15px; /* Smaller gap for mobile */
+    }
+}
