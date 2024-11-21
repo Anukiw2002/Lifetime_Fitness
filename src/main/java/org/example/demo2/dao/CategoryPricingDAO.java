@@ -63,4 +63,23 @@ public class CategoryPricingDAO {
             }
         }
     }
+
+    public void update(CategoryPricing pricing) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "UPDATE category_pricing SET price = ? WHERE duration_id = ? AND category = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setBigDecimal(1, pricing.getPrice());
+                stmt.setLong(2, pricing.getDurationId());
+                stmt.setString(3, pricing.getCategory());
+                stmt.executeUpdate();
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }

@@ -59,4 +59,22 @@ public class UniformPricingDAO {
             }
         }
     }
+
+    public void update(UniformPricing pricing) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "UPDATE uniform_pricing SET price = ? WHERE duration_id = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setBigDecimal(1, pricing.getPrice());
+                stmt.setLong(2, pricing.getDurationId());
+                stmt.executeUpdate();
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }

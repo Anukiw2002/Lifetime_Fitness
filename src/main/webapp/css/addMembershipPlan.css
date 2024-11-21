@@ -199,3 +199,37 @@ button.remove-btn:hover {
         width: 100%;
     }
 }
+
+.duration-pricing-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.duration-pricing-section h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.price-group {
+    margin-bottom: 10px;
+}
+
+.price-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.price-group input {
+    width: 200px;
+    padding: 5px;
+}
+
+.error-message {
+    background-color: #ffebee;
+    border: 1px solid #ffcdd2;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
