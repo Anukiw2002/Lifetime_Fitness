@@ -16,14 +16,7 @@
             <form id="planForm">
                 <div class="form-group">
                     <label for="planName">Plan Name</label>
-                    <input
-                            type="text"
-                            id="planName"
-                            name="planName"
-                            required
-                            minlength="1"
-                            placeholder="Enter plan name"
-                    >
+                    <input type="text" id="planName" name="planName" required minlength="1" placeholder="Enter plan name">
                 </div>
 
                 <div class="form-group">
@@ -95,11 +88,11 @@
                    placeholder="Duration"
                    required
                    min="1"
-                   onchange="updatePricing(${durationCounter})">
+                   onchange="updatePricing()">
             <select name="durationType"
                     class="duration-type"
                     required
-                    onchange="updatePricing(${durationCounter})">
+                    onchange="updatePricing()">
                 <option value="">Select Type</option>
                 <option value="days">Days</option>
                 <option value="months">Months</option>
@@ -112,14 +105,14 @@
     `;
 
         container.appendChild(durationDiv);
-        updateAllPricingContainers();
+        updatePricing();
         durationCounter++;
     }
 
     function removeDuration(button) {
         const durationOption = button.closest('.duration-option');
         durationOption.remove();
-        updateAllPricingContainers();
+        updatePricing();
     }
 
     function togglePricing(type) {
@@ -133,35 +126,23 @@
             uniformPricing.style.display = 'none';
             categoryPricing.style.display = 'block';
         }
-        updateAllPricingContainers();
+        updatePricing();
     }
 
-    function updateAllPricingContainers() {
-        const pricingType = document.querySelector('input[name="pricingType"]:checked').value;
-        const durations = Array.from(document.querySelectorAll('.duration-option')).map(option => ({
-            id: option.dataset.durationId,
+    function getDurationData() {
+        return Array.from(document.querySelectorAll('.duration-option')).map(option => ({
             value: option.querySelector('[name="durationValue"]').value,
             type: option.querySelector('[name="durationType"]').value
         })).filter(duration => duration.value && duration.type);
-
-        updatePricingContainers(durations, pricingType);
-    }
-
-    function updatePricingContainers(durations, pricingType) {
-        if (pricingType === 'uniform') {
-            updateUniformPricing(durations);
-        } else {
-            updateCategoryPricing(durations);
-        }
     }
 
     function updateUniformPricing(durations) {
         const container = document.getElementById('uniformPriceContainer');
-        container.innerHTML = durations.map(duration => `
-        <div class="price-section" data-duration-id="${duration.id}">
+        container.innerHTML = durations.map((duration, index) => `
+        <div class="price-section">
             <label>Price for ${duration.value} ${duration.type}</label>
             <input type="number"
-                   name="uniformPrice_${duration.id}"
+                   name="uniformPrice"
                    step="0.01"
                    min="0"
                    required
@@ -172,14 +153,14 @@
 
     function updateCategoryPricing(durations) {
         const container = document.getElementById('categoryPriceContainer');
-        container.innerHTML = durations.map(duration => `
-        <div class="category-price-section" data-duration-id="${duration.id}">
+        container.innerHTML = durations.map((duration, index) => `
+        <div class="category-price-section">
             <h4>Pricing for ${duration.value} ${duration.type}</h4>
             <div class="category-prices">
                 <div class="price-input">
                     <label>Gents Price</label>
                     <input type="number"
-                           name="categoryPrice_${duration.id}_Gents"
+                           name="categoryPriceGents"
                            step="0.01"
                            min="0"
                            required
@@ -188,7 +169,7 @@
                 <div class="price-input">
                     <label>Ladies Price</label>
                     <input type="number"
-                           name="categoryPrice_${duration.id}_Ladies"
+                           name="categoryPriceLadies"
                            step="0.01"
                            min="0"
                            required
@@ -197,7 +178,7 @@
                 <div class="price-input">
                     <label>Couple Price</label>
                     <input type="number"
-                           name="categoryPrice_${duration.id}_Couple"
+                           name="categoryPriceCouple"
                            step="0.01"
                            min="0"
                            required
@@ -206,6 +187,17 @@
             </div>
         </div>
     `).join('');
+    }
+
+    function updatePricing() {
+        const pricingType = document.querySelector('input[name="pricingType"]:checked').value;
+        const durations = getDurationData();
+
+        if (pricingType === 'uniform') {
+            updateUniformPricing(durations);
+        } else {
+            updateCategoryPricing(durations);
+        }
     }
 
     function showError(message) {
@@ -235,30 +227,63 @@
 
     function cancelForm() {
         if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
-            window.location.href = '${pageContext.request.contextPath}/membership/list';
+            window.location.href = '${pageContext.request.contextPath}/membership/view';
         }
     }
 
     document.getElementById('planForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const formData = new FormData(this);
+        if (!validateForm()) {
+            return;
+        }
 
-        // IMPORTANT: Log all form data
-        console.log("=== FORM DATA SUBMISSION ===");
-        for (const [key, value] of formData.entries()) {
-            console.log(`Form Data - ${key}: ${value}`);
+        const formData = new FormData();
+
+        // Add basic plan details
+        formData.append('planName', document.getElementById('planName').value);
+        formData.append('startTime', document.getElementById('startTime').value);
+        formData.append('endTime', document.getElementById('endTime').value);
+        formData.append('pricingType', document.querySelector('input[name="pricingType"]:checked').value);
+
+        // Get all duration options
+        document.querySelectorAll('.duration-option').forEach((duration) => {
+            formData.append('durationValue', duration.querySelector('[name="durationValue"]').value);
+            formData.append('durationType', duration.querySelector('[name="durationType"]').value);
+        });
+
+        // Add pricing based on type
+        const pricingType = document.querySelector('input[name="pricingType"]:checked').value;
+        if (pricingType === 'uniform') {
+            const uniformPrices = document.querySelectorAll('[name="uniformPrice"]');
+            uniformPrices.forEach(input => {
+                if (input.value) {
+                    formData.append('uniformPrice', input.value);
+                }
+            });
+        } else {
+            const gentsInputs = document.querySelectorAll('[name="categoryPriceGents"]');
+            const ladiesInputs = document.querySelectorAll('[name="categoryPriceLadies"]');
+            const coupleInputs = document.querySelectorAll('[name="categoryPriceCouple"]');
+
+            gentsInputs.forEach(input => {
+                if (input.value) formData.append('categoryPriceGents', input.value);
+            });
+            ladiesInputs.forEach(input => {
+                if (input.value) formData.append('categoryPriceLadies', input.value);
+            });
+            coupleInputs.forEach(input => {
+                if (input.value) formData.append('categoryPriceCouple', input.value);
+            });
         }
 
         try {
             const response = await fetch('${pageContext.request.contextPath}/membership/add', {
                 method: 'POST',
-                body: formData,
-                // DO NOT set Content-Type manually for FormData
+                body: formData
             });
 
             const data = await response.json();
-            console.log("Server Response:", data);
 
             if (data.success) {
                 window.location.href = data.redirectUrl;
@@ -276,71 +301,5 @@
         addDuration();
     });
 </script>
-
-<style>
-    .error-message {
-        background-color: #ffebee;
-        border: 1px solid #ffcdd2;
-        padding: 10px;
-        border-radius: 4px;
-        margin-bottom: 1rem;
-    }
-
-    .duration-option {
-        margin-bottom: 1rem;
-        padding: 1rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-
-    .category-prices {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-top: 0.5rem;
-    }
-
-    .price-input {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .btn-primary {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .btn-secondary {
-        background-color: #9e9e9e;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .btn-danger {
-        background-color: #f44336;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .pricing-container {
-        margin-top: 1rem;
-    }
-
-    .category-price-section {
-        margin-bottom: 1.5rem;
-        padding: 1rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-</style>
+</body>
+</html>

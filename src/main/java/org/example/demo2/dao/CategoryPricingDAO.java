@@ -23,12 +23,23 @@ public class CategoryPricingDAO {
                 stmt.setString(2, pricing.getCategory());
                 stmt.setBigDecimal(3, pricing.getPrice());
 
+                System.out.println("Executing SQL: " + sql);
+                System.out.println("Parameters - duration_id: " + pricing.getDurationId() +
+                        ", category: " + pricing.getCategory() +
+                        ", price: " + pricing.getPrice());
+
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     pricing.setCategoryPricingId(rs.getLong("category_pricing_id"));
+                    System.out.println("Created category pricing with ID: " + pricing.getCategoryPricingId());
+                } else {
+                    System.out.println("No pricing ID returned from insert");
                 }
             }
             return pricing;
+        } catch (SQLException e) {
+            System.err.println("Error creating category pricing: " + e.getMessage());
+            throw e;
         } finally {
             if (connection != null) {
                 connection.close();

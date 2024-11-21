@@ -23,9 +23,9 @@ import java.io.PrintWriter;
 
 @WebServlet("/membership/add")
 @MultipartConfig(
-        fileSizeThreshold = 1024 * 1024, // 1 MB
-        maxFileSize = 1024 * 1024 * 10,  // 10 MB
-        maxRequestSize = 1024 * 1024 * 50 // 50 MB
+        fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 50
 )
 public class AddMembershipPlanServlet extends HttpServlet {
     private MembershipPlanDAO membershipPlanDAO;
@@ -62,85 +62,108 @@ public class AddMembershipPlanServlet extends HttpServlet {
         Map<String, Object> jsonResponse = new HashMap<>();
 
         try {
-            // Validate required fields
+            // Debug incoming parameters
+            System.out.println("=== RECEIVED PARAMETERS ===");
+            Enumeration<String> paramNames = request.getParameterNames();
+            while (paramNames.hasMoreElements()) {
+                String name = paramNames.nextElement();
+                String[] values = request.getParameterValues(name);
+                for (String value : values) {
+                    System.out.println(name + ": " + value);
+                }
+            }
+
+            // Get and validate basic plan details
             String planName = request.getParameter("planName");
             String startTimeStr = request.getParameter("startTime");
             String endTimeStr = request.getParameter("endTime");
             String pricingType = request.getParameter("pricingType");
 
-            if (planName == null || planName.trim().isEmpty() ||
-                    startTimeStr == null || startTimeStr.trim().isEmpty() ||
-                    endTimeStr == null || endTimeStr.trim().isEmpty() ||
-                    pricingType == null || pricingType.trim().isEmpty()) {
+            if (planName == null || startTimeStr == null || endTimeStr == null || pricingType == null) {
                 throw new IllegalArgumentException("Missing required fields");
             }
 
-            // Parse and validate time
+            // Create membership plan
             LocalTime startTime = LocalTime.parse(startTimeStr);
             LocalTime endTime = LocalTime.parse(endTimeStr);
-
-            // Create membership plan
             MembershipPlan membershipPlan = new MembershipPlan(planName, startTime, endTime, pricingType);
             membershipPlan = membershipPlanDAO.create(membershipPlan);
 
-            // Process durations
+            // Get all duration values and types
             String[] durationValues = request.getParameterValues("durationValue");
             String[] durationTypes = request.getParameterValues("durationType");
 
-            if (durationValues == null || durationTypes == null || durationValues.length != durationTypes.length) {
-                throw new IllegalArgumentException("Invalid duration data");
-            }
+            if (durationValues != null) {
+                for (int i = 0; i < durationValues.length; i++) {
+                    // Create duration
+                    Duration duration = new Duration(
+                            membershipPlan.getPlanId(),
+                            Integer.parseInt(durationValues[i]),
+                            durationTypes[i]
+                    );
+                    duration = durationDAO.create(duration);
+                    System.out.println("Created duration with ID: " + duration.getDurationId());
 
-            for (int i = 0; i < durationValues.length; i++) {
-                int durationValue = Integer.parseInt(durationValues[i]);
-                String durationType = durationTypes[i];
-
-                Duration duration = new Duration(
-                        membershipPlan.getPlanId(),
-                        durationValue,
-                        durationType
-                );
-                duration = durationDAO.create(duration);
-
-                // Handle pricing based on type
-                if ("uniform".equals(pricingType)) {
-                    String priceStr = request.getParameter("uniformPrice_" + i);
-                    if (priceStr == null || priceStr.trim().isEmpty()) {
-                        throw new IllegalArgumentException("Missing uniform price for duration " + i);
-                    }
-                    BigDecimal uniformPrice = new BigDecimal(priceStr);
-                    UniformPricing uniformPricing = new UniformPricing(duration.getDurationId(), uniformPrice);
-                    uniformPricingDAO.create(uniformPricing);
-                } else if ("category".equals(pricingType)) {
-                    String[] categories = {"Gents", "Ladies", "Couple"};
-                    for (String category : categories) {
-                        String priceStr = request.getParameter("categoryPrice_" + i + "_" + category);
-                        if (priceStr == null || priceStr.trim().isEmpty()) {
-                            throw new IllegalArgumentException(
-                                    "Missing price for category " + category + " in duration " + i
+                    // Handle pricing based on type
+                    if ("uniform".equals(pricingType)) {
+                        String uniformPriceStr = request.getParameter("uniformPrice");
+                        if (uniformPriceStr != null && !uniformPriceStr.trim().isEmpty()) {
+                            UniformPricing uniformPricing = new UniformPricing(
+                                    duration.getDurationId(),
+                                    new BigDecimal(uniformPriceStr)
                             );
+                            uniformPricing = uniformPricingDAO.create(uniformPricing);
+                            System.out.println("Created uniform pricing with ID: " + uniformPricing.getPricingId());
                         }
-                        BigDecimal categoryPrice = new BigDecimal(priceStr);
-                        CategoryPricing categoryPricing = new CategoryPricing(
-                                duration.getDurationId(),
-                                category,
-                                categoryPrice
-                        );
-                        categoryPricingDAO.create(categoryPricing);
+                    } else if ("category".equals(pricingType)) {
+                        String gentsPrice = request.getParameter("categoryPriceGents");
+                        String ladiesPrice = request.getParameter("categoryPriceLadies");
+                        String couplePrice = request.getParameter("categoryPriceCouple");
+
+                        // Create Gents pricing
+                        if (gentsPrice != null && !gentsPrice.trim().isEmpty()) {
+                            CategoryPricing gents = new CategoryPricing(
+                                    duration.getDurationId(),
+                                    "Gents",
+                                    new BigDecimal(gentsPrice)
+                            );
+                            categoryPricingDAO.create(gents);
+                        }
+
+                        // Create Ladies pricing
+                        if (ladiesPrice != null && !ladiesPrice.trim().isEmpty()) {
+                            CategoryPricing ladies = new CategoryPricing(
+                                    duration.getDurationId(),
+                                    "Ladies",
+                                    new BigDecimal(ladiesPrice)
+                            );
+                            categoryPricingDAO.create(ladies);
+                        }
+
+                        // Create Couple pricing
+                        if (couplePrice != null && !couplePrice.trim().isEmpty()) {
+                            CategoryPricing couple = new CategoryPricing(
+                                    duration.getDurationId(),
+                                    "Couple",
+                                    new BigDecimal(couplePrice)
+                            );
+                            categoryPricingDAO.create(couple);
+                        }
                     }
                 }
             }
 
             jsonResponse.put("success", true);
             jsonResponse.put("message", "Membership plan created successfully");
-            jsonResponse.put("redirectUrl", request.getContextPath() + "/membership/list");
+            jsonResponse.put("redirectUrl", request.getContextPath() + "/membership/view");
         } catch (Exception e) {
+            e.printStackTrace();
             jsonResponse.put("success", false);
             jsonResponse.put("message", e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        } finally {
-            out.write(gson.toJson(jsonResponse));
-            out.close();
         }
+
+        out.write(gson.toJson(jsonResponse));
+        out.close();
     }
 }

@@ -21,12 +21,21 @@ public class UniformPricingDAO {
                 stmt.setLong(1, pricing.getDurationId());
                 stmt.setBigDecimal(2, pricing.getPrice());
 
+                System.out.println("Executing SQL: " + sql);
+                System.out.println("Parameters - duration_id: " + pricing.getDurationId() + ", price: " + pricing.getPrice());
+
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     pricing.setPricingId(rs.getLong("pricing_id"));
+                    System.out.println("Created uniform pricing with ID: " + pricing.getPricingId());
+                } else {
+                    System.out.println("No pricing ID returned from insert");
                 }
             }
             return pricing;
+        } catch (SQLException e) {
+            System.err.println("Error creating uniform pricing: " + e.getMessage());
+            throw e;
         } finally {
             if (connection != null) {
                 connection.close();
