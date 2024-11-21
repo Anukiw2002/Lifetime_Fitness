@@ -35,4 +35,5 @@ public interface IUserDAO {
 
     // Validate if the provided reset token is still valid (hasn't expired)
     boolean validatePasswordResetToken(String token) throws SQLException;
+
 }

@@ -59,15 +59,13 @@
             border: 2px solid #000;
             border-radius: 15px;
             padding: 10px 20px;
-            margin: 10px 0;
+            margin: 20px 0;
             width: 100%;
             text-align: center;
             text-decoration: none;
             color: #000;
             font-weight: bold;
             font-size: 1rem;
-            margin-top: 20px;
-            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -85,7 +83,7 @@
 
         .icon {
             font-size: 1.25rem;
-            margin-right: 20px;
+            margin-right: 10px;
         }
 
         /* Hamburger Menu Icon */
@@ -176,7 +174,12 @@
         <a href="#workout" class="nav-link"><i class="fas fa-dumbbell icon"></i>Workout</a>
         <a href="#notifications" class="nav-link"><i class="fas fa-bell icon"></i>Notifications</a>
         <a href="#reports" class="nav-link"><i class="fas fa-file-alt icon"></i>Reports</a>
+
+        <!-- New Buttons for Videos and Blogs -->
+        <a href="#videos" class="nav-link"><i class="fas fa-video icon"></i>Videos</a>
+        <a href="#blogs" class="nav-link"><i class="fas fa-book icon"></i>Blogs</a>
     </div>
+
     <!-- Bottom links for Settings and Log Out -->
     <div class="bottom-links">
         <a href="#settings" class="nav-link"><i class="fas fa-cog icon"></i>Settings</a>
