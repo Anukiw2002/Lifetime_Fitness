@@ -1,4 +1,8 @@
 ### GET request to example server
 GET http://localhost:8080/membership/view
 
-###
+###POST request to add a customer
+POST http://localhost:8080/membership/add
+Content-Type: application/x-www-form-urlencoded
+
+planName=89110 Plan&startTime=08:00&endTime=20:00&pricingType=uniform&durationValue=1&durationType=months&uniformPrice_0=10000

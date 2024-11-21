@@ -12,8 +12,8 @@
     <div class="container">
         <div class="content-card">
             <h2>Add Membership Plan</h2>
-            <form id="planForm" onsubmit="return validateForm()">
-                <input type="hidden" name="action" value="add">
+            <div id="errorMessage" class="error-message" style="display: none; color: red; margin-bottom: 1rem;"></div>
+            <form id="planForm">
                 <div class="form-group">
                     <label for="planName">Plan Name</label>
                     <input
@@ -42,10 +42,8 @@
 
                 <div class="form-group">
                     <label>Duration Options</label>
-                    <div id="durationOptions">
-                        <!-- Duration options will be added here -->
-                    </div>
-                    <button type="button" onclick="addDuration()">Add Duration Option</button>
+                    <div id="durationOptions"></div>
+                    <button type="button" onclick="addDuration()" class="btn-secondary">Add Duration Option</button>
                 </div>
 
                 <div class="pricing-options">
@@ -61,24 +59,19 @@
                         </label>
                     </div>
 
-                    <div id="uniformPricing" class="form-group">
-                        <label>Uniform Price</label>
-                        <div id="uniformPriceContainer">
-                            <!-- Uniform prices will be added here based on durations -->
-                        </div>
+                    <div id="uniformPricing" class="pricing-container">
+                        <div id="uniformPriceContainer"></div>
                     </div>
 
-                    <div id="categoryPricing" class="form-group" style="display:none;">
-                        <div id="categoryPriceContainer">
-                            <!-- Category prices will be added here based on durations -->
-                        </div>
+                    <div id="categoryPricing" class="pricing-container" style="display:none;">
+                        <div id="categoryPriceContainer"></div>
                     </div>
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit">Add Plan</button>
-                    <button type="reset">Reset</button>
-                    <button type="button" onclick="cancelForm()">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Plan</button>
+                    <button type="reset" class="btn-secondary">Reset</button>
+                    <button type="button" onclick="cancelForm()" class="btn-secondary">Cancel</button>
                 </div>
             </form>
         </div>
@@ -86,31 +79,46 @@
 </div>
 
 <script>
+    let durationCounter = 0;
+
     function addDuration() {
         const container = document.getElementById('durationOptions');
-        const durationId = Date.now(); // Unique ID for this duration option
-        const newDuration = document.createElement('div');
-        newDuration.className = 'duration-option';
-        newDuration.dataset.durationId = durationId;
-        newDuration.innerHTML = `
-            <input type="number" class="duration-value" placeholder="Duration" required min="1"
-                   onchange="updatePricing(${durationId})">
-            <select class="duration-type" required onchange="updatePricing(${durationId})">
+        const durationDiv = document.createElement('div');
+        durationDiv.className = 'duration-option';
+        durationDiv.dataset.durationId = durationCounter;
+
+        durationDiv.innerHTML = `
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <input type="number"
+                   name="durationValue"
+                   class="duration-value"
+                   placeholder="Duration"
+                   required
+                   min="1"
+                   onchange="updatePricing(${durationCounter})">
+            <select name="durationType"
+                    class="duration-type"
+                    required
+                    onchange="updatePricing(${durationCounter})">
                 <option value="">Select Type</option>
                 <option value="days">Days</option>
                 <option value="months">Months</option>
                 <option value="years">Years</option>
             </select>
-            <button type="button" onclick="removeDuration(this, ${durationId})">Remove</button>
-        `;
-        container.appendChild(newDuration);
+            <button type="button"
+                    onclick="removeDuration(this)"
+                    class="btn-danger">Remove</button>
+        </div>
+    `;
+
+        container.appendChild(durationDiv);
         updateAllPricingContainers();
+        durationCounter++;
     }
 
-    function removeDuration(button, durationId) {
-        button.closest('.duration-option').remove();
-        // Remove corresponding pricing sections
-        document.querySelectorAll(`.price-section[data-duration-id="${durationId}"]`).forEach(el => el.remove());
+    function removeDuration(button) {
+        const durationOption = button.closest('.duration-option');
+        durationOption.remove();
         updateAllPricingContainers();
     }
 
@@ -132,132 +140,213 @@
         const pricingType = document.querySelector('input[name="pricingType"]:checked').value;
         const durations = Array.from(document.querySelectorAll('.duration-option')).map(option => ({
             id: option.dataset.durationId,
-            value: option.querySelector('.duration-value').value,
-            type: option.querySelector('.duration-type').value
+            value: option.querySelector('[name="durationValue"]').value,
+            type: option.querySelector('[name="durationType"]').value
         })).filter(duration => duration.value && duration.type);
 
-        // Update uniform pricing container
-        const uniformContainer = document.getElementById('uniformPriceContainer');
-        uniformContainer.innerHTML = durations.map(duration => `
-            <div class="price-section" data-duration-id="${duration.id}">
-                <label>Price for ${duration.value} ${duration.type}</label>
-                <input type="number" name="uniformPrice_${duration.id}"
-                       placeholder="Enter price" min="0" step="0.01" required>
-            </div>
-        `).join('');
+        updatePricingContainers(durations, pricingType);
+    }
 
-        // Update category pricing container
-        const categoryContainer = document.getElementById('categoryPriceContainer');
-        categoryContainer.innerHTML = durations.map(duration => `
-            <div class="category-price-container price-section" data-duration-id="${duration.id}">
-                <div class="category-price-header">Pricing for ${duration.value} ${duration.type}</div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                    <div class="price-field">
-                        <label>Gents Price</label>
-                        <input type="number" name="gentsPrice_${duration.id}"
-                               placeholder="Enter gents price" min="0" step="0.01"
-                               <input type="number" name="gentsPrice_${duration.id}" placeholder="Enter gents price" min="0" step="0.01" required>
-                    </div>
-                    <div class="price-field">
-                        <label>Ladies Price</label>
-                        <input type="number" name="ladiesPrice_${duration.id}"
-                               placeholder="Enter ladies price" min="0" step="0.01"
-                               <input type="number" name="ladiesPrice_${duration.id}" placeholder="Enter ladies price" min="0" step="0.01" required>
-                    </div>
-                    <div class="price-field">
-                        <label>Couple Price</label>
-                        <input type="number" name="couplePrice_${duration.id}"
-                               placeholder="Enter couple price" min="0" step="0.01"
-                               <input type="number" name="couplePrice_${duration.id}" placeholder="Enter couple price" min="0" step="0.01" required>
-                    </div>
+    function updatePricingContainers(durations, pricingType) {
+        if (pricingType === 'uniform') {
+            updateUniformPricing(durations);
+        } else {
+            updateCategoryPricing(durations);
+        }
+    }
+
+    function updateUniformPricing(durations) {
+        const container = document.getElementById('uniformPriceContainer');
+        container.innerHTML = durations.map(duration => `
+        <div class="price-section" data-duration-id="${duration.id}">
+            <label>Price for ${duration.value} ${duration.type}</label>
+            <input type="number"
+                   name="uniformPrice_${duration.id}"
+                   step="0.01"
+                   min="0"
+                   required
+                   placeholder="Enter price">
+        </div>
+    `).join('');
+    }
+
+    function updateCategoryPricing(durations) {
+        const container = document.getElementById('categoryPriceContainer');
+        container.innerHTML = durations.map(duration => `
+        <div class="category-price-section" data-duration-id="${duration.id}">
+            <h4>Pricing for ${duration.value} ${duration.type}</h4>
+            <div class="category-prices">
+                <div class="price-input">
+                    <label>Gents Price</label>
+                    <input type="number"
+                           name="categoryPrice_${duration.id}_Gents"
+                           step="0.01"
+                           min="0"
+                           required
+                           placeholder="Enter gents price">
+                </div>
+                <div class="price-input">
+                    <label>Ladies Price</label>
+                    <input type="number"
+                           name="categoryPrice_${duration.id}_Ladies"
+                           step="0.01"
+                           min="0"
+                           required
+                           placeholder="Enter ladies price">
+                </div>
+                <div class="price-input">
+                    <label>Couple Price</label>
+                    <input type="number"
+                           name="categoryPrice_${duration.id}_Couple"
+                           step="0.01"
+                           min="0"
+                           required
+                           placeholder="Enter couple price">
                 </div>
             </div>
-        `).join('');
+        </div>
+    `).join('');
+    }
+
+    function showError(message) {
+        const errorDiv = document.getElementById('errorMessage');
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+        setTimeout(() => {
+            errorDiv.style.display = 'none';
+        }, 5000);
     }
 
     function validateForm() {
         const planName = document.getElementById('planName').value.trim();
         if (!planName) {
-            alert('Please enter a plan name');
+            showError('Please enter a plan name');
             return false;
         }
 
         const durations = document.querySelectorAll('.duration-option');
         if (durations.length === 0) {
-            alert('Please add at least one duration option');
-            return false;
-        }
-
-        // Validate that at least one duration is properly filled
-        let hasValidDuration = false;
-        durations.forEach(duration => {
-            const value = duration.querySelector('.duration-value').value;
-            const type = duration.querySelector('.duration-type').value;
-            if (value && type) hasValidDuration = true;
-        });
-
-        if (!hasValidDuration) {
-            alert('Please complete at least one duration option');
+            showError('Please add at least one duration option');
             return false;
         }
 
         return true;
     }
 
+    function cancelForm() {
+        if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
+            window.location.href = '${pageContext.request.contextPath}/membership/list';
+        }
+    }
+
+    document.getElementById('planForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
+        const formData = new FormData(this);
+
+        // Log all form data entries
+        for (const [key, value] of formData.entries()) {
+            console.log(`Form Data - ${key}: ${value}`);
+        }
+
+        try {
+            const response = await fetch('${pageContext.request.contextPath}/membership/add', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    // Remove Content-Type to let browser set multipart/form-data
+                    // 'Content-Type': 'multipart/form-data'  // DO NOT set this manually
+                }
+            });
+
+            const data = await response.json();
+            console.log("Response data:", data);
+
+            if (data.success) {
+                window.location.href = data.redirectUrl;
+            } else {
+                showError(data.message || 'Error creating membership plan');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            showError('Error submitting form: ' + error.message);
+        }
+    });
+
     // Initialize the form with one duration option
     document.addEventListener('DOMContentLoaded', function() {
         addDuration();
     });
-    function cancelForm() {
-        if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
-            window.location.href = '/MembershipPlan'; // Replace with your desired URL
-        }
-    }
-    document.getElementById('planForm').onsubmit = function(e) {
-        e.preventDefault();
-
-        if (!validateForm()) {
-            return false;
-        }
-
-        // Create FormData object from the form
-        const formData = new FormData(this);
-
-        // Add action parameter
-        formData.set('action', 'add');
-
-        // Debug: Log all form data being sent
-        console.log('Form data being sent:');
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-
-        // Send AJAX request
-        fetch('MembershipPlan?action=add', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                // First log the raw response
-                console.log('Raw response:', response);
-                return response.json();
-            })
-            .then(data => {
-                console.log('Response data:', data); // Debug log
-                if (data.success) {
-                    alert(data.message);
-                    window.location.href = 'MembershipPlan?action=view';
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error); // Better error logging
-                alert('Error submitting form: ' + error);
-            });
-
-        return false;
-    };
 </script>
-</body>
-</html>
+
+<style>
+    .error-message {
+        background-color: #ffebee;
+        border: 1px solid #ffcdd2;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+    }
+
+    .duration-option {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .category-prices {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .price-input {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .btn-primary {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-secondary {
+        background-color: #9e9e9e;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-danger {
+        background-color: #f44336;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .pricing-container {
+        margin-top: 1rem;
+    }
+
+    .category-price-section {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+</style>
