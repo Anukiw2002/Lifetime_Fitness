@@ -242,13 +242,10 @@
     document.getElementById('planForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        if (!validateForm()) {
-            return;
-        }
-
         const formData = new FormData(this);
 
-        // Log all form data entries
+        // IMPORTANT: Log all form data
+        console.log("=== FORM DATA SUBMISSION ===");
         for (const [key, value] of formData.entries()) {
             console.log(`Form Data - ${key}: ${value}`);
         }
@@ -257,14 +254,11 @@
             const response = await fetch('${pageContext.request.contextPath}/membership/add', {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    // Remove Content-Type to let browser set multipart/form-data
-                    // 'Content-Type': 'multipart/form-data'  // DO NOT set this manually
-                }
+                // DO NOT set Content-Type manually for FormData
             });
 
             const data = await response.json();
-            console.log("Response data:", data);
+            console.log("Server Response:", data);
 
             if (data.success) {
                 window.location.href = data.redirectUrl;

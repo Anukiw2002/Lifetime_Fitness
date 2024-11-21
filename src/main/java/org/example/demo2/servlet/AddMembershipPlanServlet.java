@@ -9,28 +9,42 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalTime;
+import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import com.google.gson.Gson;
 import org.example.demo2.dao.*;
 import org.example.demo2.model.*;
 import org.example.demo2.util.DBConnection;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.Part;
+import java.io.PrintWriter;
 
 @WebServlet("/membership/add")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024, // 1 MB
+        maxFileSize = 1024 * 1024 * 10,  // 10 MB
+        maxRequestSize = 1024 * 1024 * 50 // 50 MB
+)
 public class AddMembershipPlanServlet extends HttpServlet {
     private MembershipPlanDAO membershipPlanDAO;
     private DurationDAO durationDAO;
     private UniformPricingDAO uniformPricingDAO;
     private CategoryPricingDAO categoryPricingDAO;
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Override
     public void init() throws ServletException {
-        DBConnection dbConnection = new DBConnection();
-        membershipPlanDAO = new MembershipPlanDAO(dbConnection);
-        durationDAO = new DurationDAO(dbConnection);
-        uniformPricingDAO = new UniformPricingDAO(dbConnection);
-        categoryPricingDAO = new CategoryPricingDAO(dbConnection);
+        try {
+            DBConnection dbConnection = new DBConnection();
+            membershipPlanDAO = new MembershipPlanDAO(dbConnection);
+            durationDAO = new DurationDAO(dbConnection);
+            uniformPricingDAO = new UniformPricingDAO(dbConnection);
+            categoryPricingDAO = new CategoryPricingDAO(dbConnection);
+        } catch (Exception e) {
+            throw new ServletException("Failed to initialize DAOs: " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -44,42 +58,30 @@ public class AddMembershipPlanServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
         Map<String, Object> jsonResponse = new HashMap<>();
 
         try {
-            System.out.println("Received POST request to add membership plan");
-            System.out.println("Content Type: " + request.getContentType());
-            System.out.println("Character Encoding: " + request.getCharacterEncoding());
-            // Log all request parameters
-            request.getParameterMap().forEach((key, values) -> {
-                System.out.println("Param: " + key + " | Value: " + String.join(", ", values));
-            });
-
-            // Get membership plan details
+            // Validate required fields
             String planName = request.getParameter("planName");
             String startTimeStr = request.getParameter("startTime");
             String endTimeStr = request.getParameter("endTime");
             String pricingType = request.getParameter("pricingType");
 
-            System.out.println("Plan Name: " + planName);
-            System.out.println("Start Time: " + startTimeStr);
-            System.out.println("End Time: " + endTimeStr);
-            System.out.println("Pricing Type: " + pricingType);
-
-            // Validate required fields
-            if (planName == null || startTimeStr == null || endTimeStr == null || pricingType == null) {
+            if (planName == null || planName.trim().isEmpty() ||
+                    startTimeStr == null || startTimeStr.trim().isEmpty() ||
+                    endTimeStr == null || endTimeStr.trim().isEmpty() ||
+                    pricingType == null || pricingType.trim().isEmpty()) {
                 throw new IllegalArgumentException("Missing required fields");
             }
 
-            // Parse time
+            // Parse and validate time
             LocalTime startTime = LocalTime.parse(startTimeStr);
             LocalTime endTime = LocalTime.parse(endTimeStr);
 
             // Create membership plan
             MembershipPlan membershipPlan = new MembershipPlan(planName, startTime, endTime, pricingType);
             membershipPlan = membershipPlanDAO.create(membershipPlan);
-
-            System.out.println("Membership Plan created with ID: " + membershipPlan.getPlanId());
 
             // Process durations
             String[] durationValues = request.getParameterValues("durationValue");
@@ -90,38 +92,39 @@ public class AddMembershipPlanServlet extends HttpServlet {
             }
 
             for (int i = 0; i < durationValues.length; i++) {
-                System.out.println("Processing duration " + i + ": " + durationValues[i] + " " + durationTypes[i]);
+                int durationValue = Integer.parseInt(durationValues[i]);
+                String durationType = durationTypes[i];
+
                 Duration duration = new Duration(
                         membershipPlan.getPlanId(),
-                        Integer.parseInt(durationValues[i]),
-                        durationTypes[i]
+                        durationValue,
+                        durationType
                 );
                 duration = durationDAO.create(duration);
 
-                // Process pricing based on pricing type
+                // Handle pricing based on type
                 if ("uniform".equals(pricingType)) {
                     String priceStr = request.getParameter("uniformPrice_" + i);
-                    System.out.println("Uniform Price for duration " + i + ": " + priceStr);
                     if (priceStr == null || priceStr.trim().isEmpty()) {
                         throw new IllegalArgumentException("Missing uniform price for duration " + i);
                     }
-                    UniformPricing uniformPricing = new UniformPricing(
-                            duration.getDurationId(),
-                            new BigDecimal(priceStr)
-                    );
+                    BigDecimal uniformPrice = new BigDecimal(priceStr);
+                    UniformPricing uniformPricing = new UniformPricing(duration.getDurationId(), uniformPrice);
                     uniformPricingDAO.create(uniformPricing);
                 } else if ("category".equals(pricingType)) {
                     String[] categories = {"Gents", "Ladies", "Couple"};
                     for (String category : categories) {
                         String priceStr = request.getParameter("categoryPrice_" + i + "_" + category);
-                        System.out.println("Category Price for " + category + " in duration " + i + ": " + priceStr);
                         if (priceStr == null || priceStr.trim().isEmpty()) {
-                            throw new IllegalArgumentException("Missing price for category " + category + " in duration " + i);
+                            throw new IllegalArgumentException(
+                                    "Missing price for category " + category + " in duration " + i
+                            );
                         }
+                        BigDecimal categoryPrice = new BigDecimal(priceStr);
                         CategoryPricing categoryPricing = new CategoryPricing(
                                 duration.getDurationId(),
                                 category,
-                                new BigDecimal(priceStr)
+                                categoryPrice
                         );
                         categoryPricingDAO.create(categoryPricing);
                     }
@@ -132,14 +135,12 @@ public class AddMembershipPlanServlet extends HttpServlet {
             jsonResponse.put("message", "Membership plan created successfully");
             jsonResponse.put("redirectUrl", request.getContextPath() + "/membership/list");
         } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-            e.printStackTrace();
             jsonResponse.put("success", false);
-            jsonResponse.put("message", "Error: " + e.getMessage());
+            jsonResponse.put("message", e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } finally {
+            out.write(gson.toJson(jsonResponse));
+            out.close();
         }
-
-        // Send JSON response
-        response.getWriter().write(gson.toJson(jsonResponse));
     }
 }
