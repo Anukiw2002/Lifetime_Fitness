@@ -28,7 +28,7 @@
                         </div>
                         <div style="flex: 1;">
                             <label>End Time</label>
-                            <input type="time" id="endTime" name="endTime" value="12:00" required>
+                            <input type="time" id="endTime" name="endTime" value="10:00" required>
                         </div>
                     </div>
                 </div>
@@ -80,29 +80,32 @@
         durationDiv.className = 'duration-option';
         durationDiv.dataset.durationId = durationCounter;
 
-        durationDiv.innerHTML = `
-        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-            <input type="number"
-                   name="durationValue"
-                   class="duration-value"
-                   placeholder="Duration"
-                   required
-                   min="1"
-                   onchange="updatePricing()">
-            <select name="durationType"
-                    class="duration-type"
-                    required
-                    onchange="updatePricing()">
-                <option value="">Select Type</option>
-                <option value="days">Days</option>
-                <option value="months">Months</option>
-                <option value="years">Years</option>
-            </select>
-            <button type="button"
-                    onclick="removeDuration(this)"
-                    class="btn-danger">Remove</button>
-        </div>
-    `;
+        const isFirstDuration = container.children.length === 0;
+
+        durationDiv.innerHTML =
+            '<div style="display: flex; gap: 10px; margin-bottom: 10px;">' +
+            '<input type="number" ' +
+            'name="durationValue" ' +
+            'class="duration-value" ' +
+            'placeholder="Duration" ' +
+            'required ' +
+            'min="1" ' +
+            'onchange="updatePricing()">' +
+            '<select name="durationType" ' +
+            'class="duration-type" ' +
+            'required ' +
+            'onchange="updatePricing()">' +
+            '<option value="">Select Type</option>' +
+            '<option value="days">Days</option>' +
+            '<option value="months">Months</option>' +
+            '<option value="years">Years</option>' +
+            '</select>' +
+            (isFirstDuration ? '' :
+                    '<button type="button" ' +
+                    'onclick="removeDuration(this)" ' +
+                    'class="btn-danger">Remove</button>'
+            ) +
+            '</div>';
 
         container.appendChild(durationDiv);
         updatePricing();
@@ -111,8 +114,13 @@
 
     function removeDuration(button) {
         const durationOption = button.closest('.duration-option');
-        durationOption.remove();
-        updatePricing();
+        const container = document.getElementById('durationOptions');
+        const isFirstDuration = durationOption === container.firstElementChild;
+
+        if (!isFirstDuration) {
+            durationOption.remove();
+            updatePricing();
+        }
     }
 
     function togglePricing(type) {

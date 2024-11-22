@@ -131,4 +131,63 @@ public class MembershipPlanDAO {
             }
         }
     }
+    public boolean canDeletePlan(Long planId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            // Check for any associated records (adjust tables based on your schema)
+            String sql = "SELECT EXISTS (" +
+                    "SELECT 1 FROM memberships WHERE plan_id = ? " +
+                    "UNION " +
+                    "SELECT 1 FROM membership_transactions WHERE plan_id = ?" +
+                    ")";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, planId);
+                stmt.setLong(2, planId);
+                ResultSet rs = stmt.executeQuery();
+                rs.next();
+                return !rs.getBoolean(1); // Return true if no associated records exist
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public void deactivatePlan(Long planId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "UPDATE membership_plans SET status = 'INACTIVE' WHERE plan_id = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, planId);
+                stmt.executeUpdate();
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public void updateStatus(Long planId, String status) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "UPDATE membership_plans SET status = ? WHERE plan_id = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, status);
+                stmt.setLong(2, planId);
+                stmt.executeUpdate();
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }
