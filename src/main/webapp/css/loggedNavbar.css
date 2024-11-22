@@ -274,31 +274,7 @@ body {
     margin: 10px auto;
 }
 
-@media(max-width: 1666px){
-    .nav-links a {
-        font-size: 20px;
-    }
-    .nav-buttons .btn {
-        padding: 10px 15px;
-        font-size: 22px;
-    }
-    .logo {
-        width: 280px;
-        max-height: auto;
-        margin-left: 20px;
-        margin-left: 100px;
-    }
-    .nav-links a {
-        position: relative;
-        text-decoration: none;
-        color: black;
-        font-size: 20px;
-        padding: 0 8px;
-        transition: transform 0.3s ease, color 0.3s ease;
-    }
-}
-
-@media(max-width: 1400px){
+@media(max-width: 1500px){
     .nav-links a {
         font-size: 14px;
     }
@@ -320,6 +296,8 @@ body {
         transition: transform 0.3s ease, color 0.3s ease;
     }
 }
+
+
 @media(max-width: 1200px){
     .nav-links a {
         font-size: 16px;
@@ -346,59 +324,6 @@ body {
 }
 
 @media(max-width: 990px){
-    .notification-bell-wrapper {
-        position: absolute;
-        right: 20px; /* Align close to the right edge */
-        top: 50%; /* Vertically center within navbar height */
-        transform: translateY(-50%);
-        margin-right: 100px;/* Keep it centered vertically */
-    }
-
-    /* Ensure hamburger menu is visible and positioned correctly */
-    .hamburger {
-        display: flex;
-        position: absolute;
-        right: 60px; /* Space the hamburger icon from the bell icon */
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-
-    .nav-links, .nav-buttons {
-        display: none;
-    }
-
-    .navbar.active + .dropdown-menu {
-        display: block;
-    }
-
-    .navbar {
-        justify-content: flex-start; /* Align items to the start */
-        position: relative;
-    }
-
-    .hamburger {
-        display: flex; /* Ensure the hamburger is visible */
-        position: absolute;
-        right: 20px; /* Adjust this value to control how far the hamburger is from the right */
-        top: 50%;
-        transform: translateY(-50%); /* Vertically center the hamburger */
-    }
-
-    .nav-links {
-        margin-left: auto; /* Push the nav-links to the left */
-        display: none; /* Hide the links by default for smaller screens */
-    }
-    .logo {
-        width: 180px;
-        max-height: auto;
-
-        margin-left: 40px;
-    }
-}
-
-/* Responsive styles */
-@media (max-width: 576px) {
     .notification-bell-wrapper {
         position: absolute;
         right: 20px; /* Align close to the right edge */
@@ -450,3 +375,7 @@ body {
         margin-left: 40px;
     }
 }
+
+
+/* Responsive styles */
+@media (max-width: 576px) {

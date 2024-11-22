@@ -36,6 +36,10 @@ body, html {
     z-index: 1;
 }
 
+
+
+
+
 /* Styling for the H1 */
 .container h1 {
     position: absolute;
@@ -382,6 +386,16 @@ p {
         height: 300px;
         margin-right: 20px;
     }
+    .container h1 {
+        font-size: 80px;
+        opacity: 0.8; /* Gradually reduce opacity */
+        transition: all 0.5s ease; /* Smooth transition */
+    }
+
+    .cta-button {
+        top: 25%; /* Move button closer to the text */
+        transition: all 0.5s ease; /* Smooth transition for position */
+    }
 
 }
 
@@ -412,6 +426,14 @@ p {
         text-align: justify;
         font-size: 20px;
         background-color: #2e2e2e;
+    }
+    .container h1 {
+        font-size: 60px;
+        opacity: 0.5; /* Further reduce opacity */
+    }
+
+    .cta-button {
+        top: 20%; /* Move button up */
     }
 }
 
@@ -445,5 +467,13 @@ p {
         text-align: justify;
         font-size: 20px;
         background-color: #2e2e2e;
+    }
+    .container h1 {
+        font-size: 30px;
+        opacity: 0; /* Fully hide the text */
+    }
+
+    .cta-button {
+        top: 15%; /* Position button at the center */
     }
 }
