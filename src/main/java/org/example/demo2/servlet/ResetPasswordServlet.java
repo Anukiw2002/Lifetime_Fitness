@@ -67,13 +67,14 @@ public class ResetPasswordServlet extends HttpServlet {
             System.out.println("Password reset successful for user: " + user.getEmail());
 
             // Redirect to login page
-            request.getRequestDispatcher("/WEB-INF/views/client/login.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "testView?page=login");
 
         } catch (SQLException e) {
             System.err.println("Error occurred during password reset:");
             e.printStackTrace();
             request.setAttribute("message", "An error occurred while resetting your password. Please try again.");
-            request.getRequestDispatcher("/WEB-INF/views/client/resetPasswordForm.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "testView?page=login");
+
         }
     }
 }
