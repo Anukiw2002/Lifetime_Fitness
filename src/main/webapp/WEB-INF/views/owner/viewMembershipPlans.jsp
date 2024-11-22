@@ -13,11 +13,10 @@
 <body>
 <%!
     public String formatDurationType(int value, String durationType) {
-        // Ensure correct pluralization based on actual database input
         if (durationType == null) return "";
 
-        // Return singular or plural based on value
-        return value == 1 ? durationType : durationType + "s";
+        // Remove 's' for singular values, keep plural as is
+        return value == 1 ? durationType.substring(0, durationType.length() - 1) : durationType;
     }
 %>
 
