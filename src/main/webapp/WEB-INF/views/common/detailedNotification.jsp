@@ -11,6 +11,7 @@
       margin: 0;
       padding: 0;
       background-color: #f9f9f9;
+      background-color: #4c4c4c;
     }
 
     .container {

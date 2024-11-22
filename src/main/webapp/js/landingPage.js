@@ -46,4 +46,25 @@ document.querySelectorAll('.carousel-container').forEach(carousel => {
             updateSlidePosition();
         });
     });
+
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const heroImages = [
+        "/images/image1.1.jpg",
+        "/images/image1.2.jpeg",
+        "/images/image1.3.jpg",
+        "/images/image1.4.jpg"
+    ]; // List of images to rotate
+    const heroImageElement = document.querySelector(".container img");
+    let currentIndex = 0;
+
+    function changeHeroImage() {
+        currentIndex = (currentIndex + 1) % heroImages.length; // Cycle through images
+        heroImageElement.src = heroImages[currentIndex]; // Update the image source
+    }
+
+    // Change image every 5 seconds
+    setInterval(changeHeroImage, 5000);
+});
+
