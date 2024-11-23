@@ -13,22 +13,11 @@
 <body>
 <%!
     public String formatDurationType(int value, String durationType) {
-        // Ensure correct pluralization based on actual database input
         if (durationType == null) return "";
-
-        // Return singular or plural based on value
-        return value == 1 ? durationType : durationType + "s";
+        return value == 1 ? durationType.substring(0, durationType.length() - 1) : durationType;
     }
 %>
 
-<div style="display: none;">
-    Debug Info:
-    membershipPlans attribute exists: ${not empty membershipPlans}
-    Number of plans: ${membershipPlans.size()}
-    <c:forEach var="plan" items="${membershipPlans}">
-        Plan: ${plan.planName}, ID: ${plan.planId}<br/>
-    </c:forEach>
-</div>
 <div class="container">
     <div class="header">
         <h1>Membership Plans Management</h1>
@@ -39,7 +28,7 @@
 
     <div class="plans-grid">
         <c:forEach var="plan" items="${membershipPlans}">
-            <div class="plan-card">
+            <div class="plan-card ${plan.status eq 'INACTIVE' ? 'inactive-plan' : ''}">
                 <div class="plan-header">
                     <h2>${plan.planName}</h2>
                     <p class="time-slot">${plan.startTime} to ${plan.endTime}</p>
@@ -47,22 +36,17 @@
                 <div class="plan-options">
                     <c:forEach var="duration" items="${plan.durations}">
                         <c:choose>
-                            <%-- Handle Uniform Pricing --%>
                             <c:when test="${plan.pricingType eq 'uniform'}">
                                 <div class="option">
                                     <span>Individual -
                                         ${duration.durationValue}
                                         <%
-                                            // Get current duration from the page context
                                             Object durationObj = pageContext.getAttribute("duration");
                                             if (durationObj != null) {
-                                                // Assuming the object has getDurationValue() and getDurationType() methods
                                                 java.lang.reflect.Method getDurationValueMethod = durationObj.getClass().getMethod("getDurationValue");
                                                 java.lang.reflect.Method getDurationTypeMethod = durationObj.getClass().getMethod("getDurationType");
-
                                                 int durationValue = (Integer) getDurationValueMethod.invoke(durationObj);
                                                 String durationType = (String) getDurationTypeMethod.invoke(durationObj);
-
                                                 out.print(formatDurationType(durationValue, durationType));
                                             }
                                         %>
@@ -72,8 +56,6 @@
                                     </span>
                                 </div>
                             </c:when>
-
-                            <%-- Handle Category Pricing --%>
                             <c:when test="${plan.pricingType eq 'category'}">
                                 <c:forEach var="pricing" items="${duration.categoryPricing}">
                                     <div class="option">
@@ -95,52 +77,58 @@
                     </c:forEach>
                 </div>
                 <div class="plan-actions">
-                    <button class="edit-btn" >
+                    <button class="edit-btn" onclick="window.location.href='${pageContext.request.contextPath}/membership/update?planId=${plan.planId}'">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="delete-btn"
-                            data-plan-name="${plan.planName}"
-                            data-plan-id="${plan.planId}"
-                            onclick="showConfirmationModal('${plan.planName}', ${plan.planId})">
+                    <button class="delete-btn" onclick="confirmDelete('${plan.planName}', ${plan.planId})">
                         <i class="fas fa-trash"></i>
                     </button>
-                    <button class="status-btn active">Active</button>
+                    <button class="status-btn ${plan.status eq 'INACTIVE' ? 'inactive' : 'active'}"
+                            onclick="toggleStatus(${plan.planId}, '${plan.status}')">
+                            ${plan.status eq 'INACTIVE' ? 'Inactive' : 'Active'}
+                    </button>
                 </div>
             </div>
         </c:forEach>
     </div>
 </div>
 
-<%-- Rest of the existing code remains the same --%>
-<div id="confirm-modal" class="modal">
+<!-- Dynamic Modal -->
+<div id="deleteModal" class="modal">
     <div class="modal-content">
-        <h2>Are you sure you want to delete this plan?</h2>
+        <h2 id="modalTitle"></h2>
         <p>This plan will be archived and can be restored later if needed.</p>
         <div class="modal-buttons">
-            <button type="button" class="confirm-btn">Yes, Delete</button>
-            <button type="button" class="cancel-btn">Cancel</button>
+            <button type="button" onclick="deletePlan()" class="confirm-btn">Yes, Delete</button>
+            <button type="button" onclick="closeModal()" class="cancel-btn">Cancel</button>
         </div>
     </div>
 </div>
 
 <script>
-    const modal = document.getElementById("confirm-modal");
-    const confirmBtn = document.querySelector(".confirm-btn");
-    const cancelBtn = document.querySelector(".cancel-btn");
-    let planToDelete = null;
+    let currentPlanId = null;
+    const modal = document.getElementById("deleteModal");
 
-    function showConfirmationModal(planName, planId) {
-        planToDelete = planId;
-        const modalContent = document.querySelector(".modal-content");
-        modalContent.querySelector("h2").textContent = `Are you sure you want to delete the ${planName} plan?`;
+    function confirmDelete(planName, planId) {
+        currentPlanId = planId;
+        document.getElementById("modalTitle").textContent = `Are you sure you want to delete the ${planName} plan?`;
         modal.style.display = "block";
     }
 
-    confirmBtn.addEventListener("click", async () => {
-        if (planToDelete) {
+    function closeModal() {
+        modal.style.display = "none";
+        currentPlanId = null;
+    }
+
+    async function deletePlan() {
+        if (currentPlanId) {
             try {
                 const response = await fetch(`${pageContext.request.contextPath}/membership/delete`, {
-                    method: 'POST'
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ planId: currentPlanId })
                 });
 
                 if (response.ok) {
@@ -153,20 +141,40 @@
                 alert('An error occurred while deleting the plan.');
             }
         }
-        modal.style.display = "none";
-    });
+        closeModal();
+    }
 
-    cancelBtn.addEventListener("click", () => {
-        modal.style.display = "none";
-        planToDelete = null;
-    });
-
-    window.addEventListener("click", (event) => {
-        if (event.target == modal) {
-            modal.style.display = "none";
-            planToDelete = null;
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            closeModal();
         }
-    });
+    };
+
+    async function toggleStatus(planId, currentStatus) {
+        const newStatus = currentStatus === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+        try {
+            const response = await fetch('${pageContext.request.contextPath}/membership/view', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    planId: planId,
+                    status: newStatus
+                })
+            });
+
+            if (response.ok) {
+                window.location.reload(); // Reload the same page to show updated status
+            } else {
+                alert('Failed to update plan status. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while updating the plan status.');
+        }
+    }
 </script>
 </body>
 </html>

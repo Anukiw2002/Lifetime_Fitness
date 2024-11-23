@@ -23,12 +23,23 @@ public class CategoryPricingDAO {
                 stmt.setString(2, pricing.getCategory());
                 stmt.setBigDecimal(3, pricing.getPrice());
 
+                System.out.println("Executing SQL: " + sql);
+                System.out.println("Parameters - duration_id: " + pricing.getDurationId() +
+                        ", category: " + pricing.getCategory() +
+                        ", price: " + pricing.getPrice());
+
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     pricing.setCategoryPricingId(rs.getLong("category_pricing_id"));
+                    System.out.println("Created category pricing with ID: " + pricing.getCategoryPricingId());
+                } else {
+                    System.out.println("No pricing ID returned from insert");
                 }
             }
             return pricing;
+        } catch (SQLException e) {
+            System.err.println("Error creating category pricing: " + e.getMessage());
+            throw e;
         } finally {
             if (connection != null) {
                 connection.close();
@@ -57,6 +68,25 @@ public class CategoryPricingDAO {
                 }
             }
             return pricings;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public void update(CategoryPricing pricing) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "UPDATE category_pricing SET price = ? WHERE duration_id = ? AND category = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setBigDecimal(1, pricing.getPrice());
+                stmt.setLong(2, pricing.getDurationId());
+                stmt.setString(3, pricing.getCategory());
+                stmt.executeUpdate();
+            }
         } finally {
             if (connection != null) {
                 connection.close();

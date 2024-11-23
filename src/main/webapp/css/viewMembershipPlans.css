@@ -40,7 +40,9 @@ body {
     border: 1px solid #444;
     border-radius: 8px;
     overflow: hidden;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
 }
 
 .plan-header {
@@ -50,14 +52,12 @@ body {
 }
 
 .plan-header h2 {
-    font-size: 1.75em;
     margin: 0;
     color: #fff;
     font-size: 1.5em;
 }
 
 .time-slot {
-    font-size: 1.2em;
     color: #888;
     margin: 10px 0 0;
     font-size: 0.9em;
@@ -65,6 +65,9 @@ body {
 
 .plan-options {
     padding: 0 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .option {
@@ -90,6 +93,7 @@ body {
     gap: 10px;
     padding: 20px;
     background-color: #2a2a2a;
+    margin-top: auto;
 }
 
 .edit-btn, .delete-btn {
@@ -150,7 +154,55 @@ body {
     gap: 10px;
 }
 
-/* Responsive Design */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+}
+
+.inactive-plan {
+    opacity: 0.7;
+}
+
+.inactive-plan .plan-header {
+    background-color: #222;
+}
+
+.inactive-plan .plan-options {
+    background-color: #151515;
+}
+
+.status-btn.active {
+    background-color: #4CAF50;
+}
+
+.status-btn.inactive {
+    background-color: #666;
+}
+
+.inactive-plan .price {
+    color: #888;
+}
+
+.inactive-plan .plan-actions {
+    background-color: #222;
+}
+
 @media (max-width: 768px) {
     .plans-grid {
         grid-template-columns: 1fr;
@@ -161,46 +213,4 @@ body {
         gap: 10px;
         text-align: center;
     }
-}
-
-/* Confirmation Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-    font-size: 1em;
-    background-color: #444;
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 400px;
-    text-align: center;
-}
-
-.modal-buttons {
-    margin-top: 20px;
-}
-
-.modal-buttons button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    background-color: #5D0C0B;
-    color: #D9D9D9;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.modal-buttons button:hover {
-    background-color: #C73938;
 }

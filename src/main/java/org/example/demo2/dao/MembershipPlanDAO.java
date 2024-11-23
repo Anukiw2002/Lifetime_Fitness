@@ -131,4 +131,112 @@ public class MembershipPlanDAO {
             }
         }
     }
+    public boolean canDeletePlan(Long planId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            // Check for any associated records (adjust tables based on your schema)
+            String sql = "SELECT EXISTS (" +
+                    "SELECT 1 FROM memberships WHERE plan_id = ? " +
+                    "UNION " +
+                    "SELECT 1 FROM membership_transactions WHERE plan_id = ?" +
+                    ")";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, planId);
+                stmt.setLong(2, planId);
+                ResultSet rs = stmt.executeQuery();
+                rs.next();
+                return !rs.getBoolean(1); // Return true if no associated records exist
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public void deactivatePlan(Long planId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "UPDATE membership_plans SET status = 'INACTIVE' WHERE plan_id = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, planId);
+                stmt.executeUpdate();
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public boolean isPlanNameExists(String planName) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "SELECT COUNT(*) FROM membership_plans WHERE plan_name = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, planName);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+                return false;
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public MembershipPlan findByPlanName(String planName) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "SELECT * FROM membership_plans WHERE plan_name = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, planName);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    MembershipPlan plan = new MembershipPlan();
+                    plan.setPlanId(rs.getLong("plan_id"));
+                    plan.setPlanName(rs.getString("plan_name"));
+                    plan.setStartTime(rs.getTime("start_time").toLocalTime());
+                    plan.setEndTime(rs.getTime("end_time").toLocalTime());
+                    plan.setPricingType(rs.getString("pricing_type"));
+                    return plan;
+                }
+            }
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public void updateStatus(Long planId, String status) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "UPDATE membership_plans SET status = ? WHERE plan_id = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, status);
+                stmt.setLong(2, planId);
+                stmt.executeUpdate();
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }

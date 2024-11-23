@@ -10,6 +10,7 @@ public class MembershipPlan {
     private LocalTime endTime;
     private String pricingType;
     private List<Duration> durations;
+    private String status;
 
     // Constructors
     public MembershipPlan() {}
@@ -34,4 +35,10 @@ public class MembershipPlan {
     public void setPricingType(String pricingType) { this.pricingType = pricingType; }
     public List<Duration> getDurations() { return durations; }
     public void setDurations(List<Duration> durations) { this.durations = durations; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public boolean isActive() {
+        return "ACTIVE".equals(status);
+    }
 }

@@ -21,12 +21,21 @@ public class UniformPricingDAO {
                 stmt.setLong(1, pricing.getDurationId());
                 stmt.setBigDecimal(2, pricing.getPrice());
 
+                System.out.println("Executing SQL: " + sql);
+                System.out.println("Parameters - duration_id: " + pricing.getDurationId() + ", price: " + pricing.getPrice());
+
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     pricing.setPricingId(rs.getLong("pricing_id"));
+                    System.out.println("Created uniform pricing with ID: " + pricing.getPricingId());
+                } else {
+                    System.out.println("No pricing ID returned from insert");
                 }
             }
             return pricing;
+        } catch (SQLException e) {
+            System.err.println("Error creating uniform pricing: " + e.getMessage());
+            throw e;
         } finally {
             if (connection != null) {
                 connection.close();
@@ -53,6 +62,24 @@ public class UniformPricingDAO {
                 }
             }
             return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public void update(UniformPricing pricing) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "UPDATE uniform_pricing SET price = ? WHERE duration_id = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setBigDecimal(1, pricing.getPrice());
+                stmt.setLong(2, pricing.getDurationId());
+                stmt.executeUpdate();
+            }
         } finally {
             if (connection != null) {
                 connection.close();
