@@ -1,40 +1,58 @@
+/* === Global Body Styling === */
 body {
     font-family: Arial, sans-serif;
     background-color: #333;
     color: white;
-    display: flex;
-    justify-content: flex-start; /* Align to the left */
-    align-items: flex-start;    /* Align to the top */
-    height: 100vh;
     margin: 0;
+    display: flex;
 }
 
-.main-container {
-    flex: 1;
-    margin-left: 250px; /* Should match navbar width */
-    width: calc(100% - 250px);
-    min-height: 100vh;
-    transition: margin-left 0.3s ease-in-out;
-    position: center;
-    z-index: 1;
-}
-
-.workout-content {
+/* === Navbar Styling === */
+.navbar-container {
+    width: 250px; /* Fixed width for navbar */
+    background-color: #222; /* Slightly lighter than the body */
+    height: 100vh; /* Full height */
+    position: fixed; /* Keep navbar fixed */
     display: flex;
     flex-direction: column;
-    width: 100%; /* Full width within container */
+    align-items: center;
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Add shadow to separate from main content */
+}
+
+/* === Main Content Styling === */
+.content-container {
+    margin-left: 250px; /* Matches navbar width */
+    flex: 1;
+    display: flex;
+    justify-content: flex-start; /* Align content to the left */
+    align-items: flex-start; /* Align content to the top */
+    padding: 20px;
+}
+
+/* === Workout List Container Styling === */
+.workout-list-container {
+    width: 300px; /* Fixed width for workout list */
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
 
 h1 {
     font-size: 24px;
     margin-bottom: 10px;
+    text-align: left;
 }
 
+/* === Workout List Styling === */
 .workout-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background-color: #444; /* Background for the workout list */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Add shadow for separation */
 }
 
 .workout-item {
@@ -49,28 +67,30 @@ h1 {
     background-color: #e0e0e0;
     border: none;
     border-radius: 5px;
+    padding: 0 10px;
+    color: #333;
+    font-size: 16px;
 }
 
-.check-btn, .delete-btn {
+/* === Button Styling === */
+.delete-btn {
     width: 40px;
     height: 30px;
     border: none;
+    background-color: #fff;
+    color: red;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
 }
 
-.check-btn {
-    background-color: #e0e0e0;
-    color: green;
+.delete-btn:hover {
+    background-color: #ffcccc;
 }
 
-.delete-btn {
-    background-color: #fff;
-    color: red;
-}
-
+/* === Navigation Buttons Styling === */
 .navigation {
     display: flex;
     justify-content: space-between;
@@ -85,4 +105,21 @@ h1 {
     color: black;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.nav-btn:hover {
+    background-color: #cccccc;
+}
+
+/* === Responsive Adjustments === */
+@media (max-width: 768px) {
+    .content-container {
+        margin-left: 0; /* Adjust for smaller screens */
+        flex-direction: column;
+    }
+
+    .workout-list-container {
+        width: 100%; /* Adjust width for responsiveness */
+    }
 }
