@@ -17,7 +17,8 @@
         return value == 1 ? durationType.substring(0, durationType.length() - 1) : durationType;
     }
 %>
-
+<jsp:include page="../common/verticalNavBar.jsp" />
+<div class="main-content">
 <div class="container">
     <div class="header">
         <h1>Membership Plans Management</h1>
@@ -176,5 +177,6 @@
         }
     }
 </script>
+</div>
 </body>
 </html>
