@@ -44,5 +44,6 @@
 </div>
 
 <!-- JavaScript code added directly to the HTML file -->
-<script src="<%= request.getContextPath() %>/js/navbar.js"></script></body>
+<script src="<%= request.getContextPath() %>/js/loggedNavbar.js"></script>
+</body>
 </html>
