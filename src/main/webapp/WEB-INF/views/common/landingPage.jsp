@@ -13,20 +13,24 @@
     <title>Landing Page</title>
 </head>
 <body>
-<div class="container" id="home">
-    <img src="/images/image1.1.jpg" alt="Logo" class="logo">
-    <h1 >FOCUS GAIN ATTAIN</h1>
-    <!-- Added Button -->
-    <a href="testView?page=page1" class="cta-button">JOIN NOW</a>
-</div>
+    <div class="container" id="home">
+        <img src="/images/image1.1.jpg" alt="Logo" class="logo">
+        <h1 >FOCUS GAIN ATTAIN</h1>
+        <!-- Added Button -->
+        <a href="testView?page=page1" class="cta-button">JOIN NOW</a>
+    </div>
 <div class="carousel-container" id="carousel1">
-    <h2>WHY CHOOSE US ?</h2>
+    <h2><u>WHY CHOOSE US ?</u></h2>
+    </br>
+
     <div class="carousel">
         <button class="carousel-btn prev-btn">&#10094;</button>
         <div class="carousel-track-container">
             <ul class="carousel-track">
                 <li class="carousel-slide"><div class="card"><img src="/images/gymimg1.jpg" alt="Card Image 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></div></li>
                 <li class="carousel-slide"><div class="card"><img src="/images/gymimg2.jpg" alt="Card Image 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></div></li>
+                <li class="carousel-slide"><div class="card"><img src="/images/gymimg3.jpg" alt="Card Image 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></div></li>
+                <li class="carousel-slide"><div class="card"><img src="/images/gymimg3.jpg" alt="Card Image 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></div></li>
                 <li class="carousel-slide"><div class="card"><img src="/images/gymimg3.jpg" alt="Card Image 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></div></li>
                 <li class="carousel-slide"><div class="card"><img src="/images/gymimg3.jpg" alt="Card Image 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></div></li>
             </ul>
@@ -39,7 +43,7 @@
 </div>
 
 <div class="about-section">
-    <h1 >ABOUT OUR GYM</h1>
+    <h1 ><u>ABOUT OUR GYM</u></h1>
 
     <p class="intro-text">
         Lifetime Fitness is a well-maintained gym located in Thalawathugoda. With our state-of-the-art equipment,
@@ -71,7 +75,7 @@
 </div>
 
 <div class="services-section">
-    <h1 class="service-h1">Services</h1>
+    <h1 class="service-h1"><u>Services</u></h1>
     <div class="service">
         <img src="/images/one-to-one.png" alt="One to One Training" class="service-icon">
         <div class="service-details">
@@ -96,7 +100,8 @@
 </div>
 
 <div class="carousel-container" id="carousel2">
-    <h2>OUR COACHERS</h2>
+    <h2><u>OUR COACHERS</u></h2>
+    </br>
     <div class="carousel">
         <button class="carousel-btn prev-btn">&#10094;</button>
         <div class="carousel-track-container">
@@ -105,6 +110,8 @@
                 <li class="carousel-slide"><div class="card"><div class="card"><img src="/images/coach2.jpg" alt="Card Image 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></div></li>
                 <li class="carousel-slide"><div class="card"><div class="card"><img src="/images/coach3.jpg" alt="Card Image 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></div></li>
                 <li class="carousel-slide"><div class="card"><div class="card"><img src="/images/coach3.jpg" alt="Card Image 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></div></li>
+                <li class="carousel-slide"><div class="card"><div class="card"><img src="/images/coach1.jpg" alt="Card Image 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></div></li>
+                <li class="carousel-slide"><div class="card"><div class="card"><img src="/images/coach1.jpg" alt="Card Image 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"></div></li>
 
             </ul>
         </div>
@@ -115,7 +122,7 @@
     </div>
 </div>
 <section class="pricing-section">
-    <h1 >MEMBER PRICING</h1>
+    <h1><u>MEMBER PRICING</u></h1>
     <div class="pricing-container">
         <div class="pricing-card platinum">
             <div class="card-header">
