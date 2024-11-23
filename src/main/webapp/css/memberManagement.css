@@ -1,4 +1,4 @@
-/* Base Styles */
+/* General Styles */
 * {
     margin: 0;
     padding: 0;
@@ -9,52 +9,39 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #1a1a1a;
     color: #f0f0f0;
-}
-/*
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-*/
-/* Header */
-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Main Layout */
+.main-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.navbar-container {
+    flex: 0 0 250px; /* Fixed width for the navbar */
     background-color: #0a0a0a;
-    padding: 1rem 2rem;
-    margin-bottom: 2rem;
+    overflow-y: auto;
 }
 
-.logo-container .logo {
-    height: 40px;
-}
-
-nav ul {
+.content-container {
+    flex-grow: 1;
+    padding: 2rem;
     display: flex;
-    list-style: none;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
 }
 
-nav ul li {
-    margin-left: 1.5rem;
-}
-
-nav ul li a {
-    color: #f0f0f0;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-nav ul li a:hover,
-nav ul li a.active {
-    color: #6ee7b7;
-}
-
-/* Main Content */
+/* Page Title */
 .page-title {
     font-size: 2rem;
     margin-bottom: 2rem;
+    color: #f0f0f0;
+    text-align: center;
 }
 
 /* Search and Filters */
@@ -66,6 +53,7 @@ nav ul li a.active {
     padding: 1rem;
     border-radius: 0.5rem;
     margin-bottom: 2rem;
+    width: 100%;
 }
 
 .search-container {
@@ -126,11 +114,14 @@ nav ul li a.active {
     background-color: #0a0a0a;
     border-radius: 0.5rem;
     padding: 1rem;
+    width: 100%;
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    overflow-x: auto;
 }
 
 th, td {
@@ -197,21 +188,12 @@ th {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    .container {
-        padding: 1rem;
-    }
-
-    header {
+    .main-container {
         flex-direction: column;
+    }
+
+    .content-container {
         padding: 1rem;
-    }
-
-    nav ul {
-        margin-top: 1rem;
-    }
-
-    nav ul li {
-        margin-left: 1rem;
     }
 
     .search-filters {
@@ -240,4 +222,26 @@ th {
     .actions {
         flex-wrap: wrap;
     }
+}
+
+
+/* Text color for specific status types */
+.status.active {
+    background-color: #22c55e;
+    color: #ffffff; /* White text for active status */
+}
+
+.status.suspended {
+    background-color: #fbbf24;
+    color: #0a0a0a; /* Dark text for suspended status */
+}
+
+.status.cancelled {
+    background-color: #dc2626;
+    color: #f0f0f0; /* White text for cancelled status */
+}
+
+/* Change text color for all other td elements */
+td {
+    color: #f0f0f0; /* White text color for normal cells */
 }
