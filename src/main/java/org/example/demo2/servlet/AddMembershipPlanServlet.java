@@ -62,17 +62,6 @@ public class AddMembershipPlanServlet extends HttpServlet {
         Map<String, Object> jsonResponse = new HashMap<>();
 
         try {
-            // Debug incoming parameters
-            System.out.println("=== RECEIVED PARAMETERS ===");
-            Enumeration<String> paramNames = request.getParameterNames();
-            while (paramNames.hasMoreElements()) {
-                String name = paramNames.nextElement();
-                String[] values = request.getParameterValues(name);
-                for (String value : values) {
-                    System.out.println(name + ": " + value);
-                }
-            }
-
             // Get and validate basic plan details
             String planName = request.getParameter("planName");
             String startTimeStr = request.getParameter("startTime");
@@ -81,6 +70,14 @@ public class AddMembershipPlanServlet extends HttpServlet {
 
             if (planName == null || startTimeStr == null || endTimeStr == null || pricingType == null) {
                 throw new IllegalArgumentException("Missing required fields");
+            }
+
+            // Check if plan name already exists
+            if (membershipPlanDAO.isPlanNameExists(planName)) {
+                jsonResponse.put("success", false);
+                jsonResponse.put("message", "A plan with this name already exists. Please choose a different name.");
+                out.write(gson.toJson(jsonResponse));
+                return;
             }
 
             // Create membership plan

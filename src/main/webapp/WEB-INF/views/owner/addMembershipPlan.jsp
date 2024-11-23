@@ -24,11 +24,11 @@
                     <div style="display: flex; gap: 20px;">
                         <div style="flex: 1;">
                             <label>Start Time</label>
-                            <input type="time" id="startTime" name="startTime" value="04:00" required>
+                            <input type="time" id="startTime" name="startTime" required>
                         </div>
                         <div style="flex: 1;">
                             <label>End Time</label>
-                            <input type="time" id="endTime" name="endTime" value="10:00" required>
+                            <input type="time" id="endTime" name="endTime" required>
                         </div>
                     </div>
                 </div>
@@ -127,6 +127,11 @@
         const uniformPricing = document.getElementById('uniformPricing');
         const categoryPricing = document.getElementById('categoryPricing');
 
+        // Remove required attribute from all pricing inputs first
+        document.querySelectorAll('[name^="uniformPrice"], [name^="categoryPrice"]').forEach(input => {
+            input.removeAttribute('required');
+        });
+
         if (type === 'uniform') {
             uniformPricing.style.display = 'block';
             categoryPricing.style.display = 'none';
@@ -144,8 +149,11 @@
         })).filter(duration => duration.value && duration.type);
     }
 
+
     function updateUniformPricing(durations) {
         const container = document.getElementById('uniformPriceContainer');
+        const isUniform = document.querySelector('input[name="pricingType"]:checked').value === 'uniform';
+
         container.innerHTML = durations.map((duration, index) => `
         <div class="price-section">
             <label>Price for ${duration.value} ${duration.type}</label>
@@ -153,7 +161,7 @@
                    name="uniformPrice"
                    step="0.01"
                    min="0"
-                   required
+                   ${isUniform ? 'required' : ''}
                    placeholder="Enter price">
         </div>
     `).join('');
@@ -161,6 +169,8 @@
 
     function updateCategoryPricing(durations) {
         const container = document.getElementById('categoryPriceContainer');
+        const isCategory = document.querySelector('input[name="pricingType"]:checked').value === 'category';
+
         container.innerHTML = durations.map((duration, index) => `
         <div class="category-price-section">
             <h4>Pricing for ${duration.value} ${duration.type}</h4>
@@ -171,7 +181,7 @@
                            name="categoryPriceGents"
                            step="0.01"
                            min="0"
-                           required
+                           ${isCategory ? 'required' : ''}
                            placeholder="Enter gents price">
                 </div>
                 <div class="price-input">
@@ -180,7 +190,7 @@
                            name="categoryPriceLadies"
                            step="0.01"
                            min="0"
-                           required
+                           ${isCategory ? 'required' : ''}
                            placeholder="Enter ladies price">
                 </div>
                 <div class="price-input">
@@ -189,7 +199,7 @@
                            name="categoryPriceCouple"
                            step="0.01"
                            min="0"
-                           required
+                           ${isCategory ? 'required' : ''}
                            placeholder="Enter couple price">
                 </div>
             </div>
@@ -230,7 +240,20 @@
             return false;
         }
 
-        return true;
+        const pricingType = document.querySelector('input[name="pricingType"]:checked').value;
+        const visiblePricingInputs = pricingType === 'uniform'
+            ? document.querySelectorAll('#uniformPricing [name="uniformPrice"]:not([disabled])')
+            : document.querySelectorAll('#categoryPricing input[type="number"]:not([disabled])');
+
+        let valid = true;
+        visiblePricingInputs.forEach(input => {
+            if (!input.value || input.value <= 0) {
+                showError(`Please enter a valid price for all ${pricingType} pricing fields`);
+                valid = false;
+            }
+        });
+
+        return valid;
     }
 
     function cancelForm() {
@@ -252,38 +275,32 @@
         formData.append('planName', document.getElementById('planName').value);
         formData.append('startTime', document.getElementById('startTime').value);
         formData.append('endTime', document.getElementById('endTime').value);
-        formData.append('pricingType', document.querySelector('input[name="pricingType"]:checked').value);
+
+        const pricingType = document.querySelector('input[name="pricingType"]:checked').value;
+        formData.append('pricingType', pricingType);
 
         // Get all duration options
-        document.querySelectorAll('.duration-option').forEach((duration) => {
+        const durations = document.querySelectorAll('.duration-option');
+        durations.forEach((duration, index) => {
             formData.append('durationValue', duration.querySelector('[name="durationValue"]').value);
             formData.append('durationType', duration.querySelector('[name="durationType"]').value);
-        });
 
-        // Add pricing based on type
-        const pricingType = document.querySelector('input[name="pricingType"]:checked').value;
-        if (pricingType === 'uniform') {
-            const uniformPrices = document.querySelectorAll('[name="uniformPrice"]');
-            uniformPrices.forEach(input => {
-                if (input.value) {
-                    formData.append('uniformPrice', input.value);
+            // Add pricing based on type
+            if (pricingType === 'uniform') {
+                const uniformPrice = document.querySelectorAll('[name="uniformPrice"]')[index];
+                if (uniformPrice && uniformPrice.value) {
+                    formData.append('uniformPrice', uniformPrice.value);
                 }
-            });
-        } else {
-            const gentsInputs = document.querySelectorAll('[name="categoryPriceGents"]');
-            const ladiesInputs = document.querySelectorAll('[name="categoryPriceLadies"]');
-            const coupleInputs = document.querySelectorAll('[name="categoryPriceCouple"]');
+            } else {
+                const gentsPrice = document.querySelectorAll('[name="categoryPriceGents"]')[index];
+                const ladiesPrice = document.querySelectorAll('[name="categoryPriceLadies"]')[index];
+                const couplePrice = document.querySelectorAll('[name="categoryPriceCouple"]')[index];
 
-            gentsInputs.forEach(input => {
-                if (input.value) formData.append('categoryPriceGents', input.value);
-            });
-            ladiesInputs.forEach(input => {
-                if (input.value) formData.append('categoryPriceLadies', input.value);
-            });
-            coupleInputs.forEach(input => {
-                if (input.value) formData.append('categoryPriceCouple', input.value);
-            });
-        }
+                if (gentsPrice && gentsPrice.value) formData.append('categoryPriceGents', gentsPrice.value);
+                if (ladiesPrice && ladiesPrice.value) formData.append('categoryPriceLadies', ladiesPrice.value);
+                if (couplePrice && couplePrice.value) formData.append('categoryPriceCouple', couplePrice.value);
+            }
+        });
 
         try {
             const response = await fetch('${pageContext.request.contextPath}/membership/add', {

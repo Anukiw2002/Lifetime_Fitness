@@ -173,6 +173,55 @@ public class MembershipPlanDAO {
         }
     }
 
+    public boolean isPlanNameExists(String planName) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "SELECT COUNT(*) FROM membership_plans WHERE plan_name = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, planName);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+                return false;
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public MembershipPlan findByPlanName(String planName) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "SELECT * FROM membership_plans WHERE plan_name = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, planName);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    MembershipPlan plan = new MembershipPlan();
+                    plan.setPlanId(rs.getLong("plan_id"));
+                    plan.setPlanName(rs.getString("plan_name"));
+                    plan.setStartTime(rs.getTime("start_time").toLocalTime());
+                    plan.setEndTime(rs.getTime("end_time").toLocalTime());
+                    plan.setPricingType(rs.getString("pricing_type"));
+                    return plan;
+                }
+            }
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
     public void updateStatus(Long planId, String status) throws SQLException {
         Connection connection = null;
         try {
