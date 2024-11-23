@@ -1,63 +1,93 @@
-/* Set a dark background */
+/* === Global Body Styling === */
 body {
-    background-color: #333;
-    color: white;
-    font-family: Arial, sans-serif;
+    background-color: #333; /* Dark background */
+    color: white; /* Text color */
+    font-family: Arial, sans-serif; /* Font family */
     font-size: large;
+    margin: 0; /* Remove default margins */
     display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 200vh;
-    margin: 0;
+    height: 100vh; /* Full viewport height */
 }
 
-/* Container for centering content */
-.container {
+/* === Navbar Container Styling === */
+.navbar-container {
+    width: 250px; /* Fixed width for navbar */
+    background-color: #222; /* Slightly lighter than the body */
+    height: 100%; /* Full height */
+    position: fixed; /* Keep navbar fixed */
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Add shadow to separate from main content */
 }
 
-.main-container {
+/* === Main Content Container === */
+.content-container {
     flex: 1;
-    margin-left: 250px; /* Should match navbar width */
-    width: calc(100% - 250px);
-    min-height: 100vh;
-    transition: margin-left 0.3s ease-in-out;
-    position: center;
-    z-index: 1;
+    margin-left: 250px; /* Matches the navbar width */
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Full height */
 }
 
-/* Label styling */
+/* === Label Styling === */
 .label {
-    margin-bottom: 5px;
-    font-size: 16px;
+    margin-bottom: 10px;
+    font-size: 1.2rem; /* Larger font size for emphasis */
+    color: #fff;
 }
 
-/* Dropdown styling */
-.dropdown {
-    width: 200px;
-    padding: 8px;
-    font-size: 16px;
-    background-color: #333;
+/* === Search Bar Styling === */
+.search-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #444; /* Background for the search section */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Add shadow for elevation */
+}
+
+.search-input {
+    padding: 10px;
+    width: 300px; /* Fixed width for consistency */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #555; /* Match background theme */
     color: #fff;
-    border: 1px solid #007bff;
-    border-radius: 4px;
-    appearance: none; /* Removes default arrow in some browsers */
+}
+
+.search-input::placeholder {
+    color: #bbb; /* Placeholder text color */
+}
+
+.search-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff; /* Button background */
+    color: white; /* Button text color */
+    font-size: 1rem;
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Smooth hover effect */
 }
 
-/* Style for the dropdown options */
-.dropdown option {
-    background-color: #333;
-    color: #fff;
+.search-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
 }
 
-/* Custom arrow */
-.dropdown::after {
-    content: "▼";
-    font-size: 12px;
-    position: absolute;
-    right: 10px;
+/* === Responsive Adjustments === */
+@media (max-width: 768px) {
+    .search-input {
+        width: 90%; /* Adjust width for smaller screens */
+    }
+
+    .content-container {
+        margin-left: 0; /* Remove margin for smaller screens */
+        flex-direction: column; /* Stack content */
+        padding: 10px;
+    }
 }

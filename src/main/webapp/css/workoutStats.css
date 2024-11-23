@@ -1,20 +1,41 @@
+/* === Global Styling === */
 body {
     background-color: #333;
     color: #fff;
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
+    display: flex;
+    justify-content: flex-start; /* Align to the left */
+    align-items: flex-start;    /* Align to the top */
+    height: 100vh;
 }
 
-.container {
+/* === Layout Containers === */
+.layout-container {
     display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.navbar-container {
+    width: 250px; /* Fixed width for navbar */
+    height: 100vh; /* Full height */
+    background-color: #222; /* Darker background for navbar */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Shadow for separation */
+    position: fixed;
+}
+
+.workout-stats-container {
+    margin-left: 250px; /* Offset for navbar width */
+    flex: 1; /* Take up remaining space */
     flex-direction: column;
+    align-items: flex-start; /* Align elements to the left */
+    justify-content: center; /* Center vertically */
+    padding: 20px;
     gap: 20px;
 }
 
+/* === Input Groups === */
 .row {
     display: flex;
     justify-content: space-between;
@@ -24,7 +45,7 @@ body {
 .input-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start; /* Align labels and inputs to the left */
 }
 
 label {
@@ -33,10 +54,27 @@ label {
 }
 
 input {
-    width: 120px;
+    width: 150px;
     height: 40px;
     background-color: #d3d3d3;
     border: none;
     border-radius: 5px;
     text-align: center;
+}
+
+/* === Responsive Design === */
+@media (max-width: 768px) {
+    .workout-stats-container {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    input {
+        width: 100%; /* Full width on smaller screens */
+    }
 }
