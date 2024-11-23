@@ -181,7 +181,6 @@
                            name="categoryPriceGents"
                            step="0.01"
                            min="0"
-                           ${isCategory ? 'required' : ''}
                            placeholder="Enter gents price">
                 </div>
                 <div class="price-input">
@@ -190,7 +189,6 @@
                            name="categoryPriceLadies"
                            step="0.01"
                            min="0"
-                           ${isCategory ? 'required' : ''}
                            placeholder="Enter ladies price">
                 </div>
                 <div class="price-input">
@@ -199,7 +197,6 @@
                            name="categoryPriceCouple"
                            step="0.01"
                            min="0"
-                           ${isCategory ? 'required' : ''}
                            placeholder="Enter couple price">
                 </div>
             </div>
@@ -254,20 +251,50 @@
         }
 
         const pricingType = document.querySelector('input[name="pricingType"]:checked').value;
-        const visiblePricingInputs = pricingType === 'uniform'
-            ? document.querySelectorAll('#uniformPricing [name="uniformPrice"]:not([disabled])')
-            : document.querySelectorAll('#categoryPricing input[type="number"]:not([disabled])');
 
-        let valid = true;
-        visiblePricingInputs.forEach(input => {
-            if (!input.value || input.value <= 0) {
-                showError(`Please enter a valid price for all ${pricingType} pricing fields`);
-                valid = false;
-            }
-        });
-
-        return valid;
+        if (pricingType === 'uniform') {
+            // Validate uniform pricing
+            const uniformPrices = document.querySelectorAll('#uniformPricing [name="uniformPrice"]:not([disabled])');
+            let valid = true;
+            uniformPrices.forEach(input => {
+                if (!input.value || input.value <= 0) {
+                    showError('Please enter a valid price for uniform pricing');
+                    valid = false;
+                }
+            });
+            return valid;
+        } else {
+            // Validate category pricing
+            return validateCategoryPricing();
+        }
     }
+
+    function validateCategoryPricing() {
+        const categoryPriceSections = document.querySelectorAll('.category-price-section');
+
+        for (const section of categoryPriceSections) {
+            const gentsPrice = section.querySelector('[name="categoryPriceGents"]').value;
+            const ladiesPrice = section.querySelector('[name="categoryPriceLadies"]').value;
+            const couplePrice = section.querySelector('[name="categoryPriceCouple"]').value;
+
+            // Check if at least one price is entered for this duration
+            if (!gentsPrice && !ladiesPrice && !couplePrice) {
+                showError('Please enter at least one category price (Gents, Ladies, or Couple) for each duration');
+                return false;
+            }
+
+            // Validate that entered prices are positive numbers
+            if ((gentsPrice && gentsPrice <= 0) ||
+                (ladiesPrice && ladiesPrice <= 0) ||
+                (couplePrice && couplePrice <= 0)) {
+                showError('All entered prices must be greater than 0');
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     function cancelForm() {
         if (confirm('Are you sure you want to cancel? All entered data will be lost.')) {
