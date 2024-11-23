@@ -234,6 +234,19 @@
             return false;
         }
 
+        const startTime = document.getElementById('startTime').value;
+        const endTime = document.getElementById('endTime').value;
+
+        if (!startTime || !endTime) {
+            showError('Please select both start and end times');
+            return false;
+        }
+
+        if (startTime >= endTime) {
+            showError('End time must be after start time');
+            return false;
+        }
+
         const durations = document.querySelectorAll('.duration-option');
         if (durations.length === 0) {
             showError('Please add at least one duration option');
@@ -321,9 +334,27 @@
         }
     });
 
+    function validateTime() {
+        const startTime = document.getElementById('startTime').value;
+        const endTime = document.getElementById('endTime').value;
+
+        if (startTime && endTime) {
+            if (startTime >= endTime) {
+                showError('End time must be after start time');
+                document.getElementById('endTime').setCustomValidity('End time must be after start time');
+                return false;
+            } else {
+                document.getElementById('endTime').setCustomValidity('');
+            }
+        }
+        return true;
+    }
+
     // Initialize the form with one duration option
     document.addEventListener('DOMContentLoaded', function() {
         addDuration();
+        document.getElementById('startTime').addEventListener('change', validateTime);
+        document.getElementById('endTime').addEventListener('change', validateTime);
     });
 </script>
 </body>

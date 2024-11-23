@@ -215,6 +215,10 @@ button[type="button"]:hover {
     gap: 1rem;
 }
 
+input[type="time"]:invalid {
+    border-color: red;
+}
+
 @media (max-width: 768px) {
     .main-content {
         margin-left: 0;
