@@ -47,8 +47,6 @@ public class ReportServlet extends HttpServlet {
         double fatPercentage = parseDouble(request.getParameter("fat"));
         double bmr = parseDouble(request.getParameter("bmr"));
         String goal = request.getParameter("goal");
-        String warmUp = request.getParameter("warm_up");
-        String flexibility = request.getParameter("flexibility");
         String cardio = request.getParameter("cardio");
         String remarks = request.getParameter("remarks");
 
@@ -72,13 +70,17 @@ public class ReportServlet extends HttpServlet {
         }
 
         try (Connection conn = DBConnection.getConnection()) {
+            if (conn != null) {
+                System.out.println("Database connection successful!");
+            }
+
             conn.setAutoCommit(false);
 
             try {
                 // Insert report
                 String insertReportQuery = "INSERT INTO user_reports (name, age, program_no, starting_date, expire_date, frequency, "
                         + "times_per_week, max_heart_rate, bpm_65, bpm_75, bpm_85, waist_circumference, body_weight, height, "
-                        + "fat_percentage, bmr, goal, warm_up, flexibility, cardio, remarks, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        + "fat_percentage, bmr, goal, cardio, remarks, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement pstmt = conn.prepareStatement(insertReportQuery, Statement.RETURN_GENERATED_KEYS)) {
                     pstmt.setString(1, name);
                     pstmt.setInt(2, age);
@@ -97,11 +99,9 @@ public class ReportServlet extends HttpServlet {
                     pstmt.setDouble(15, fatPercentage);
                     pstmt.setDouble(16, bmr);
                     pstmt.setString(17, goal);
-                    pstmt.setString(18, warmUp);
-                    pstmt.setString(19, flexibility);
-                    pstmt.setString(20, cardio);
-                    pstmt.setString(21, remarks);
-                    pstmt.setString(22, userEmail);
+                    pstmt.setString(18, cardio);
+                    pstmt.setString(19, remarks);
+                    pstmt.setString(20, userEmail);
 
                     pstmt.executeUpdate();
 
@@ -109,6 +109,7 @@ public class ReportServlet extends HttpServlet {
                     int reportId = 0;
                     if (generatedKeys.next()) {
                         reportId = generatedKeys.getInt(1);
+                        System.out.println("Inserted report with ID: " + reportId);
                     }
 
                     // Insert exercises
@@ -124,19 +125,23 @@ public class ReportServlet extends HttpServlet {
                             exerciseStmt.setDouble(7, weights.get(j));
                             exerciseStmt.setString(8, userEmail);
                             exerciseStmt.addBatch();
+                            System.out.println("Adding exercise: " + exerciseNames.get(j));
                         }
                         exerciseStmt.executeBatch();
                     }
                 }
 
                 conn.commit();
+                System.out.println("Report and exercises inserted successfully!");
                 request.setAttribute("message", "User report submitted successfully!");
                 request.getRequestDispatcher("/jsp/reportConfirmation.jsp").forward(request, response);
             } catch (SQLException e) {
                 conn.rollback();
+                System.err.println("Transaction rolled back due to: " + e.getMessage());
                 throw e;
             }
         } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
             e.printStackTrace();
         }
     }

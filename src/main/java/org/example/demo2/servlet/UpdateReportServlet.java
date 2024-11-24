@@ -38,7 +38,6 @@ public class UpdateReportServlet extends HttpServlet {
             Map<String, Object> reportDetails = new HashMap<>();
 
             if(reportRs.next()){
-                reportDetails.put("email", email);
                 reportDetails.put("name", reportRs.getString("name"));
                 reportDetails.put("age", reportRs.getInt("age"));
                 reportDetails.put("program_no", reportRs.getString("program_no"));
@@ -60,6 +59,7 @@ public class UpdateReportServlet extends HttpServlet {
                 reportDetails.put("flexibility", reportRs.getString("flexibility"));
                 reportDetails.put("cardio", reportRs.getString("cardio"));
                 reportDetails.put("remarks", reportRs.getString("remarks"));
+                reportDetails.put("email", email);
 
             }
 

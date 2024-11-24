@@ -1,10 +1,10 @@
-// Function to validate email
+// Validate email format
 function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
-// Function to handle adding and redirecting
+// Add and Redirect
 function addAndRedirect() {
     const emailInput = document.getElementById('new-email-input');
     const email = emailInput.value;
@@ -14,34 +14,51 @@ function addAndRedirect() {
         return;
     }
 
-    fetch(`${window.location.origin}/CheckEmailExistence`, {
+    console.log("Sending email to CheckUser:", email); // Debugging log
+
+    fetch(`${window.location.origin}/CheckUser`, {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
         body: `email=${encodeURIComponent(email)}`
     })
-        .then(response => response.json())
+        .then(response => {
+            console.log("Received response:", response); // Debugging log
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
         .then(data => {
             console.log("Server Response:", data); // Debugging log
 
-            if (data.status === "exists") {
-                alert("This email is already registered. You cannot add another report.");
-            } else if (data.status === "not_exists") {
-                alert("Email verified successfully!");
-                window.location.href = `${window.location.origin}/processReport1`;
-            } else {
-                alert("An error occurred. Please try again.");
+            switch (data.status) {
+                case "not_in_users":
+                    alert(data.message || "This email is not registered in the system.");
+                    break;
+                case "already_approved":
+                    alert(data.message || "Report is already added for this email. Please try editing it.");
+                    break;
+                case "not_approved":
+                    alert(data.message || "Email is verified successfully!");
+                    if (data.redirectUrl) {
+                        window.location.href = `${window.location.origin}${data.redirectUrl}`;
+                    }
+                    break;
+                default:
+                    alert(data.message || "An unexpected error occurred. Please try again.");
             }
         })
         .catch(error => {
-            console.error("Error:", error);
+            console.error("Error occurred:", error); // Debugging log
             alert("An error occurred. Please try again.");
         });
 }
 
 
-// Function to filter table rows based on search input
+
+// Filter table
 function filterTable() {
     const input = document.getElementById("search-email-input").value.toLowerCase();
     const rows = document.querySelectorAll("#reports-table tbody tr");
@@ -52,67 +69,33 @@ function filterTable() {
     });
 }
 
-// Function to handle the search button click
+// Search Email
 function searchEmail() {
     const input = document.getElementById("search-email-input");
     if (input.value.trim() === "") {
         alert("Please enter an email to search.");
         return;
     }
-    filterTable(); // Reuse the filtering logic
+    filterTable();
 }
 
-// Function to fetch approved emails and update the table dynamically
-function fetchApprovedEmails() {
-    fetch(`${window.location.origin}/first`)
-        .then(response => response.json())
-        .then(data => {
-            if (Array.isArray(data.approvedEmails)) {
-                const tableBody = document.querySelector("#reports-table tbody");
-                tableBody.innerHTML = ""; // Clear existing rows
-
-                data.approvedEmails.forEach(email => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${email}</td>
-                        <td>
-                            <div class="button-container">
-                                <button class="table-button view">View</button>
-                                <button class="table-button update">Update</button>
-                                <button class="table-button delete">Delete</button>
-                            </div>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching emails:", error);
-            alert("Failed to fetch approved emails. Please try again.");
-        });
-}
-
-// Function to delete an email from the approved list (optional, for delete button)
-function deleteEmail(email) {
-    fetch(`${window.location.origin}/DeleteEmail`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: `email=${encodeURIComponent(email)}`
+fetch(`${window.location.origin}/saveUpdatedReport`, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: new URLSearchParams(formData) // formData contains all form fields
+})
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            alert(data.message || "Report updated successfully!");
+            window.location.reload(); // Optionally reload or redirect
+        } else {
+            alert(data.message || "An error occurred while updating the report.");
+        }
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                alert("Email deleted successfully!");
-                fetchApprovedEmails(); // Refresh the table
-            } else {
-                alert("Failed to delete email. Please try again.");
-            }
-        })
-        .catch(error => {
-            console.error("Error deleting email:", error);
-            alert("An error occurred. Please try again.");
-        });
-}
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An unexpected error occurred. Please try again.");
+    });

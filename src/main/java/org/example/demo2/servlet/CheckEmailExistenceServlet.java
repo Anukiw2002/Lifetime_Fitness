@@ -20,36 +20,49 @@ public class CheckEmailExistenceServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
 
-        System.out.println("Received email: " + email); // Debug log
-
         if (email == null || email.trim().isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email is required.");
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\": \"error\", \"message\": \"Email is required.\"}");
             return;
         }
 
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-
         try (Connection conn = DBConnection.getConnection()) {
-            // Check if email exists in the approved_emails table
-            String query = "SELECT 1 FROM approved_emails WHERE email = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                stmt.setString(1, email);
-                ResultSet rs = stmt.executeQuery();
+            // Check in `users` table
+            String userQuery = "SELECT 1 FROM users WHERE email = ?";
+            try (PreparedStatement userStmt = conn.prepareStatement(userQuery)) {
+                userStmt.setString(1, email);
+                ResultSet userRs = userStmt.executeQuery();
 
-                if (rs.next()) {
-                    // Email found in approved_emails table
-                    System.out.println("Email exists in approved_emails: " + email); // Debug log
-                    out.write("{\"status\": \"exists\"}");
-                } else {
-                    // Email not found in approved_emails table
-                    System.out.println("Email does not exist in approved_emails: " + email); // Debug log
-                    out.write("{\"status\": \"not_exists\"}");
+                if (!userRs.next()) {
+                    // Email not in `users`
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"status\": \"not_in_users\", \"message\": \"This email is not registered in the system.\"}");
+                    return;
                 }
             }
+
+            // Check in `approved_emails` table
+            String approvedQuery = "SELECT 1 FROM approved_emails WHERE email = ?";
+            try (PreparedStatement approvedStmt = conn.prepareStatement(approvedQuery)) {
+                approvedStmt.setString(1, email);
+                ResultSet approvedRs = approvedStmt.executeQuery();
+
+                if (approvedRs.next()) {
+                    // Email in `approved_emails`
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"status\": \"already_approved\", \"message\": \"Report is already added.\"}");
+                    return;
+                }
+            }
+
+            // Email can be added
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\": \"not_approved\", \"message\": \"Email is verified and can be added.\"}");
         } catch (Exception e) {
             e.printStackTrace();
-            out.write("{\"status\": \"error\"}");
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\": \"error\", \"message\": \"Database error occurred.\"}");
         }
     }
 }
+
