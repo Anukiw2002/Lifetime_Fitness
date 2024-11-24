@@ -104,7 +104,6 @@ body {
     background-color: #8a0039;
 }
 
-
 /* Video and Blog Sections */
 .video-section, .blog-section {
     display: flex;
@@ -120,13 +119,15 @@ body {
     height: 150px;
     background-color: #444;
     display: flex;
+    flex-direction: column; /* To stack content and buttons */
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     border-radius: 8px;
     color: #fff;
     font-size: 1.2em;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
 }
 
 /* Hover Effect for Video and Blog Boxes */
@@ -134,6 +135,34 @@ body {
     background-color: #808080;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+/* Edit and Delete Button Container */
+.video-box-buttons, .blog-box-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Ensure buttons span the width of the box */
+    margin-top: 10px;
+}
+
+/* Edit and Delete Button Styles */
+.edit-button, .delete-button {
+    background-color: #8a0039;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #b3004b;
+}
+
+.delete-button:hover {
+    background-color: #660029;
 }
 
 /* Adjustments for Smaller Screens */

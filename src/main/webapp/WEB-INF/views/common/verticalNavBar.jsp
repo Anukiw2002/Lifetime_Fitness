@@ -174,10 +174,7 @@
         <a href="#workout" class="nav-link"><i class="fas fa-dumbbell icon"></i>Workout</a>
         <a href="#notifications" class="nav-link"><i class="fas fa-bell icon"></i>Notifications</a>
         <a href="#reports" class="nav-link"><i class="fas fa-file-alt icon"></i>Reports</a>
-
-        <!-- New Buttons for Videos and Blogs -->
-        <a href="#videos" class="nav-link"><i class="fas fa-video icon"></i>Videos</a>
-        <a href="#blogs" class="nav-link"><i class="fas fa-book icon"></i>Blogs</a>
+        <a href="#content" class="nav-link"><i class="fas fa-folder-open icon"></i>Content</a>
     </div>
 
     <!-- Bottom links for Settings and Log Out -->

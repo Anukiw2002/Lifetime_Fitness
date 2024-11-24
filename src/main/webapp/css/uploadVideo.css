@@ -38,7 +38,8 @@ label {
 
 input[type="text"],
 input[type="url"],
-textarea {
+textarea,
+input[type="file"] {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -50,9 +51,15 @@ textarea {
     font-size: 1em;
 }
 
+input[type="file"] {
+    padding: 8px;
+    cursor: pointer;
+}
+
 input[type="text"]:focus,
 input[type="url"]:focus,
-textarea:focus {
+textarea:focus,
+input[type="file"]:focus {
     outline: none;
     border: 2px solid #ffffff;
 }

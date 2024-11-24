@@ -8,7 +8,7 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #2E2E2E;
-    margin-left: 560px;
+    margin-left: 80px;
 }
 
 .success-message {
@@ -18,6 +18,7 @@ body {
     background-color: #606060;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-left: 400px;
 }
 
 .success-message h1 {

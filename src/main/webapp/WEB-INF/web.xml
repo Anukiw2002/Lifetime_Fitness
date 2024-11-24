@@ -21,6 +21,46 @@
 
 
 
+    <servlet>
+        <servlet-name>UploadBlogServlet</servlet-name>
+        <servlet-class>org.example.demo2.servlet.UploadBlogServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadBlogServlet</servlet-name>
+        <url-pattern>/uploadBlog</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>GetAllBlogsServlet</servlet-name>
+        <servlet-class>org.example.demo2.servlet.GetAllBlogsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllBlogsServlet</servlet-name>
+        <url-pattern>/GetAllBlogs</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateBlogServlet</servlet-name>
+        <servlet-class>org.example.demo2.servlet.UpdateBlogServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateBlogServlet</servlet-name>
+        <url-pattern>/updateBlog</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteBlogServlet</servlet-name>
+        <servlet-class>org.example.demo2.servlet.DeleteBlogServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteBlogServlet</servlet-name>
+        <url-pattern>/deleteBlog</url-pattern>
+    </servlet-mapping>
+
+
+
+
     <!-- Static Resource Handling (CSS & Images) -->
     <!-- These can be omitted if the default servlet is handling them already. -->
     <servlet-mapping>
@@ -31,5 +71,7 @@
         <servlet-name>default</servlet-name>
         <url-pattern>/images/*</url-pattern>
     </servlet-mapping>
+
+
 
 </web-app>

@@ -12,15 +12,15 @@
 <jsp:include page="../common/verticalNavBar.jsp" />
 <div class="upload-container">
     <h2>Upload a Video</h2>
-    <form action="${pageContext.request.contextPath}/uploadVideo" method="post" class="payment-form">
+    <form action="${pageContext.request.contextPath}/uploadVideo" method="post" enctype="multipart/form-data">
         <label for="videoName">Video Name:</label>
         <input type="text" id="videoName" name="videoName" required />
 
-        <label for="videoLink">YouTube Video Link:</label>
-        <input type="url" id="videoLink" name="videoLink" placeholder="https://youtube.com/..." required />
-
         <label for="videoDescription">Description:</label>
         <textarea id="videoDescription" name="videoDescription" rows="5" required></textarea>
+
+        <label for="videoFile">Upload Video File:</label>
+        <input type="file" id="videoFile" name="videoFile" accept="video/*" required />
 
         <button type="submit" class="submit-button">Upload Video</button>
     </form>
