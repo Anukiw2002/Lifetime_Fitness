@@ -64,4 +64,20 @@ public class DurationDAO {
             }
         }
     }
+
+    public void delete(Long durationId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "DELETE FROM durations WHERE duration_id = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, durationId);
+                stmt.executeUpdate();
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }

@@ -93,4 +93,37 @@ public class CategoryPricingDAO {
             }
         }
     }
+
+    public void delete(Long categoryPricingId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "DELETE FROM category_pricing WHERE category_pricing_id = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, categoryPricingId);
+                stmt.executeUpdate();
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public void deleteByDurationId(Long durationId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "DELETE FROM category_pricing WHERE duration_id = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, durationId);
+                stmt.executeUpdate();
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
 }
