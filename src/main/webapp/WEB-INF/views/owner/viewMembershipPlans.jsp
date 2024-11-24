@@ -17,10 +17,11 @@
         return value == 1 ? durationType.substring(0, durationType.length() - 1) : durationType;
     }
 %>
-
+<jsp:include page="../common/verticalNavBar.jsp" />
+<div class="main-content">
 <div class="container">
     <div class="header">
-        <h1>Membership Plans Management</h1>
+        <h1 style="color: white;">Membership Plans Management</h1>
         <button class="add-plan-btn" onclick="window.location.href='${pageContext.request.contextPath}/membership/add'">
             <i class="fas fa-plus"></i> Add New Plan
         </button>
@@ -38,38 +39,38 @@
                         <c:choose>
                             <c:when test="${plan.pricingType eq 'uniform'}">
                                 <div class="option">
-                                    <span>Individual -
-                                        ${duration.durationValue}
-                                        <%
-                                            Object durationObj = pageContext.getAttribute("duration");
-                                            if (durationObj != null) {
-                                                java.lang.reflect.Method getDurationValueMethod = durationObj.getClass().getMethod("getDurationValue");
-                                                java.lang.reflect.Method getDurationTypeMethod = durationObj.getClass().getMethod("getDurationType");
-                                                int durationValue = (Integer) getDurationValueMethod.invoke(durationObj);
-                                                String durationType = (String) getDurationTypeMethod.invoke(durationObj);
-                                                out.print(formatDurationType(durationValue, durationType));
-                                            }
-                                        %>
-                                    </span>
-                                    <span class="price">Rs.
-                                        <fmt:formatNumber value="${duration.uniformPricing[0].price}" type="number" pattern="#,##,###"/>
-                                    </span>
+        <span style="color: white;">Individual -
+            ${duration.durationValue}
+            <%
+                Object durationObj = pageContext.getAttribute("duration");
+                if (durationObj != null) {
+                    java.lang.reflect.Method getDurationValueMethod = durationObj.getClass().getMethod("getDurationValue");
+                    java.lang.reflect.Method getDurationTypeMethod = durationObj.getClass().getMethod("getDurationType");
+                    int durationValue = (Integer) getDurationValueMethod.invoke(durationObj);
+                    String durationType = (String) getDurationTypeMethod.invoke(durationObj);
+                    out.print(formatDurationType(durationValue, durationType));
+                }
+            %>
+        </span>
+                                    <span class="price" style="color: white;">Rs.
+            <fmt:formatNumber value="${duration.uniformPricing[0].price}" type="number" pattern="#,##,###"/>
+        </span>
                                 </div>
                             </c:when>
                             <c:when test="${plan.pricingType eq 'category'}">
                                 <c:forEach var="pricing" items="${duration.categoryPricing}">
                                     <div class="option">
-                                        <span>
-                                            <c:choose>
-                                                <c:when test="${pricing.category eq 'Male'}">Gents - Annual</c:when>
-                                                <c:when test="${pricing.category eq 'Female'}">Ladies - Annual</c:when>
-                                                <c:when test="${pricing.category eq 'Couple'}">Couples - Annual</c:when>
-                                                <c:otherwise>${pricing.category} - Annual</c:otherwise>
-                                            </c:choose>
-                                        </span>
-                                        <span class="price">Rs.
-                                            <fmt:formatNumber value="${pricing.price}" type="number" pattern="#,##,###"/>
-                                        </span>
+            <span style="color: white;">
+                <c:choose>
+                    <c:when test="${pricing.category eq 'Male'}">Gents - Annual</c:when>
+                    <c:when test="${pricing.category eq 'Female'}">Ladies - Annual</c:when>
+                    <c:when test="${pricing.category eq 'Couple'}">Couples - Annual</c:when>
+                    <c:otherwise>${pricing.category} - Annual</c:otherwise>
+                </c:choose>
+            </span>
+                                        <span class="price" style="color: white;">Rs.
+                <fmt:formatNumber value="${pricing.price}" type="number" pattern="#,##,###"/>
+            </span>
                                     </div>
                                 </c:forEach>
                             </c:when>
@@ -239,5 +240,6 @@
         });
     });
 </script>
+</div>
 </body>
 </html>
