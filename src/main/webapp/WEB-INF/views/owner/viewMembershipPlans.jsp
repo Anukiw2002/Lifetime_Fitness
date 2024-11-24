@@ -100,7 +100,7 @@
 <div id="deleteModal" class="modal">
     <div class="modal-content">
         <h2 id="modalTitle"></h2>
-        <p>This plan will be archived and can be restored later if needed.</p>
+        <p>This action cannot be undone. Are you sure you want to proceed?</p>
         <div class="modal-buttons">
             <button type="button" onclick="deletePlan()" class="confirm-btn">Yes, Delete</button>
             <button type="button" onclick="closeModal()" class="cancel-btn">Cancel</button>
@@ -134,17 +134,21 @@
                     body: JSON.stringify({ planId: currentPlanId })
                 });
 
-                if (response.ok) {
+                const data = await response.json();
+
+                if (response.ok && data.status === 'success') {
                     window.location.reload();
                 } else {
-                    alert('Failed to delete the plan. Please try again.');
+                    // Show more detailed error message
+                    alert('Error: ' + (data.message || 'Failed to delete the plan. Please try again.'));
+                    console.error('Delete plan error:', data);
                 }
             } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while deleting the plan.');
+                console.error('Delete plan error:', error);
+                alert('An error occurred while deleting the plan: ' + error.message);
             }
+            closeModal();
         }
-        closeModal();
     }
 
     // Close modal when clicking outside
