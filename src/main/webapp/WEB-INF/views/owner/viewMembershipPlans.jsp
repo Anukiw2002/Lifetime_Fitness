@@ -28,7 +28,7 @@
 
     <div class="plans-grid">
         <c:forEach var="plan" items="${membershipPlans}">
-            <div class="plan-card ${plan.status eq 'INACTIVE' ? 'inactive-plan' : ''}">
+            <div class="plan-card ${plan.status == 'INACTIVE' ? 'inactive-plan' : ''}">
                 <div class="plan-header">
                     <h2>${plan.planName}</h2>
                     <p class="time-slot">${plan.startTime} to ${plan.endTime}</p>
@@ -83,8 +83,11 @@
                     <button class="delete-btn" onclick="confirmDelete('${plan.planName}', ${plan.planId})">
                         <i class="fas fa-trash"></i>
                     </button>
-                    <button class="status-btn ${plan.status eq 'INACTIVE' ? 'inactive' : 'active'}"
-                            onclick="toggleStatus(${plan.planId}, '${plan.status}')">
+                    <button
+                            class="status-btn ${plan.status eq 'INACTIVE' ? 'inactive' : 'active'}"
+                            onclick="toggleStatus(${plan.planId}, '${plan.status}', this, event)"
+                            data-plan-id="${plan.planId}"
+                            data-current-status="${plan.status}">
                             ${plan.status eq 'INACTIVE' ? 'Inactive' : 'Active'}
                     </button>
                 </div>
@@ -151,30 +154,86 @@
         }
     };
 
-    async function toggleStatus(planId, currentStatus) {
-        const newStatus = currentStatus === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+    async function toggleStatus(planId, currentStatus, buttonElement, event) {
+        // Prevent any default behavior
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        // Prevent double-clicks
+        if (buttonElement.disabled) {
+            return;
+        }
+
         try {
-            const response = await fetch('${pageContext.request.contextPath}/membership/view', {
+            // Disable the button while processing
+            buttonElement.disabled = true;
+
+            console.log(`Attempting to toggle plan ${planId} status`);
+
+            const response = await fetch(`${pageContext.request.contextPath}/membership/updateStatus`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    planId: planId,
-                    status: newStatus
+                    planId: planId
                 })
             });
 
-            if (response.ok) {
-                window.location.reload(); // Reload the same page to show updated status
+            const data = await response.json();
+            console.log('Server response:', data);
+
+            if (response.ok && data.status === 'success') {
+                // Get the new status from the response
+                const newStatus = data.newStatus;
+
+                // Get the plan card element
+                const planCard = buttonElement.closest('.plan-card');
+
+                // Update button text
+                buttonElement.textContent = newStatus === 'ACTIVE' ? 'Active' : 'Inactive';
+
+                // Update button classes
+                buttonElement.classList.remove('active', 'inactive');
+                buttonElement.classList.add(newStatus.toLowerCase());
+
+                // Update the plan card
+                if (newStatus === 'INACTIVE') {
+                    planCard.classList.add('inactive-plan');
+                } else {
+                    planCard.classList.remove('inactive-plan');
+                }
+
+                // Update the button's onclick attribute
+                buttonElement.setAttribute('onclick',
+                    `toggleStatus(${planId}, '${newStatus}', this, event)`);
+
+                console.log('UI updated successfully');
             } else {
-                alert('Failed to update plan status. Please try again.');
+                throw new Error(data.message || 'Failed to update status');
             }
         } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while updating the plan status.');
+            console.error('Error in toggleStatus:', error);
+            alert('Failed to update status: ' + error.message);
+        } finally {
+            // Re-enable the button
+            buttonElement.disabled = false;
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusButtons = document.querySelectorAll('.status-btn');
+        statusButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const planId = this.getAttribute('data-plan-id');
+                const currentStatus = this.getAttribute('data-current-status');
+                toggleStatus(planId, currentStatus, this);
+            });
+        });
+    });
 </script>
 </body>
 </html>
