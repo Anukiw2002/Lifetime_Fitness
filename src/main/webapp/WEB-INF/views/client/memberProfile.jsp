@@ -1,11 +1,10 @@
-<%@ include file="loggedNavbar.jsp" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>LIFETIME FITNESS - Member Profile</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profilePage.css">
-    <script src="${pageContext.request.contextPath}/js/navbar.js"></script>
 </head>
 <body>
 <nav id="navbar"></nav>
@@ -67,10 +66,11 @@
     </div>
 
     <div class="action-buttons">
-        <button class="edit-profile" onclick="location.href='${pageContext.request.contextPath}/client/editProfile.jsp'">Edit Profile</button>
-        <button class="view-schedule" onclick="location.href='schedule.jsp'">View Schedule</button>
-        <button class="book-class" onclick="location.href='book-class.jsp'">Book Class</button>
+        <button class="edit-profile" onclick="location.href='${pageContext.request.contextPath}/editProfile'">Edit Profile</button>
+        <button class="view-schedule" onclick="location.href='${pageContext.request.contextPath}/clientSessions'">View Schedule</button>
+        <button class="book-class" onclick="location.href='${pageContext.request.contextPath}/calendar'">Book Class</button>
     </div>
 </div>
 </body>
 </html>
+<%@ include file="clientVerticalNavbar.jsp" %>

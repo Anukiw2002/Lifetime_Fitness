@@ -21,6 +21,10 @@ public class first extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try (Connection con = DBConnection.getConnection()) {
+            if(con == null) {
+                System.out.println("Connection is null");
+                return;
+            }
             // Query to fetch approved emails from the database
             String query = "SELECT email FROM approved_emails";
             PreparedStatement stmt = con.prepareStatement(query);

@@ -6,7 +6,7 @@ document.getElementById('addRowButton').addEventListener('click', function() {
     // Create a new row
     var newRow = document.createElement('tr');
 
-    // Create new cells with input fields
+    // Create new cells with input fields using template literals
     newRow.innerHTML = `
         <td><input type="text" name="exercise_${rowCount}" placeholder="Enter Exercise"></td>
         <td><input type="number" name="reps_${rowCount}" placeholder="Reps"></td>
@@ -20,10 +20,7 @@ document.getElementById('addRowButton').addEventListener('click', function() {
     tableBody.appendChild(newRow);
 });
 
-
 document.getElementById('userReportForm').addEventListener('submit', function(event) {
     // Allow the default form submission
     console.log('Form is being submitted normally.');
-});
-
 });

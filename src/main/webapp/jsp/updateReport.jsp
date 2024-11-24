@@ -15,6 +15,7 @@
     <%
         Map<String, Object> reportDetails = (Map<String, Object>) request.getAttribute("reportDetails");
         List<Map<String, Object>> exercises = (List<Map<String, Object>>) request.getAttribute("exercises");
+
         if (reportDetails == null) {
     %>
     <p>No report details available for update.</p>
@@ -55,6 +56,7 @@
             <label>Flexibility: <input type="text" name="flexibility" value="<%= reportDetails.get("flexibility") %>"></label>
             <label>Cardio: <input type="text" name="cardio" value="<%= reportDetails.get("cardio") %>"></label>
             <label>Remarks: <input type="text" name="remarks" value="<%= reportDetails.get("remarks") %>"></label>
+            <input type="hidden" name="email" value="<%= reportDetails.get("email") %>">
         </div>
 
         <!-- Exercises Table -->
@@ -95,11 +97,12 @@
             %>
             </tbody>
         </table>
-        <button type="submit" class="submit-button">Save Changes</button>
+        <button type="button" class="submit-button" onclick="saveReport()">Save changes</button>
     </form>
     <%
         }
     %>
+    <script src="<%= request.getContextPath() %>/js/updateReport.js"></script>
 </div>
 </body>
 </html>

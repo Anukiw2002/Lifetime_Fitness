@@ -7,28 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Total Reports</title>
   <link rel="stylesheet" href="<%= request.getContextPath() %>/css/first.css">
-  <script>
-    // Function to filter rows based on the search input
-    function filterTable() {
-      const input = document.getElementById("search-email-input").value.toLowerCase();
-      const rows = document.querySelectorAll("#reports-table tbody tr");
-
-      rows.forEach(row => {
-        const email = row.querySelector("td").textContent.toLowerCase();
-        row.style.display = email.includes(input) ? "" : "none";
-      });
-    }
-
-    // Function to handle the search button click
-    function searchEmail() {
-      const input = document.getElementById("search-email-input");
-      if (input.value.trim() === "") {
-        alert("Please enter an email to search.");
-        return;
-      }
-      filterTable(); // Reuse the filtering logic
-    }
-  </script>
+  <script src="<%= request.getContextPath() %>/js/first.js"></script>
 </head>
 <body>
 <div class="main-container">
@@ -85,6 +64,5 @@
     <button class="add-button" onclick="addAndRedirect()">Add</button>
   </div>
 </div>
-<script src="<%= request.getContextPath() %>/js/first.js"></script>
 </body>
 </html>
