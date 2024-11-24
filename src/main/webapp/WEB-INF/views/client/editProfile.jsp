@@ -88,7 +88,7 @@
 
         <div class="button-group">
             <button type="submit" class="save-btn">Save Changes</button>
-            <button type="button" class="cancel-btn" onclick="location.href='profile.jsp'">Cancel</button>
+            <button type="button" class="cancel-btn" onclick="location.href='${pageContext.request.contextPath}/memberProfile">Cancel</button>
         </div>
     </form>
 </div>

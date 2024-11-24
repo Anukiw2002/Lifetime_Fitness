@@ -16,7 +16,6 @@
       <li><a href="#">About</a></li>
       <li><a href="#">Contact Us</a></li>
       <li><a href="#">Pricing</a></li>
-      <li><a href="#">Reviews</a></li>
       <li><a href="/logout1">Logout</a></li>
     </ul>
     <div class="nav-buttons">
@@ -64,8 +63,7 @@
       <li><a href="#">About</a></li>
       <li><a href="#">Contact Us</a></li>
       <li><a href="#">Pricing</a></li>
-      <li><a href="#">Reviews</a></li>
-        <li><a href="/logout1">Logout</a></li>
+      <li><a href="/logout1">Logout</a></li>
       <br>
       <div class="dropdown-buttons">
         <a href="#" class="nav-buttons1"><img src="Assets/profile-image.png" alt="" style="width: 100%; height: 100%; border-radius: 70%;"></a>

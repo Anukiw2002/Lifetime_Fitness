@@ -92,7 +92,7 @@
     <div class="notification-time">7 days 2 hours ago</div>
   </div>
 
-  <a href="/loggedNavbar" class="back-link">&larr; Back to Home</a>
+  <a href="/memberProfile" class="back-link">&larr; Back to Home</a>
 </div>
 
 </body>
