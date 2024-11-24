@@ -171,7 +171,7 @@
         <i class="fas fa-arrow-left"></i> Back to Workouts
     </a>
 
-    <form action="createWorkout" method="POST" class="workout-form" id="workoutForm">
+    <form action="createWorkout" method="POST" class="workout-form" id="workoutForm" onsubmit="return validateForm()">
         <input type="hidden" name="clientPhone" value="${param.clientPhone}">
 
         <div class="form-section">
@@ -184,6 +184,7 @@
             <div class="form-group">
                 <label for="categoryId">Workout Category</label>
                 <select id="categoryId" name="categoryId" required>
+                    <option value="">Select Category</option>
                     <c:forEach var="category" items="${categories}">
                         <option value="${category.categoryId}">${category.categoryName}</option>
                     </c:forEach>
@@ -215,9 +216,7 @@
         const exerciseList = document.getElementById('exerciseList');
         const exerciseItem = document.createElement('div');
         exerciseItem.className = 'exercise-item';
-
-        // Create a unique index for this exercise
-        const currentIndex = exerciseCount++;
+        exerciseItem.dataset.index = exerciseCount;
 
         exerciseItem.innerHTML = `
             <button type="button" class="remove-exercise" onclick="removeExercise(this.parentElement)">
@@ -225,50 +224,40 @@
             </button>
             <div class="exercise-grid">
                 <div class="form-group">
-                    <label for="exercise_${currentIndex}">Exercise</label>
-                    <select id="exercise_${currentIndex}" name="exercises[${currentIndex}].exerciseId" required>
+                    <label for="exercise_${exerciseCount}">Exercise</label>
+                    <select id="exercise_${exerciseCount}" name="exerciseId" required>
+                        <option value="">Select Exercise</option>
                         <c:forEach var="exercise" items="${exercises}">
                             <option value="${exercise.exerciseId}">${exercise.exerciseName}</option>
                         </c:forEach>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="sets_${currentIndex}">Sets</label>
-                    <input type="number" id="sets_${currentIndex}"
-                           name="exercises[${currentIndex}].setNumber"
+                    <label for="sets_${exerciseCount}">Sets</label>
+                    <input type="number" id="sets_${exerciseCount}"
+                           name="setNumber"
                            min="1" required value="1">
                 </div>
                 <div class="form-group">
-                    <label for="reps_${currentIndex}">Reps</label>
-                    <input type="number" id="reps_${currentIndex}"
-                           name="exercises[${currentIndex}].reps"
+                    <label for="reps_${exerciseCount}">Reps</label>
+                    <input type="number" id="reps_${exerciseCount}"
+                           name="reps"
                            min="1" required value="1">
                 </div>
             </div>
             <div class="form-group">
-                <label for="notes_${currentIndex}">Notes</label>
-                <textarea id="notes_${currentIndex}"
-                         name="exercises[${currentIndex}].notes" rows="2"></textarea>
+                <label for="notes_${exerciseCount}">Notes</label>
+                <textarea id="notes_${exerciseCount}"
+                         name="notes" rows="2"></textarea>
             </div>
         `;
 
         exerciseList.appendChild(exerciseItem);
+        exerciseCount++;
     }
 
     function removeExercise(element) {
         element.remove();
-        reindexExercises();
-    }
-
-    function reindexExercises() {
-        const exerciseItems = document.querySelectorAll('.exercise-item');
-        exerciseItems.forEach((item, index) => {
-            // Update all the name attributes to have sequential indices
-            item.querySelectorAll('[name^="exercises["]').forEach(input => {
-                const fieldName = input.name.match(/exercises\[\d+\]\.(.+)/)[1];
-                input.name = `exercises[${index}].${fieldName}`;
-            });
-        });
     }
 
     function validateForm() {

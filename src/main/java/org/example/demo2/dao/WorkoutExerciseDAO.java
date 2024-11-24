@@ -27,8 +27,7 @@ public class WorkoutExerciseDAO {
             System.out.println("Reps: " + workoutExercise.getReps());
 
             String sql = "INSERT INTO workout_exercises (workout_id, exercise_id, set_number, reps, notes) " +
-                    "VALUES (?, ?, ?, ?, ?) " +
-                    "RETURNING workout_exercise_id";
+                    "VALUES (?, ?, ?, ?, ?) RETURNING workout_exercise_id";
 
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 stmt.setLong(1, workoutExercise.getWorkoutId());
