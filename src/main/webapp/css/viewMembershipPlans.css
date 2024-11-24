@@ -7,10 +7,22 @@ body {
     font-size: 16px;
 }
 
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+    position: relative;
+    z-index: 1;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 2rem;
 }
+
 
 .header {
     display: flex;
