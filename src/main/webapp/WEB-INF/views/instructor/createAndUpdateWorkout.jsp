@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,53 +15,26 @@
         <h1>My Workouts</h1>
 
         <!-- Workout Cards with Links and Delete Button -->
-        <div class="workout-cards">
-            <div class="workout-card-wrapper">
-                <a href="${pageContext.request.contextPath}/workoutOptions?page=workout" class="workout-link">
-                    <div class="workout-card">
-                        <div class="workout-image abs"></div>
-                        <div class="workout-info">
-                            <h2>ABS ADVANCED</h2>
-                            <p>36 mins · 21 exercises</p>
-                        </div>
-                    </div>
-                </a>
-                <form action="${pageContext.request.contextPath}/deleteWorkout" method="post" class="delete-form">
-                    <input type="hidden" name="workoutId" value="1"> <!-- Replace with dynamic workout ID -->
-                    <button type="submit" class="delete-button">Delete</button>
-                </form>
-            </div>
+        <div class="container">
+            <h1>Workouts for ${client.name}</h1>
 
-            <div class="workout-card-wrapper">
-                <a href="${pageContext.request.contextPath}/workoutOptions?page=workout" class="workout-link">
-                    <div class="workout-card">
-                        <div class="workout-image chest"></div>
-                        <div class="workout-info">
-                            <h2>CHEST ADVANCED</h2>
-                            <p>19 mins · 16 exercises</p>
+            <div class="workout-cards">
+                <c:forEach items="${workoutsByCategory}" var="category">
+                    <h2>${category.key}</h2>
+                    <c:forEach items="${category.value}" var="workout">
+                        <div class="workout-card-wrapper">
+                            <a href="${pageContext.request.contextPath}/workoutOptions?page=workout&workoutId=${workout.workoutId}" class="workout-link">
+                                <div class="workout-card">
+                                    <div class="workout-image ${workout.category.categoryName.toLowerCase()}"></div>
+                                    <div class="workout-info">
+                                        <h2>${workout.workoutName}</h2>
+                                        <p>Created: ${workout.createdAt}</p>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-                </a>
-                <form action="${pageContext.request.contextPath}/deleteWorkout" method="post" class="delete-form">
-                    <input type="hidden" name="workoutId" value="2"> <!-- Replace with dynamic workout ID -->
-                    <button type="submit" class="delete-button">Delete</button>
-                </form>
-            </div>
-
-            <div class="workout-card-wrapper">
-                <a href="${pageContext.request.contextPath}/workoutOptions?page=workout" class="workout-link">
-                    <div class="workout-card">
-                        <div class="workout-image arm"></div>
-                        <div class="workout-info">
-                            <h2>ARM ADVANCED</h2>
-                            <p>32 mins · 28 exercises</p>
-                        </div>
-                    </div>
-                </a>
-                <form action="${pageContext.request.contextPath}/deleteWorkout" method="post" class="delete-form">
-                    <input type="hidden" name="workoutId" value="3"> <!-- Replace with dynamic workout ID -->
-                    <button type="submit" class="delete-button">Delete</button>
-                </form>
+                    </c:forEach>
+                </c:forEach>
             </div>
         </div>
 

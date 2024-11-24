@@ -143,7 +143,7 @@
                 <button class="delete-btn" onclick="showDeleteModal('${workout.workoutId}', '${workout.workoutName}')">
                     <i class="fas fa-trash-alt"></i>
                 </button>
-                <a href="workoutDetails?workoutId=${workout.workoutId}">
+                <a href="editWorkout?workoutId=${workout.workoutId}">
                     <div class="workout-header">
                         <i class="fas fa-running workout-icon"></i>
                         <span class="workout-name">${workout.workoutName}</span>

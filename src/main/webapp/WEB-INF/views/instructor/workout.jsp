@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,22 +18,16 @@
   <div class="workout-list-container">
     <h1>Workout</h1>
     <div class="workout-list">
-      <div class="workout-item">
-        <input type="text" class="workout-input" readonly value="Workout 1">
-        <button class="delete-btn">&#10006;</button>
-      </div>
-      <div class="workout-item">
-        <input type="text" class="workout-input" readonly value="Workout 2">
-        <button class="delete-btn">&#10006;</button>
-      </div>
-      <div class="workout-item">
-        <input type="text" class="workout-input" readonly value="Workout 3">
-        <button class="delete-btn">&#10006;</button>
-      </div>
-      <div class="workout-item">
-        <input type="text" class="workout-input" readonly value="Workout 4">
-        <button class="delete-btn">&#10006;</button>
-      </div>
+      <c:forEach items="${exercises}" var="exercise" varStatus="status">
+        <div class="workout-item">
+          <input type="text" class="workout-input" readonly
+                 value="${exercise.exercise.exerciseName} - Sets: ${exercise.setNumber}, Reps: ${exercise.reps}">
+          <c:if test="${not empty exercise.notes}">
+            <div class="exercise-notes">${exercise.notes}</div>
+          </c:if>
+        </div>
+      </c:forEach>
+    </div>
       <!-- Add more workout rows as needed -->
     </div>
     <div class="navigation">
