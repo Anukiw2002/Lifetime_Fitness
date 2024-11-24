@@ -166,7 +166,6 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <a href="javascript:history.back()" class="back-button">
         <i class="fas fa-arrow-left"></i> Back to Workouts
@@ -216,44 +215,72 @@
         const exerciseList = document.getElementById('exerciseList');
         const exerciseItem = document.createElement('div');
         exerciseItem.className = 'exercise-item';
+
+        // Create a unique index for this exercise
+        const currentIndex = exerciseCount++;
+
         exerciseItem.innerHTML = `
-                <button type="button" class="remove-exercise" onclick="removeExercise(this)">
-                    <i class="fas fa-times"></i>
-                </button>
-                <div class="exercise-grid">
-                    <div class="form-group">
-                        <label for="exercise_${exerciseCount}">Exercise</label>
-                        <select id="exercise_${exerciseCount}" name="exercises[${exerciseCount}].exerciseId" required>
-                            <c:forEach var="exercise" items="${exercises}">
-                                <option value="${exercise.exerciseId}">${exercise.exerciseName}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="sets_${exerciseCount}">Sets</label>
-                        <input type="number" id="sets_${exerciseCount}" name="exercises[${exerciseCount}].setNumber"
-                               min="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reps_${exerciseCount}">Reps</label>
-                        <input type="number" id="reps_${exerciseCount}" name="exercises[${exerciseCount}].reps"
-                               min="1" required>
-                    </div>
+            <button type="button" class="remove-exercise" onclick="removeExercise(this.parentElement)">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="exercise-grid">
+                <div class="form-group">
+                    <label for="exercise_${currentIndex}">Exercise</label>
+                    <select id="exercise_${currentIndex}" name="exercises[${currentIndex}].exerciseId" required>
+                        <c:forEach var="exercise" items="${exercises}">
+                            <option value="${exercise.exerciseId}">${exercise.exerciseName}</option>
+                        </c:forEach>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="notes_${exerciseCount}">Notes</label>
-                    <textarea id="notes_${exerciseCount}" name="exercises[${exerciseCount}].notes" rows="2"></textarea>
+                    <label for="sets_${currentIndex}">Sets</label>
+                    <input type="number" id="sets_${currentIndex}"
+                           name="exercises[${currentIndex}].setNumber"
+                           min="1" required value="1">
                 </div>
-            `;
+                <div class="form-group">
+                    <label for="reps_${currentIndex}">Reps</label>
+                    <input type="number" id="reps_${currentIndex}"
+                           name="exercises[${currentIndex}].reps"
+                           min="1" required value="1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="notes_${currentIndex}">Notes</label>
+                <textarea id="notes_${currentIndex}"
+                         name="exercises[${currentIndex}].notes" rows="2"></textarea>
+            </div>
+        `;
+
         exerciseList.appendChild(exerciseItem);
-        exerciseCount++;
     }
 
-    function removeExercise(button) {
-        button.parentElement.remove();
+    function removeExercise(element) {
+        element.remove();
+        reindexExercises();
     }
 
-    // Add first exercise by default
+    function reindexExercises() {
+        const exerciseItems = document.querySelectorAll('.exercise-item');
+        exerciseItems.forEach((item, index) => {
+            // Update all the name attributes to have sequential indices
+            item.querySelectorAll('[name^="exercises["]').forEach(input => {
+                const fieldName = input.name.match(/exercises\[\d+\]\.(.+)/)[1];
+                input.name = `exercises[${index}].${fieldName}`;
+            });
+        });
+    }
+
+    function validateForm() {
+        const exerciseList = document.getElementById('exerciseList');
+        if (exerciseList.children.length === 0) {
+            alert('Please add at least one exercise to the workout.');
+            return false;
+        }
+        return true;
+    }
+
+    // Add first exercise by default when page loads
     document.addEventListener('DOMContentLoaded', function() {
         addExercise();
     });

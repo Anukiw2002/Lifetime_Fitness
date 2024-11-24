@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,22 +17,24 @@
 <!-- Main Content Container -->
 <div class="content-container">
   <div class="search-bar">
-    <label for="searchInput" class="label">Search User:</label>
-    <input type="text" id="searchInput" class="search-input" placeholder="Type user name...">
-    <button class="search-button" onclick="searchUser()">Search</button>
+    <!-- Updated form action to include /search -->
+    <form action="${pageContext.request.contextPath}/workoutOptions/search" method="post">
+      <label for="searchInput" class="label">Search Client by Phone:</label>
+      <input type="text" id="searchInput" name="clientPhone"
+             class="search-input"
+             placeholder="Enter phone number (e.g., 1234567890)"
+             pattern="[0-9]+"
+             title="Please enter numbers only"
+             required>
+      <button type="submit" class="search-button">Search</button>
+    </form>
+
+    <c:if test="${not empty error}">
+      <div class="error-message" style="color: red; margin-top: 10px;">
+          ${error}
+      </div>
+    </c:if>
   </div>
 </div>
-
-<script>
-  function searchUser() {
-    const inputValue = document.getElementById('searchInput').value;
-    if (inputValue.trim()) {
-      alert(`Searching for: ${inputValue}`);
-      // Perform actual search logic here (e.g., send the value to the server).
-    } else {
-      alert('Please enter a valid search term.');
-    }
-  }
-</script>
 </body>
 </html>

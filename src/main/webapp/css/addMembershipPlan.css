@@ -1,13 +1,17 @@
 :root {
-    --bg-color: #333;
-    --text-color: #fff;
     --primary-color: #8B0000;
     --primary-hover: #660000;
     --secondary-color: #4A4A4A;
+    --bg-color: #333;
+    --card-bg: rgba(255, 255, 255, 0.1);
     --input-bg: #fff;
     --input-text: #333;
-    --card-bg: rgba(255, 255, 255, 0.1);
-    --border-radius: 4px;
+    --text-color: #fff;
+    --border-color: rgba(255, 255, 255, 0.2);
+    --error-color: #ff6b6b;
+    --border-radius: 6px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --transition: all 0.2s ease-in-out;
 }
 
 body {
@@ -17,6 +21,7 @@ body {
     color: var(--text-color);
     line-height: 1.6;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(45deg, #2a2a2a, #333);
 }
 
 .main-content {
@@ -24,13 +29,13 @@ body {
     margin-left: 250px;
     width: calc(100% - 250px);
     min-height: 100vh;
-    transition: margin-left 0.3s ease-in-out;
+    transition: var(--transition);
     position: relative;
     z-index: 1;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 2rem;
 }
@@ -38,27 +43,44 @@ body {
 .content-card {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
-    padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 2.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
     backdrop-filter: blur(10px);
-    color: var(--text-color);
 }
 
 h2 {
     color: var(--text-color);
-    margin-bottom: 2rem;
-    font-weight: 500;
+    margin-bottom: 2.5rem;
+    font-weight: 600;
+    font-size: 1.875rem;
+    text-align: center;
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     color: var(--text-color);
-    font-weight: 400;
+    font-weight: 500;
+    font-size: 0.938rem;
+    letter-spacing: 0.3px;
 }
 
 input[type="text"],
@@ -67,166 +89,243 @@ input[type="time"],
 input[type="tel"],
 input[type="email"],
 input[type="password"],
-select {
+select,
+input[name="uniformPrice"],
+input[name="categoryPriceGents"],
+input[name="categoryPriceLadies"],
+input[name="categoryPriceCouple"] {
     width: 100%;
-    padding: 0.8rem 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.875rem 1rem;
+    border: 2px solid var(--border-color);
     border-radius: var(--border-radius);
     background-color: var(--input-bg);
     color: var(--input-text);
     font-size: 1rem;
-    transition: border-color 0.3s ease;
-}
-
-input[type="number"] {
-    -moz-appearance: textfield; /* Firefox */
-}
-
-/* Chrome, Safari, Edge, Opera */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+    transition: var(--transition);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 input:focus,
 select:focus {
     outline: none;
     border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.2);
 }
 
-input[name="uniformPrice"],
-input[name="categoryPriceGents"],
-input[name="categoryPriceLadies"],
-input[name="categoryPriceCouple"] {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: var(--border-radius);
-    background-color: var(--input-bg);
-    color: var(--input-text);
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 
-/* Focus state for price inputs */
-input[name="uniformPrice"]:focus,
-input[name="categoryPriceGents"]:focus,
-input[name="categoryPriceLadies"]:focus,
-input[name="categoryPriceCouple"]:focus {
-    outline: none;
-    border-color: var(--primary-color);
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .duration-option {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    align-items: center;
-    background-color: var(--secondary-color);
+    background-color: rgba(74, 74, 74, 0.5);
     padding: 1.5rem;
     border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.25rem;
+    transition: var(--transition);
+}
+
+.duration-option:hover {
+    background-color: rgba(74, 74, 74, 0.7);
+    transform: translateY(-1px);
 }
 
 button {
-    padding: 0.8rem 1.5rem;
+    padding: 0.875rem 1.75rem;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-}
-
-button[type="button"] {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-button[type="button"]:hover {
-    background-color: var(--primary-hover);
+    font-weight: 600;
+    transition: var(--transition);
+    font-size: 0.938rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary:hover {
     background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .btn-secondary {
     background-color: var(--secondary-color);
     color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary:hover {
     background-color: #5a5a5a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-danger {
+    background-color: #dc2626;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #b91c1c;
 }
 
 .pricing-options {
-    background-color: var(--secondary-color);
-    padding: 1.5rem;
+    background-color: rgba(74, 74, 74, 0.5);
+    padding: 2rem;
     border-radius: var(--border-radius);
-    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+    margin-bottom: 2rem;
 }
 
 .radio-group {
     display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1rem;
+    gap: 2rem;
+    margin: 1rem 0;
 }
 
 .radio-group label {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    color: var(--text-color);
+    gap: 0.75rem;
     cursor: pointer;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--border-radius);
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.radio-group label:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 8px;
+    accent-color: var(--primary-color);
+}
+
+.category-price-section {
+    background-color: rgba(74, 74, 74, 0.5);
+    padding: 1.75rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.category-price-section h4 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.category-prices {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.price-input {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1.25rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.price-input label {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    display: block;
+    font-weight: 500;
+}
+
+.radio-group label {
+    color: var(--text-color);
+}
+
+.error-message {
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    color: var(--error-color);
+    padding: 1rem 1.25rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .form-actions {
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
-    margin-top: 2rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
 }
 
-.error-message {
-    background-color: rgba(255, 0, 0, 0.1);
-    border: 1px solid rgba(255, 0, 0, 0.3);
-    color: #ff6b6b;
-    padding: 1rem;
+/* Price Inputs Specific Styling */
+input[name="uniformPrice"],
+input[name="categoryPriceGents"],
+input[name="categoryPriceLadies"],
+input[name="categoryPriceCouple"] {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid var(--border-color);
     border-radius: var(--border-radius);
-    margin-bottom: 1rem;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    font-size: 1rem;
+    transition: var(--transition);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.category-price-section {
-    background-color: var(--secondary-color);
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    margin-bottom: 1rem;
+label,
+h2,
+h3,
+h4,
+p,
+span,
+.pricing-options label {
+    color: var(--text-color);
 }
 
-.category-prices {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-}
-
-input[type="time"]:invalid {
-    border-color: red;
-}
 
 @media (max-width: 768px) {
+
+    .category-prices {
+        grid-template-columns: 1fr;  /* Stack on mobile */
+    }
+
     .main-content {
         margin-left: 0;
         width: 100%;
     }
 
-    .duration-option {
-        flex-direction: column;
+    .container {
+        padding: 1rem;
+    }
+
+    .content-card {
+        padding: 1.5rem;
     }
 
     .form-actions {
@@ -240,4 +339,22 @@ input[type="time"]:invalid {
     .category-prices {
         grid-template-columns: 1fr;
     }
+
+    .radio-group {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .duration-option {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .category-prices {
+            grid-template-columns: repeat(3, 1fr); /* Keep in one row on tablets */
+            gap: 1rem; /* Slightly reduced gap for medium screens */
+        }
+    }
+
 }

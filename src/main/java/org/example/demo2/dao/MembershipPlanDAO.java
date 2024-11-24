@@ -55,6 +55,7 @@ public class MembershipPlanDAO {
                     plan.setStartTime(rs.getTime("start_time").toLocalTime());
                     plan.setEndTime(rs.getTime("end_time").toLocalTime());
                     plan.setPricingType(rs.getString("pricing_type"));
+                    plan.setStatus(rs.getString("status")); // Make sure to get the status
                     return plan;
                 }
             }
@@ -226,12 +227,52 @@ public class MembershipPlanDAO {
         Connection connection = null;
         try {
             connection = dbConnection.getConnection();
+            // Begin transaction
+            connection.setAutoCommit(false);
+
             String sql = "UPDATE membership_plans SET status = ? WHERE plan_id = ?";
 
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 stmt.setString(1, status);
                 stmt.setLong(2, planId);
-                stmt.executeUpdate();
+
+                int rowsAffected = stmt.executeUpdate();
+                System.out.println("Rows affected by status update: " + rowsAffected);
+
+                if (rowsAffected == 0) {
+                    throw new SQLException("Failed to update status - no rows affected");
+                }
+
+                // Commit the transaction
+                connection.commit();
+            } catch (SQLException e) {
+                // Rollback in case of error
+                if (connection != null) {
+                    connection.rollback();
+                }
+                throw e;
+            }
+        } finally {
+            if (connection != null) {
+                connection.setAutoCommit(true); // Reset auto-commit
+                connection.close();
+            }
+        }
+    }
+    public String getStatus(Long planId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "SELECT status FROM membership_plans WHERE plan_id = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, planId);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getString("status");
+                }
+                return null;
             }
         } finally {
             if (connection != null) {

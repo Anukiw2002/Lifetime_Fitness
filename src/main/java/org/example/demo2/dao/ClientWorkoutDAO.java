@@ -134,19 +134,20 @@ public class ClientWorkoutDAO {
         Connection connection = null;
         try {
             connection = dbConnection.getConnection();
-            String sql = "INSERT INTO client_workouts (client_phone, workout_name, category_id, instructor_id, created_at) " +
-                    "VALUES (?, ?, ?, ?, ?) RETURNING workout_id";
+            String sql = "INSERT INTO client_workouts (client_phone, workout_name, category_id, instructor_id) " +
+                    "VALUES (?, ?, ?, ?) " +
+                    "RETURNING workout_id, created_at";  // Added created_at to RETURNING clause
 
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 stmt.setString(1, workout.getClientPhone());
                 stmt.setString(2, workout.getWorkoutName());
                 stmt.setLong(3, workout.getCategoryId());
                 stmt.setLong(4, workout.getInstructorId());
-                stmt.setTimestamp(5, Timestamp.valueOf(workout.getCreatedAt()));
 
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     workout.setWorkoutId(rs.getLong("workout_id"));
+                    workout.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
                 }
             }
             return workout;
