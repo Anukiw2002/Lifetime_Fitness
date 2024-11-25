@@ -70,6 +70,7 @@
             </div>
         </div>
 
+        <!-- Action Buttons -->
         <div class="flex justify-center gap-md">
             <button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/editProfile'">
                 Edit Profile
@@ -77,7 +78,7 @@
             <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientSessions'">
                 View Schedule
             </button>
-            <button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/calendar'">
+            <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/calendar'">
                 Book Class
             </button>
         </div>
