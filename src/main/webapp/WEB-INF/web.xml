@@ -59,6 +59,17 @@
     </servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>GetAllVideosServlet</servlet-name>
+        <servlet-class>org.example.demo2.servlet.GetAllVideosServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllVideosServlet</servlet-name>
+        <url-pattern>/GetAllVideos</url-pattern>
+    </servlet-mapping>
+
+
+
 
 
     <!-- Static Resource Handling (CSS & Images) -->
@@ -71,6 +82,16 @@
         <servlet-name>default</servlet-name>
         <url-pattern>/images/*</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PlayVideoServlet</servlet-name>
+        <servlet-class>org.example.demo2.servlet.PlayVideoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PlayVideoServlet</servlet-name>
+        <url-pattern>/playVideo</url-pattern>
+    </servlet-mapping>
+
 
 
 

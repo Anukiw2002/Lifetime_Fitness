@@ -28,52 +28,43 @@ public class UploadVideoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Forward the request to the uploadVideo JSP page
         request.getRequestDispatcher("/WEB-INF/views/owner/uploadVideo.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve form data
         String videoName = request.getParameter("videoName");
         String videoDescription = request.getParameter("videoDescription");
         Part videoFile = request.getPart("videoFile");
 
-        // Log the received data
-        System.out.println("Received form data:");
-        System.out.println("Video Name: " + videoName);
-        System.out.println("Description: " + videoDescription);
-
-        // Validate the inputs
         if (videoName == null || videoName.isEmpty() || videoDescription == null || videoDescription.isEmpty() || videoFile == null) {
-            // Log validation error
-            System.err.println("Validation Error: Missing required fields.");
             request.setAttribute("errorMessage", "All fields are required!");
             request.getRequestDispatcher("/WEB-INF/views/owner/uploadVideo.jsp").forward(request, response);
             return;
         }
 
-        // Define the upload directory
         String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
 
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists() && !uploadDir.mkdirs()) {
+            request.setAttribute("errorMessage", "Failed to create upload directory.");
+            request.getRequestDispatcher("/WEB-INF/views/owner/uploadVideo.jsp").forward(request, response);
+            return;
+        }
 
-        // Save the uploaded file to the server
         String fileName = videoFile.getSubmittedFileName();
         String filePath = uploadPath + File.separator + fileName;
 
         try {
             videoFile.write(filePath);
         } catch (IOException e) {
-            System.err.println("Error saving the uploaded file: " + e.getMessage());
-            request.setAttribute("errorMessage", "Failed to save the video file. Please try again.");
+            request.setAttribute("errorMessage", "Failed to save the video file.");
             request.getRequestDispatcher("/WEB-INF/views/owner/uploadVideo.jsp").forward(request, response);
             return;
         }
 
-        // Save video metadata to the database
         try (Connection connection = DBConnection.getConnection()) {
             if (connection == null) {
-                System.err.println("Error: Database connection is null.");
                 request.setAttribute("errorMessage", "Database connection failed.");
                 request.getRequestDispatcher("/WEB-INF/views/owner/uploadVideo.jsp").forward(request, response);
                 return;
@@ -84,29 +75,20 @@ public class UploadVideoServlet extends HttpServlet {
                 statement.setString(1, videoName);
                 statement.setString(2, videoDescription);
 
-                // Log the SQL query being executed
-                System.out.println("Executing SQL Query: " + statement);
-
-                // Execute the insert and check if the data was successfully inserted
                 int rowsAffected = statement.executeUpdate();
-                System.out.println("Rows affected: " + rowsAffected);
-
                 if (rowsAffected > 0) {
-                    // Log success
-                    System.out.println("Video successfully uploaded!");
-                    request.setAttribute("successMessage", "Video successfully uploaded!");
-                    request.getRequestDispatcher("/WEB-INF/views/owner/contentManagement.jsp").forward(request, response);
+                    String successMessage = "Video uploaded successfully!";
+                    response.setContentType("text/html");
+                    response.getWriter().println("<script type='text/javascript'>");
+                    response.getWriter().println("alert('" + successMessage + "');");
+                    response.getWriter().println("window.location.href = 'GetAllVideos';");
+                    response.getWriter().println("</script>");
                 } else {
-                    // Log failure
-                    System.err.println("Error: No rows were inserted into the database.");
-                    request.setAttribute("errorMessage", "Failed to upload the video. Please try again.");
+                    request.setAttribute("errorMessage", "Failed to upload the video.");
                     request.getRequestDispatcher("/WEB-INF/views/owner/uploadVideo.jsp").forward(request, response);
                 }
             }
         } catch (SQLException e) {
-            // Log SQL exceptions with detailed information
-            System.err.println("SQL Exception occurred:");
-            e.printStackTrace();
             request.setAttribute("errorMessage", "Error saving video metadata: " + e.getMessage());
             request.getRequestDispatcher("/WEB-INF/views/owner/uploadVideo.jsp").forward(request, response);
         }
