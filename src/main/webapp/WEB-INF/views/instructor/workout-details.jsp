@@ -88,7 +88,7 @@
     <jsp:include page="../common/verticalNavBar.jsp" />
     <div class="container">
         <div class="flex mb-4">
-            <a href="javascript:history.back()" class="btn btn-secondary">
+            <a href="/instructor/clientWorkouts?phoneNumber=${workout.clientPhone}" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Back to Workouts
             </a>
         </div>

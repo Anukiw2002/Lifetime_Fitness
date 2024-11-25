@@ -83,6 +83,20 @@ public class EditWorkoutServlet extends HttpServlet {
                 throw new ServletException("Invalid form data submitted");
             }
 
+            // Check for duplicate exercises
+            List<Long> uniqueExerciseIds = new ArrayList<>();
+            for (String exerciseId : exerciseIds) {
+                if (exerciseId != null && !exerciseId.trim().isEmpty()) {
+                    Long parsedExerciseId = Long.parseLong(exerciseId.trim());
+                    if (uniqueExerciseIds.contains(parsedExerciseId)) {
+                        request.setAttribute("errorMessage", "Duplicate exercises are not allowed.");
+                        doGet(request, response); // Reload the page with an error message
+                        return;
+                    }
+                    uniqueExerciseIds.add(parsedExerciseId);
+                }
+            }
+
             // Delete existing exercises
             workoutExerciseDAO.deleteByWorkoutId(workoutId);
 
@@ -114,4 +128,6 @@ public class EditWorkoutServlet extends HttpServlet {
             throw new ServletException("Invalid number format in form data", e);
         }
     }
+
+
 }
