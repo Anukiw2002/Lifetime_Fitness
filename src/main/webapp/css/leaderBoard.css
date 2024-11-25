@@ -14,7 +14,7 @@ body {
 .leaderboard {
     width: 70%;
     max-width: 900px;
-    background: linear-gradient(145deg, #2d2d2d, #242424);
+    background: linear-gradient(145deg, #2d2d2d, #333);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 8px 8px 15px #0d0d0d, -8px -8px 15px #383838;
@@ -97,6 +97,24 @@ th:last-child,
 td:last-child {
     border-radius: 0 10px 10px 0;
 }
+
+.leaderboard button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #5c5c5c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.leaderboard button:hover {
+    background-color: #6b6b6b;
+}
+
 
 /* Responsive Design */
 
