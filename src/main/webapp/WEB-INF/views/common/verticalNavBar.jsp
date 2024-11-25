@@ -171,9 +171,10 @@
     <div>
         <a href="#dashboard" class="nav-link"><i class="fas fa-chart-line icon"></i>Dashboard</a>
         <a href="#members" class="nav-link"><i class="fas fa-users icon"></i>Members</a>
-        <a href="#workout" class="nav-link"><i class="fas fa-dumbbell icon"></i>Workout</a>
+        <a href="/instructor/searchClient" class="nav-link"><i class="fas fa-dumbbell icon"></i>Workout</a>
         <a href="#notifications" class="nav-link"><i class="fas fa-bell icon"></i>Notifications</a>
         <a href="#reports" class="nav-link"><i class="fas fa-file-alt icon"></i>Reports</a>
+        <a href="/membership/view" class="nav-link"><i class="fas fa-credit-card icon"></i>Membership</a>
 
         <!-- New Buttons for Videos and Blogs -->
         <a href="#videos" class="nav-link"><i class="fas fa-video icon"></i>Videos</a>
