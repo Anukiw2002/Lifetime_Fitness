@@ -183,7 +183,7 @@
     <!-- Bottom links for Settings and Log Out -->
     <div class="bottom-links">
         <a href="#settings" class="nav-link"><i class="fas fa-cog icon"></i>Settings</a>
-        <a href="#logout" class="nav-link"><i class="fas fa-sign-out-alt icon"></i>Log out</a>
+        <a href="logout" class="nav-link"><i class="fas fa-sign-out-alt icon"></i>Log out</a>
     </div>
 </div>
 

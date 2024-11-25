@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.MembershipPlanDAO;
 import org.example.demo2.util.DBConnection;
 
@@ -16,11 +17,18 @@ import java.util.Map;
 
 @WebServlet("/membership/updateStatus")
 public class UpdateMembershipStatusServlet extends HttpServlet {
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userRole") == null) {
+            // If the session is invalid or the user is not logged in, redirect to the login page
+            response.sendRedirect(request.getContextPath() + "/landingPage");
+            return;
+        }
 
         System.out.println("UpdateMembershipStatusServlet: Processing request");
         response.setContentType("application/json");

@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.example.demo2.util.DBConnection;
 
 import java.io.IOException;
@@ -18,12 +19,24 @@ public class UploadBlogServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userRole") == null) {
+            // If the session is invalid or the user is not logged in, redirect to the login page
+            response.sendRedirect(request.getContextPath() + "/landingPage");
+            return;
+        }
         // Forward the request to the uploadBlog JSP page
         request.getRequestDispatcher("/WEB-INF/views/owner/uploadBlog.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userRole") == null) {
+            // If the session is invalid or the user is not logged in, redirect to the login page
+            response.sendRedirect(request.getContextPath() + "/landingPage");
+            return;
+        }
         // Retrieve form data
         String name = request.getParameter("name");
         String description = request.getParameter("description");
