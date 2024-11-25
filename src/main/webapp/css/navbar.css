@@ -19,9 +19,10 @@ body {
     padding: 10px 20px;
     display: flex;
     align-items: center;
-    margin-top: 3px;
     justify-content: space-between;
     height: 100px;
+    background-color: rgba(0, 0, 0, 0.11); /* Adjust as needed */
+    transition: transform 0.3s ease; /* Smooth transition for hiding/showing */
 }
 
 .logo {
@@ -31,31 +32,37 @@ body {
     margin-left: 100px;
 }
 
+
 .navbar {
     display: flex;
     flex-grow: 1;
-    background-color: #D9D9D9;
     justify-content: space-between;
-    height: 130px;
     align-items: center;
-    border-radius: 30px 0 0 30px;
-    margin-left: 120px;
+}
+.navbar:hover {
+    background-color: rgba(165, 165, 165, 0); /* Darker on hover */
+    transition: background-color 0.3s ease;
 }
 
+
 .nav-links {
-    display: flex;
     list-style: none;
-    margin-left: 30px;
+    display: flex;          /* Flexbox ensures items are inline */
+    justify-content: center; /* Center items horizontally */
+    align-items: center;    /* Center items vertically */
+    margin: 0;              /* Remove default margin */
+    padding: 0;
+    margin-left: 100px;
 }
 
 .nav-links li {
-    margin-left: 20px;
+    margin: 0 10px;
 }
 
 .nav-links a {
     position: relative;
     text-decoration: none;
-    color: black;
+    color: #ffffff;
     font-size: 25px;
     padding: 0 20px;
     transition: transform 0.3s ease, color 0.3s ease;
@@ -86,7 +93,7 @@ body {
 }
 
 .nav-buttons .btn {
-    background-color: #3d3c3c;
+    background-color: #970000;
     color: white;
     padding: 15px 25px;
     border-radius: 25px;
@@ -98,7 +105,7 @@ body {
 }
 
 .nav-buttons .btn.register {
-    background-color: #3d3c3c;
+    background-color: #970000;
     margin-right: 10px;
 }
 
@@ -127,9 +134,12 @@ body {
     top: 130px; /* Adjust based on your navbar height */
     left: 0;
     width: 100%;
-    background-color: #E2E2E2;
+    background-color: rgba(38, 38, 38, 0.82); /* Adjust the color and opacity */
     text-align: center;
     z-index: 9999; /* Ensure dropdown is above other content */
+}
+.dropdown-menu.active {
+    display: block; /* Show the menu when 'active' is added */
 }
 
 .dropdown-links {
@@ -142,7 +152,7 @@ body {
 }
 
 .dropdown-links a {
-    color: black;
+    color: rgba(255, 255, 255, 0.82);
     font-size: 25px;
     text-decoration: none;
     padding: 10px 0;
@@ -151,7 +161,7 @@ body {
 }
 
 .dropdown-links a:hover {
-    background-color: #cccccc;
+    background-color: #939393;
 }
 
 .dropdown-buttons {
@@ -161,12 +171,12 @@ body {
 .dropdown-buttons .btn-register{
     display: block;
     margin: 10px auto;
-    background-color: #696969;
+    background-color: rgb(139, 0, 0);
     width:200px;
     border-radius: 30px;
 }
 .dropdown-buttons .btn-login{
-    background-color: #696969;
+    background-color: rgb(139, 0, 0);
     width:200px;
     border-radius: 30px;
     margin: 10px auto;
@@ -189,7 +199,7 @@ body {
     .nav-links a {
         position: relative;
         text-decoration: none;
-        color: black;
+        color: #ffffff;
         font-size: 20px;
         padding: 0 8px;
         transition: transform 0.3s ease, color 0.3s ease;
@@ -212,7 +222,7 @@ body {
     .nav-links a {
         position: relative;
         text-decoration: none;
-        color: black;
+        color: #ffffff;
         font-size: 15px;
         padding: 0 4px;
         transition: transform 0.3s ease, color 0.3s ease;
@@ -235,7 +245,7 @@ body {
     .nav-links a {
         position: relative;
         text-decoration: none;
-        color: black;
+        color: #ffffff;
         font-size: 15px;
         padding: 0 1px;
         transition: transform 0.3s ease, color 0.3s ease;
@@ -249,12 +259,15 @@ body {
     }
 
     .navbar.active + .dropdown-menu {
-        display: block;
+        display: none;
     }
 
     .navbar {
         justify-content: flex-start; /* Align items to the start */
         position: relative;
+    }
+    .dropdown-menu.active {
+        display: block; /* Show the dropdown when 'active' is toggled */
     }
 
     .hamburger {

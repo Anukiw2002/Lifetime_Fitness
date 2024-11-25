@@ -1,6 +1,6 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #333;
     margin: 0;
     padding: 20px;
 }
@@ -37,7 +37,7 @@ table td {
 }
 
 table th {
-    background-color: #007bff;
+    background-color: #f63b3b;
     color: white;
     font-weight: bold;
 }

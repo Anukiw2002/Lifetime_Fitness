@@ -44,15 +44,6 @@
 </div>
 
 <!-- JavaScript code added directly to the HTML file -->
-<script>
-    const hamburger = document.querySelector('.hamburger');
-    const navbar = document.querySelector('.navbar');
-    const dropdownMenu = document.querySelector('.dropdown-menu');
-
-    hamburger.addEventListener('click', () => {
-        navbar.classList.toggle('active');
-        dropdownMenu.classList.toggle('active');
-    });
-</script>
+<script src="<%= request.getContextPath() %>/js/loggedNavbar.js"></script>
 </body>
 </html>

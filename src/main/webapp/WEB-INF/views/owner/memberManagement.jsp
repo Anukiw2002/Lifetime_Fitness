@@ -1,5 +1,3 @@
-
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -9,10 +7,14 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/memberManagement.css">
 </head>
 <body>
-<div class="container">
+<div class="main-container">
+    <!-- Side Navbar -->
+    <div class="navbar-container">
+        <jsp:include page="../common/verticalNavBar.jsp" />
+    </div>
 
-    <!-- Main Content -->
-    <main>
+    <!-- Content Section -->
+    <div class="content-container">
         <h1 class="page-title">Member Management</h1>
 
         <!-- Search and Filters -->
@@ -106,7 +108,7 @@
                 </tbody>
             </table>
         </div>
-    </main>
+    </div>
 </div>
 </body>
 </html>

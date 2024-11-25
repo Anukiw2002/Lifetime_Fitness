@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/workoutOptions") // Map this servlet to /workoutOptions
+@WebServlet("/workoutOptionss") // Map this servlet to /workoutOptions
 public class WorkoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,9 +36,24 @@ public class WorkoutServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/client/workoutLogs.jsp").forward(request, response);
         }
 
+        else if ("clientSession".equals(page)) {
+            // Forward to the dropdown UI JSP page
+            request.getRequestDispatcher("/WEB-INF/views/client/clientSession.jsp").forward(request, response);
+        }
+
+        else if ("upcomingSessions".equals(page)) {
+            // Forward to the dropdown UI JSP page
+            request.getRequestDispatcher("/WEB-INF/views/instructor/upcomingSessions.jsp").forward(request, response);
+        }
+
         else if ("clientWorkout".equals(page)) {
             // Forward to the dropdown UI JSP page
             request.getRequestDispatcher("/WEB-INF/views/client/clientWorkout.jsp").forward(request, response);
+        }
+
+        else if ("terms".equals(page)) {
+            // Forward to the dropdown UI JSP page
+            request.getRequestDispatcher("/WEB-INF/views/owner/termsAndConditions.jsp").forward(request, response);
         }
 
         else {

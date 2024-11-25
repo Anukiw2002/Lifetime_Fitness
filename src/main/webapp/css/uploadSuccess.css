@@ -7,8 +7,13 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+<<<<<<< HEAD
     background-color: #2E2E2E;
     margin-left: 80px;
+=======
+    background-color: #333;
+    margin-left: 560px;
+>>>>>>> e923773563f1e99682dd462288c22c12bf5b6e31
 }
 
 .success-message {

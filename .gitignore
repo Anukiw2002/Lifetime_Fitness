@@ -2,6 +2,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+src/main/java/org/example/demo2/util/DBConnection.java
+
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -12,7 +14,7 @@ target/
 *.iws
 *.iml
 *.ipr
-DBConnection.java
+src/main/java/org/example/demo2/util/DBConnection.java
 
 ### Eclipse ###
 .apt_generated

@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,200 +11,235 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewMembershipPlans.css">
 </head>
 <body>
+<%!
+    public String formatDurationType(int value, String durationType) {
+        if (durationType == null) return "";
+        return value == 1 ? durationType.substring(0, durationType.length() - 1) : durationType;
+    }
+%>
+<jsp:include page="../common/verticalNavBar.jsp" />
+<div class="main-content">
 <div class="container">
     <div class="header">
-        <h1>Membership Plans Management</h1>
-        <button class="add-plan-btn" onclick="window.location.href='${pageContext.request.contextPath}/MembershipPlan?action=add'">
+        <h1 style="color: white;">Membership Plans Management</h1>
+        <button class="add-plan-btn" onclick="window.location.href='${pageContext.request.contextPath}/membership/add'">
             <i class="fas fa-plus"></i> Add New Plan
         </button>
     </div>
 
     <div class="plans-grid">
-        <!-- Platinum Plan -->
-        <div class="plan-card">
-            <div class="plan-header">
-                <h2>Platinum Membership</h2>
-                <p class="time-slot">4:00 am to 12:00 Midnight</p>
-            </div>
-            <div class="plan-features">
-                <ul>
-                    <li><i class="fas fa-check"></i> Access to all premium equipment</li>
-                    <li><i class="fas fa-check"></i> Personal trainer sessions</li>
-                    <li><i class="fas fa-check"></i> Spa & Sauna access</li>
-                    <li><i class="fas fa-check"></i> Group classes included</li>
-                </ul>
-            </div>
-            <div class="plan-options">
-                <div class="option">
-                    <span>Gents</span>
-                    <span class="price">Rs. 65,000</span>
-                    <button class="select-btn">Select</button>
+        <c:forEach var="plan" items="${membershipPlans}">
+            <div class="plan-card ${plan.status == 'INACTIVE' ? 'inactive-plan' : ''}">
+                <div class="plan-header">
+                    <h2>${plan.planName}</h2>
+                    <p class="time-slot">${plan.startTime} to ${plan.endTime}</p>
                 </div>
-                <div class="option">
-                    <span>Ladies</span>
-                    <span class="price">Rs. 65,000</span>
-                    <button class="select-btn">Select</button>
+                <div class="plan-options">
+                    <c:forEach var="duration" items="${plan.durations}">
+                        <c:choose>
+                            <c:when test="${plan.pricingType eq 'uniform'}">
+                                <div class="option">
+        <span style="color: white;">Individual -
+            ${duration.durationValue}
+            <%
+                Object durationObj = pageContext.getAttribute("duration");
+                if (durationObj != null) {
+                    java.lang.reflect.Method getDurationValueMethod = durationObj.getClass().getMethod("getDurationValue");
+                    java.lang.reflect.Method getDurationTypeMethod = durationObj.getClass().getMethod("getDurationType");
+                    int durationValue = (Integer) getDurationValueMethod.invoke(durationObj);
+                    String durationType = (String) getDurationTypeMethod.invoke(durationObj);
+                    out.print(formatDurationType(durationValue, durationType));
+                }
+            %>
+        </span>
+                                    <span class="price" style="color: white;">Rs.
+            <fmt:formatNumber value="${duration.uniformPricing[0].price}" type="number" pattern="#,##,###"/>
+        </span>
+                                </div>
+                            </c:when>
+                            <c:when test="${plan.pricingType eq 'category'}">
+                                <c:forEach var="pricing" items="${duration.categoryPricing}">
+                                    <div class="option">
+            <span style="color: white;">
+                <c:choose>
+                    <c:when test="${pricing.category eq 'Male'}">Gents - Annual</c:when>
+                    <c:when test="${pricing.category eq 'Female'}">Ladies - Annual</c:when>
+                    <c:when test="${pricing.category eq 'Couple'}">Couples - Annual</c:when>
+                    <c:otherwise>${pricing.category} - Annual</c:otherwise>
+                </c:choose>
+            </span>
+                                        <span class="price" style="color: white;">Rs.
+                <fmt:formatNumber value="${pricing.price}" type="number" pattern="#,##,###"/>
+            </span>
+                                    </div>
+                                </c:forEach>
+                            </c:when>
+                        </c:choose>
+                    </c:forEach>
                 </div>
-                <div class="option">
-                    <span>Couple</span>
-                    <span class="price">Rs. 85,000</span>
-                    <button class="select-btn">Select</button>
-                </div>
-            </div>
-            <div class="plan-actions">
-                <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                <button class="delete-btn" data-plan-name="Platinum Membership" data-plan-type="Platinum" onclick="showConfirmationModal('Platinum Membership', 'Platinum')"><i class="fas fa-trash"></i></button>
-                <button class="status-btn active">Active</button>
-            </div>
-        </div>
-
-        <!-- Gold Plan -->
-        <div class="plan-card">
-            <div class="plan-header">
-                <h2>Gold Membership</h2>
-                <p class="time-slot">4:00 am to 4:30 pm</p>
-            </div>
-            <div class="plan-features">
-                <ul>
-                    <li><i class="fas fa-check"></i> Access to all equipment</li>
-                    <li><i class="fas fa-check"></i> 2 Personal trainer sessions</li>
-                    <li><i class="fas fa-check"></i> Group classes included</li>
-                </ul>
-            </div>
-            <div class="plan-options">
-                <div class="option">
-                    <span>Gents</span>
-                    <span class="price">Rs. 48,000</span>
-                    <button class="select-btn">Select</button>
-                </div>
-                <div class="option">
-                    <span>Ladies</span>
-                    <span class="price">Rs. 48,000</span>
-                    <button class="select-btn">Select</button>
-                </div>
-            </div>
-            <div class="plan-actions">
-                <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                <button class="delete-btn" data-plan-name="Gold Membership" data-plan-type="Gold" onclick="showConfirmationModal('Gold Membership', 'Gold')"><i class="fas fa-trash"></i></button>
-                <button class="status-btn active">Active</button>
-            </div>
-        </div>
-
-        <!-- Silver Plan -->
-        <div class="plan-card">
-            <div class="plan-header">
-                <h2>Silver Membership</h2>
-                <p class="time-slot">4:00 am to 12:00 Midnight</p>
-            </div>
-            <div class="plan-features">
-                <ul>
-                    <li><i class="fas fa-check"></i> Basic equipment access</li>
-                    <li><i class="fas fa-check"></i> 1 Personal trainer session</li>
-                    <li><i class="fas fa-check"></i> Pay-per-class option</li>
-                </ul>
-            </div>
-            <div class="plan-options">
-                <div class="option">
-                    <span>6 Months</span>
-                    <span class="price">Rs. 45,000</span>
-                    <button class="select-btn">Select</button>
-                </div>
-                <div class="option">
-                    <span>3 Months</span>
-                    <span class="price">Rs. 35,000</span>
-                    <button class="select-btn">Select</button>
-                </div>
-                <div class="option">
-                    <span>1 Month</span>
-                    <span class="price">Rs. 15,000</span>
-                    <button class="select-btn">Select</button>
+                <div class="plan-actions">
+                    <button class="edit-btn" onclick="window.location.href='${pageContext.request.contextPath}/membership/update?planId=${plan.planId}'">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-btn" onclick="confirmDelete('${plan.planName}', ${plan.planId})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button
+                            class="status-btn ${plan.status eq 'INACTIVE' ? 'inactive' : 'active'}"
+                            onclick="toggleStatus(${plan.planId}, '${plan.status}', this, event)"
+                            data-plan-id="${plan.planId}"
+                            data-current-status="${plan.status}">
+                            ${plan.status eq 'INACTIVE' ? 'Inactive' : 'Active'}
+                    </button>
                 </div>
             </div>
-            <div class="plan-actions">
-                <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                <button class="delete-btn" data-plan-name="Silver Membership" data-plan-type="Silver" onclick="showConfirmationModal('Silver Membership', 'Silver')"><i class="fas fa-trash"></i></button>
-                <button class="status-btn active">Active</button>
-            </div>
-        </div>
-
-        <!-- Day Pass -->
-        <div class="plan-card">
-            <div class="plan-header">
-                <h2>Day Pass</h2>
-                <p class="time-slot">4:00 am to 12:00 Midnight</p>
-            </div>
-            <div class="plan-features">
-                <ul>
-                    <li><i class="fas fa-check"></i> Single day access to facilities</li>
-                    <li><i class="fas fa-check"></i> Basic equipment access</li>
-                </ul>
-            </div>
-            <div class="plan-options">
-                <div class="option">
-                    <span>Individual</span>
-                    <span class="price">Rs. 1,500</span>
-                    <button class="select-btn">Select</button>
-                </div>
-            </div>
-            <div class="plan-actions">
-                <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                <button class="delete-btn" data-plan-name="Day Pass" data-plan-type="Day Pass" onclick="showConfirmationModal('Day Pass', 'Day Pass')"><i class="fas fa-trash"></i></button>
-                <button class="status-btn active">Active</button>
-            </div>
-        </div>
+        </c:forEach>
     </div>
 </div>
 
-<div id="confirm-modal" class="modal">
+<!-- Dynamic Modal -->
+<div id="deleteModal" class="modal">
     <div class="modal-content">
-        <h2>Are you sure you want to delete this plan?</h2>
-        <p>This plan will be archived and can be restored later if needed.</p>
+        <h2 id="modalTitle"></h2>
+        <p>This action cannot be undone. Are you sure you want to proceed?</p>
         <div class="modal-buttons">
-            <button type="button" class="confirm-btn">Yes, Delete</button>
-            <button type="button" class="cancel-btn">Cancel</button>
+            <button type="button" onclick="deletePlan()" class="confirm-btn">Yes, Delete</button>
+            <button type="button" onclick="closeModal()" class="cancel-btn">Cancel</button>
         </div>
     </div>
 </div>
 
 <script>
-    // Get the modal and its elements
-    const modal = document.getElementById("confirm-modal");
-    const confirmBtn = document.querySelector(".confirm-btn");
-    const cancelBtn = document.querySelector(".cancel-btn");
-    const deleteBtns = document.querySelectorAll(".delete-btn");
+    let currentPlanId = null;
+    const modal = document.getElementById("deleteModal");
 
-    // Add click event listener to the delete buttons
-    deleteBtns.forEach((btn) => {
-        btn.addEventListener("click", (event) => {
-            const planName = event.target.dataset.planName;
-            const planType = event.target.dataset.planType;
-            showConfirmationModal(planName, planType);
-        });
-    });
-
-    // Add click event listener to the confirm and cancel buttons
-    confirmBtn.addEventListener("click", () => {
-        // Perform soft delete logic here
-        // e.g., send a request to the server to archive the plan
-        modal.style.display = "none";
-    });
-
-    cancelBtn.addEventListener("click", () => {
-        modal.style.display = "none";
-    });
-
-    // Close the modal when clicking outside of it
-    window.addEventListener("click", (event) => {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    });
-
-    function showConfirmationModal(planName, planType) {
-        const modalContent = document.querySelector(".modal-content");
-        modalContent.querySelector("h2").textContent = `Are you sure you want to delete the ${planName} plan?`;
+    function confirmDelete(planName, planId) {
+        currentPlanId = planId;
+        document.getElementById("modalTitle").textContent = `Are you sure you want to delete the ${planName} plan?`;
         modal.style.display = "block";
     }
+
+    function closeModal() {
+        modal.style.display = "none";
+        currentPlanId = null;
+    }
+
+    async function deletePlan() {
+        if (currentPlanId) {
+            try {
+                const response = await fetch(`${pageContext.request.contextPath}/membership/delete`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ planId: currentPlanId })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.status === 'success') {
+                    window.location.reload();
+                } else {
+                    // Show more detailed error message
+                    alert('Error: ' + (data.message || 'Failed to delete the plan. Please try again.'));
+                    console.error('Delete plan error:', data);
+                }
+            } catch (error) {
+                console.error('Delete plan error:', error);
+                alert('An error occurred while deleting the plan: ' + error.message);
+            }
+            closeModal();
+        }
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    };
+
+    async function toggleStatus(planId, currentStatus, buttonElement, event) {
+        // Prevent any default behavior
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        // Prevent double-clicks
+        if (buttonElement.disabled) {
+            return;
+        }
+
+        try {
+            // Disable the button while processing
+            buttonElement.disabled = true;
+
+            console.log(`Attempting to toggle plan ${planId} status`);
+
+            const response = await fetch(`${pageContext.request.contextPath}/membership/updateStatus`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    planId: planId
+                })
+            });
+
+            const data = await response.json();
+            console.log('Server response:', data);
+
+            if (response.ok && data.status === 'success') {
+                // Get the new status from the response
+                const newStatus = data.newStatus;
+
+                // Get the plan card element
+                const planCard = buttonElement.closest('.plan-card');
+
+                // Update button text
+                buttonElement.textContent = newStatus === 'ACTIVE' ? 'Active' : 'Inactive';
+
+                // Update button classes
+                buttonElement.classList.remove('active', 'inactive');
+                buttonElement.classList.add(newStatus.toLowerCase());
+
+                // Update the plan card
+                if (newStatus === 'INACTIVE') {
+                    planCard.classList.add('inactive-plan');
+                } else {
+                    planCard.classList.remove('inactive-plan');
+                }
+
+                // Update the button's onclick attribute
+                buttonElement.setAttribute('onclick',
+                    `toggleStatus(${planId}, '${newStatus}', this, event)`);
+
+                console.log('UI updated successfully');
+            } else {
+                throw new Error(data.message || 'Failed to update status');
+            }
+        } catch (error) {
+            console.error('Error in toggleStatus:', error);
+            alert('Failed to update status: ' + error.message);
+        } finally {
+            // Re-enable the button
+            buttonElement.disabled = false;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusButtons = document.querySelectorAll('.status-btn');
+        statusButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const planId = this.getAttribute('data-plan-id');
+                const currentStatus = this.getAttribute('data-current-status');
+                toggleStatus(planId, currentStatus, this);
+            });
+        });
+    });
 </script>
+</div>
 </body>
 </html>

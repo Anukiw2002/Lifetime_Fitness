@@ -11,6 +11,7 @@
       margin: 0;
       padding: 0;
       background-color: #f9f9f9;
+      background-color: #4c4c4c;
     }
 
     .container {
@@ -91,7 +92,7 @@
     <div class="notification-time">7 days 2 hours ago</div>
   </div>
 
-  <a href="/loggedNavbar" class="back-link">&larr; Back to Home</a>
+  <a href="/memberProfile" class="back-link">&larr; Back to Home</a>
 </div>
 
 </body>

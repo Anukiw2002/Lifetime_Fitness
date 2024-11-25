@@ -7,10 +7,22 @@ body {
     font-size: 16px;
 }
 
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+    position: relative;
+    z-index: 1;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 2rem;
 }
+
 
 .header {
     display: flex;
@@ -40,7 +52,9 @@ body {
     border: 1px solid #444;
     border-radius: 8px;
     overflow: hidden;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
 }
 
 .plan-header {
@@ -50,43 +64,22 @@ body {
 }
 
 .plan-header h2 {
-    font-size: 1.75em;
     margin: 0;
     color: #fff;
     font-size: 1.5em;
 }
 
 .time-slot {
-    font-size: 1.2em;
     color: #888;
     margin: 10px 0 0;
     font-size: 0.9em;
 }
 
-.plan-features {
-    font-size: 1.1em;
-    padding: 20px;
-}
-
-.plan-features ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.plan-features li {
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.plan-features i {
-    color: #C73938;
-}
-
 .plan-options {
     padding: 0 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .option {
@@ -107,21 +100,12 @@ body {
     color: white;
 }
 
-.select-btn {
-    font-size: 1em;
-    background-color: #C73938;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
 .plan-actions {
     display: flex;
     gap: 10px;
     padding: 20px;
     background-color: #2a2a2a;
+    margin-top: auto;
 }
 
 .edit-btn, .delete-btn {
@@ -182,7 +166,80 @@ body {
     gap: 10px;
 }
 
-/* Responsive Design */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+}
+
+.inactive-plan {
+    opacity: 0.7;
+}
+
+.inactive-plan .plan-header {
+    background-color: #222;
+}
+
+.inactive-plan .plan-options {
+    background-color: #151515;
+}
+
+.status-btn.active {
+    background-color: #4CAF50;
+}
+
+.status-btn.inactive {
+    background-color: #666;
+}
+
+.inactive-plan .price {
+    color: #888;
+}
+
+.inactive-plan .plan-actions {
+    background-color: #222;
+}
+
+.status-btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.status-btn.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.status-btn.inactive {
+    background-color: #f44336;
+    color: white;
+}
+
+.plan-card.inactive-plan {
+    opacity: 0.7;
+    position: relative;
+    background-color: #f5f5f5;
+}
+
 @media (max-width: 768px) {
     .plans-grid {
         grid-template-columns: 1fr;
@@ -193,46 +250,4 @@ body {
         gap: 10px;
         text-align: center;
     }
-}
-
-/* Confirmation Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-    font-size: 1em;
-    background-color: #444;
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 400px;
-    text-align: center;
-}
-
-.modal-buttons {
-    margin-top: 20px;
-}
-
-.modal-buttons button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    background-color: #5D0C0B;
-    color: #D9D9D9;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.modal-buttons button:hover {
-    background-color: #C73938;
 }

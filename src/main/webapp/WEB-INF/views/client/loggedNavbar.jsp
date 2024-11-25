@@ -16,7 +16,7 @@
       <li><a href="#">About</a></li>
       <li><a href="#">Contact Us</a></li>
       <li><a href="#">Pricing</a></li>
-      <li><a href="#">Reviews</a></li>
+      <li><a href="/logout1">Logout</a></li>
     </ul>
     <div class="nav-buttons">
       <!-- Profile Image -->
@@ -63,7 +63,7 @@
       <li><a href="#">About</a></li>
       <li><a href="#">Contact Us</a></li>
       <li><a href="#">Pricing</a></li>
-      <li><a href="#">Reviews</a></li>
+      <li><a href="/logout1">Logout</a></li>
       <br>
       <div class="dropdown-buttons">
         <a href="#" class="nav-buttons1"><img src="Assets/profile-image.png" alt="" style="width: 100%; height: 100%; border-radius: 70%;"></a>
@@ -73,32 +73,6 @@
 </div>
 
 <!-- Combined JavaScript for Hamburger Menu and Notification Dropdown -->
-<script>
-  // Hamburger menu toggle for mobile view
-  const hamburger = document.querySelector('.hamburger');
-  const navbar = document.querySelector('.navbar');
-  const dropdownMenu = document.querySelector('.dropdown-menu');
-
-  hamburger.addEventListener('click', () => {
-    navbar.classList.toggle('active');
-    dropdownMenu.classList.toggle('active');
-  });
-
-  // Notification dropdown toggle for bell icon
-  const notificationIcon = document.querySelector('.notification-icon');
-  const notificationDropdown = document.querySelector('.notification-dropdown');
-
-  notificationIcon.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent the event from bubbling up
-    notificationDropdown.classList.toggle('active');
-  });
-
-  // Close notification dropdown when clicking outside
-  document.addEventListener('click', (event) => {
-    if (!notificationIcon.contains(event.target) && !notificationDropdown.contains(event.target)) {
-      notificationDropdown.classList.remove('active');
-    }
-  });
-</script>
+<script src="/js/loggedNavbar.js"></script>
 </body>
 </html>
