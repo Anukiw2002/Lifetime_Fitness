@@ -44,6 +44,16 @@
         <url-pattern>/GetAllBlogs</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>GetAllBlogsClientServlet</servlet-name>
+        <servlet-class>org.example.demo2.servlet.GetAllBlogsClientServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllBlogsClientServlet</servlet-name>
+        <url-pattern>/GetAllBlogsClient</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>UpdateBlogServlet</servlet-name>
         <servlet-class>org.example.demo2.servlet.UpdateBlogServlet</servlet-class>
