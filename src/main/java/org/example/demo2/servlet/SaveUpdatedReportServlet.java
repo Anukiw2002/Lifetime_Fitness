@@ -13,7 +13,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import org.json.JSONObject;
 
 @WebServlet("/saveUpdatedReport")
 public class SaveUpdatedReportServlet extends HttpServlet {

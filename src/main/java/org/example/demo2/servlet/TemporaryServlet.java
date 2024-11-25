@@ -5,7 +5,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.demo2.model.BlogModel;
+
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/testView")
 public class TemporaryServlet extends HttpServlet {
@@ -34,7 +37,10 @@ public class TemporaryServlet extends HttpServlet {
         }else if ("page32".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/owner/uploadVideo.jsp").forward(request, response);
         }else if ("page33".equals(page)) {
-            request.getRequestDispatcher("/WEB-INF/views/owner/uploadBlog.jsp").forward(request, response);
+            List<BlogModel> allBlogs = BlogController.getAllBlogs();
+            System.out.println("Retrieved Blogs: " + allBlogs);
+            request.setAttribute("blogs", allBlogs);
+            request.getRequestDispatcher("/WEB-INF/views/owner/viewBlogs.jsp").forward(request, response);
         }else if ("page34".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/owner/editBlog.jsp").forward(request, response);
         }else if ("page35".equals(page)) {

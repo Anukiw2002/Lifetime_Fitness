@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #333;
+    background-color: #2E2E2E;
     color: white;
     font-family: 'Poppins', sans-serif;
     display: flex;
@@ -14,7 +14,7 @@ body {
     height: 100vh;
 }
 
-.upload-container {
+.update-container {
     background-color: #606060;
     padding: 40px;
     border-radius: 10px;
@@ -71,4 +71,14 @@ textarea:focus {
 
 .submit-button:hover {
     background-color: #2e2e2e;
+}
+
+/* Styling for error message */
+.error {
+    color: red;
+    background-color: #2E2E2E;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    border-radius: 5px;
 }

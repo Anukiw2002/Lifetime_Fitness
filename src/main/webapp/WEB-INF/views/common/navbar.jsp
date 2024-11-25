@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsive Navbar with Dropdown</title>
-    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css">
 </head>
 <body>
 <div class="navbar-container">
     <!-- Update the path to the logo image -->
-    <img src="images/LogoWhite.png" alt="Lifetime Fitness Logo" class="logo">
+    <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness Logo" class="logo">
     <nav class="navbar">
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>

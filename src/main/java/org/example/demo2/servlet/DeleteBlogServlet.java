@@ -5,35 +5,93 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.demo2.util.DBConnection;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-@WebServlet("/deleteBlog")
+
 public class DeleteBlogServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve the blog ID from the request
-        String blogId = request.getParameter("blogId");
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String idParam = request.getParameter("id");
 
-        if (blogId != null && !blogId.trim().isEmpty()) {
-            try {
-                // Mocking deletion logic (Replace this with actual database deletion logic)
-                System.out.println("Deleting Blog with ID: " + blogId);
-                // Simulate successful deletion
-                request.setAttribute("message", "Blog with ID " + blogId + " has been successfully deleted.");
-            } catch (Exception e) {
-                // Simulate an error during deletion
-                request.setAttribute("message", "Error occurred while deleting blog with ID: " + blogId);
-            }
-        } else {
-            // No ID entered
-            request.setAttribute("message", "No Blog ID provided. Please enter a valid ID.");
+        if (idParam == null || idParam.isEmpty()) {
+            request.setAttribute("errorMessage", "Blog ID is missing!");
+            request.getRequestDispatcher("/WEB-INF/views/owner/deleteBlog.jsp").forward(request, response);
+            return;
         }
 
-        // Forward to the result page (e.g., deleteResult.jsp)
-        request.getRequestDispatcher("/WEB-INF/views/owner/deleteSuccess.jsp").forward(request, response);
+        int id;
+        try {
+            id = Integer.parseInt(idParam);
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Invalid Blog ID!");
+            request.getRequestDispatcher("/WEB-INF/views/owner/deleteBlog.jsp").forward(request, response);
+            return;
+        }
+
+        try (Connection connection = DBConnection.getConnection()) {
+            // Fetch the blog information for confirmation
+            String sql = "SELECT * FROM blogs WHERE id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, id);
+                java.sql.ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    // Pass the blog information for display on the confirmation page
+                    request.setAttribute("blog", resultSet);
+                    request.getRequestDispatcher("/WEB-INF/views/owner/deleteBlog.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("errorMessage", "Blog not found!");
+                    request.getRequestDispatcher("/WEB-INF/views/owner/deleteBlog.jsp").forward(request, response);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Database error: " + e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/views/owner/deleteBlog.jsp").forward(request, response);
+        }
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("deleteBlog.jsp"); // Redirect to the delete form if accessed via GET
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String idParam = request.getParameter("id");
+
+        if (idParam == null || idParam.isEmpty()) {
+            request.setAttribute("errorMessage", "Blog ID is missing!");
+            request.getRequestDispatcher("/WEB-INF/views/owner/deleteBlog.jsp").forward(request, response);
+            return;
+        }
+
+        int id = Integer.parseInt(idParam);
+
+        try (Connection connection = DBConnection.getConnection()) {
+            // SQL query to delete the blog
+            String sql = "DELETE FROM blogs WHERE id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, id);
+
+                int rowsDeleted = statement.executeUpdate();
+
+                if (rowsDeleted > 0) {
+                    // Add a pop-up success message
+                    String successMessage = "Blog deleted successfully!";
+                    response.setContentType("text/html");
+                    response.getWriter().println("<script type='text/javascript'>");
+                    response.getWriter().println("alert('" + successMessage + "');");
+                    response.getWriter().println("window.location.href = 'GetAllBlogs';");
+                    response.getWriter().println("</script>");
+                } else {
+                    request.setAttribute("errorMessage", "Failed to delete the blog!");
+                    request.getRequestDispatcher("/WEB-INF/views/owner/deleteBlog.jsp").forward(request, response);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Database error: " + e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/views/owner/deleteBlog.jsp").forward(request, response);
+        }
     }
 }
