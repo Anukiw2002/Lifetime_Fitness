@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Enumeration;
+import java.sql.Connection;
 
 @WebServlet("/instructor/createWorkout")
 public class CreateWorkoutServlet extends HttpServlet {
@@ -26,7 +26,6 @@ public class CreateWorkoutServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        DBConnection dbConnection = new DBConnection();
         this.clientWorkoutDAO = new ClientWorkoutDAO(dbConnection);
         this.workoutExerciseDAO = new WorkoutExerciseDAO(dbConnection);
         this.categoryDAO = new WorkoutCategoryDAO(dbConnection);
@@ -37,7 +36,6 @@ public class CreateWorkoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // Load categories and exercises for the form
             List<WorkoutCategory> categories = categoryDAO.findAll();
             List<Exercise> exercises = exerciseDAO.findAll();
 
@@ -53,87 +51,68 @@ public class CreateWorkoutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // Extract basic workout info
+            // Get parameters
             String clientPhone = request.getParameter("clientPhone");
             String workoutName = request.getParameter("workoutName");
             Long categoryId = Long.parseLong(request.getParameter("categoryId"));
+            Long instructorId = 1L; // You might want to get this from the session
 
-            // Debug logging
-            System.out.println("Creating workout with name: " + workoutName);
-            System.out.println("For client: " + clientPhone);
-            System.out.println("Category ID: " + categoryId);
-
-            // Create and save the workout
-            ClientWorkout workout = new ClientWorkout(clientPhone, workoutName, categoryId, 1L); // Assuming instructor_id = 1
-            ClientWorkoutDAO workoutDAO = new ClientWorkoutDAO(dbConnection);
-            workout = workoutDAO.create(workout);
-
-            if (workout != null && workout.getWorkoutId() != null) {
-                System.out.println("Workout created with ID: " + workout.getWorkoutId());
-
-                // Inside your doPost method, replace the exercise processing section with this:
-
-// Process exercises
-                List<WorkoutExercise> exercises = new ArrayList<>();
-                int index = 0;
-                boolean hasMoreExercises = true;
-
-                while (hasMoreExercises) {
-                    String exerciseIdParam = request.getParameter("exercises[" + index + "].exerciseId");
-                    if (exerciseIdParam == null) {
-                        hasMoreExercises = false;
-                        continue;
-                    }
-
-                    String setNumberParam = request.getParameter("exercises[" + index + "].setNumber");
-                    String repsParam = request.getParameter("exercises[" + index + "].reps");
-                    String notesParam = request.getParameter("exercises[" + index + "].notes");
-
-                    System.out.println("Processing exercise at index " + index);
-                    System.out.println("Exercise ID: " + exerciseIdParam);
-                    System.out.println("Sets: " + setNumberParam);
-                    System.out.println("Reps: " + repsParam);
-
-                    try {
-                        WorkoutExercise exercise = new WorkoutExercise(
-                                workout.getWorkoutId(),
-                                Long.parseLong(exerciseIdParam),
-                                Integer.parseInt(setNumberParam),
-                                Integer.parseInt(repsParam)
-                        );
-                        exercise.setNotes(notesParam);
-                        exercises.add(exercise);
-                        System.out.println("Added exercise to list");
-                    } catch (NumberFormatException e) {
-                        System.err.println("Error parsing exercise data at index " + index);
-                        e.printStackTrace();
-                    }
-
-                    index++;
-                }
-
-                System.out.println("Total exercises to save: " + exercises.size());
-
-// Save the exercises
-                WorkoutExerciseDAO exerciseDAO = new WorkoutExerciseDAO(dbConnection);
-                for (WorkoutExercise exercise : exercises) {
-                    try {
-                        WorkoutExercise saved = exerciseDAO.create(exercise);
-                        System.out.println("Saved exercise: " + saved.getWorkoutExerciseId());
-                    } catch (SQLException e) {
-                        System.err.println("Error saving exercise: " + e.getMessage());
-                        throw e;
-                    }
-                }
+            // Check if workout name already exists for this client
+            if (clientWorkoutDAO.workoutNameExists(clientPhone, workoutName)) {
+                // If exists, set error message and redirect back to form
+                request.setAttribute("error", "A workout with this name already exists for this client.");
+                request.setAttribute("categories", categoryDAO.findAll());
+                request.setAttribute("exercises", exerciseDAO.findAll());
+                request.getRequestDispatcher("/WEB-INF/views/instructor/create-workout.jsp")
+                        .forward(request, response);
+                return;
             }
 
-            // Redirect back to client workouts page
-            response.sendRedirect("clientWorkouts?phoneNumber=" + clientPhone);
+            // Start transaction
+            Connection connection = dbConnection.getConnection();
+            connection.setAutoCommit(false);
 
+            try {
+                // Create workout
+                ClientWorkout workout = new ClientWorkout(clientPhone, workoutName, categoryId, instructorId);
+                workout = clientWorkoutDAO.create(workout);
+
+                if (workout == null || workout.getWorkoutId() == null) {
+                    throw new ServletException("Failed to create workout");
+                }
+
+                // Process exercises
+                String[] exerciseIds = request.getParameterValues("exerciseId");
+                String[] setNumbers = request.getParameterValues("setNumber");
+                String[] reps = request.getParameterValues("reps");
+                String[] notes = request.getParameterValues("notes");
+
+                if (exerciseIds != null) {
+                    for (int i = 0; i < exerciseIds.length; i++) {
+                        WorkoutExercise exercise = new WorkoutExercise();
+                        exercise.setWorkoutId(workout.getWorkoutId());
+                        exercise.setExerciseId(Long.parseLong(exerciseIds[i]));
+                        exercise.setSetNumber(Integer.parseInt(setNumbers[i]));
+                        exercise.setReps(Integer.parseInt(reps[i]));
+                        exercise.setNotes(notes != null && notes.length > i ? notes[i] : null);
+
+                        workoutExerciseDAO.create(exercise);
+                    }
+                }
+
+                // Commit transaction
+                connection.commit();
+                response.sendRedirect("clientWorkouts?phoneNumber=" + clientPhone);
+            } catch (Exception e) {
+                // Rollback on error
+                connection.rollback();
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
+                connection.close();
+            }
         } catch (SQLException e) {
-            System.err.println("Error creating workout: " + e.getMessage());
-            e.printStackTrace();
-            throw new ServletException("Error creating workout", e);
+            throw new ServletException("Database error occurred", e);
         }
     }
 
