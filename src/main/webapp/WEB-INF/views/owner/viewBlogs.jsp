@@ -17,9 +17,10 @@
 </head>
 <body style="font-family: 'Inter', sans-serif;">
 
-<jsp:include page="../common/verticalNavBar.jsp" />
+
 
 <div class="learning-content-customer">
+    <jsp:include page="../common/verticalNavBar.jsp" />
     <div class="content-section">
         <!-- Header with "All Blogs" title and Upload Blog button -->
         <div class="header-section">

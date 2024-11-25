@@ -22,7 +22,7 @@
     <div>
         <a href="leaderBoard" class="nav-link"><i class="fas fa-chart-line icon"></i>Leaderboard</a>
         <a href="leaderBoardDetails" class="nav-link"><i class="fas fa-dumbbell icon"></i>Leaderboard details</a>
-        <a href="#reports" class="nav-link"><i class="fas fa-file-alt icon"></i>Notifications</a>
+        <a href="viewNotification" class="nav-link"><i class="fas fa-file-alt icon"></i>Notifications</a>
         <a href="#reports" class="nav-link"><i class="fas fa-file-alt icon"></i>Reviews</a>
         <!-- New Buttons for Videos and Blogs -->
         <a href="#videos" class="nav-link"><i class="fas fa-video icon"></i>Videos</a>
