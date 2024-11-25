@@ -51,17 +51,29 @@ public class CreateWorkoutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            // Get parameters
+            String clientPhone = request.getParameter("clientPhone");
+            String workoutName = request.getParameter("workoutName");
+            Long categoryId = Long.parseLong(request.getParameter("categoryId"));
+            Long instructorId = 1L; // You might want to get this from the session
+
+            // Check if workout name already exists for this client
+            if (clientWorkoutDAO.workoutNameExists(clientPhone, workoutName)) {
+                // If exists, set error message and redirect back to form
+                request.setAttribute("error", "A workout with this name already exists for this client.");
+                request.setAttribute("categories", categoryDAO.findAll());
+                request.setAttribute("exercises", exerciseDAO.findAll());
+                request.getRequestDispatcher("/WEB-INF/views/instructor/create-workout.jsp")
+                        .forward(request, response);
+                return;
+            }
+
             // Start transaction
             Connection connection = dbConnection.getConnection();
             connection.setAutoCommit(false);
 
             try {
                 // Create workout
-                String clientPhone = request.getParameter("clientPhone");
-                String workoutName = request.getParameter("workoutName");
-                Long categoryId = Long.parseLong(request.getParameter("categoryId"));
-                Long instructorId = 1L; // You might want to get this from the session
-
                 ClientWorkout workout = new ClientWorkout(clientPhone, workoutName, categoryId, instructorId);
                 workout = clientWorkoutDAO.create(workout);
 

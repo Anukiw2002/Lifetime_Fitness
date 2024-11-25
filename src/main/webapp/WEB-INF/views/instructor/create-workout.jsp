@@ -18,6 +18,13 @@
         <form action="createWorkout" method="POST" class="card" id="workoutForm" onsubmit="return validateForm()">
             <input type="hidden" name="clientPhone" value="${param.clientPhone}">
 
+            <c:if test="${not empty error}">
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                        ${error}
+                </div>
+            </c:if>
+
             <div class="card-body">
                 <h2 class="text-center mb-4">Workout Information</h2>
                 <div class="form-group">
@@ -112,7 +119,20 @@
         element.remove();
     }
 
+    function validateWorkoutName() {
+        const workoutName = document.getElementById('workoutName').value.trim();
+        if (workoutName === '') {
+            alert('Please enter a workout name.');
+            return false;
+        }
+        return true;
+    }
+
     function validateForm() {
+        if (!validateWorkoutName()) {
+            return false;
+        }
+
         const exerciseList = document.getElementById('exerciseList');
         if (exerciseList.children.length === 0) {
             alert('Please add at least one exercise to the workout.');
