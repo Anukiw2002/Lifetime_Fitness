@@ -9,7 +9,7 @@ import org.example.demo2.model.BlogModel;
 
 import java.io.IOException;
 import java.util.List;
-
+@WebServlet("/getAllBlogs")
 public class GetAllBlogsServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

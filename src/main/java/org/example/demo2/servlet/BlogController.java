@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BlogController {
 
-    // Existing method to fetch all blogs
+    // Method to fetch all blogs and print the data
     public static List<BlogModel> getAllBlogs() {
         List<BlogModel> blogs = new ArrayList<>();
 
@@ -33,6 +33,13 @@ public class BlogController {
                             resultSet.getString("link")
                     );
                     blogs.add(blog);
+
+                    // Print the retrieved data
+                    System.out.println("Blog ID: " + blog.getId());
+                    System.out.println("Name: " + blog.getName());
+                    System.out.println("Description: " + blog.getDescription());
+                    System.out.println("Link: " + blog.getLink());
+                    System.out.println("---------------");
                 }
             }
         } catch (Exception e) {
@@ -43,7 +50,7 @@ public class BlogController {
         return blogs;
     }
 
-    // New method to update blog data
+    // Method to update blog data
     public static boolean updateBlog(int id, String name, String description, String link) {
         try (Connection connection = DBConnection.getConnection()) {
             if (connection == null) {

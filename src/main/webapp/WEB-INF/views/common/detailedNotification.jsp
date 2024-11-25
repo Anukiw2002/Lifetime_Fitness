@@ -1,3 +1,4 @@
+<jsp:include page="../client/clientVerticalNavbar.jsp" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,7 @@
       margin: 0;
       padding: 0;
       background-color: #f9f9f9;
-      background-color: #4c4c4c;
+      background-color: #333;
     }
 
     .container {
@@ -72,6 +73,7 @@
 <body>
 
 <div class="container">
+
   <h1>Notification Details</h1>
 
   <div class="notification-detail">
@@ -97,3 +99,5 @@
 
 </body>
 </html>
+
+
