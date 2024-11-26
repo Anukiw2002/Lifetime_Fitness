@@ -147,7 +147,7 @@ public class ReportServlet extends HttpServlet {
                 conn.commit();
                 System.out.println("Report and exercises inserted successfully!");
                 request.setAttribute("message", "User report submitted successfully!");
-                request.getRequestDispatcher("/jsp/reportConfirmation.jsp").forward(request, response);
+                request.getRequestDispatcher("/first").forward(request, response);
             } catch (SQLException e) {
                 conn.rollback();
                 System.err.println("Transaction rolled back due to: " + e.getMessage());

@@ -96,6 +96,11 @@
       </tbody>
     </table>
   </form>
+
+  <!-- Go Back Button -->
+  <button onclick="window.location.href = '/first';">Go back</button>
+
+
   <%
     }
   %>
