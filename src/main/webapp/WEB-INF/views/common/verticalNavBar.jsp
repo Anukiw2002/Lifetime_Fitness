@@ -35,10 +35,10 @@
         <a href="#reports" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Reports
         </a>
-        <a href="#videos" class="nav-link">
+        <a href="getAllVideos" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
-        <a href="#blogs" class="nav-link">
+        <a href="GetAllBlogs" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
         <a href="/membership/view" class="nav-link">
