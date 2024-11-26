@@ -9,38 +9,33 @@
     <title>View Blogs</title>
 
     <!-- Link to external CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewBlogs.css" />
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
 </head>
-<body style="font-family: 'Inter', sans-serif;">
+<body>
 
-
-
-<div class="learning-content-customer">
+<div class="main-content">
     <jsp:include page="../common/verticalNavBar.jsp" />
-    <div class="content-section">
-        <!-- Header with "All Blogs" title and Upload Blog button -->
-        <div class="header-section">
-            <h2 class="section-title">All Blogs</h2>
-            <form action="${pageContext.request.contextPath}/uploadBlog" method="get" style="display: inline;">
-                <button type="submit" class="upload-btn">Upload Blog</button>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="flex justify-between items-center mb-4">
+            <h2>All Blogs</h2>
+            <form action="${pageContext.request.contextPath}/uploadBlog" method="get">
+                <button type="submit" class="btn btn-primary">Upload Blog</button>
             </form>
         </div>
 
-        <!-- Display blogs table if blogs list is not empty -->
-        <div class="blog-section">
+        <!-- Blog Content Section -->
+        <div class="card">
             <c:if test="${not empty blogs}">
-                <table border="1" cellpadding="10" class="blog-table">
+                <table class="blog-table">
                     <thead>
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
                         <th>Link</th>
-                        <th>Update a Blog</th>
-                        <th>Delete a Blog</th>
+                        <th>Update</th>
+                        <th>Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -49,23 +44,20 @@
                             <td>${blog.name}</td>
                             <td>${blog.description}</td>
                             <td>
-                                <!-- View button styled as a button -->
-                                <form action="${blog.link}" method="get" style="display: inline;" target="_blank">
-                                    <button type="submit" class="view-btn">View</button>
+                                <form action="${blog.link}" method="get" target="_blank">
+                                    <button type="submit" class="btn btn-secondary">View</button>
                                 </form>
                             </td>
                             <td>
-                                <!-- Update button -->
-                                <form action="${pageContext.request.contextPath}/updateBlog" method="get" style="display: inline;">
+                                <form action="${pageContext.request.contextPath}/updateBlog" method="get">
                                     <input type="hidden" name="id" value="${blog.id}" />
-                                    <button type="submit" class="update-btn">Update</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                 </form>
                             </td>
                             <td>
-                                <!-- Delete button -->
-                                <form action="${pageContext.request.contextPath}/deleteBlog" method="post" style="display: inline;">
+                                <form action="${pageContext.request.contextPath}/deleteBlog" method="post">
                                     <input type="hidden" name="id" value="${blog.id}" />
-                                    <button type="submit" class="delete-btn">Delete</button>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -74,9 +66,8 @@
                 </table>
             </c:if>
 
-            <!-- If no blogs available -->
             <c:if test="${empty blogs}">
-                <p>No blogs uploaded yet.</p>
+                <p class="no-blogs">No blogs uploaded yet.</p>
             </c:if>
         </div>
     </div>
