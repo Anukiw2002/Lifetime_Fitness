@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import org.apache.commons.text.StringEscapeUtils;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -59,7 +60,8 @@ public class LoginServlet extends HttpServlet {
             if (passwordMatch) {
                 // Create a session and redirect based on the user's role
                 HttpSession session = request.getSession();
-                session.setAttribute("user", user);
+                session.setAttribute("userRole", user.getRole());
+                session.setMaxInactiveInterval(30*60);;
 
                 // Role-based redirection
                 switch (user.getRole()) {
@@ -67,7 +69,7 @@ public class LoginServlet extends HttpServlet {
                         request.getRequestDispatcher("/WEB-INF/views/client/memberProfile.jsp").forward(request, response);
                         break;
                     case "owner":
-                        request.getRequestDispatcher("/WEB-INF/views/owner/memberManagement.jsp").forward(request, response);
+                        request.getRequestDispatcher("/owner/memberManagement").forward(request, response);
                         break;
                     case "instructor":
                         request.getRequestDispatcher("/upcomingSessions").forward(request, response);
@@ -88,8 +90,9 @@ public class LoginServlet extends HttpServlet {
     // Helper function to send a JavaScript alert
     private void sendAlert(HttpServletResponse response, String message) throws IOException {
         response.setContentType("text/html");
+        String sanitizedMessage = StringEscapeUtils.escapeJson(message);
         response.getWriter().println("<script type=\"text/javascript\">");
-        response.getWriter().println("alert('" + message + "');");
+        response.getWriter().println("alert('" + sanitizedMessage + "');");
         response.getWriter().println("window.location.href = '" + response.encodeURL("testView?page=login") + "';");
         response.getWriter().println("</script>");
     }

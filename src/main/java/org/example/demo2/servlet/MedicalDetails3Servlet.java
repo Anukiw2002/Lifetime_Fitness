@@ -1,16 +1,16 @@
 package org.example.demo2.servlet;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.annotation.WebServlet;
 
 import java.io.IOException;
 
-@WebServlet("/logout1")
-public class UserLogoutServlet extends HttpServlet {
+@WebServlet("/medicalDetails3")
+public class MedicalDetails3Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
@@ -18,8 +18,6 @@ public class UserLogoutServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
-
-
-        request.getRequestDispatcher("/landingPage").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/client/signUp4.jsp").forward(request, response);
     }
 }

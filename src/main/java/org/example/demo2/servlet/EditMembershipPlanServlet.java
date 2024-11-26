@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.ServletException;
 
+import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.*;
 import org.example.demo2.model.*;
 import org.example.demo2.util.DBConnection;
@@ -35,6 +36,12 @@ public class EditMembershipPlanServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userRole") == null) {
+            // If the session is invalid or the user is not logged in, redirect to the login page
+            response.sendRedirect(request.getContextPath() + "/landingPage");
+            return;
+        }
         String planIdParam = request.getParameter("planId");
         if (planIdParam == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing planId");

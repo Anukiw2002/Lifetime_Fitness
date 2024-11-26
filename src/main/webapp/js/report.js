@@ -1,7 +1,7 @@
 document.getElementById('addRowButton').addEventListener('click', function() {
     // Get the table body
     var tableBody = document.querySelector('#trainingTable tbody');
-    var rowCount = tableBody.rows.length + 1; // Ensure unique index
+    var rowCount = tableBody.querySelectorAll('tr').length + 1; // Ensure unique index based on the number of rows
 
     // Create a new row
     var newRow = document.createElement('tr');
@@ -21,6 +21,22 @@ document.getElementById('addRowButton').addEventListener('click', function() {
 });
 
 document.getElementById('userReportForm').addEventListener('submit', function(event) {
-    // Allow the default form submission
-    console.log('Form is being submitted normally.');
+    // Prevent default form submission to show alert first
+    event.preventDefault();
+
+    // Optionally show an alert here before submitting
+    alert('Form is being submitted. Redirecting to the list form.');
+
+    // Now submit the form programmatically
+    this.submit(); // Proceed with the form submission after the alert
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Check if a message is available from the server
+    const message = document.getElementById('message').innerText;
+
+    // If a message is present, show an alert
+    if (message && message.trim() !== "") {
+        alert(message);
+    }
 });
