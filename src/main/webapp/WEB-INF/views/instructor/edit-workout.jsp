@@ -5,148 +5,111 @@
 <head>
     <title>Edit Workout | Lifetime Fitness</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/workoutStylesheet.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
     <style>
-        .exercise-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .remove-exercise {
-            color: #dc3545;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            transition: background-color 0.2s;
-        }
-
-        .remove-exercise:hover {
-            background-color: rgba(220, 53, 69, 0.1);
-        }
-
-        .exercise-input {
-            width: 60px;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .notes-input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-top: 8px;
-        }
-
-        .add-exercise-section {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-        }
-
-        .exercise-select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-        }
-
-        .save-button {
-            background-color: #28a745;
+        .category-badge {
+            background-color: var(--primary-color);
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 20px;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
         }
 
-        .save-button:hover {
-            background-color: #218838;
+        .exercise-title {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <a href="javascript:history.back()" class="back-button">
-        <i class="fas fa-arrow-left"></i> Back to Workouts
-    </a>
-
-    <form action="${pageContext.request.contextPath}/instructor/editWorkout" method="POST" id="editWorkoutForm">
-        <input type="hidden" name="workoutId" value="${workout.workoutId}">
-
-        <div class="workout-header">
-            <div class="workout-title">
-                <h2>${workout.workoutName}</h2>
-                <span class="category-badge">
-                        <i class="fas fa-tag"></i> ${workout.category.categoryName}
-                    </span>
-            </div>
+<div class="main-content">
+    <jsp:include page="../common/verticalNavBar.jsp" />
+    <div class="container">
+        <div class="flex mb-4">
+            <a href="javascript:history.back()" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Workouts
+            </a>
         </div>
 
-        <div class="exercise-list">
-            <c:forEach var="exercise" items="${workout.exercises}" varStatus="status">
-                <div class="exercise-card">
-                    <input type="hidden" name="exerciseIds" value="${exercise.exerciseId}">
+        <form action="${pageContext.request.contextPath}/instructor/editWorkout" method="POST" id="editWorkoutForm" class="card">
+            <input type="hidden" name="workoutId" value="${workout.workoutId}">
 
-                    <div class="exercise-header">
-                            <span class="exercise-name">
-                                <i class="fas fa-running"></i>
-                                ${exercise.exercise.exerciseName}
-                            </span>
-                        <span class="remove-exercise" onclick="removeExercise(this)">
-                                <i class="fas fa-times"></i>
-                            </span>
-                    </div>
+            <div class="card-header flex justify-between items-center">
+                <h2 class="mb-0">${workout.workoutName}</h2>
+                <span class="category-badge">
+                    <i class="fas fa-tag"></i> ${workout.category.categoryName}
+                </span>
+            </div>
 
-                    <div class="exercise-details">
-                        <div class="detail-box">
-                            <div class="detail-label">Set</div>
-                            <input type="number" class="exercise-input" name="setNumbers"
-                                   value="${exercise.setNumber}" min="1" required>
+            <div class="card-body">
+                <div class="grid grid-auto-fit gap-lg">
+                    <c:forEach var="exercise" items="${workout.exercises}" varStatus="status">
+                        <div class="card">
+                            <input type="hidden" name="exerciseIds" value="${exercise.exerciseId}">
+
+                            <div class="flex justify-between items-center mb-3">
+                                 <span class="exercise-title">
+                                    <i class="fas fa-running"></i>
+                                    ${exercise.exercise.exerciseName}
+                                </span>
+                                <button type="button" class="btn btn-danger" onclick="removeExercise(this)">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+
+                            <div class="grid grid-2 gap-md mb-3">
+                                <div class="form-group mb-2">
+                                    <label class="form-label">Set</label>
+                                    <input type="number" class="form-control" name="setNumbers"
+                                           value="${exercise.setNumber}" min="1" required>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label class="form-label">Reps</label>
+                                    <input type="number" class="form-control" name="reps"
+                                           value="${exercise.reps}" min="1" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Notes</label>
+                                <textarea class="form-control" name="notes"
+                                          placeholder="Add notes...">${exercise.notes}</textarea>
+                            </div>
                         </div>
-                        <div class="detail-box">
-                            <div class="detail-label">Reps</div>
-                            <input type="number" class="exercise-input" name="reps"
-                                   value="${exercise.reps}" min="1" required>
-                        </div>
-                    </div>
+                    </c:forEach>
+                </div>
 
-                    <div class="exercise-notes">
-                            <textarea class="notes-input" name="notes"
-                                      placeholder="Add notes...">${exercise.notes}</textarea>
+                <div class="card mt-4">
+                    <h3 class="mb-3">Add New Exercise</h3>
+                    <div class="flex gap-md">
+                        <select class="form-control" id="newExercise">
+                            <option value="">Select an exercise...</option>
+                            <c:forEach var="availableExercise" items="${availableExercises}">
+                                <option value="${availableExercise.exerciseId}">
+                                        ${availableExercise.exerciseName}
+                                </option>
+                            </c:forEach>
+                        </select>
+                        <button type="button" class="btn btn-primary" onclick="addNewExercise()">
+                            <i class="fas fa-plus"></i> Add Exercise
+                        </button>
                     </div>
                 </div>
-            </c:forEach>
-        </div>
+            </div>
 
-        <div class="add-exercise-section">
-            <h3>Add New Exercise</h3>
-            <select class="exercise-select" id="newExercise">
-                <option value="">Select an exercise...</option>
-                <c:forEach var="availableExercise" items="${availableExercises}">
-                    <option value="${availableExercise.exerciseId}">
-                            ${availableExercise.exerciseName}
-                    </option>
-                </c:forEach>
-            </select>
-            <button type="button" class="btn btn-primary" onclick="addNewExercise()">
-                <i class="fas fa-plus"></i> Add Exercise
-            </button>
-        </div>
-
-        <button type="submit" class="save-button">
-            <i class="fas fa-save"></i> Save Changes
-        </button>
-    </form>
+            <div class="flex justify-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
     function removeExercise(element) {
-        const exerciseCard = element.closest('.exercise-card');
+        const exerciseCard = element.closest('.card');
         exerciseCard.remove();
     }
 
@@ -156,44 +119,51 @@
         const exerciseName = select.options[select.selectedIndex].text;
 
         if (!exerciseId) {
-            alert('Please select an exercise');
+            alert('Please select an exercise.');
             return;
         }
 
-        const template = `
-                <div class="exercise-card">
-                    <input type="hidden" name="exerciseIds" value="${exerciseId}">
-                    <div class="exercise-header">
-                        <span class="exercise-name">
-                            <i class="fas fa-running"></i>
-                            ${exerciseName}
-                        </span>
-                        <span class="remove-exercise" onclick="removeExercise(this)">
-                            <i class="fas fa-times"></i>
-                        </span>
-                    </div>
-                    <div class="exercise-details">
-                        <div class="detail-box">
-                            <div class="detail-label">Set</div>
-                            <input type="number" class="exercise-input" name="setNumbers"
-                                   value="1" min="1" required>
-                        </div>
-                        <div class="detail-box">
-                            <div class="detail-label">Reps</div>
-                            <input type="number" class="exercise-input" name="reps"
-                                   value="10" min="1" required>
-                        </div>
-                    </div>
-                    <div class="exercise-notes">
-                        <textarea class="notes-input" name="notes"
-                                  placeholder="Add notes..."></textarea>
-                    </div>
-                </div>
-            `;
+        // Check for duplicates
+        const existingExercises = document.querySelectorAll('input[name="exerciseIds"]');
+        for (let existingExercise of existingExercises) {
+            if (existingExercise.value === exerciseId) {
+                alert(`This Exercise is already added.`);
+                return;
+            }
+        }
 
-        document.querySelector('.exercise-list').insertAdjacentHTML('beforeend', template);
+        const template =
+            '<div class="card">' +
+            '<input type="hidden" name="exerciseIds" value="' + exerciseId + '">' +
+            '<div class="flex justify-between items-center mb-3">' +
+            '<span class="exercise-title">' +
+            '<i class="fas fa-running"></i> ' +
+            exerciseName +
+            '</span>' +
+            '<button type="button" class="btn btn-danger" onclick="removeExercise(this)">' +
+            '<i class="fas fa-times"></i>' +
+            '</button>' +
+            '</div>' +
+            '<div class="grid grid-2 gap-md mb-3">' +
+            '<div class="form-group mb-2">' +
+            '<label class="form-label">Set</label>' +
+            '<input type="number" class="form-control" name="setNumbers" value="1" min="1" required>' +
+            '</div>' +
+            '<div class="form-group mb-2">' +
+            '<label class="form-label">Reps</label>' +
+            '<input type="number" class="form-control" name="reps" value="10" min="1" required>' +
+            '</div>' +
+            '</div>' +
+            '<div class="form-group">' +
+            '<label class="form-label">Notes</label>' +
+            '<textarea class="form-control" name="notes" placeholder="Add notes..."></textarea>' +
+            '</div>' +
+            '</div>';
+
+        document.querySelector('.grid-auto-fit').insertAdjacentHTML('beforeend', template);
         select.value = '';
     }
+
 </script>
 </body>
 </html>

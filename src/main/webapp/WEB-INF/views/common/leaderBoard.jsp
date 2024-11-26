@@ -20,16 +20,47 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="entry" items="${leaderboardEntries}">
-            <tr>
-                <td>${entry.rating}</td>
-                <td>${entry.name}</td>
-                <td>${entry.category}</td>
-                <td>${entry.maximumKg}</td>
-            </tr>
-        </c:forEach>
+        <tr>
+            <td>1</td>
+            <td>John Doe</td>
+            <td>Deadlifts</td>
+            <td>200</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane Smith</td>
+            <td>Bench Press</td>
+            <td>150</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Mark Taylor</td>
+            <td>Squats</td>
+            <td>180</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Emma Watson</td>
+            <td>Overhead Press</td>
+            <td>120</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Chris Evans</td>
+            <td>Pull-Ups</td>
+            <td>50</td>
+        </tr>
         </tbody>
     </table>
+
+    <!-- Go Back Button -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button
+                onclick="location.href='<%= request.getContextPath() %>/memberProfile'"
+                style="padding: 10px 20px; font-size: 16px; background-color: #5c5c5c; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+            Go Back
+        </button>
+    </div>
 </div>
 </body>
 </html>

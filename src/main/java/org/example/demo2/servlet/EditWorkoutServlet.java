@@ -34,6 +34,11 @@ public class EditWorkoutServlet extends HttpServlet {
         String workoutId = request.getParameter("workoutId");
 
         try {
+            if (workoutId == null || workoutId.trim().isEmpty()) {
+                response.sendRedirect("clientWorkouts");
+                return;
+            }
+
             // Load the workout with exercises
             ClientWorkout workout = clientWorkoutDAO.findWithExercises(Long.parseLong(workoutId));
             if (workout == null) {
@@ -51,41 +56,78 @@ public class EditWorkoutServlet extends HttpServlet {
 
         } catch (SQLException e) {
             throw new ServletException("Database error occurred", e);
+        } catch (NumberFormatException e) {
+            response.sendRedirect("clientWorkouts");
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Long workoutId = Long.parseLong(request.getParameter("workoutId"));
-        String[] exerciseIds = request.getParameterValues("exerciseIds");
-        String[] setNumbers = request.getParameterValues("setNumbers");
-        String[] reps = request.getParameterValues("reps");
-        String[] notes = request.getParameterValues("notes");
-
         try {
-            // First, delete all existing exercises for this workout
-            // You'll need to add this method to WorkoutExerciseDAO
+            String workoutIdStr = request.getParameter("workoutId");
+            if (workoutIdStr == null || workoutIdStr.trim().isEmpty()) {
+                throw new ServletException("Workout ID is required");
+            }
+            Long workoutId = Long.parseLong(workoutIdStr);
+
+            String[] exerciseIds = request.getParameterValues("exerciseIds");
+            String[] setNumbers = request.getParameterValues("setNumbers");
+            String[] reps = request.getParameterValues("reps");
+            String[] notes = request.getParameterValues("notes");
+
+            // Validate that we have all required arrays and they're the same length
+            if (exerciseIds == null || setNumbers == null || reps == null || notes == null ||
+                    exerciseIds.length != setNumbers.length || exerciseIds.length != reps.length ||
+                    exerciseIds.length != notes.length) {
+                throw new ServletException("Invalid form data submitted");
+            }
+
+            // Check for duplicate exercises
+            List<Long> uniqueExerciseIds = new ArrayList<>();
+            for (String exerciseId : exerciseIds) {
+                if (exerciseId != null && !exerciseId.trim().isEmpty()) {
+                    Long parsedExerciseId = Long.parseLong(exerciseId.trim());
+                    if (uniqueExerciseIds.contains(parsedExerciseId)) {
+                        request.setAttribute("errorMessage", "Duplicate exercises are not allowed.");
+                        doGet(request, response); // Reload the page with an error message
+                        return;
+                    }
+                    uniqueExerciseIds.add(parsedExerciseId);
+                }
+            }
+
+            // Delete existing exercises
             workoutExerciseDAO.deleteByWorkoutId(workoutId);
 
-            // Then add all exercises from the form
+            // Add all exercises from the form
             for (int i = 0; i < exerciseIds.length; i++) {
+                // Skip if essential values are empty
+                if (exerciseIds[i] == null || exerciseIds[i].trim().isEmpty() ||
+                        setNumbers[i] == null || setNumbers[i].trim().isEmpty() ||
+                        reps[i] == null || reps[i].trim().isEmpty()) {
+                    continue;
+                }
+
                 WorkoutExercise workoutExercise = new WorkoutExercise();
                 workoutExercise.setWorkoutId(workoutId);
-                workoutExercise.setExerciseId(Long.parseLong(exerciseIds[i]));
-                workoutExercise.setSetNumber(Integer.parseInt(setNumbers[i]));
-                workoutExercise.setReps(Integer.parseInt(reps[i]));
-                workoutExercise.setNotes(notes[i]);
+                workoutExercise.setExerciseId(Long.parseLong(exerciseIds[i].trim()));
+                workoutExercise.setSetNumber(Integer.parseInt(setNumbers[i].trim()));
+                workoutExercise.setReps(Integer.parseInt(reps[i].trim()));
+                workoutExercise.setNotes(notes[i] != null ? notes[i].trim() : "");
 
                 workoutExerciseDAO.create(workoutExercise);
             }
 
-            // Redirect back to the workout details page
             response.sendRedirect(request.getContextPath() +
                     "/instructor/workoutDetails?workoutId=" + workoutId);
 
         } catch (SQLException e) {
             throw new ServletException("Database error occurred", e);
+        } catch (NumberFormatException e) {
+            throw new ServletException("Invalid number format in form data", e);
         }
     }
+
+
 }

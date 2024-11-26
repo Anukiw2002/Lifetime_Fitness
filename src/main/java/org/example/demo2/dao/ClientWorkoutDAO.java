@@ -117,15 +117,40 @@ public class ClientWorkoutDAO {
         Connection connection = null;
         try {
             connection = dbConnection.getConnection();
-            String sql = "DELETE FROM client_workouts WHERE workout_id = ?";
+            connection.setAutoCommit(false); // Start transaction
 
-            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // First delete associated exercises
+            String deleteExercisesSql = "DELETE FROM workout_exercises WHERE workout_id = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(deleteExercisesSql)) {
                 stmt.setLong(1, workoutId);
                 stmt.executeUpdate();
             }
+
+            // Then delete the workout
+            String deleteWorkoutSql = "DELETE FROM client_workouts WHERE workout_id = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(deleteWorkoutSql)) {
+                stmt.setLong(1, workoutId);
+                stmt.executeUpdate();
+            }
+
+            connection.commit(); // Commit transaction
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback(); // Rollback in case of error
+                } catch (SQLException ex) {
+                    throw new SQLException("Error rolling back transaction", ex);
+                }
+            }
+            throw e;
         } finally {
             if (connection != null) {
-                connection.close();
+                try {
+                    connection.setAutoCommit(true); // Reset auto-commit
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new SQLException("Error closing connection", e);
+                }
             }
         }
     }
@@ -151,6 +176,28 @@ public class ClientWorkoutDAO {
                 }
             }
             return workout;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public boolean workoutNameExists(String clientPhone, String workoutName) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "SELECT COUNT(*) FROM client_workouts WHERE client_phone = ? AND workout_name = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, clientPhone);
+                stmt.setString(2, workoutName);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+                return false;
+            }
         } finally {
             if (connection != null) {
                 connection.close();

@@ -7,9 +7,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-@WebServlet("/editProfile")
-public class EditProfileServlet extends HttpServlet {
+@WebServlet("/instructor/upcomingSessions")
+public class UpcommingSessionsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/client/editProfile.jsp").forward(request, response);
+        // Forward the request to navbar.html
+        request.getRequestDispatcher("/WEB-INF/views/instructor/upcomingSessions.jsp").forward(request, response);
     }
+
 }

@@ -13,6 +13,7 @@
 <body>
 <div class="container">
     <h1><u>LeaderBoard Details</u></h1>
+
     <h2>Select Category</h2>
     <form id="leaderboard-form">
         <div class="form-section category">
@@ -62,7 +63,6 @@
         <a href="/leaderBoard">
             <button type="button" class="view-leaderboard">View LeaderBoard</button>
         </a>
-
     </form>
 </div>
 </body>
