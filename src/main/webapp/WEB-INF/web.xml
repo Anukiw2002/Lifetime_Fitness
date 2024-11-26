@@ -79,7 +79,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GetAllVideosServlet</servlet-name>
-        <url-pattern>/GetAllVideos</url-pattern>
+        <url-pattern>/getAllVideos</url-pattern>
     </servlet-mapping>
 
 

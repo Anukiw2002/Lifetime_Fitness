@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.demo2.model.BlogModel;
+import org.example.demo2.model.VideoModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,17 +44,10 @@ public class TemporaryServlet extends HttpServlet {
             request.setAttribute("blogs", allBlogs);
             request.getRequestDispatcher("/WEB-INF/views/owner/viewBlogs.jsp").forward(request, response);
         }else if ("page34".equals(page)) {
-            request.getRequestDispatcher("/WEB-INF/views/owner/editBlog.jsp").forward(request, response);
-        }else if ("page35".equals(page)) {
-            request.getRequestDispatcher("/WEB-INF/views/owner/editVideo.jsp").forward(request, response);
-        }else if ("page36".equals(page)) {
-            request.getRequestDispatcher("/WEB-INF/views/owner/deleteBlog.jsp").forward(request, response);
-        }else if ("page37".equals(page)) {
-            request.getRequestDispatcher("/WEB-INF/views/owner/deleteVideo.jsp").forward(request, response);
-
-
-
-
+            List<VideoModel> allVideos = VideoController.getAllVideos();
+            System.out.println("Retrieved Videos: " + allVideos);
+            request.setAttribute("videos", allVideos);
+            request.getRequestDispatcher("/WEB-INF/views/owner/viewVideos.jsp").forward(request, response);
 
 
         } else if ("packages".equals(page)) {
