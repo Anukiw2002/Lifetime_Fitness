@@ -3,10 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vertical Navbar</title>
+    <title>Enhanced Navigation Bar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Basic Reset */
+        /* ... (previous root and base styles remain the same) ... */
+        :root {
+            --bg-color: #333;
+            --bg-dark: #1a1a1a;
+            --bg-darker: #151515;
+            --primary-color: #0052CC;
+            --primary-hover: #0747A6;
+            --text-color: #fff;
+            --text-muted: #888;
+            --border-color: rgba(255, 255, 255, 0.2);
+            --border-radius: 6px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --transition: all 0.2s ease-in-out;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,99 +29,116 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #2E2E2E;
-            color: #000;
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .navbar-container {
+            background-color: var(--bg-darker);
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             height: 100vh;
-            align-items: flex-start;
-            font-size: 1rem;
         }
 
-        /* Navbar Styles */
         .navbar {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            width: 100%;
-            max-width: 250px;
+            width: 250px;
             height: 100vh;
-            padding: 20px;
-            background-color: #D9D9D9;
-            border-right: 1px solid #ddd;
-            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            background-color: var(--bg-dark);
+            border-right: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
             position: fixed;
             top: 0;
             left: 0;
-            transition: transform 0.3s ease-in-out;
+            transition: var(--transition);
         }
 
-        .navbar h1 {
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            margin-bottom: 20px;
+        /* Updated logo container styles */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 1rem 0;
+            margin-bottom: 1.5rem;
         }
 
+        /* Updated logo styles */
         .logo {
             width: 150px;
-            margin: 0 auto 30px;
-            align-self: center;
+            height: auto;
+            display: block;
+            filter: brightness(0.9);
         }
 
         .nav-link {
-            background-color: #fff;
-            border: 2px solid #000;
-            border-radius: 15px;
-            padding: 10px 20px;
-            margin: 20px 0;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 0.875rem 1.25rem;
+            margin: 0.5rem 0;
             width: 100%;
-            text-align: center;
             text-decoration: none;
-            color: #000;
-            font-weight: bold;
-            font-size: 1rem;
+            color: var(--text-color);
+            font-weight: 500;
             display: flex;
             align-items: center;
-            justify-content: center;
+            transition: var(--transition);
         }
 
         .nav-link:hover {
-            background-color: #e9e9e9;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .icon {
+            font-size: 1.1rem;
+            margin-right: 1rem;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover .icon {
+            color: var(--text-color);
         }
 
         .bottom-links {
             margin-top: auto;
-            display: flex;
-            flex-direction: column;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
         }
 
-        .icon {
-            font-size: 1.25rem;
-            margin-right: 10px;
-        }
-
-        /* Hamburger Menu Icon */
         .menu-icon {
             display: none;
             position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 30px;
-            height: 30px;
+            top: 1.25rem;
+            left: 1.25rem;
+            width: 2rem;
+            height: 2rem;
             cursor: pointer;
             z-index: 1000;
+            padding: 0.5rem;
+            background-color: var(--bg-dark);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
         }
 
         .menu-icon div {
             width: 100%;
-            height: 4px;
-            background-color: #0f0202;
-            margin: 6px 0;
-            transition: 0.4s;
+            height: 2px;
+            background-color: var(--text-color);
+            margin: 4px 0;
+            transition: var(--transition);
         }
 
-        /* Animation for the hamburger icon */
         .menu-icon.active div:nth-child(1) {
             transform: rotate(-45deg) translate(-5px, 6px);
         }
@@ -119,13 +151,10 @@
             transform: rotate(45deg) translate(-5px, -6px);
         }
 
-        /* Media Queries for Responsiveness */
         @media (max-width: 768px) {
             .navbar {
-                position: fixed;
                 transform: translateX(-100%);
-                height: 100vh;
-                overflow: auto;
+                z-index: 999;
             }
 
             .navbar.active {
@@ -139,57 +168,69 @@
 
         @media (max-width: 480px) {
             .navbar {
-                height: auto;
-                padding: 10px;
+                width: 100%;
             }
 
             .nav-link {
-                margin: 8px 0;
-                padding: 8px 12px;
+                padding: 0.75rem 1rem;
                 font-size: 0.9rem;
-            }
-
-            .navbar h1 {
-                font-size: 1.2rem;
-                margin-bottom: 10px;
             }
         }
     </style>
 </head>
 <body>
-<!-- Menu Icon for smaller screens -->
 <div class="menu-icon">
     <div></div>
     <div></div>
     <div></div>
 </div>
-<!-- Navbar -->
+
 <div class="navbar">
-    <div>
-        <img src="${pageContext.request.contextPath}/images/logo.png" alt="Lifetime Fitness" class="logo">
+    <!-- Updated logo container -->
+    <div class="logo-container">
+        <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
     </div>
     <div>
-        <a href="#dashboard" class="nav-link"><i class="fas fa-chart-line icon"></i>Dashboard</a>
-        <a href="#members" class="nav-link"><i class="fas fa-users icon"></i>Members</a>
-        <a href="/instructor/searchClient" class="nav-link"><i class="fas fa-dumbbell icon"></i>Workout</a>
-        <a href="#notifications" class="nav-link"><i class="fas fa-bell icon"></i>Notifications</a>
-        <a href="#reports" class="nav-link"><i class="fas fa-file-alt icon"></i>Reports</a>
-         <a href="#videos" class="nav-link"><i class="fas fa-video icon"></i>Videos</a>
-        <a href="#blogs" class="nav-link"><i class="fas fa-book icon"></i>Blogs</a>
-        <a href="/membership/view" class="nav-link"><i class="fas fa-credit-card icon"></i>Membership</a>
-
+        <a href="#dashboard" class="nav-link">
+            <i class="fas fa-chart-line icon"></i>Dashboard
+        </a>
+        <a href="#members" class="nav-link">
+            <i class="fas fa-users icon"></i>Members
+        </a>
+        <a href="/instructor/searchClient" class="nav-link">
+            <i class="fas fa-dumbbell icon"></i>Workout
+        </a>
+        <a href="#notifications" class="nav-link">
+            <i class="fas fa-bell icon"></i>Notifications
+        </a>
+        <a href="#reports" class="nav-link">
+            <i class="fas fa-file-alt icon"></i>Reports
+        </a>
+        <a href="#videos" class="nav-link">
+            <i class="fas fa-video icon"></i>Videos
+        </a>
+        <a href="#blogs" class="nav-link">
+            <i class="fas fa-book icon"></i>Blogs
+        </a>
+        <a href="/membership/view" class="nav-link">
+            <i class="fas fa-credit-card icon"></i>Membership
+        </a>
     </div>
 
-    <!-- Bottom links for Settings and Log Out -->
     <div class="bottom-links">
-        <a href="#settings" class="nav-link"><i class="fas fa-cog icon"></i>Settings</a>
-        <a href="logout" class="nav-link"><i class="fas fa-sign-out-alt icon"></i>Log out</a>
+        <a href="#settings" class="nav-link">
+            <i class="fas fa-cog icon"></i>Settings
+        </a>
+        <a href="#logout" class="nav-link">
+            <i class="fas fa-sign-out-alt icon"></i>Log out
+        </a>
     </div>
 </div>
 
 <script>
     const menuIcon = document.querySelector('.menu-icon');
     const navbar = document.querySelector('.navbar');
+
     menuIcon.addEventListener('click', () => {
         menuIcon.classList.toggle('active');
         navbar.classList.toggle('active');

@@ -9,6 +9,7 @@
     <title>Membership Plans Management - Lifetime Fitness</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewMembershipPlans.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
 </head>
 <body>
 <%!
@@ -22,7 +23,7 @@
 <div class="container">
     <div class="header">
         <h1 style="color: white;">Membership Plans Management</h1>
-        <button class="add-plan-btn" onclick="window.location.href='${pageContext.request.contextPath}/membership/add'">
+        <button class="btn btn-primary" onclick="window.location.href='${pageContext.request.contextPath}/membership/add'">
             <i class="fas fa-plus"></i> Add New Plan
         </button>
     </div>

@@ -1,247 +1,73 @@
-/* General Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.search-section {
+    background-color: var(--card-bg);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-xl);
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #333;
-    color: #f0f0f0;
-    display: flex;
-    height: 100vh;
+.member-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
     overflow: hidden;
 }
 
-/* Main Layout */
-.main-container {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-}
-
-.navbar-container {
-    flex: 0 0 250px; /* Fixed width for the navbar */
-    background-color: #0a0a0a;
-    overflow-y: auto;
-}
-
-.content-container {
-    flex-grow: 1;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
-}
-
-/* Page Title */
-.page-title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: #f0f0f0;
-    text-align: center;
-}
-
-/* Search and Filters */
-.search-filters {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #0a0a0a;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 2rem;
-    width: 100%;
-}
-
-.search-container {
-    position: relative;
-}
-
-.search-input {
-    padding: 0.5rem 1rem;
-    border: 1px solid #666;
-    border-radius: 0.25rem;
-    width: 300px;
-    background-color: #0a0a0a;
-    color: #f0f0f0;
-}
-
-.search-btn {
-    position: absolute;
-    top: 50%;
-    right: 0.5rem;
-    transform: translateY(-50%);
-    background-color: transparent;
-    border: none;
-    color: #666;
-    cursor: pointer;
-}
-
-.filter-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.filter-select {
-    padding: 0.5rem;
-    border: 1px solid #666;
-    border-radius: 0.25rem;
-    background-color: #0a0a0a;
-    color: #f0f0f0;
-    cursor: pointer;
-}
-
-.filter-btn {
-    background-color: #6ee7b7;
-    color: #0a0a0a;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.filter-btn:hover {
-    background-color: #34d399;
-}
-
-/* Member List */
-.member-list {
-    background-color: #0a0a0a;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    width: 100%;
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    overflow-x: auto;
-}
-
-th, td {
-    padding: 0.75rem;
+.member-table th,
+.member-table td {
+    padding: var(--spacing-md);
     text-align: left;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border-color);
 }
 
-th {
-    background-color: #333;
-    font-weight: bold;
+.member-table th {
+    background-color: var(--bg-dark);
+    font-weight: 600;
+    color: var(--text-color);
 }
 
-.status {
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
+.member-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
-.status.active {
-    background-color: #22c55e;
-    color: #0a0a0a;
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
 }
 
-.status.suspended {
-    background-color: #fbbf24;
-    color: #0a0a0a;
+.status-badge.active {
+    background-color: var(--success-color);
+    color: white;
 }
 
-.status.cancelled {
-    background-color: #dc2626;
-    color: #f0f0f0;
+.status-badge.suspended {
+    background-color: var(--warning-color);
+    color: var(--bg-dark);
 }
 
-.actions {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
+.status-badge.cancelled {
+    background-color: var(--danger-color);
+    color: white;
 }
 
-.action-btn {
-    background-color: transparent;
+.action-button {
+    padding: var(--spacing-xs);
+    border-radius: var(--border-radius);
     border: none;
-    color: #666;
     cursor: pointer;
-    transition: color 0.3s ease;
+    margin: 0 0.25rem;
+    color: var(--text-color);
+    background-color: transparent;
+    transition: var(--transition);
 }
 
-.action-btn:hover {
-    color: #f0f0f0;
+.action-button:hover {
+    transform: translateY(-1px);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-.edit-btn:hover {
-    color: #6ee7b7;
-}
-
-.suspend-btn:hover {
-    color: #fbbf24;
-}
-
-.cancel-btn:hover {
-    color: #dc2626;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .main-container {
-        flex-direction: column;
-    }
-
-    .content-container {
-        padding: 1rem;
-    }
-
-    .search-filters {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .search-container {
-        width: 100%;
-        margin-bottom: 1rem;
-    }
-
-    .search-input {
-        width: 100%;
-    }
-
-    .filter-container {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    th, td {
-        padding: 0.5rem;
-    }
-
-    .actions {
-        flex-wrap: wrap;
-    }
-}
-
-
-/* Text color for specific status types */
-.status.active {
-    background-color: #22c55e;
-    color: #ffffff; /* White text for active status */
-}
-
-.status.suspended {
-    background-color: #fbbf24;
-    color: #0a0a0a; /* Dark text for suspended status */
-}
-
-.status.cancelled {
-    background-color: #dc2626;
-    color: #f0f0f0; /* White text for cancelled status */
-}
-
-/* Change text color for all other td elements */
-td {
-    color: #f0f0f0; /* White text color for normal cells */
-}
+.action-button.edit:hover { color: var(--primary-color); }
+.action-button.suspend:hover { color: var(--warning-color); }
+.action-button.cancel:hover { color: var(--danger-color); }

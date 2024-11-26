@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Gym Plan Management</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/addMembershipPlan.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
 </head>
 <body>
 <jsp:include page="../common/verticalNavBar.jsp" />
@@ -62,9 +63,9 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary">Add Plan</button>
-                    <button type="reset" class="btn-secondary">Reset</button>
-                    <button type="button" onclick="cancelForm()" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Plan</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                    <button type="button" onclick="cancelForm()" class="btn btn-danger">Cancel</button>
                 </div>
             </form>
         </div>
