@@ -4,66 +4,73 @@
 <head>
     <title>Add New Instructor - Basic Info</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/addInstructor.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
 </head>
 <body>
 <jsp:include page="../common/verticalNavBar.jsp" />
 <div class="main-content">
-<div class="container">
-    <div class="header">
-        <h1>Add New Instructor</h1>
-        <p>Enter basic information to create instructor account</p>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Add New Instructor</h2>
+                <p class="text-center text-muted">Enter basic information to create instructor account</p>
+            </div>
+
+            <div class="card-body">
+                <form action="#" method="POST" id="instructorForm">
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">Full Name*</label>
+                        <input type="text" id="fullName" name="fullName" class="form-control" required>
+                    </div>
+
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email*</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone Number*</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="tempPassword">Temporary Password*</label>
+                        <div class="password-field">
+                            <input type="text" id="tempPassword" name="tempPassword" class="form-control" required readonly>
+                            <button type="button" class="btn btn-secondary generate-btn" onclick="generatePassword()">Generate</button>
+                        </div>
+                        <div class="password-indicator" id="passwordGenerated" style="display: none;">
+                            ✓ Password generated
+                        </div>
+                    </div>
+
+                    <div class="credentials-box" id="credentialsBox" style="display: none;">
+                        <div class="credentials-header">
+                            <h3>Login Credentials</h3>
+                            <button type="button" class="btn btn-primary" onclick="copyCredentials()">
+                                Copy Credentials
+                            </button>
+                        </div>
+                        <div class="credentials-content">
+                            <p><strong>Website:</strong> lifetimefitness.lk/login</p>
+                            <p><strong>Email:</strong> <span id="credEmail"></span></p>
+                            <p><strong>Password:</strong> <span id="credPassword"></span></p>
+                        </div>
+                    </div>
+
+                    <div class="form-actions mt-4">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='dashboard.jsp'">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <form action="#" method="POST" id="instructorForm">
-        <div class="form-group">
-            <label for="fullName">Full Name*</label>
-            <input type="text" id="fullName" name="fullName" required>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="email">Email*</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone Number*</label>
-                <input type="tel" id="phone" name="phone" required>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="tempPassword">Temporary Password*</label>
-            <div class="password-field">
-                <input type="text" id="tempPassword" name="tempPassword" required readonly>
-                <button type="button" class="generate-btn" onclick="generatePassword()">Generate</button>
-            </div>
-            <div class="password-indicator" id="passwordGenerated" style="display: none;">
-                ✓ Password generated
-            </div>
-        </div>
-
-        <div class="credentials-box" id="credentialsBox" style="display: none;">
-            <div class="credentials-header">
-                <h3>Login Credentials</h3>
-                <button type="button" class="copy-btn" onclick="copyCredentials()">
-                    Copy Credentials
-                </button>
-            </div>
-            <div class="credentials-content">
-                <p><strong>Website:</strong> lifetimefitness.lk/login</p>
-                <p><strong>Email:</strong> <span id="credEmail"></span></p>
-                <p><strong>Password:</strong> <span id="credPassword"></span></p>
-            </div>
-        </div>
-
-        <div class="btn-container">
-            <button type="button" class="btn btn-secondary" onclick="window.location.href='dashboard.jsp'">Cancel</button>
-            <button type="submit" class="btn btn-primary">Create Account</button>
-        </div>
-    </form>
+    <div class="toast" id="toast">Credentials copied to clipboard!</div>
 </div>
 
-<div class="toast" id="toast">Credentials copied to clipboard!</div>
 
 <script>
     function generatePassword() {
@@ -134,6 +141,5 @@ Please change your password after first login.`;
         }
     });
 </script>
-</div>
 </body>
 </html>

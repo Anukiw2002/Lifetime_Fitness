@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Edit Membership Plan</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/addMembershipPlan.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
 </head>
 <body>
 <jsp:include page="../common/verticalNavBar.jsp" />
@@ -150,8 +151,8 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary">Update Plan</button>
-                    <button type="button" onclick="window.history.back()" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-secondary">Update Plan</button>
+                    <button type="button" onclick="window.history.back()" class="btn btn-danger">Cancel</button>
                 </div>
             </form>
         </div>
