@@ -12,7 +12,7 @@
     <script defer src="<%= request.getContextPath() %>/js/leaderBoardDetails.js"></script>
 </head>
 <body>
-<jsp:include page="verticalNavBar.jsp" />
+<jsp:include page="../client/clientVerticalNavbar.jsp" />
 <div class="main-content">
     <div class="container">
         <div class="card">
@@ -60,7 +60,7 @@
 
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <a href="/leaderBoard" class="btn btn-secondary">View LeaderBoard</a>
+                    <a href="leaderBoard" class="btn btn-secondary">View LeaderBoard</a>
                 </div>
             </form>
         </div>

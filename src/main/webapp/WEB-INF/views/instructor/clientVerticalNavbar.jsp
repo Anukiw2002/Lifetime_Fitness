@@ -26,17 +26,20 @@
         <a href="leaderBoardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard Details
         </a>
-        <a href="viewReport" class="nav-link">
-            <i class="fas fa-dumbbell icon"></i>View report
-        </a>
         <a href="viewNotification" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
-        <a href="#" class="nav-link">
+        <a href="#reports" class="nav-link">
+            <i class="fas fa-file-alt icon"></i>Reports
+        </a>
+        <a href="getAllVideosClient" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
         <a href="GetAllBlogsClient" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
+        </a>
+        <a href="membership/view" class="nav-link">
+            <i class="fas fa-credit-card icon"></i>Membership
         </a>
     </div>
 
