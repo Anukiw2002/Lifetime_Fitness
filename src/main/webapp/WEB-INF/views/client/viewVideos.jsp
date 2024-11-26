@@ -13,7 +13,7 @@
 <body>
 
 <div class="main-content">
-    <jsp:include page="../common/verticalNavBar.jsp" />
+    <jsp:include page="../client/clientVerticalNavbar.jsp" />
 
     <div class="container">
         <!-- Header Section -->
