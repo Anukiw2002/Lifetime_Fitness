@@ -31,11 +31,12 @@ public class TemporaryServlet extends HttpServlet {
         }else if ("page29".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/client/payment.jsp").forward(request, response);
         }else if ("page30".equals(page)) {
-        request.getRequestDispatcher("/WEB-INF/views/client/contentManagement.jsp").forward(request, response);
+            List<BlogModel> allBlogs = BlogController.getAllBlogs();
+            System.out.println("Retrieved Blogs: " + allBlogs);
+            request.setAttribute("blogs", allBlogs);
+        request.getRequestDispatcher("/WEB-INF/views/client/viewBlogs.jsp").forward(request, response);
         }else if ("page31".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/owner/contentManagement.jsp").forward(request, response);
-        }else if ("page32".equals(page)) {
-            request.getRequestDispatcher("/WEB-INF/views/owner/uploadVideo.jsp").forward(request, response);
         }else if ("page33".equals(page)) {
             List<BlogModel> allBlogs = BlogController.getAllBlogs();
             System.out.println("Retrieved Blogs: " + allBlogs);
