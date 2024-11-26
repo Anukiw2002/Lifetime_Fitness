@@ -32,10 +32,10 @@
         <a href="viewNotification" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
-        <a href="#videos" class="nav-link">
+        <a href="#" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
-        <a href="#blogs" class="nav-link">
+        <a href="GetAllBlogsClient" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
     </div>
@@ -44,7 +44,7 @@
         <a href="#settings" class="nav-link">
             <i class="fas fa-cog icon"></i>Settings
         </a>
-        <a href="#logout" class="nav-link">
+        <a href="logout" class="nav-link">
             <i class="fas fa-sign-out-alt icon"></i>Log out
         </a>
     </div>
