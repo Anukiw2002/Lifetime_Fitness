@@ -21,7 +21,7 @@ public class VideoController {
                 throw new RuntimeException("Failed to connect to the database.");
             }
 
-            String query = "SELECT id, name, description, filePath FROM videos";
+            String query = "SELECT id, name, description FROM videos";
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(query)) {
 
@@ -29,8 +29,7 @@ public class VideoController {
                     VideoModel video = new VideoModel(
                             resultSet.getInt("id"),
                             resultSet.getString("name"),
-                            resultSet.getString("description"),
-                            resultSet.getString("filePath")  // Set the video URL
+                            resultSet.getString("description")
                     );
                     videos.add(video);
                 }

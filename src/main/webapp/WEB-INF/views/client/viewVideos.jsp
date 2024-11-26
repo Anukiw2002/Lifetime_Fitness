@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Blogs</title>
+    <title>View Videos</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewBlogs.css" />
 </head>
@@ -18,38 +18,32 @@
     <div class="container">
         <!-- Header Section -->
         <div class="flex justify-between items-center mb-4">
-            <h2>All Blogs</h2>
+            <h2>All Videos</h2>
         </div>
 
-        <!-- Blog Content Section -->
+        <!-- Video Content Section -->
         <div class="card">
-            <c:if test="${not empty blogs}">
+            <c:if test="${not empty videos}">
                 <table class="blog-table">
                     <thead>
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Link</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="blog" items="${blogs}">
+                    <c:forEach var="video" items="${videos}">
                         <tr>
-                            <td>${blog.name}</td>
-                            <td>${blog.description}</td>
-                            <td>
-                                <form action="${blog.link}" method="get" target="_blank">
-                                    <button type="submit" class="btn btn-secondary">View</button>
-                                </form>
-                            </td>
+                            <td>${video.name}</td>
+                            <td>${video.description}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
             </c:if>
 
-            <c:if test="${empty blogs}">
-                <p class="no-blogs">No blogs available at the moment.</p>
+            <c:if test="${empty videos}">
+                <p class="no-blogs">No videos available at the moment.</p>
             </c:if>
         </div>
     </div>

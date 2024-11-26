@@ -69,7 +69,7 @@ public class LoginServlet extends HttpServlet {
                         request.getRequestDispatcher("/WEB-INF/views/client/memberProfile.jsp").forward(request, response);
                         break;
                     case "owner":
-                        request.getRequestDispatcher("/WEB-INF/views/owner/memberManagement.jsp").forward(request, response);
+                        request.getRequestDispatcher("/owner/memberManagement").forward(request, response);
                         break;
                     case "instructor":
                         request.getRequestDispatcher("/upcomingSessions").forward(request, response);

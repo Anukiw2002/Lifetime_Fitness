@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/leaderBoard.css">
 </head>
 <body>
+
 <div class="leaderboard">
+    <jsp:include page="../client/clientVerticalNavbar.jsp" />
     <h1>LEADERBOARD</h1>
     <table>
         <thead>

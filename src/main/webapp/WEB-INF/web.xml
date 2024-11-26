@@ -79,7 +79,17 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GetAllVideosServlet</servlet-name>
-        <url-pattern>/GetAllVideos</url-pattern>
+        <url-pattern>/getAllVideos</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>GetAllVideosClientServlet</servlet-name>
+        <servlet-class>org.example.demo2.servlet.GetAllVideosClientServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetAllVideosClientServlet</servlet-name>
+        <url-pattern>/getAllVideosClient</url-pattern>
     </servlet-mapping>
 
 
