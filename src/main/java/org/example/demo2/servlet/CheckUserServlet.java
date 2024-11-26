@@ -18,6 +18,12 @@ public class CheckUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userRole") == null) {
+            // If the session is invalid or the user is not logged in, redirect to the login page
+            response.sendRedirect(request.getContextPath() + "/landingPage");
+            return;
+        }
         String email = request.getParameter("email");
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
@@ -55,7 +61,7 @@ public class CheckUserServlet extends HttpServlet {
                                 insertStmt.executeUpdate();
                             }
 
-                            HttpSession session = request.getSession();
+
                             session.setAttribute("userEmail", email);
                             System.out.println("Email added to approved_emails and session: " + email); // Debugging log
                             out.write("{\"status\":\"not_approved\", \"message\":\"Email is verified successfully!\", \"redirectUrl\":\"/processReport1\"}");

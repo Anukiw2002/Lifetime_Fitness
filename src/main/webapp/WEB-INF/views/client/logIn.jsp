@@ -7,10 +7,24 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/signUP2.css">
 </head>
 <body>
+
+<%
+    if (request.getSession(false) != null && request.getSession(false).getAttribute("user") != null) {
+        response.sendRedirect("memberProfile");
+        return;
+    }
+%>
 <div class="signup-container">
     <div class="signup-form-section">
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="signup-logo">
         <h2 class="signup-heading">Log in</h2>
+
+        <%
+            String errorMessage = (String) request.getAttribute("errorMessgae");
+        %>
+        <% if (errorMessage != null) { %>
+        <p class="error-message"><%= errorMessage %></p>
+        <% } %>
 
         <!-- Updated form -->
         <form action="${pageContext.request.contextPath}/login" method="post">
