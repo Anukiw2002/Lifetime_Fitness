@@ -8,11 +8,6 @@
 <body>
 <!-- Main layout structure -->
 <div class="flex">
-  <!-- Navbar container -->
-  <div>
-    <jsp:include page="../common/verticalNavBar.jsp" />
-  </div>
-
   <!-- Main content -->
   <div class="main-content">
     <div class="container">
