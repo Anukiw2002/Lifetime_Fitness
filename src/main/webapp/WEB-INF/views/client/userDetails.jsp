@@ -4,39 +4,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Details Cards</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/userDetails.css">
+  <title>Member Profile</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/userDetails.css">
 </head>
 <body>
+<jsp:include page="../common/verticalNavBar.jsp" />
+<div class="main-content">
+  <div class="container">
+    <div class="grid details-grid">
+      <!-- Personal Details Card -->
+      <div class="card details-card">
+        <h3>Personal Details</h3>
+        <div class="details-row">
+          <span class="details-label">Name</span>
+          <span class="details-value" id="userName">${userName}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">E-mail</span>
+          <span class="details-value" id="userEmail">${userEmail}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">City</span>
+          <span class="details-value" id="userCity">${userCity}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">T.P Number</span>
+          <span class="details-value" id="userTP">${userTP}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Gender</span>
+          <span class="details-value" id="userGender">${userGender}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Age</span>
+          <span class="details-value" id="userAge">${userAge}</span>
+        </div>
+      </div>
 
-<div class="container">
-  <div class="card">
-    <h3>User details</h3>
-    <p>Name: <span id="userName">${userName}</span></p>
-    <p>E-mail: <span id="userEmail">${userEmail}</span></p>
-    <p>City: <span id="userCity">${userCity}</span></p>
-    <p>T.P number: <span id="userTP">${userTP}</span></p>
-    <p>Gender: <span id="userGender">${userGender}</span></p>
-    <p>Age: <span id="userAge">${userAge}</span></p>
-  </div>
+      <!-- Health Details Card -->
+      <div class="card details-card">
+        <h3>Health Metrics</h3>
+        <div class="details-row">
+          <span class="details-label">Weight</span>
+          <span class="details-value" id="bodyWeight">${bodyWeight}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Height</span>
+          <span class="details-value" id="bodyHeight">${bodyHeight}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Blood Pressure</span>
+          <span class="details-value" id="bodyBP">${bodyBP}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Fitness Test</span>
+          <span class="details-value" id="fitnessTest">${fitnessTest}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">BMI</span>
+          <span class="details-value" id="bodyBMI">${bodyBMI}</span>
+        </div>
+      </div>
 
-  <div class="card">
-    <h3>Body details</h3>
-    <p>Weight: <span id="bodyWeight">${bodyWeight}</span></p>
-    <p>Height: <span id="bodyHeight">${bodyHeight}</span></p>
-    <p>Blood pressure: <span id="bodyBP">${bodyBP}</span></p>
-    <p>Fitness test: <span id="fitnessTest">${fitnessTest}</span></p>
-    <p>BMI: <span id="bodyBMI">${bodyBMI}</span></p>
-  </div>
-
-  <div class="card">
-    <h3>Gym details</h3>
-    <p>Gym plan: <span id="gymPlan">${gymPlan}</span></p>
-    <p>Last visited: <span id="lastVisited">${lastVisited}</span></p>
-    <p>Last paid: <span id="lastPaid">${lastPaid}</span></p>
-    <p>Pay date: <span id="payDate">${payDate}</span></p>
-    <p>Started date: <span id="startDate">${startDate}</span></p>
-    <p>End date: <span id="endDate">${endDate}</span></p>
+      <!-- Membership Details Card -->
+      <div class="card details-card">
+        <h3>Membership Status</h3>
+        <div class="details-row">
+          <span class="details-label">Gym Plan</span>
+          <span class="details-value" id="gymPlan">${gymPlan}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Last Visited</span>
+          <span class="details-value" id="lastVisited">${lastVisited}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Last Paid</span>
+          <span class="details-value" id="lastPaid">${lastPaid}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Pay Date</span>
+          <span class="details-value" id="payDate">${payDate}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Started Date</span>
+          <span class="details-value" id="startDate">${startDate}</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">End Date</span>
+          <span class="details-value" id="endDate">${endDate}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
