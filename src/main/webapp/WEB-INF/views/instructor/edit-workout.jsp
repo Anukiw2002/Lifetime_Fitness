@@ -119,50 +119,51 @@
         const exerciseName = select.options[select.selectedIndex].text;
 
         if (!exerciseId) {
-            alert('Please select an exercise');
+            alert('Please select an exercise.');
             return;
         }
 
-        const template = `
-        <div class="card">
-            <input type="hidden" name="exerciseIds" value="\${exerciseId}">
-            <div class="flex justify-between items-center mb-3">
-                <span class="exercise-title">
-                    <i class="fas fa-running"></i>
-                    \${exerciseName}
-                </span>
-                <button type="button" class="btn btn-danger" onclick="removeExercise(this)">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="grid grid-2 gap-md mb-3">
-                <div class="form-group mb-2">
-                    <label class="form-label">Set</label>
-                    <input type="number" class="form-control" name="setNumbers"
-                           value="1" min="1" required>
-                </div>
-                <div class="form-group mb-2">
-                    <label class="form-label">Reps</label>
-                    <input type="number" class="form-control" name="reps"
-                           value="10" min="1" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Notes</label>
-                <textarea class="form-control" name="notes"
-                          placeholder="Add notes..."></textarea>
-            </div>
-        </div>
-    `;
+        // Check for duplicates
+        const existingExercises = document.querySelectorAll('input[name="exerciseIds"]');
+        for (let existingExercise of existingExercises) {
+            if (existingExercise.value === exerciseId) {
+                alert(`This Exercise is already added.`);
+                return;
+            }
+        }
 
-        // Replace the template variables with actual values
-        const finalHtml = template
-            .replace('${exerciseId}', exerciseId)
-            .replace('${exerciseName}', exerciseName);
+        const template =
+            '<div class="card">' +
+            '<input type="hidden" name="exerciseIds" value="' + exerciseId + '">' +
+            '<div class="flex justify-between items-center mb-3">' +
+            '<span class="exercise-title">' +
+            '<i class="fas fa-running"></i> ' +
+            exerciseName +
+            '</span>' +
+            '<button type="button" class="btn btn-danger" onclick="removeExercise(this)">' +
+            '<i class="fas fa-times"></i>' +
+            '</button>' +
+            '</div>' +
+            '<div class="grid grid-2 gap-md mb-3">' +
+            '<div class="form-group mb-2">' +
+            '<label class="form-label">Set</label>' +
+            '<input type="number" class="form-control" name="setNumbers" value="1" min="1" required>' +
+            '</div>' +
+            '<div class="form-group mb-2">' +
+            '<label class="form-label">Reps</label>' +
+            '<input type="number" class="form-control" name="reps" value="10" min="1" required>' +
+            '</div>' +
+            '</div>' +
+            '<div class="form-group">' +
+            '<label class="form-label">Notes</label>' +
+            '<textarea class="form-control" name="notes" placeholder="Add notes..."></textarea>' +
+            '</div>' +
+            '</div>';
 
-        document.querySelector('.grid-auto-fit').insertAdjacentHTML('beforeend', finalHtml);
+        document.querySelector('.grid-auto-fit').insertAdjacentHTML('beforeend', template);
         select.value = '';
     }
+
 </script>
 </body>
 </html>

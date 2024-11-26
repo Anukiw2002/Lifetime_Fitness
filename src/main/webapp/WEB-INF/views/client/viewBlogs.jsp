@@ -17,17 +17,12 @@
 </head>
 <body style="font-family: 'Inter', sans-serif;">
 
-
-
 <div class="learning-content-customer">
     <jsp:include page="../common/verticalNavBar.jsp" />
     <div class="content-section">
-        <!-- Header with "All Blogs" title and Upload Blog button -->
+        <!-- Header with "All Blogs" title -->
         <div class="header-section">
             <h2 class="section-title">All Blogs</h2>
-            <form action="${pageContext.request.contextPath}/uploadBlog" method="get" style="display: inline;">
-                <button type="submit" class="upload-btn">Upload Blog</button>
-            </form>
         </div>
 
         <!-- Display blogs table if blogs list is not empty -->
@@ -39,8 +34,6 @@
                         <th>Name</th>
                         <th>Description</th>
                         <th>Link</th>
-                        <th>Update a Blog</th>
-                        <th>Delete a Blog</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -54,20 +47,6 @@
                                     <button type="submit" class="view-btn">View</button>
                                 </form>
                             </td>
-                            <td>
-                                <!-- Update button -->
-                                <form action="${pageContext.request.contextPath}/updateBlog" method="get" style="display: inline;">
-                                    <input type="hidden" name="id" value="${blog.id}" />
-                                    <button type="submit" class="update-btn">Update</button>
-                                </form>
-                            </td>
-                            <td>
-                                <!-- Delete button -->
-                                <form action="${pageContext.request.contextPath}/deleteBlog" method="post" style="display: inline;">
-                                    <input type="hidden" name="id" value="${blog.id}" />
-                                    <button type="submit" class="delete-btn">Delete</button>
-                                </form>
-                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -76,7 +55,7 @@
 
             <!-- If no blogs available -->
             <c:if test="${empty blogs}">
-                <p>No blogs uploaded yet.</p>
+                <p>No blogs available at the moment.</p>
             </c:if>
         </div>
     </div>
