@@ -30,6 +30,7 @@ public class ViewReportServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
+
         String email = request.getParameter("email");
 
         // Validate email parameter
