@@ -1,128 +1,27 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Body Styling */
-body {
-    font-family: 'Roboto', Arial, sans-serif;
-    background-color: #F4F5FA;
-    color: #333;
-    padding: 20px 0;
-}
-
-/* Payment Page Styling */
-.payment-container {
-    width: 80%;
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.payment-title {
-    font-size: 28px;
-    color: #333;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-.payment-info {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-/* Payment Methods */
-.payment-methods-icons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
 .payment-logo {
-    width: 50px;
-    height: auto;
-    transition: transform 0.3s ease;
+    height: 40px;
+    margin: 0 var(--spacing-md);
+    transition: var(--transition);
+    cursor: pointer;
 }
 
 .payment-logo:hover {
-    transform: scale(1.1);
+    transform: translateY(-2px);
 }
 
-/* Form Styling */
-.payment-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.expiry-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
 }
 
-.form-group {
-    text-align: left;
+#securityCode {
+    max-width: 120px;
 }
 
-.form-group label {
-    display: block;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 5px;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    border-color: #b3004b;
-    outline: none;
-}
-
-/* Expiry Date Group */
-.expiry-date-group {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-/* Button Styling */
-.gym-button-1-primary {
-    background-color: #b3004b;
-    color: #fff;
-    font-size: 16px;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: background-color 0.3s ease;
-}
-
-.gym-button-1-primary:hover {
-    background-color: #9a0043;
-}
-
-/* Responsive Design */
 @media (max-width: 768px) {
-    .payment-container {
-        width: 90%;
-        padding: 15px;
-    }
-
-    .expiry-date-group {
-        flex-direction: column;
+    .payment-logo {
+        height: 30px;
+        margin: 0 var(--spacing-sm);
     }
 }

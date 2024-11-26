@@ -4,138 +4,154 @@
 <head>
     <meta charset="UTF-8">
     <title>Booking Settings</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookingConstraints.css">
 </head>
 <body>
 <jsp:include page="../common/verticalNavBar.jsp" />
 <div class="main-content">
     <div class="container">
-<div class="settings-container">
-    <div class="setting-row">
-        <div class="setting-left">
-            Allow members to cancel bookings
-            <input type="number" value="0" min="0" class="setting-input">
-            <select class="setting-input">
-                <option>Hours</option>
-                <option>Days</option>
-            </select>
-            before appointment time
-        </div>
-        <label class="switch">
-            <input type="checkbox" checked class="setting-toggle">
-            <span class="slider"></span>
-        </label>
-    </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Booking Settings</h2>
+            </div>
+            <div class="card-body">
+                <div class="settings-container">
+                    <div class="setting-row">
+                        <div class="setting-left">
+                            Allow members to cancel bookings
+                            <input type="number" value="0" min="0" class="form-control setting-input">
+                            <select class="form-control setting-input">
+                                <option>Hours</option>
+                                <option>Days</option>
+                            </select>
+                            before appointment time
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked class="setting-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
 
-    <div class="setting-row">
-        <div class="setting-left">
-            Allow members to reschedule bookings
-            <input type="number" value="0" min="0" class="setting-input">
-            <select class="setting-input">
-                <option>Hours</option>
-                <option>Days</option>
-            </select>
-            before appointment time
-        </div>
-        <label class="switch">
-            <input type="checkbox" checked class="setting-toggle">
-            <span class="slider"></span>
-        </label>
-    </div>
+                    <div class="setting-row">
+                        <div class="setting-left">
+                            Allow members to reschedule bookings
+                            <input type="number" value="0" min="0" class="form-control setting-input">
+                            <select class="form-control setting-input">
+                                <option>Hours</option>
+                                <option>Days</option>
+                            </select>
+                            before appointment time
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked class="setting-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
 
-    <div class="setting-row">
-        <div class="setting-left">
-            Maximum number of reschedules per booking
-            <input type="number" value="2" min="0" class="setting-input">
-        </div>
-    </div>
+                    <div class="setting-row">
+                        <div class="setting-left">
+                            Maximum number of reschedules per booking
+                            <input type="number" value="2" min="0" class="form-control setting-input">
+                        </div>
+                    </div>
 
-    <div class="setting-row">
-        <div class="setting-left">
-            Allow members to book up to
-            <input type="number" value="2" min="1" class="setting-input">
-            <select class="setting-input">
-                <option>weeks</option>
-                <option>months</option>
-            </select>
-            prior to a session
-        </div>
-    </div>
+                    <div class="setting-row">
+                        <div class="setting-left">
+                            Allow members to book up to
+                            <input type="number" value="2" min="1" class="form-control setting-input">
+                            <select class="form-control setting-input">
+                                <option>weeks</option>
+                                <option>months</option>
+                            </select>
+                            prior to a session
+                        </div>
+                    </div>
 
-    <div class="setting-row">
-        <div class="setting-left">
-            Allow bookings up to
-            <input type="number" value="2" min="0" class="setting-input">
-            hours before the session begins
-        </div>
-    </div>
+                    <div class="setting-row">
+                        <div class="setting-left">
+                            Allow bookings up to
+                            <input type="number" value="2" min="0" class="form-control setting-input">
+                            hours before the session begins
+                        </div>
+                    </div>
 
-    <div class="setting-row">
-        <div class="setting-left">
-            Allow bookings after session start time
-        </div>
-        <label class="switch">
-            <input type="checkbox" class="setting-toggle">
-            <span class="slider"></span>
-        </label>
-    </div>
+                    <div class="setting-row">
+                        <div class="setting-left">
+                            Allow bookings after session start time
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" class="setting-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
 
-    <div class="setting-row">
-        <div class="setting-left">
-            Show number of bookings per slot on the schedule
-        </div>
-        <label class="switch">
-            <input type="checkbox" class="setting-toggle">
-            <span class="slider"></span>
-        </label>
-    </div>
+                    <div class="setting-row">
+                        <div class="setting-left">
+                            Show number of bookings per slot on the schedule
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" class="setting-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
 
-    <div class="setting-row">
-        <div class="setting-left">
-            Maximum number of active bookings per member
-            <input type="number" value="14" min="1" class="setting-input">
-        </div>
-        <label class="switch">
-            <input type="checkbox" checked class="setting-toggle">
-            <span class="slider"></span>
-        </label>
-    </div>
+                    <div class="setting-row">
+                        <div class="setting-left">
+                            Maximum number of active bookings per member
+                            <input type="number" value="14" min="1" class="form-control setting-input">
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked class="setting-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
 
-    <div class="setting-row">
-        <div class="setting-left">
-            Maximum of
-            <input type="number" value="7" min="1" class="setting-input">
-            bookings per
-            <select class="setting-input">
-                <option>week</option>
-                <option>month</option>
-            </select>
-        </div>
-        <label class="switch">
-            <input type="checkbox" checked class="setting-toggle">
-            <span class="slider"></span>
-        </label>
-    </div>
+                    <div class="setting-row">
+                        <div class="setting-left">
+                            Maximum of
+                            <input type="number" value="7" min="1" class="form-control setting-input">
+                            bookings per
+                            <select class="form-control setting-input">
+                                <option>week</option>
+                                <option>month</option>
+                            </select>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked class="setting-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
 
-    <div class="setting-row">
-        <div class="setting-left">
-            Maximum number of bookings per slot
-            <input type="number" value="50" min="1" class="setting-input">
-        </div>
-        <label class="switch">
-            <input type="checkbox" checked class="setting-toggle">
-            <span class="slider"></span>
-        </label>
-    </div>
+                    <div class="setting-row">
+                        <div class="setting-left">
+                            Maximum number of bookings per slot
+                            <input type="number" value="50" min="1" class="form-control setting-input">
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked class="setting-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
 
-    <div class="setting-row">
-        <div class="setting-left">
-            Automated notifications for cancellations and reschedules
+                    <div class="setting-row">
+                        <div class="setting-left">
+                            Automated notifications for cancellations and reschedules
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" class="setting-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="flex justify-end gap-md">
+                    <button class="btn btn-secondary">Cancel</button>
+                    <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
+                </div>
+            </div>
         </div>
-        <label class="switch">
-            <input type="checkbox" class="setting-toggle">
-            <span class="slider"></span>
-        </label>
     </div>
 </div>
 
@@ -217,17 +233,6 @@
     // Initialize the toggle handlers when the page loads
     document.addEventListener('DOMContentLoaded', () => {
         setupToggleHandlers();
-
-        // Optional: Add save button event listener
-        // const saveButton = document.getElementById('saveButton');
-        // if (saveButton) {
-        //     saveButton.addEventListener('click', () => {
-        //         if (validateSettings()) {
-        //             const settings = saveSettings();
-        //             // Send settings to server
-        //         }
-        //     });
-        // }
     });
 </script>
 </body>
