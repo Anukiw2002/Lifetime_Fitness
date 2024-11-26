@@ -2,9 +2,8 @@ package org.example.demo2.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -18,7 +17,7 @@ import org.example.demo2.dao.*;
 import org.example.demo2.model.*;
 import org.example.demo2.util.DBConnection;
 import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.http.Part;
+
 import java.io.PrintWriter;
 
 @WebServlet("/membership/add")
@@ -33,6 +32,7 @@ public class AddMembershipPlanServlet extends HttpServlet {
     private UniformPricingDAO uniformPricingDAO;
     private CategoryPricingDAO categoryPricingDAO;
     private final Gson gson = new Gson();
+
 
     @Override
     public void init() throws ServletException {
@@ -50,6 +50,12 @@ public class AddMembershipPlanServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userRole") == null) {
+            // If the session is invalid or the user is not logged in, redirect to the login page
+            response.sendRedirect(request.getContextPath() + "/landingPage");
+            return;
+        }
         request.getRequestDispatcher("/WEB-INF/views/owner/addMembershipPlan.jsp")
                 .forward(request, response);
     }
