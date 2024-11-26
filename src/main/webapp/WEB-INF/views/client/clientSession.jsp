@@ -5,7 +5,6 @@
   <title>Client Sessions</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/clientSession.css">
-
 </head>
 <body>
 <div class="main-content">
@@ -54,7 +53,7 @@
           <div class="package-name">Platinum Membership - Gents - Annual</div>
           <div class="flex flex-col gap-md">
             <button class="btn btn-primary">Book Now</button>
-            <button class="btn btn-outline">Change Package</button>
+            <button class="btn btn-outline-custom">Change Package</button>
           </div>
         </div>
       </div>

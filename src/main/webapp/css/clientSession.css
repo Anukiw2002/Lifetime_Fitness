@@ -15,8 +15,18 @@
 }
 
 .completed-session {
-    padding: var(--spacing-sm) 0;
+    padding: var(--spacing-md);
     border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-sm);
+    transition: var(--transition);
+}
+
+.completed-session:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
 }
 
 .completed-session:last-child {
@@ -25,6 +35,25 @@
 
 .package-name {
     font-size: var(--font-size-lg);
-    color: var(--primary-color);
+    color: var(--text-color);
     margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--primary-color);
+    font-weight: 500;
+}
+
+.btn-outline-custom {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.btn-outline-custom:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
