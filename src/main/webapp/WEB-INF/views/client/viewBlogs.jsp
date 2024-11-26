@@ -7,28 +7,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Blogs</title>
-
-    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewBlogs.css" />
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
 </head>
-<body style="font-family: 'Inter', sans-serif;">
+<body>
 
-<div class="learning-content-customer">
+<div class="main-content">
     <jsp:include page="../common/verticalNavBar.jsp" />
-    <div class="content-section">
-        <!-- Header with "All Blogs" title -->
-        <div class="header-section">
-            <h2 class="section-title">All Blogs</h2>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="flex justify-between items-center mb-4">
+            <h2>All Blogs</h2>
         </div>
 
-        <!-- Display blogs table if blogs list is not empty -->
-        <div class="blog-section">
+        <!-- Blog Content Section -->
+        <div class="card">
             <c:if test="${not empty blogs}">
-                <table border="1" cellpadding="10" class="blog-table">
+                <table class="blog-table">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -42,9 +38,8 @@
                             <td>${blog.name}</td>
                             <td>${blog.description}</td>
                             <td>
-                                <!-- View button styled as a button -->
-                                <form action="${blog.link}" method="get" style="display: inline;" target="_blank">
-                                    <button type="submit" class="view-btn">View</button>
+                                <form action="${blog.link}" method="get" target="_blank">
+                                    <button type="submit" class="btn btn-secondary">View</button>
                                 </form>
                             </td>
                         </tr>
@@ -53,9 +48,8 @@
                 </table>
             </c:if>
 
-            <!-- If no blogs available -->
             <c:if test="${empty blogs}">
-                <p>No blogs available at the moment.</p>
+                <p class="no-blogs">No blogs available at the moment.</p>
             </c:if>
         </div>
     </div>
