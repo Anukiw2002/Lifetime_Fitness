@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Import your model and DAO classes
+import jakarta.servlet.http.HttpSession;
 import org.example.demo2.model.MembershipPlan;
 import org.example.demo2.model.Duration;
 import org.example.demo2.model.UniformPricing;
@@ -43,6 +44,12 @@ public class ViewMembershipPlanServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userRole") == null) {
+            // If the session is invalid or the user is not logged in, redirect to the login page
+            response.sendRedirect(request.getContextPath() + "/landingPage");
+            return;
+        }
         try {
             // Fetch all membership plans
             List<MembershipPlan> membershipPlans = membershipPlanDAO.findAll();

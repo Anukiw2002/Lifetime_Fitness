@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <form class="medical-form">
+        <form class="medical-form"action="${pageContext.request.contextPath}/">
             <div class="question-group">
                 <div class="question">
                     <div class="question-content">
