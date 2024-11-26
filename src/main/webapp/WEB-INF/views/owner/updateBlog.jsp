@@ -5,39 +5,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Blog</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/updateBlog.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewBlogs.css" />
+
+    <!-- Additional specific styles -->
+    <style>
+
+    </style>
 
     <!-- Include jQuery for easier DOM manipulation (optional) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<jsp:include page="../common/verticalNavBar.jsp" />
+<div class="main-content">
+    <jsp:include page="../common/verticalNavBar.jsp" />
 
-<div class="update-container">
-    <h2>Update Blog</h2>
+    <div class="container">
+        <div class="card">
+            <h2 class="text-center mb-4">Update Blog</h2>
 
-    <!-- Form for updating a blog -->
-    <form action="updateBlog" method="post" id="updateBlogForm">
-        <!-- Blog ID (hidden field) -->
-        <input type="hidden" name="id" value="${blog.id}" />
+            <!-- Form for updating a blog -->
+            <form action="updateBlog" method="post" id="updateBlogForm">
+                <!-- Blog ID (hidden field) -->
+                <input type="hidden" name="id" value="${blog.id}" />
 
-        <!-- Blog Title -->
-        <label for="name">Blog Title:</label>
-        <input type="text" id="name" name="name" value="${blog.name}" placeholder="Enter the blog title" required />
+                <!-- Blog Title -->
+                <div class="form-group">
+                    <label class="form-label" for="name">Blog Title:</label>
+                    <input type="text"
+                           id="name"
+                           name="name"
+                           class="form-control"
+                           value="${blog.name}"
+                           placeholder="Enter the blog title"
+                           required />
+                </div>
 
-        <!-- Blog Description -->
-        <label for="description">Blog Description:</label>
-        <textarea id="description" name="description" rows="6" placeholder="Enter a brief description of the blog" required>${blog.description}</textarea>
+                <!-- Blog Description -->
+                <div class="form-group">
+                    <label class="form-label" for="description">Blog Description:</label>
+                    <textarea id="description"
+                              name="description"
+                              class="form-control"
+                              placeholder="Enter a brief description of the blog"
+                              required>${blog.description}</textarea>
+                </div>
 
-        <!-- Blog Link -->
-        <label for="link">Link to the Blog:</label>
-        <input type="url" id="link" name="link" value="${blog.link}" placeholder="https://example.com/blog" required />
+                <!-- Blog Link -->
+                <div class="form-group">
+                    <label class="form-label" for="link">Link to the Blog:</label>
+                    <input type="url"
+                           id="link"
+                           name="link"
+                           class="form-control"
+                           value="${blog.link}"
+                           placeholder="https://example.com/blog"
+                           required />
+                </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="submit-button">Update Blog</button>
-    </form>
-
+                <!-- Submit Button -->
+                <div class="flex justify-center mt-4">
+                    <button type="submit" class="btn btn-primary">Update Blog</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 </body>
