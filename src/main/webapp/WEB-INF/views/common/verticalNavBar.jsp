@@ -26,13 +26,13 @@
         <a href="owner/addInstructor" class="nav-link">
             <i class="fas fa-users icon"></i>Add Instructor
         </a>
-        <a href="/instructor/searchClient" class="nav-link">
+        <a href="instructor/searchClient" class="nav-link">
             <i class="fas fa-dumbbell icon"></i>Workout
         </a>
-        <a href="#notifications" class="nav-link">
+        <a href="viewNotification" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
-        <a href="#reports" class="nav-link">
+        <a href="first" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Reports
         </a>
         <a href="getAllVideos" class="nav-link">
@@ -41,7 +41,7 @@
         <a href="GetAllBlogs" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
-        <a href="/membership/view" class="nav-link">
+        <a href="membership/view" class="nav-link">
             <i class="fas fa-credit-card icon"></i>Membership
         </a>
     </div>
@@ -50,7 +50,7 @@
         <a href="#settings" class="nav-link">
             <i class="fas fa-cog icon"></i>Settings
         </a>
-        <a href="#logout" class="nav-link">
+        <a href="logout" class="nav-link">
             <i class="fas fa-sign-out-alt icon"></i>Log out
         </a>
     </div>
