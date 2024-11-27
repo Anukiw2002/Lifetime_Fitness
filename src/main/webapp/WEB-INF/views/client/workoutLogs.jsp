@@ -70,9 +70,13 @@
             <button type="button" class="btn btn-secondary" id="prevButton">
                 Previous Exercise
             </button>
-            <button type="button" class="btn btn-primary" id="nextButton">
+            <a href="/workoutOptionss?page=workoutStats" class="btn btn-danger" id="finishButton">
+                FINISH
+            </a>
+            <a href="/workoutOptionss?page=workoutLogs" class="btn btn-primary" id="nextButton">
                 Next Exercise
-            </button>
+            </a>
+
         </div>
     </div>
 </div>
