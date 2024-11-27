@@ -210,11 +210,6 @@
     overflow: hidden;
 }
 
-.carousel-title {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
 .carousel {
     position: relative;
     padding: 0 60px;
@@ -227,7 +222,7 @@
 
 .carousel-track {
     display: flex;
-    transition: transform var(--transition-slow);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     gap: 30px;
     padding: 1rem 0;
 }
@@ -236,10 +231,9 @@
     flex: 0 0 calc(33.333% - 20px);
     min-width: calc(33.333% - 20px);
     transform: scale(0.95);
-    transition: transform var(--transition-medium);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0.8;
 }
-
 .carousel-slide.active {
     transform: scale(1);
     opacity: 1;
@@ -265,8 +259,68 @@
     transform: translateY(-50%) scale(1.1);
 }
 
-.prev-btn { left: 10px; }
-.next-btn { right: 10px; }
+.prev-btn {
+    left: 10px;
+}
+
+.next-btn {
+    right: 10px;
+}
+
+/* New coach card styles */
+.coach-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.coach-image {
+    width: 100%;
+    height: 350px; /* Fixed height for all images */
+    position: relative;
+    overflow: hidden;
+}
+
+.coach-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.coach-info {
+    padding: 1.5rem;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.coach-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-color);
+    font-size: 1.25rem;
+}
+
+.coach-info p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Active state styles */
+.carousel-slide.active {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.carousel-slide.active .coach-card {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-slide.active .coach-image img {
+    transform: scale(1.05);
+}
 
 
 .why-choose-section {
@@ -586,8 +640,12 @@
     }
 
     .carousel-slide {
-        flex: 0 0 calc(100% - 30px);
-        min-width: calc(100% - 30px);
+        flex: 0 0 calc(100% - 20px);
+        min-width: calc(100% - 20px);
+    }
+
+    .coach-image {
+        height: 300px;
     }
 
     .service-card {
@@ -621,7 +679,7 @@
 
 @media (min-width: 769px) and (max-width: 1024px) {
     .carousel-slide {
-        flex: 0 0 calc(50% - 30px);
-        min-width: calc(50% - 30px);
+        flex: 0 0 calc(50% - 20px);
+        min-width: calc(50% - 20px);
     }
 }

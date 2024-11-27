@@ -52,76 +52,99 @@ document.querySelectorAll('.carousel-container').forEach(carousel => {
     const prevButton = carousel.querySelector('.prev-btn');
     const indicators = carousel.querySelector('.carousel-indicators');
     let currentIndex = 0;
+    let isTransitioning = false;
 
     // Create indicators
     slides.forEach((_, index) => {
         const dot = document.createElement('span');
         dot.classList.add('dot');
         if (index === 0) dot.classList.add('active');
+        dot.style.cssText = `
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin: 0 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        `;
         indicators.appendChild(dot);
     });
 
     const dots = Array.from(indicators.children);
 
     function updateSlidePosition() {
-        // Calculate the slide width including gap
+        if (isTransitioning) return;
+        isTransitioning = true;
+
         const slideWidth = slides[0].offsetWidth;
-        const slideMargin = 30; // Gap between slides
+        const slideMargin = 30;
         const moveAmount = slideWidth + slideMargin;
 
+        // Apply smooth transition
         track.style.transform = `translateX(-${currentIndex * moveAmount}px)`;
 
         // Update active states
         dots.forEach((dot, index) => {
+            dot.style.backgroundColor = index === currentIndex
+                ? 'rgba(255, 255, 255, 1)'
+                : 'rgba(255, 255, 255, 0.5)';
             dot.classList.toggle('active', index === currentIndex);
         });
 
         slides.forEach((slide, index) => {
             slide.classList.toggle('active', index === currentIndex);
         });
+
+        // Reset transition flag
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 500);
     }
 
-    // Add click handlers for navigation
+    // Navigation event handlers
     nextButton.addEventListener('click', () => {
-        if (currentIndex < slides.length - 1) {
-            currentIndex++;
-        } else {
-            currentIndex = 0;
+        if (!isTransitioning) {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlidePosition();
         }
-        updateSlidePosition();
     });
 
     prevButton.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-        } else {
-            currentIndex = slides.length - 1;
+        if (!isTransitioning) {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateSlidePosition();
         }
-        updateSlidePosition();
     });
 
-    // Add click handlers for indicators
+    // Indicator click handlers
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
-            currentIndex = index;
-            updateSlidePosition();
+            if (!isTransitioning && currentIndex !== index) {
+                currentIndex = index;
+                updateSlidePosition();
+            }
         });
     });
 
     // Initialize position
     updateSlidePosition();
 
-    // Add touch support for mobile
+    // Add touch support
     let touchStartX = 0;
     let touchEndX = 0;
 
     track.addEventListener('touchstart', e => {
-        touchStartX = e.touches[0].clientX;
+        if (!isTransitioning) {
+            touchStartX = e.touches[0].clientX;
+        }
     });
 
     track.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].clientX;
-        handleSwipe();
+        if (!isTransitioning) {
+            touchEndX = e.changedTouches[0].clientX;
+            handleSwipe();
+        }
     });
 
     function handleSwipe() {

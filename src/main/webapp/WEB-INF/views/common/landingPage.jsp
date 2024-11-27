@@ -188,21 +188,49 @@
         <div class="carousel-track-container">
             <ul class="carousel-track">
                 <li class="carousel-slide">
-                    <div class="card">
-                        <img src="/images/coach1.jpg" alt="Coach 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--border-radius);">
+                    <div class="coach-card">
+                        <div class="coach-image">
+                            <img src="/images/coach1.jpg" alt="Coach 1">
+                        </div>
+                        <div class="coach-info">
+                            <h3>John Doe</h3>
+                            <p>Head Coach</p>
+                        </div>
                     </div>
                 </li>
                 <li class="carousel-slide">
-                    <div class="card">
-                        <img src="/images/coach2.jpg" alt="Coach 2" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--border-radius);">
+                    <div class="coach-card">
+                        <div class="coach-image">
+                            <img src="/images/coach2.jpg" alt="Coach 2">
+                        </div>
+                        <div class="coach-info">
+                            <h3>Jane Smith</h3>
+                            <p>Fitness Trainer</p>
+                        </div>
                     </div>
                 </li>
                 <li class="carousel-slide">
-                    <div class="card">
-                        <img src="/images/coach3.jpg" alt="Coach 3" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--border-radius);">
+                    <div class="coach-card">
+                        <div class="coach-image">
+                            <img src="/images/coach3.jpg" alt="Coach 3">
+                        </div>
+                        <div class="coach-info">
+                            <h3>Mike Johnson</h3>
+                            <p>Strength Coach</p>
+                        </div>
                     </div>
                 </li>
-                <!-- Add more coaches as needed -->
+                <li class="carousel-slide">
+                    <div class="coach-card">
+                        <div class="coach-image">
+                            <img src="/images/coach4.png" alt="Coach 4">
+                        </div>
+                        <div class="coach-info">
+                            <h3>Sarah Wilson</h3>
+                            <p>Personal Trainer</p>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
         <button class="carousel-btn next-btn">&#10095;</button>
