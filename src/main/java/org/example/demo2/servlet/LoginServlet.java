@@ -72,7 +72,7 @@ public class LoginServlet extends HttpServlet {
                         request.getRequestDispatcher("/memberManagement").forward(request, response);
                         break;
                     case "instructor":
-                        request.getRequestDispatcher("/upcomingSessions").forward(request, response);
+                        request.getRequestDispatcher("/instructor/upcomingSessions").forward(request, response);
                         break;
                     default:
                         sendAlert(response, "Unknown user role.");
