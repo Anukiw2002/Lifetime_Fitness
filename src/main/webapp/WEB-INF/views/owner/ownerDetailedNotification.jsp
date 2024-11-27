@@ -7,7 +7,7 @@
 
 </head>
 <body>
-<jsp:include page="../client/clientVerticalNavbar.jsp" />
+<jsp:include page="../common/verticalNavBar.jsp" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/detailedNotification.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
 
