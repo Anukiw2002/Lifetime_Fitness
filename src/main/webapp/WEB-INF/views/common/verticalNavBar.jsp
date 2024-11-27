@@ -20,28 +20,28 @@
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
     </div>
     <div>
-        <a href="owner/memberManagement" class="nav-link">
+        <a href="/memberManagement" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
-        <a href="owner/addInstructor" class="nav-link">
+        <a href="/owner/addInstructor" class="nav-link">
             <i class="fas fa-users icon"></i>Add Instructor
         </a>
-        <a href="instructor/searchClient" class="nav-link">
+        <a href="/instructor/searchClient" class="nav-link">
             <i class="fas fa-dumbbell icon"></i>Workout
         </a>
-        <a href="viewNotification" class="nav-link">
+        <a href="/owner/ownerDetailedNotifications" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
-        <a href="first" class="nav-link">
+        <a href="/first" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Reports
         </a>
         <a href="getAllVideos" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
-        <a href="GetAllBlogs" class="nav-link">
+        <a href="/GetAllBlogs" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
-        <a href="membership/view" class="nav-link">
+        <a href="/membership/view" class="nav-link">
             <i class="fas fa-credit-card icon"></i>Membership
         </a>
     </div>
@@ -50,7 +50,7 @@
         <a href="#settings" class="nav-link">
             <i class="fas fa-cog icon"></i>Settings
         </a>
-        <a href="logout" class="nav-link">
+        <a href="/logout" class="nav-link">
             <i class="fas fa-sign-out-alt icon"></i>Log out
         </a>
     </div>

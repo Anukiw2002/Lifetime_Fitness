@@ -24,27 +24,12 @@
 
         // Initialize FullCalendar
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'timeGridWeek', // Weekly view with time slots
+            initialView: 'dayGridMonth', // Change to month view
             selectable: true,
             editable: true,
             events: '/events', // Fetch events from the servlet
 
-            // Customize time slot labels
-            slotLabelContent: function(info) {
-                const startTime = new Date(info.date);
-                const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Add 1 hour for the end time
-
-                // Format the time in 12-hour format with 'am/pm'
-                const formatTime = (time) => {
-                    const options = { hour: 'numeric', hour12: true };
-                    return time.toLocaleString('en-US', options);
-                };
-
-                // Return the formatted slot (e.g., "12am-1am")
-                return { html: `\${formatTime(startTime)}-\${formatTime(endTime)}` };
-
-            },
-
+            // Select event to add new booking
             select: function(info) {
                 var title = prompt("Enter workout type:");
                 if (title) {
@@ -65,10 +50,37 @@
                 calendar.unselect();
             },
 
+            // Click an event to update it
             eventClick: function(info) {
+                // Prompt for new details or show a modal to edit the event
+                var newTitle = prompt("Update workout type:", info.event.title);
+                if (newTitle && newTitle !== info.event.title) {
+                    $.ajax({
+                        url: '/update', // Update endpoint
+                        method: 'PUT',
+                        data: JSON.stringify({
+                            id: info.event.id,
+                            title: newTitle,
+                            start: info.event.startStr,
+                            end: info.event.endStr
+                        }),
+                        contentType: 'application/json',
+                        success: function() {
+                            info.event.setProp('title', newTitle); // Update the title of the event on the calendar
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error updating the booking:", xhr, status, error);
+                            alert("Error updating the booking.");
+                        }
+                    });
+                }
+            },
+
+            // Delete event on click
+            eventDelete: function(info) {
                 if (confirm("Are you sure you want to delete this booking?")) {
                     $.ajax({
-                        url: '/delete',
+                        url: '/delete', // Delete endpoint
                         method: 'DELETE',
                         data: JSON.stringify({ id: info.event.id }),
                         contentType: 'application/json',
@@ -87,8 +99,6 @@
         calendar.render();
     });
 </script>
-
-
 
 </body>
 </html>
