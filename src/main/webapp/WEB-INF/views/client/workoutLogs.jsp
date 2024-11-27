@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/workoutLogs.css">
 </head>
 <body>
-<jsp:include page="../common/verticalNavBar.jsp" />
+<jsp:include page="../client/clientVerticalNavbar.jsp" />
 <div class="main-content">
     <!-- Workout Logs Container -->
     <div class="workout-logs-container">
@@ -70,9 +70,13 @@
             <button type="button" class="btn btn-secondary" id="prevButton">
                 Previous Exercise
             </button>
-            <button type="button" class="btn btn-primary" id="nextButton">
+            <a href="/workoutOptionss?page=workoutStats" class="btn btn-danger" id="finishButton">
+                FINISH
+            </a>
+            <a href="/workoutOptionss?page=workoutLogs" class="btn btn-primary" id="nextButton">
                 Next Exercise
-            </button>
+            </a>
+
         </div>
     </div>
 </div>

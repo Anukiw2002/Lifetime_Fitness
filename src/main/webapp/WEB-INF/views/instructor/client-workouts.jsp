@@ -119,7 +119,7 @@
 <body>
 
 <div class="main-content">
-    <jsp:include page="../common/verticalNavBar.jsp" />
+    <jsp:include page="clientVerticalNavbar.jsp" />
     <div class="container">
         <div class="card mb-4">
             <div class="card-header">

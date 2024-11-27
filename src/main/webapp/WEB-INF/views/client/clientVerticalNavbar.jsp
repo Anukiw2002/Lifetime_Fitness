@@ -20,13 +20,13 @@
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
     </div>
     <div>
+        <a href="DashBoard" class="nav-link">
+            <i class="fas fa-chart-line icon"></i>Dashboard
+        </a>
         <a href="leaderBoard" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Leaderboard
         </a>
-        <a href="leaderBoardDetails" class="nav-link">
-            <i class="fas fa-users icon"></i>Leaderboard Details
-        </a>
-        <a href="instructor/clientWorkouts" class="nav-link">
+        <a href="workoutOptionss?page=clientWorkout" class="nav-link">
             <i class="fas fa-dumbbell icon"></i>Workout
         </a>
         <a href="viewNotification" class="nav-link">

@@ -22,6 +22,7 @@ public class LogoutServlet extends HttpServlet {
         }
 
         // Redirect to login page
-        response.sendRedirect("landingPage");
+        response.sendRedirect(request.getContextPath() + "/landingPage");
+
     }
 }
