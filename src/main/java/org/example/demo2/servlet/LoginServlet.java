@@ -69,10 +69,10 @@ public class LoginServlet extends HttpServlet {
                         request.getRequestDispatcher("/WEB-INF/views/client/memberProfile.jsp").forward(request, response);
                         break;
                     case "owner":
-                        request.getRequestDispatcher("/owner/memberManagement").forward(request, response);
+                        request.getRequestDispatcher("/memberManagement").forward(request, response);
                         break;
                     case "instructor":
-                        request.getRequestDispatcher("/upcomingSessions").forward(request, response);
+                        request.getRequestDispatcher("/instructor/upcomingSessions").forward(request, response);
                         break;
                     default:
                         sendAlert(response, "Unknown user role.");

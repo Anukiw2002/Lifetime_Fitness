@@ -13,4 +13,9 @@ public class OwnerAddInstructorServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.getRequestDispatcher("/WEB-INF/views/owner/addInstructor.jsp").forward(request, response);
     }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        // Simply forward the GET request to the JSP
+        request.getRequestDispatcher("/WEB-INF/views/owner/addInstructor.jsp").forward(request, response);
+    }
 }
