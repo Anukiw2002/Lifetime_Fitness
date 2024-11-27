@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <form action="processPayment" method="post">
+            <form action="${pageContext.request.contextPath}/processPayment" method="post">
                 <div class="form-group">
                     <label class="form-label" for="cardNumber">Card Number *</label>
                     <input type="text" id="cardNumber" name="cardNumber" class="form-control" placeholder="1234 5678 9012 3456" required>
