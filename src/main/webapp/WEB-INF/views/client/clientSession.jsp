@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="main-content">
-  <jsp:include page="../common/verticalNavBar.jsp" />
+  <jsp:include page="../client/clientVerticalNavbar.jsp" />
 
   <div class="container">
     <h1 class="text-center mb-4">Client Sessions</h1>
