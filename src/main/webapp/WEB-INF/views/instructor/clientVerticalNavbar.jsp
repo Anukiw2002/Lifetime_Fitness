@@ -32,7 +32,7 @@
         <a href="/InstructorViewNotification" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
-        <a href="/owner/memberManagement" class="nav-link">
+        <a href="/InstructorMemberManagement" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Members
         </a>
         <a href="/getAllVideosClient" class="nav-link">
