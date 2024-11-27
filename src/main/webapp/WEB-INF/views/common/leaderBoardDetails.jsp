@@ -12,7 +12,7 @@
     <script defer src="<%= request.getContextPath() %>/js/leaderBoardDetails.js"></script>
 </head>
 <body>
-<jsp:include page="../client/clientVerticalNavbar.jsp" />
+<jsp:include page="../instructor/clientVerticalNavbar.jsp" />
 <div class="main-content">
     <div class="container">
         <div class="card">

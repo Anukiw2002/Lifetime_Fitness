@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/editProfile.css">
 </head>
 <body>
-<jsp:include page="../common/verticalNavBar.jsp" />
+<jsp:include page="../client/clientVerticalNavbar.jsp" />
 <div class="main-content">
     <div class="container">
         <div class="card">
