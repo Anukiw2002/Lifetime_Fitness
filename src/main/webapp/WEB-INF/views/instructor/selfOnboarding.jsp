@@ -5,15 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructor Onboarding - Basic Information</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/selfOnboarding.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/button.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/typography.css">
 </head>
 <body>
-<jsp:include page="../common/verticalNavBar.jsp" />
 <div class="main-content">
-<div class="container">
-    <div class="header">
+    <div class="container">
         <div class="progress-steps">
             <div class="step active">
                 <div class="step-number">1</div>
@@ -36,10 +33,9 @@
             </div>
         </div>
 
-    <div class="content-card">
-        <h1>Basic Information</h1>
-        <form id="basicInfoForm" action="${pageContext.request.contextPath}/selfOnboarding/step2" method="post">
-            <div class="form-section">
+        <div class="card">
+            <h1 class="text-center mb-4">Basic Information</h1>
+            <form id="basicInfoForm" action="${pageContext.request.contextPath}/selfOnboarding/step2" method="post">
                 <div class="photo-upload">
                     <div class="photo-preview" id="photoPreview">
                         <i class="upload-icon">📷</i>
@@ -47,66 +43,63 @@
                     </div>
                     <input type="file" id="profilePhoto" name="profilePhoto" accept="image/*" hidden>
                 </div>
-            </div>
+                <br>
+                <br>
+                <br>
+                <div class="grid grid-2 gap-lg">
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" class="form-control" required>
+                    </div>
 
-            <div class="form-section">
-                <div class="form-group">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" name="fullName" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="dateOfBirth">Date of Birth</label>
-                    <input type="date" id="dateOfBirth" name="dateOfBirth" required>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-            </div>
-
-
-                <div>
-                <h2>Emergency Contact</h2>
-                    <div>
-                        <div class="form-section emergency-contact">
-                <div class="form-group">
-                    <label for="emergencyName">Contact Name</label>
-                    <input type="text" id="emergencyName" name="emergencyName" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="emergencyRelation">Relationship</label>
-                    <input type="text" id="emergencyRelation" name="emergencyRelation" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="emergencyPhone">Contact Phone</label>
-                    <input type="tel" id="emergencyPhone" name="emergencyPhone" required>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="form-label" for="dateOfBirth">Date of Birth</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" required>
                     </div>
                 </div>
 
-            <div class="form-section">
-                <div class="form-group full-width">
-                    <label for="address">Address</label>
-                    <textarea id="address" name="address" rows="3" required></textarea>
-                </div>
-            </div>
+                <div class="grid grid-2 gap-lg">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
 
-            <div class="form-actions">
-                <button type="submit" class="next-button">Next</button>
-            </div>
-        </form>
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="card emergency-contact mt-4">
+                    <h2 class="mb-3">Emergency Contact</h2>
+                    <div class="grid grid-3 gap-lg">
+                        <div class="form-group">
+                            <label class="form-label" for="emergencyName">Contact Name</label>
+                            <input type="text" id="emergencyName" name="emergencyName" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="emergencyRelation">Relationship</label>
+                            <input type="text" id="emergencyRelation" name="emergencyRelation" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="emergencyPhone">Contact Phone</label>
+                            <input type="tel" id="emergencyPhone" name="emergencyPhone" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt-4">
+                    <label class="form-label" for="address">Address</label>
+                    <textarea id="address" name="address" class="form-control" rows="3" required></textarea>
+                </div>
+
+                <div class="flex justify-end mt-4">
+                    <button type="submit" class="btn btn-primary">Next</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -131,7 +124,5 @@
         });
     });
 </script>
-</div>
-</div>
 </body>
 </html>
