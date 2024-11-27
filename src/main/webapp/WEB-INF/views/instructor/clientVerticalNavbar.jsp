@@ -23,13 +23,13 @@
         <a href="/instructor/upcomingSessions" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
-        <a href="/leaderBoard" class="nav-link">
+        <a href="/InstructorLeaderBoard" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Leaderboard
         </a>
         <a href="/leaderBoardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard Details
         </a>
-        <a href="/viewNotification" class="nav-link">
+        <a href="/InstructorViewNotification" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
         <a href="/owner/memberManagement" class="nav-link">
