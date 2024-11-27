@@ -20,16 +20,19 @@
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
     </div>
     <div>
-        <a href="leaderBoard" class="nav-link">
+        <a href="/instructor/upcomingSessions" class="nav-link">
+            <i class="fas fa-chart-line icon"></i>Dashboard
+        </a>
+        <a href="/leaderBoard" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Leaderboard
         </a>
-        <a href="leaderBoardDetails" class="nav-link">
+        <a href="/leaderBoardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard Details
         </a>
-        <a href="viewNotification" class="nav-link">
+        <a href="/viewNotification" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
-        <a href="memberManagement" class="nav-link">
+        <a href="/owner/memberManagement" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Members
         </a>
         <a href="getAllVideosClient" class="nav-link">
@@ -38,8 +41,8 @@
         <a href="GetAllBlogsClient" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
-        <a href="membership/view" class="nav-link">
-            <i class="fas fa-credit-card icon"></i>Membership
+        <a href="/instructor/searchClient" class="nav-link">
+            <i class="fas fa-dumbbell icon"></i>Workout
         </a>
     </div>
 

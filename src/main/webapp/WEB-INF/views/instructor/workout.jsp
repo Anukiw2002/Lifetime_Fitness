@@ -10,7 +10,7 @@
 <body>
 <!-- Navbar Container -->
 <div class="navbar-container">
-  <jsp:include page="../common/verticalNavBar.jsp" />
+  <jsp:include page="clientVerticalNavbar.jsp" />
 </div>
 
 <!-- Main Content Container -->

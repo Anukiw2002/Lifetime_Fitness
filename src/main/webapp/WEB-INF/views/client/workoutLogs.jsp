@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/workoutLogs.css">
 </head>
 <body>
-<jsp:include page="../common/verticalNavBar.jsp" />
+<jsp:include page="../client/clientVerticalNavbar.jsp" />
 <div class="main-content">
     <!-- Workout Logs Container -->
     <div class="workout-logs-container">
