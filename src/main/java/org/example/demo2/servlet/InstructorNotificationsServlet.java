@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/viewNotification")
+@WebServlet("/InstructorViewNotification")
 public class InstructorNotificationsServlet extends HttpServlet {
 
     @Override
