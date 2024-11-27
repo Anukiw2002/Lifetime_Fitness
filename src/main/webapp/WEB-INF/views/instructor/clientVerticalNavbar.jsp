@@ -35,10 +35,10 @@
         <a href="/owner/memberManagement" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Members
         </a>
-        <a href="getAllVideosClient" class="nav-link">
+        <a href="/getAllVideosClient" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
-        <a href="GetAllBlogsClient" class="nav-link">
+        <a href="/GetAllBlogsClient" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
         <a href="/instructor/searchClient" class="nav-link">
