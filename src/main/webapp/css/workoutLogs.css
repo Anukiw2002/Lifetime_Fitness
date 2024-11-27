@@ -1,97 +1,75 @@
-/* === Global Styling === */
-body {
-    background-color: #333;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    display: flex;
-    justify-content: flex-start; /* Align to the left */
-    align-items: flex-start;    /* Align to the top */
-    height: 100vh;
-}
-
-/* === Layout Containers === */
-.layout-container {
-    display: flex;
-    width: 100%;
-    height: 100%;
-}
-
-.navbar-container {
-    width: 250px; /* Fixed width for navbar */
-    height: 100vh; /* Full height */
-    background-color: #222; /* Darker background for navbar */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Shadow for separation */
-    position: fixed;
-}
-
 .workout-logs-container {
-    margin-left: 250px; /* Offset for navbar width */
-    flex: 1; /* Take up the remaining space */
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: var(--spacing-xl);
+}
+
+.exercise-info {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.exercise-name {
+    font-size: var(--font-size-xl);
+    color: var(--text-color);
+    margin-bottom: var(--spacing-md);
+}
+
+.set-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.set-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-color);
+}
+
+.set-header {
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
+}
+
+.input-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-muted);
+}
+
+.nav-buttons {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align logs to the left side */
-    justify-content: center; /* Center vertically */
-    padding: 20px;
+    justify-content: space-between;
+    margin-top: var(--spacing-xl);
 }
 
-/* === Column Styling === */
-.columns {
-    display: flex;
-    gap: 40px;
+.notes-section {
+    margin-top: var(--spacing-xl);
 }
 
-.column {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align items to the left */
-    gap: 10px;
+.notes-section textarea {
+    width: 100%;
+    min-height: 100px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    color: var(--input-text);
+    margin-top: var(--spacing-sm);
 }
 
-h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-input {
-    width: 150px;
-    height: 30px;
-    background-color: #d3d3d3;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-}
-
-/* === Buttons Styling === */
-.buttons {
-    display: flex;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-button {
-    background-color: #d3d3d3;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 15px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #bbb;
-}
-
-/* === Responsive Design === */
 @media (max-width: 768px) {
-    .workout-logs-container {
-        margin-left: 0;
-        padding: 10px;
-    }
-
-    .columns {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
+    .set-grid {
+        grid-template-columns: 1fr;
     }
 }

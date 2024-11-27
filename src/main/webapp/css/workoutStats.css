@@ -1,80 +1,105 @@
-/* === Global Styling === */
-body {
-    background-color: #333;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    display: flex;
-    justify-content: flex-start; /* Align to the left */
-    align-items: flex-start;    /* Align to the top */
-    height: 100vh;
-}
-
-/* === Layout Containers === */
-.layout-container {
-    display: flex;
-    width: 100%;
-    height: 100%;
-}
-
-.navbar-container {
-    width: 250px; /* Fixed width for navbar */
-    height: 100vh; /* Full height */
-    background-color: #222; /* Darker background for navbar */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Shadow for separation */
-    position: fixed;
-}
-
 .workout-stats-container {
-    margin-left: 250px; /* Offset for navbar width */
-    flex: 1; /* Take up remaining space */
-    flex-direction: column;
-    align-items: flex-start; /* Align elements to the left */
-    justify-content: center; /* Center vertically */
-    padding: 20px;
-    gap: 20px;
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: var(--spacing-xl);
 }
 
-/* === Input Groups === */
-.row {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align labels and inputs to the left */
-}
-
-label {
-    margin-bottom: 8px;
-    font-size: 14px;
-}
-
-input {
-    width: 150px;
-    height: 40px;
-    background-color: #d3d3d3;
-    border: none;
-    border-radius: 5px;
+.stats-header {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
     text-align: center;
 }
 
-/* === Responsive Design === */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+.stat-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.stat-title {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-value {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.stat-unit {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-left: var(--spacing-xs);
+}
+
+.personal-bests {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+}
+
+.pb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-md);
+}
+
+.pb-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-color);
+}
+
+.pb-exercise {
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-color);
+}
+
+.workout-summary {
+    margin-top: var(--spacing-xl);
+    text-align: center;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+
+.inline-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: var(--spacing-xs);
+    color: var(--success-color);
+}
+
 @media (max-width: 768px) {
-    .workout-stats-container {
-        margin-left: 0;
-        padding: 10px;
-    }
-
-    .row {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    input {
-        width: 100%; /* Full width on smaller screens */
+    .stats-grid {
+        grid-template-columns: 1fr;
     }
 }
