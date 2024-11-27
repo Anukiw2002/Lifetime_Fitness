@@ -1,55 +1,71 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Videos</title>
-  <link rel="stylesheet" href="<c:url value='/css/style.css' />"> <!-- Link to a CSS file -->
+  <title>View Videos</title>
+
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewBlogs.css" />
 </head>
 <body>
-<div class="container">
-  <h1>All Videos</h1>
 
-  <!-- Display error message if any -->
-  <c:if test="${not empty errorMessage}">
-    <div class="error-message">
-      <p>${errorMessage}</p>
+<div class="main-content">
+  <jsp:include page="../common/verticalNavBar.jsp" />
+  <div class="container">
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-4">
+      <h2>All Videos</h2>
+      <form action="${pageContext.request.contextPath}/addVideo" method="get">
+        <button type="submit" class="btn btn-primary">Add Video</button>
+      </form>
     </div>
-  </c:if>
 
-  <!-- Check if there are videos to display -->
-  <c:if test="${empty videos}">
-    <p>No videos found.</p>
-  </c:if>
+    <!-- Videos Content Section -->
+    <div class="card">
+      <c:if test="${not empty videos}">
+        <table class="blog-table">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Update</th>
+            <th>Delete</th>
+          </tr>
+          </thead>
+          <tbody>
+          <c:forEach var="video" items="${videos}">
+            <tr>
+              <td>${video.name}</td>
+              <td>${video.description}</td>
+              <td>
+                <form action="${pageContext.request.contextPath}/updateVideo" method="get">
+                  <input type="hidden" name="id" value="${video.id}" />
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+              </td>
+              <td>
+                <form action="${pageContext.request.contextPath}/deleteVideo" method="post">
+                  <input type="hidden" name="id" value="${video.id}" />
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+          </c:forEach>
+          </tbody>
+        </table>
+      </c:if>
 
-  <!-- Table to display videos -->
-  <c:if test="${not empty videos}">
-    <table border="1" class="videos-table">
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <c:forEach var="video" items="${videos}" varStatus="status">
-        <tr>
-          <td>${status.index + 1}</td>
-          <td>${video.name}</td>
-          <td>${video.description}</td>
-          <td>
-            <!-- Link to open the video player in a new tab -->
-            <a href="playVideo?id=${video.id}" target="_blank">Watch Video</a>
-          </td>
-        </tr>
-      </c:forEach>
-      </tbody>
-    </table>
-  </c:if>
+      <c:if test="${empty videos}">
+        <p class="no-blogs">No videos uploaded yet.</p>
+      </c:if>
+    </div>
+  </div>
 </div>
+
 </body>
 </html>
