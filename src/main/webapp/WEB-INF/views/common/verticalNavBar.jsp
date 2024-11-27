@@ -23,6 +23,12 @@
         <a href="/memberManagement" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
+        <a href="/owner/leaderboard" class="nav-link">
+            <i class="fas fa-users icon"></i>Leaderboard
+        </a>
+        <a href="/owner/leaderboardDetails" class="nav-link">
+            <i class="fas fa-users icon"></i>Leaderboard details
+        </a>
         <a href="/owner/addInstructor" class="nav-link">
             <i class="fas fa-users icon"></i>Add Instructor
         </a>
@@ -47,9 +53,6 @@
     </div>
 
     <div class="bottom-links">
-        <a href="#settings" class="nav-link">
-            <i class="fas fa-cog icon"></i>Settings
-        </a>
         <a href="/logout" class="nav-link">
             <i class="fas fa-sign-out-alt icon"></i>Log out
         </a>
