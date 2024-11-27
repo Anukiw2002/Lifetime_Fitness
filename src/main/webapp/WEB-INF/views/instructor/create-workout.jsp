@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="main-content">
-    <jsp:include page="../common/verticalNavBar.jsp" />
+    <jsp:include page="clientVerticalNavbar.jsp" />
     <div class="container">
         <button onclick="javascript:history.back()" class="btn btn-secondary mb-4">
             <i class="fas fa-arrow-left"></i> Back to Workouts
