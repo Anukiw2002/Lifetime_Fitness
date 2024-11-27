@@ -32,6 +32,7 @@
         <a href="viewNotification" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
+
         <a href="getAllVideosClient" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
