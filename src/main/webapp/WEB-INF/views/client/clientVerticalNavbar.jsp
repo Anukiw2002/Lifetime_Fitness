@@ -26,7 +26,7 @@
         <a href="leaderBoardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard Details
         </a>
-        <a href="instructor/clientWorkouts" class="nav-link">
+        <a href="workoutOptionss?page=clientWorkout" class="nav-link">
             <i class="fas fa-dumbbell icon"></i>Workout
         </a>
         <a href="viewNotification" class="nav-link">
