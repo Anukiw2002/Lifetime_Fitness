@@ -6,7 +6,7 @@
     <title>Medical History - Lifetime Fitness</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/medicalHistory.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/button.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/typography.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
 </head>
 <body>
 <div class="container">
