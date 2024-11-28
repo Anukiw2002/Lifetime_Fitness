@@ -60,6 +60,8 @@ public class ReportServlet extends HttpServlet {
         double fatPercentage = parseDouble(request.getParameter("fat"));
         double bmr = parseDouble(request.getParameter("bmr"));
         String goal = request.getParameter("goal");
+        String warm_up = request.getParameter("warm_up");
+        String flexibility = request.getParameter("flexibility");
         String cardio = request.getParameter("cardio");
         String remarks = request.getParameter("remarks");
 
@@ -93,7 +95,7 @@ public class ReportServlet extends HttpServlet {
                 // Insert report
                 String insertReportQuery = "INSERT INTO user_reports (name, age, program_no, starting_date, expire_date, frequency, "
                         + "times_per_week, max_heart_rate, bpm_65, bpm_75, bpm_85, waist_circumference, body_weight, height, "
-                        + "fat_percentage, bmr, goal, cardio, remarks, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        + "fat_percentage, bmr, goal,warm_up, flexibility, cardio, remarks, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement pstmt = conn.prepareStatement(insertReportQuery, Statement.RETURN_GENERATED_KEYS)) {
                     pstmt.setString(1, name);
                     pstmt.setInt(2, age);
@@ -112,9 +114,11 @@ public class ReportServlet extends HttpServlet {
                     pstmt.setDouble(15, fatPercentage);
                     pstmt.setDouble(16, bmr);
                     pstmt.setString(17, goal);
-                    pstmt.setString(18, cardio);
-                    pstmt.setString(19, remarks);
-                    pstmt.setString(20, userEmail);
+                    pstmt.setString(18, warm_up);
+                    pstmt.setString(19, flexibility);
+                    pstmt.setString(20, cardio);
+                    pstmt.setString(21, remarks);
+                    pstmt.setString(22, userEmail);
 
                     pstmt.executeUpdate();
 
@@ -146,8 +150,7 @@ public class ReportServlet extends HttpServlet {
 
                 conn.commit();
                 System.out.println("Report and exercises inserted successfully!");
-                request.setAttribute("message", "User report submitted successfully!");
-                request.getRequestDispatcher("/first").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/first");
             } catch (SQLException e) {
                 conn.rollback();
                 System.err.println("Transaction rolled back due to: " + e.getMessage());
