@@ -32,9 +32,7 @@
         <a href="/owner/addInstructor" class="nav-link">
             <i class="fas fa-users icon"></i>Add Instructor
         </a>
-        <a href="/instructor/searchClient" class="nav-link">
-            <i class="fas fa-dumbbell icon"></i>Workout
-        </a>
+
         <a href="/owner/ownerDetailedNotifications" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
