@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import org.example.demo2.util.DBConnection;
+import org.example.demo2.util.SessionUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,22 +26,16 @@ public class UploadVideoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
-            response.sendRedirect(request.getContextPath() + "/landingPage");
-            return;
+        if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
+            return; // If not authorized, the redirection will be handled by the utility method
         }
         request.getRequestDispatcher("/WEB-INF/views/owner/uploadVideo.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
-            response.sendRedirect(request.getContextPath() + "/landingPage");
-            return;
+        if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
+            return; // If not authorized, the redirection will be handled by the utility method
         }
         String videoName = request.getParameter("videoName");
         String videoDescription = request.getParameter("videoDescription");

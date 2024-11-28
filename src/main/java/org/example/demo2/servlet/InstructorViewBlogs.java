@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.demo2.model.VideoModel;
+import org.example.demo2.util.SessionUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,6 +16,9 @@ public class InstructorViewBlogs extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
+            return; // If not authorized, the redirection will be handled by the utility method
+        }
         try {
             // Fetch all videos using the VideoController
             List<VideoModel> allVideos = VideoController.getAllVideos();
@@ -40,6 +44,9 @@ public class InstructorViewBlogs extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
+            return; // If not authorized, the redirection will be handled by the utility method
+        }
         // For this servlet, forward POST requests to doGet
         doGet(request, response);
     }

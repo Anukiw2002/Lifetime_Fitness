@@ -55,14 +55,7 @@
         </tbody>
     </table>
 
-    <!-- Go Back Button -->
-    <div style="text-align: center; margin-top: 20px;">
-        <button
-                onclick="location.href='<%= request.getContextPath() %>/memberProfile'"
-                style="padding: 10px 20px; font-size: 16px; background-color: #5c5c5c; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
-            Go Back
-        </button>
-    </div>
+
 </div>
 </body>
 </html>

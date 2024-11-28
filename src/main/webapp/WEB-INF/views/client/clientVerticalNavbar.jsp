@@ -20,7 +20,7 @@
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
     </div>
     <div>
-        <a href="DashBoard" class="nav-link">
+        <a href="memberProfile" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
         <a href="leaderBoard" class="nav-link">
@@ -42,7 +42,7 @@
     </div>
 
     <div class="bottom-links">
-        <a href="#settings" class="nav-link">
+        <a href="/clientEditProfile" class="nav-link">
             <i class="fas fa-cog icon"></i>Settings
         </a>
         <a href="logout" class="nav-link">
