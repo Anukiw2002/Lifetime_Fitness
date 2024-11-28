@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.demo2.model.BlogModel;
+import org.example.demo2.util.SessionUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,10 +18,8 @@ public class GetAllBlogsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
-            response.sendRedirect(request.getContextPath() + "/landingPage");
-            return;
+        if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
+            return; // If not authorized, the redirection will be handled by the utility method
         }
         try {
             // Fetch all blogs using the BlogController
@@ -47,6 +46,9 @@ public class GetAllBlogsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
+            return; // If not authorized, the redirection will be handled by the utility method
+        }
         // For this servlet, forward GET requests to doPost
         doPost(request, response);
     }

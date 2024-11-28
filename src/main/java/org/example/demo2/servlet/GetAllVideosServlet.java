@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.demo2.model.VideoModel;
+import org.example.demo2.util.SessionUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,11 +20,8 @@ public class GetAllVideosServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Check for a valid session
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userRole") == null) {
-            // Redirect to the landing page if the user is not logged in
-            response.sendRedirect(request.getContextPath() + "/landingPage");
-            return;
+        if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
+            return; // If not authorized, the redirection will be handled by the utility method
         }
 
         try {
@@ -51,6 +49,9 @@ public class GetAllVideosServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
+            return; // If not authorized, the redirection will be handled by the utility method
+        }
         // Forward GET requests to doPost
         doPost(request, response);
     }
