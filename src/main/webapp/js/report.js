@@ -41,7 +41,18 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+document.getElementById('userReportForm').addEventListener('submit', function(event) {
+    // Prevent default form submission to show alert first
+    event.preventDefault();
 
+    // Optionally show an alert here before submitting
+    alert('Form is being submitted. Redirecting to the list form.');
+
+    // Delay the form submission for a brief moment
+    setTimeout(() => {
+        this.submit(); // Proceed with the form submission after the alert
+    }, 1000); // 1 second delay (adjust as needed)
+});
 
 document.addEventListener("DOMContentLoaded", function() {
     // Check if a message is available from the server
