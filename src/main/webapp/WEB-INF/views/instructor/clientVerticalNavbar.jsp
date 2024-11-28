@@ -50,7 +50,7 @@
         <a href="/InstructorEditProfile" class="nav-link">
             <i class="fas fa-cog icon"></i>Settings
         </a>
-        <a href="logout" class="nav-link">
+        <a href="/landingPage" class="nav-link">
             <i class="fas fa-sign-out-alt icon"></i>Log out
         </a>
     </div>
