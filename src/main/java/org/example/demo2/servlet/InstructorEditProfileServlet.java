@@ -9,16 +9,16 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/InstructorMemberManagement")
-public class InstructorMemberManagementServlet extends HttpServlet {
+@WebServlet("/InstructorEditProfile")
+public class InstructorEditProfileServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
             // If the session is invalid or the user is not logged in, redirect to the login page
-            resp.sendRedirect(req.getContextPath() + "/landingPage");
+            response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
-        req.getRequestDispatcher("/WEB-INF/views/instructor/instructorMemberManagmement.jsp").forward(req, resp);
+        request.getRequestDispatcher("/WEB-INF/views/instructor/instructorEditProfile.jsp").forward(request, response);
     }
 }

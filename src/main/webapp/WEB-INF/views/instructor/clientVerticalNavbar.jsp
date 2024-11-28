@@ -35,10 +35,10 @@
         <a href="/InstructorMemberManagement" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Members
         </a>
-        <a href="/getAllVideosClient" class="nav-link">
+        <a href="/InstructorViewVideos" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
-        <a href="/GetAllBlogsClient" class="nav-link">
+        <a href="/InstructorViewBlogs" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
         <a href="/instructor/searchClient" class="nav-link">
@@ -47,7 +47,7 @@
     </div>
 
     <div class="bottom-links">
-        <a href="#settings" class="nav-link">
+        <a href="/InstructorEditProfile" class="nav-link">
             <i class="fas fa-cog icon"></i>Settings
         </a>
         <a href="logout" class="nav-link">
