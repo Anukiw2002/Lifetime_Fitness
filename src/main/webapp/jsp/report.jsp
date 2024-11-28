@@ -108,6 +108,9 @@
         </form>
     </div>
 </div>
+<div id="message" style="display:none;">
+    <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
+</div>
 <script src="<%= request.getContextPath() %>/js/report.js"></script>
 </body>
 </html>

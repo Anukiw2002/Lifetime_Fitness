@@ -23,22 +23,22 @@
         <a href="/instructor/upcomingSessions" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
-        <a href="/leaderBoard" class="nav-link">
+        <a href="/InstructorLeaderBoard" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Leaderboard
         </a>
         <a href="/leaderBoardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard Details
         </a>
-        <a href="/viewNotification" class="nav-link">
+        <a href="/InstructorViewNotification" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
-        <a href="/owner/memberManagement" class="nav-link">
+        <a href="/InstructorMemberManagement" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Members
         </a>
-        <a href="getAllVideosClient" class="nav-link">
+        <a href="/InstructorViewVideos" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
-        <a href="GetAllBlogsClient" class="nav-link">
+        <a href="/InstructorViewBlogs" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
         <a href="/instructor/searchClient" class="nav-link">
@@ -47,7 +47,7 @@
     </div>
 
     <div class="bottom-links">
-        <a href="#settings" class="nav-link">
+        <a href="/InstructorEditProfile" class="nav-link">
             <i class="fas fa-cog icon"></i>Settings
         </a>
         <a href="logout" class="nav-link">
