@@ -11,12 +11,12 @@
     <div class="signup-form-section">
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="signup-logo">
         <h2 class="signup-heading">Sign Up</h2>
-        <form action="${pageContext.request.contextPath}/signup" method="post">
+        <form action="${pageContext.request.contextPath}/signUp2" method="post">
             <div class="signup-form-group">
                 <input type="text" name="firstName" placeholder="Enter your first name" class="signup-input" required>
                 <input type="text" name="lastName" placeholder="Enter your last name" class="signup-input" required>
                 <input type="email" name="email" placeholder="Enter your email" class="signup-input" required>
-                <input type="password" name="password" placeholder="Enter your password" class="signup-input" required>
+                <input type="password" name="password" placeholder="Enter your password (At least 8 characters long)" class="signup-input" required>
                 <input type="password" name="confirmPassword" placeholder="Confirm your password" class="signup-input" required>
                 <div class="signup-terms">
                     <input type="checkbox" id="terms" name="terms" required>
