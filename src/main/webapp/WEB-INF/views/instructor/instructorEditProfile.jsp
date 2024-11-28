@@ -2,101 +2,84 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>LIFETIME FITNESS - Edit Profile</title>
+  <title>LIFETIME FITNESS - Member Profile</title>
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/generalStyles.css">
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/editProfile.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profilePage.css">
 </head>
 <body>
-<jsp:include page="../client/clientVerticalNavbar.jsp" />
+<nav id="navbar"></nav>
+
 <div class="main-content">
   <div class="container">
-    <div class="card">
-      <h1 class="text-center mb-4">Edit Profile</h1>
+    <div class="card mb-4">
+      <div class="card-body text-center">
+        <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg"
+             alt="Profile Picture"
+             class="profile-image">
+        <h1 class="mb-2">Lewis Hamilton</h1>
+      </div>
+    </div>
 
-      <div class="flex flex-col items-center mb-4">
-        <div class="profile-picture">
-          <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Profile Picture">
-        </div>
-        <button class="btn btn-secondary">Change Picture</button>
+    <div class="grid stats-grid mb-4">
+      <div class="flex flex-col items-center">
+        <span class="text-muted">Age</span>
+        <span class="text-lg">25 years</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-muted">Gender</span>
+        <span class="text-lg">Male</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-muted">BMI</span>
+        <span class="text-lg">22.5</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-muted">Weight</span>
+        <span class="text-lg">12%</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-muted">Height</span>
+        <span class="text-lg">12%</span>
+      </div>
+    </div>
+
+    <div class="grid metric-grid gap-lg mb-4">
+      <div class="card">
+        <h3 class="mb-3">Gym Activity</h3>
+        <p class="mb-2">Days Active This Month: 15</p>
+        <p class="mb-2">Total Days Worked: 45</p>
+        <p> Streak: 5 days</p>
       </div>
 
-      <form>
-        <div class="card mb-4">
-          <h2 class="mb-3">Personal Information</h2>
-          <div class="form-group">
-            <label class="form-label" for="fullName">Full Name</label>
-            <input type="text" id="fullName" class="form-control" value="Lewis Hamilton" required>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="age">Age</label>
-              <input type="number" id="age" class="form-control" value="25" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="gender">Gender</label>
-              <select id="gender" class="form-control">
-                <option value="male" selected>Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-          </div>
-        </div>
+      <div class="card">
+        <h3 class="mb-3">Fitness Goals</h3>
+        <p class="mb-2">Target Weight: 75 kg</p>
+        <p>Weekly Goal: 4 sessions</p>
+      </div>
 
-        <div class="card mb-4">
-          <h2 class="mb-3">Contact Information</h2>
-          <div class="form-group">
-            <label class="form-label" for="email">Email Address</label>
-            <input type="email" id="email" class="form-control" value="lewis@example.com" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="phone">Phone Number</label>
-            <input type="tel" id="phone" class="form-control" value="+94 77 123 4567" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="address">Address</label>
-            <textarea id="address" class="form-control">123 Gym Street, Colombo</textarea>
-          </div>
-        </div>
+      <div class="card">
+        <h3 class="mb-3">Recent Activities</h3>
+        <ul class="activity-list">
+          <li>Cardio Session - 45 mins</li>
+          <li>Weight Training - Upper Body</li>
+        </ul>
+      </div>
+    </div>
 
-        <div class="card mb-4">
-          <h2 class="mb-3">Health Information</h2>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="weight">Weight (kg)</label>
-              <input type="number" id="weight" class="form-control" value="75" step="0.1">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="height">Height (cm)</label>
-              <input type="number" id="height" class="form-control" value="175">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="healthConditions">Health Conditions</label>
-            <textarea id="healthConditions" class="form-control" placeholder="List any health conditions or injuries..."></textarea>
-          </div>
-        </div>
-
-        <div class="card mb-4">
-          <h2 class="mb-3">Emergency Contact</h2>
-          <div class="form-group">
-            <label class="form-label" for="emergencyName">Contact Name</label>
-            <input type="text" id="emergencyName" class="form-control" value="Emergency Contact">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="emergencyPhone">Contact Phone</label>
-            <input type="tel" id="emergencyPhone" class="form-control" value="+94 77 987 6543">
-          </div>
-        </div>
-
-        <div class="flex justify-end gap-md">
-          <button type="button" class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/memberProfile'">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save Changes</button>
-        </div>
-      </form>
+    <!-- Action Buttons -->
+    <div class="flex justify-center gap-md">
+      <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientEditProfile'">
+        Edit Profile
+      </button>
+      <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientSessions'">
+        View Schedule
+      </button>
+      <button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/calendar'">
+        Book Class
+      </button>
     </div>
   </div>
 </div>
-
 </body>
 </html>
+<%@ include file="clientVerticalNavbar.jsp" %>
