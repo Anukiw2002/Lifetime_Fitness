@@ -35,7 +35,7 @@
         <a href="/InstructorMemberManagement" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Members
         </a>
-        <a href="/getAllVideosClient" class="nav-link">
+        <a href="/InstructorViewVideos" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
         <a href="/GetAllBlogsClient" class="nav-link">

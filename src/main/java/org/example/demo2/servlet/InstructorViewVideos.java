@@ -1,6 +1,7 @@
 package org.example.demo2.servlet;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,7 +9,7 @@ import org.example.demo2.model.VideoModel;
 
 import java.io.IOException;
 import java.util.List;
-
+@WebServlet("/InstructorViewVideos")
 public class InstructorViewVideos extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -25,7 +26,7 @@ public class InstructorViewVideos extends HttpServlet {
             request.setAttribute("videos", allVideos);
 
             // Forward the request to the JSP page for display
-            request.getRequestDispatcher("/WEB-INF/views/client/viewVideos.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/instructor/instructorViewVideos.jsp").forward(request, response);
         } catch (Exception e) {
             // Log any errors
             System.err.println("Error while fetching videos for the client:");

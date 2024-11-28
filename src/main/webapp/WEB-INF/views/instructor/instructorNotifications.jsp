@@ -38,11 +38,6 @@
       </div>
       <div class="notification-time">7 days 2 hours ago</div>
     </div>
-
-    <a href="/memberProfile" class="back-link">
-      <span>&larr;</span>
-      <span class="ml-2">Back to Home</span>
-    </a>
   </div>
 </div>
 </body>
