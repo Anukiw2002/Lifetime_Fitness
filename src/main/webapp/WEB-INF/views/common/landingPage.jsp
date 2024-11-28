@@ -16,59 +16,61 @@
 <div class="hero-container" id="home">
     <img src="/images/image1.1.jpg" alt="Gym" class="hero-image">
     <div class="hero-content">
-        <h1 data-aos="fade-up">FOCUS GAIN ATTAIN</h1>
+        <h1 data-aos="fade-up">FOCUS. GAIN. ATTAIN.</h1>
         <a href="testView?page=page1" class="cta-button" data-aos="fade-up" data-aos-delay="200">JOIN NOW</a>
     </div>
 </div>
 
 <!-- Why Choose Us Section HTML -->
-<div class="carousel-container why-choose-section" id="carousel1" data-aos="fade-up">
-    <h1 class="carousel-title"><u>WHY CHOOSE US?</u></h1>
+<div class="carousel-wrapper">
+    <div class="carousel-container why-choose-section" id="carousel1" data-aos="fade-up">
+        <h1 class="carousel-title"><u>WHY CHOOSE US?</u></h1>
 
-    <div class="features-grid">
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="feature-icon">
-                <img src="/images/solidarity.png" alt="Caring Environment Icon" class="icon">
+        <div class="features-grid">
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-icon">
+                    <img src="/images/solidarity.png" alt="Caring Environment Icon" class="icon">
+                </div>
+                <h3>Caring Environment</h3>
+                <p>There's no sense in doing something you're not going to enjoy. It's so important that you really enjoy the environment you're in because that's what will ultimately keep you consistent. Lifetime Fitness is like a loving second home!</p>
             </div>
-            <h3>Caring Environment</h3>
-            <p>There's no sense in doing something you're not going to enjoy. It's so important that you really enjoy the environment you're in because that's what will ultimately keep you consistent. Lifetime Fitness is like a loving second home!</p>
+
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-icon">
+                    <img src="/images/crowd-of-users.png" alt="Gym Family Icon" class="icon">
+                </div>
+                <h3>Join our Gym Family</h3>
+                <p>Lifetime Fitness is more than just a gym. We are a family that's there to help you reach your goals. The best way to get where you want to go is to have fun along the way - and it's always more fun doing it alongside people that care!</p>
+            </div>
+
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-icon">
+                    <img src="/images/dumbbell.png" alt="Training Icon" class="icon">
+                </div>
+                <h3>Personalized Training</h3>
+                <p>Every member at Lifetime Fitness gets a free personalized diet and training program that suits their individual lifestyle, food preferences and fitness goals. We believe in helping each individual based on their goals and lifestyle.</p>
+            </div>
         </div>
 
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="feature-icon">
-                <img src="/images/crowd-of-users.png" alt="Gym Family Icon" class="icon">
+        <div class="carousel mt-4">
+            <button class="carousel-btn prev-btn">&#10094;</button>
+            <div class="carousel-track-container">
+                <ul class="carousel-track">
+                    <li class="carousel-slide">
+                        <img src="/images/gymimg1.jpg" alt="Gym Equipment" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
+                    </li>
+                    <li class="carousel-slide">
+                        <img src="/images/gymimg2.jpg" alt="Training Area" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
+                    </li>
+                    <li class="carousel-slide">
+                        <img src="/images/gymimg3.jpg" alt="Fitness Class" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
+                    </li>
+                </ul>
             </div>
-            <h3>Join our Gym Family</h3>
-            <p>Lifetime Fitness is more than just a gym. We are a family that's there to help you reach your goals. The best way to get where you want to go is to have fun along the way - and it's always more fun doing it alongside people that care!</p>
+            <button class="carousel-btn next-btn">&#10095;</button>
         </div>
-
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-            <div class="feature-icon">
-                <img src="/images/dumbbell.png" alt="Training Icon" class="icon">
-            </div>
-            <h3>Personalized Training</h3>
-            <p>Every member at Lifetime Fitness gets a free personalized diet and training program that suits their individual lifestyle, food preferences and fitness goals. We believe in helping each individual based on their goals and lifestyle.</p>
-        </div>
+        <div class="carousel-indicators"></div>
     </div>
-
-    <div class="carousel mt-4">
-        <button class="carousel-btn prev-btn">&#10094;</button>
-        <div class="carousel-track-container">
-            <ul class="carousel-track">
-                <li class="carousel-slide">
-                    <img src="/images/gymimg1.jpg" alt="Gym Equipment" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
-                </li>
-                <li class="carousel-slide">
-                    <img src="/images/gymimg2.jpg" alt="Training Area" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
-                </li>
-                <li class="carousel-slide">
-                    <img src="/images/gymimg3.jpg" alt="Fitness Class" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
-                </li>
-            </ul>
-        </div>
-        <button class="carousel-btn next-btn">&#10095;</button>
-    </div>
-    <div class="carousel-indicators"></div>
 </div>
 
 <!-- About Section -->
@@ -108,28 +110,29 @@
 </section>
 
 <!-- Services Section -->
-<div class="services-section">
-    <div class="container">
-        <h1 class="text-center"><u>SERVICES</u></h1>
-        <div class="services-grid">
-            <div class="service-card" data-aos="fade-up" data-aos-delay="100">
-                <img src="/images/one-to-one.png" alt="Personal Training" class="service-icon">
-                <h3>One to One Training</h3>
-                <p>All our personal trainers are certified and ready to help with whatever fitness goal you may have!</p>
-            </div>
-            <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-                <img src="/images/fitness.png" alt="Fitness Check-Up" class="service-icon">
-                <h3>Fitness Check-Up</h3>
-                <p>Get your BMI and fat percentage checked every month to keep track of your body composition.</p>
-            </div>
-            <div class="service-card" data-aos="fade-up" data-aos-delay="300">
-                <img src="/images/Soda.png" alt="Supplements" class="service-icon">
-                <h3>Juice & Supplement Bar</h3>
-                <p>We have a supplement bar with pre-workout, whey protein, BCAA, Greek yogurt, and more!</p>
+    <div class="services-section">
+        <div class="container">
+            <h1 class="text-center"><u>SERVICES</u></h1>
+            <div class="services-grid">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <img src="/images/one-to-one.png" alt="Personal Training" class="service-icon">
+                    <h3>One to One Training</h3>
+                    <p>All our personal trainers are certified and ready to help with whatever fitness goal you may have!</p>
+                </div>
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <img src="/images/fitness.png" alt="Fitness Check-Up" class="service-icon">
+                    <h3>Fitness Check-Up</h3>
+                    <p>Get your BMI and fat percentage checked every month to keep track of your body composition.</p>
+                </div>
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <img src="/images/Soda.png" alt="Supplements" class="service-icon">
+                    <h3>Juice & Supplement Bar</h3>
+                    <p>We have a supplement bar with pre-workout, whey protein, BCAA, Greek yogurt, and more!</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 
 <!-- Pricing Section -->
 <section class="pricing-section" data-aos="fade-up">
@@ -181,61 +184,63 @@
 </section>
 
 <!-- Our Coaches Section -->
-<div class="carousel-container" id="carousel2" data-aos="fade-up">
-    <h1 class="carousel-title"><u>OUR COACHES</u></h1>
-    <div class="carousel">
-        <button class="carousel-btn prev-btn">&#10094;</button>
-        <div class="carousel-track-container">
-            <ul class="carousel-track">
-                <li class="carousel-slide">
-                    <div class="coach-card">
-                        <div class="coach-image">
-                            <img src="/images/coach1.jpg" alt="Coach 1">
+<div class="carousel-wrapper">
+    <div class="carousel-container" id="carousel2" data-aos="fade-up">
+        <h1 class="carousel-title"><u>OUR COACHES</u></h1>
+        <div class="carousel">
+            <button class="carousel-btn prev-btn">&#10094;</button>
+            <div class="carousel-track-container">
+                <ul class="carousel-track">
+                    <li class="carousel-slide">
+                        <div class="coach-card">
+                            <div class="coach-image">
+                                <img src="/images/coach1.jpg" alt="Coach 1">
+                            </div>
+                            <div class="coach-info">
+                                <h3>John Doe</h3>
+                                <p>Head Coach</p>
+                            </div>
                         </div>
-                        <div class="coach-info">
-                            <h3>John Doe</h3>
-                            <p>Head Coach</p>
+                    </li>
+                    <li class="carousel-slide">
+                        <div class="coach-card">
+                            <div class="coach-image">
+                                <img src="/images/coach2.jpg" alt="Coach 2">
+                            </div>
+                            <div class="coach-info">
+                                <h3>Jane Smith</h3>
+                                <p>Fitness Trainer</p>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <li class="carousel-slide">
-                    <div class="coach-card">
-                        <div class="coach-image">
-                            <img src="/images/coach2.jpg" alt="Coach 2">
+                    </li>
+                    <li class="carousel-slide">
+                        <div class="coach-card">
+                            <div class="coach-image">
+                                <img src="/images/coach3.jpg" alt="Coach 3">
+                            </div>
+                            <div class="coach-info">
+                                <h3>Mike Johnson</h3>
+                                <p>Strength Coach</p>
+                            </div>
                         </div>
-                        <div class="coach-info">
-                            <h3>Jane Smith</h3>
-                            <p>Fitness Trainer</p>
+                    </li>
+                    <li class="carousel-slide">
+                        <div class="coach-card">
+                            <div class="coach-image">
+                                <img src="/images/coach4.png" alt="Coach 4">
+                            </div>
+                            <div class="coach-info">
+                                <h3>Sarah Wilson</h3>
+                                <p>Personal Trainer</p>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <li class="carousel-slide">
-                    <div class="coach-card">
-                        <div class="coach-image">
-                            <img src="/images/coach3.jpg" alt="Coach 3">
-                        </div>
-                        <div class="coach-info">
-                            <h3>Mike Johnson</h3>
-                            <p>Strength Coach</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="carousel-slide">
-                    <div class="coach-card">
-                        <div class="coach-image">
-                            <img src="/images/coach4.png" alt="Coach 4">
-                        </div>
-                        <div class="coach-info">
-                            <h3>Sarah Wilson</h3>
-                            <p>Personal Trainer</p>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
+            <button class="carousel-btn next-btn">&#10095;</button>
         </div>
-        <button class="carousel-btn next-btn">&#10095;</button>
+        <div class="carousel-indicators"></div>
     </div>
-    <div class="carousel-indicators"></div>
 </div>
 
 <!-- Scripts -->
