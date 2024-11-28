@@ -210,7 +210,6 @@ body {
 .signup-terms {
     font-size: 0.875rem;
     color: var(--text-muted);
-    margin-top: var(--space-sm);
 }
 
 .signup-login a,
