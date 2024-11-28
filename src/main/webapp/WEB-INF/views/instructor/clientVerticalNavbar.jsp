@@ -38,7 +38,7 @@
         <a href="/InstructorViewVideos" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
-        <a href="/GetAllBlogsClient" class="nav-link">
+        <a href="/InstructorViewBlogs" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
         <a href="/instructor/searchClient" class="nav-link">
