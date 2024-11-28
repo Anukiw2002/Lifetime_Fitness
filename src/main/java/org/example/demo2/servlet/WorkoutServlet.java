@@ -14,9 +14,7 @@ import java.io.IOException;
 public class WorkoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
-            return; // If not authorized, the redirection will be handled by the utility method
-        }
+
         // Get the "page" parameter to decide which page to forward to
         String page = request.getParameter("page");
 
