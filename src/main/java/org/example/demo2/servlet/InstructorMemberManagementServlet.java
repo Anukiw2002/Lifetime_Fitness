@@ -14,7 +14,7 @@ import java.io.IOException;
 public class InstructorMemberManagementServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
+        if (!SessionUtils.isUserAuthorized(req, resp, "instructor")) {
             return; // If not authorized, the redirection will be handled by the utility method
         }
         req.getRequestDispatcher("/WEB-INF/views/instructor/instructorMemberManagmement.jsp").forward(req, resp);
