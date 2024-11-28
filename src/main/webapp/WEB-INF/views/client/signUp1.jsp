@@ -20,7 +20,7 @@
                 <input type="password" name="confirmPassword" placeholder="Confirm your password" class="signup-input" required>
                 <div class="signup-terms">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">I agree to the <a href="/termsAndConditions">terms and conditions</a></label>
+                    <label for="terms"><span class="normal-text">I agree to the  </span><a href="/termsAndConditions">terms and conditions</a></label>
                 </div>
             </div>
             <button type="submit" class="signup-button">Sign Up</button>
