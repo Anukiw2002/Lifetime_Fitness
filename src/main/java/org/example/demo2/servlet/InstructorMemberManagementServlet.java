@@ -29,6 +29,6 @@ public class InstructorMemberManagementServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/landingPage");
             return;
         }
-        req.getRequestDispatcher("/WEB-INF/views/owner/memberManagement.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/instructor/instructorMemberManagement.jsp").forward(req, resp);
     }
 }

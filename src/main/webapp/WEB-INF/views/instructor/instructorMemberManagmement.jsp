@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/memberManagement.css">
 </head>
 <body>
-<jsp:include page="../instructor/clientVerticalNavbar.jsp" />
+<jsp:include page="clientVerticalNavbar.jsp" />
 <div class="main-content">
     <div class="container">
         <h1 class="text-center mb-4">Member Management</h1>

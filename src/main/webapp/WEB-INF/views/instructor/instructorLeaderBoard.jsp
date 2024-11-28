@@ -10,7 +10,7 @@
 <body>
 
 <div class="leaderboard">
-    <jsp:include page="../instructor/clientVerticalNavbar.jsp" />
+    <jsp:include page="clientVerticalNavbar.jsp" />
     <h1>LEADERBOARD</h1>
     <table>
         <thead>

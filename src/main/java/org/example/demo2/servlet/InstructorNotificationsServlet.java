@@ -21,6 +21,6 @@ public class InstructorNotificationsServlet extends HttpServlet {
             return;
         }
         // Forward the request to navbar.html
-        request.getRequestDispatcher("/WEB-INF/views/common/detailedNotification.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/instructor/instructorNotifications.jsp").forward(request, response);
     }
 }

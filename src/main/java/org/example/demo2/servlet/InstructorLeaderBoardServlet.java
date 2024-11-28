@@ -53,7 +53,7 @@ public class InstructorLeaderBoardServlet extends HttpServlet {
         }
 
         request.setAttribute("leaderboardEntries", leaderboardEntries);
-        request.getRequestDispatcher("/WEB-INF/views/common/leaderBoard.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/instructor/instructorLeaderBoard.jsp").forward(request, response);
     }
 }
 
