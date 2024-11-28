@@ -21,6 +21,7 @@ import org.example.demo2.dao.DurationDAO;
 import org.example.demo2.dao.UniformPricingDAO;
 import org.example.demo2.dao.CategoryPricingDAO;
 import org.example.demo2.util.DBConnection;
+import org.example.demo2.util.SessionUtils;
 
 @WebServlet("/membership/view")
 public class ViewMembershipPlanServlet extends HttpServlet {
@@ -44,11 +45,8 @@ public class ViewMembershipPlanServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
-            response.sendRedirect(request.getContextPath() + "/landingPage");
-            return;
+        if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
+            return; // If not authorized, the redirection will be handled by the utility method
         }
         try {
             // Fetch all membership plans
