@@ -96,6 +96,7 @@
 
 
 
+
     <!-- Static Resource Handling (CSS & Images) -->
     <!-- These can be omitted if the default servlet is handling them already. -->
     <servlet-mapping>

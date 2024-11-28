@@ -162,10 +162,10 @@
     <div class="footer-container">
         <div class="social-media">
             <div class="social-links">
-                <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
+                <a href="https://www.facebook.com/profile.php?id=100066822506357" target="_blank" aria-label="Facebook">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="https://www.instagram.com" target="_blank" aria-label="Instagram">
+                <a href="https://www.instagram.com/lifetimefitness.thalawathugoda/" target="_blank" aria-label="Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
                 <a href="https://www.twitter.com" target="_blank" aria-label="Twitter">
