@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <form action="${pageContext.request.contextPath}/medicalDetails2" method="GET">
+    <form action="${pageContext.request.contextPath}/signup/step2" method="post">
       <div class="signup-form-group">
         <input type="tel" placeholder="Enter your phone number" class="signup-input" required>
         <input type="text" placeholder="House number" class="signup-input" required>

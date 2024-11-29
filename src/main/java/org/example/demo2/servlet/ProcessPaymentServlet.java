@@ -16,7 +16,7 @@ public class ProcessPaymentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Prevent GET requests for payment processing
-        response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "GET method is not supported for payment processing.");
+        request.getRequestDispatcher("/WEB-INF/views/client/paymentConfirmation.jsp").forward(request, response);
     }
 
     @Override

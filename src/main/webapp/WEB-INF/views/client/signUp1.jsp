@@ -11,7 +11,7 @@
     <div class="signup-form-section">
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="signup-logo">
         <h2 class="signup-heading">Sign Up</h2>
-        <form action="${pageContext.request.contextPath}/signUp2" method="post">
+        <form action="${pageContext.request.contextPath}/signup/step1" method="post">
             <div class="signup-form-group">
                 <input type="text" name="firstName" placeholder="Enter your first name" class="signup-input" required>
                 <input type="text" name="lastName" placeholder="Enter your last name" class="signup-input" required>
@@ -20,7 +20,7 @@
                 <input type="password" name="confirmPassword" placeholder="Confirm your password" class="signup-input" required>
                 <div class="signup-terms">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms"><span class="normal-text">I agree to the  </span><a href="/termsAndConditions">terms and conditions</a></label>
+                    <p for="terms"><p class="signup-login">I agree to the  <a href="/termsAndConditions">terms and conditions</a></p>
                 </div>
             </div>
             <button type="submit" class="signup-button">Sign Up</button>
