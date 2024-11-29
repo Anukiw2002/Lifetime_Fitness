@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -152,9 +154,10 @@
         <div class="workout-grid">
             <c:forEach var="workout" items="${workouts}">
                 <div class="card">
-                    <button class="delete-icon" onclick="showDeleteModal('${workout.workoutId}', '${workout.workoutName}')">
+                    <button class="delete-icon" onclick="showDeleteModal('${fn:escapeXml(workout.workoutId)}', '${fn:escapeXml(workout.workoutName)}')">
                         <i class="fas fa-trash-alt"></i>
                     </button>
+
                     <a href="editWorkout?workoutId=${workout.workoutId}" class="card-body">
                         <div class="flex items-center mb-3">
                             <div class="exercise-icon-container">
