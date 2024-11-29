@@ -35,7 +35,7 @@
 
         <div class="card">
             <h1 class="text-center mb-4">Bank Details</h1>
-            <form id="bankDetailsForm" action="${pageContext.request.contextPath}/selfOnboarding/step2" method="post" class="bank-form">
+            <form id="bankDetailsForm" action="${pageContext.request.contextPath}/InstructorEditProfile" method="post" class="bank-form" onsubmit="return showAlert()">
                 <div class="form-group mb-4">
                     <label class="form-label" for="bankName">Bank Name</label>
                     <input
@@ -92,5 +92,11 @@
         </div>
     </div>
 </div>
+<script>
+    function showAlert() {
+        alert("Sign up successful");
+        return true; // Allow form submission to proceed
+    }
+</script>
 </body>
 </html>

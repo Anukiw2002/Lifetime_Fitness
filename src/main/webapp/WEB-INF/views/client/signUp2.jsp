@@ -34,18 +34,30 @@
 
     <form action="${pageContext.request.contextPath}/signup/step2" method="post">
       <div class="signup-form-group">
+        <!-- Phone Number -->
         <input type="tel" placeholder="Enter your phone number" class="signup-input" required>
-        <input type="text" placeholder="House number" class="signup-input" required>
-        <input type="text" placeholder="Street Name" class="signup-input" required>
-        <input type="text" placeholder="City" class="signup-input" required>
-        <select class="signup-select" required>
-          <option value="" disabled selected>Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-        <form action="${pageContext.request.contextPath}/signUp3" method="GET" onsubmit="return validateForm()">
-        <input type="date" placeholder="Birthday" class="signup-input signup-date" required>
+
+        <!-- Address Section -->
+        <div class="address-section">
+         <label class="form-label" style="color: white;">Address</label>
+          <div class="address-grid">
+            <input type="text" placeholder="House number" class="signup-input" required>
+            <input type="text" placeholder="Street Name" class="signup-input" required>
+          </div>
+          <input type="text" placeholder="City" class="signup-input" required>
+        </div>
+
+        <!-- Personal Details -->
+          <select class="signup-select" required>
+            <option value="" disabled selected>Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+          <div class="date-input-group">
+            <label class="form-label" style="color: white;">Date of Birth</label>
+            <input type="date" class="signup-input signup-date" required>
+          </div>
       </div>
       <button type="submit" class="signup-button">Save and continue</button>
     </form>
