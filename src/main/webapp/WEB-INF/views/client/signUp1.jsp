@@ -11,7 +11,7 @@
     <div class="signup-form-section">
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="signup-logo">
         <h2 class="signup-heading">Sign Up</h2>
-        <form action="${pageContext.request.contextPath}/signup/step1" method="post">
+        <form action="${pageContext.request.contextPath}/signup" method="post">
             <div class="signup-form-group">
                 <input type="text" name="firstName" placeholder="Enter your first name" class="signup-input" required>
                 <input type="text" name="lastName" placeholder="Enter your last name" class="signup-input" required>
