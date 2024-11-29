@@ -6,7 +6,7 @@
     <title>Medical History - Lifetime Fitness</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/medicalHistory.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/button.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/typography.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
 </head>
 <body>
 <div class="container">
@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <form class="medical-form"action="${pageContext.request.contextPath}/">
+        <form class="medical-form"action="${pageContext.request.contextPath}/signup/step3" method="post">
             <div class="question-group">
                 <div class="question">
                     <div class="question-content">

@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="mt-4">
-                    <a href="home.jsp" class="btn btn-primary">Back to Home</a>
+                    <a href="/memberProfile" class="btn btn-primary">Back to Home</a>
                 </div>
             </div>
         </div>

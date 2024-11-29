@@ -21,7 +21,7 @@ public class SessionUtils {
             return true; // Authorized user, proceed with the page
         } else {
             // Unauthorized user, redirect to access denied page
-            response.sendRedirect(request.getContextPath() + "/accessDenied.jsp");
+            response.sendRedirect(request.getContextPath() + "/jsp/accessDenied.jsp");
             return false;
         }
     }

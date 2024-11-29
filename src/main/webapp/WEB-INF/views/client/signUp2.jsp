@@ -32,18 +32,32 @@
       </div>
     </div>
 
-    <form action="${pageContext.request.contextPath}/medicalDetails2" method="GET">
+    <form action="${pageContext.request.contextPath}/signup/step2" method="post">
       <div class="signup-form-group">
+        <!-- Phone Number -->
         <input type="tel" placeholder="Enter your phone number" class="signup-input" required>
-        <input type="text" placeholder="Enter your address" class="signup-input" required>
-        <select class="signup-select" required>
-          <option value="" disabled selected>Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-        <input type="text" placeholder="NIC number" class="signup-input" required>
-        <input type="date" placeholder="Birthday" class="signup-input signup-date" required>
+
+        <!-- Address Section -->
+        <div class="address-section">
+         <label class="form-label" style="color: white;">Address</label>
+          <div class="address-grid">
+            <input type="text" placeholder="House number" class="signup-input" required>
+            <input type="text" placeholder="Street Name" class="signup-input" required>
+          </div>
+          <input type="text" placeholder="City" class="signup-input" required>
+        </div>
+
+        <!-- Personal Details -->
+          <select class="signup-select" required>
+            <option value="" disabled selected>Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+          <div class="date-input-group">
+            <label class="form-label" style="color: white;">Date of Birth</label>
+            <input type="date" class="signup-input signup-date" required>
+          </div>
       </div>
       <button type="submit" class="signup-button">Save and continue</button>
     </form>
@@ -51,5 +65,17 @@
   <div class="signup-image-section" style="background-image: url('${pageContext.request.contextPath}/images/ClientSignUpFormImg.jpg')">
   </div>
 </div>
+<script>
+  function validateForm() {
+    const nicNumber = document.getElementById('nicNumber').value;
+    const nicPattern = /^[0-9]{9}[vVxX]$|^[0-9]{12}$/;
+
+    if (!nicPattern.test(nicNumber)) {
+      alert('Please enter a valid NIC number.');
+      return false;
+    }
+    return true;
+  }
+</script>
 </body>
 </html>
