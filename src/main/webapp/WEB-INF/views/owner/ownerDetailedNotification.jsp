@@ -8,12 +8,19 @@
 </head>
 <body>
 <jsp:include page="../common/verticalNavBar.jsp" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/detailedNotification.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/ownerDetailedNotification.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
 
 <div class="main-content">
     <div class="container">
-        <h1 class="mb-4">Notification Details</h1>
+        <div class = "details-withbutton">
+            <h1 class="mb-4">Notification Details</h1>
+            <div class="btn-group">
+                <form action="${pageContext.request.contextPath}/createNotification" method="get" >
+                    <button class="btn btn-primary">Create+</button>
+                </form>
+            </div>
+        </div>
 
         <div class="notification-card card">
             <div class="notification-title">Upcoming Session Due</div>

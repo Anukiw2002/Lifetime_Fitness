@@ -13,7 +13,7 @@ document.getElementById('addRowButton').addEventListener('click', function() {
         <td><input type="number" name="sets_${rowCount}" placeholder="Sets"></td>
         <td><input type="date" name="date_${rowCount}"></td>
         <td><input type="text" name="rest_${rowCount}" placeholder="Rest"></td>
-        <td><input type="number" name="weight_${rowCount}" placeholder="Weight (kg)"></td>
+        <td><input type="number" name="weight_${rowCount}" placeholder="Weight (kg)" min="0" max="250"></td>
     `;
 
     // Append the new row to the table body
@@ -48,7 +48,7 @@ function validateForm() {
         isValid = false;
     }
 
-    // Validate other numeric fields (e.g., waist circumference, body weight, fat percentage, etc.)
+    // Validate weight and other numeric fields (e.g., waist circumference, body weight, fat percentage, etc.)
     const numberFields = [
         'waist_circumference',
         'body_weight',
@@ -74,6 +74,16 @@ function validateForm() {
         }
     });
 
+    // Validate weight field specifically (it cannot be over 250)
+    const weightFields = document.querySelectorAll('input[name^="weight_"]');
+    weightFields.forEach(function(inputField) {
+        const weightValue = inputField.value;
+        if (weightValue < 0 || weightValue > 250) {
+            alert('Weight must be between 0 and 250 kg.');
+            isValid = false;
+        }
+    });
+
     // Validate max_heart_rate and BPM values (reasonable heart rate range 30-220)
     const maxHeartRate = document.querySelector('input[name="max_heart_rate"]');
     const bpm65 = document.querySelector('input[name="bpm_65"]');
@@ -88,7 +98,7 @@ function validateForm() {
         }
     });
 
-    // Validate height (reasonable range 30 cm - 300 cm, convert to feet for checks)
+    // Validate height (reasonable range 30 cm - 300 cm)
     const height = document.querySelector('input[name="height"]');
     const heightValue = height.value;
     if (heightValue < 30 || heightValue > 300) {

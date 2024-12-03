@@ -51,4 +51,3 @@ function saveReport() {
             alert("An unexpected error occurred. Please try again.");
         });
 }
-
