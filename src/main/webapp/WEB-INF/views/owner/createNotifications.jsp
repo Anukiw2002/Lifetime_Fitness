@@ -12,16 +12,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Message UI</title>
     link rel="stylesheet" href="${pageContext.request.contextPath}/css/ownerCreateNotification.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
+
 </head>
 <body>
 <div class="container">
     <h1>Send a Message</h1>
-    <form action="createNotification" method="POST">
+    <form action="createNotifications.jsp" method="POST">
         <textarea id="message" name="message" placeholder="Type your message here..."></textarea>
         <div class="buttons">
-            <button class="btn-primary" type="submit" value="customers">Send to Customers</button>
-            <button class="btn-primary" type="submit" value="instructors">Send to Instructors</button>
-            <button class="btn-primary" type="submit" value="both">Send to Both</button>
+            <button class="btn btn-primary" type="submit" value="customers">Send to Customers</button>
+            <button class="btn btn-primary" type="submit" value="instructors">Send to Instructors</button>
+            <button class="btn btn-primary" type="submit" value="both">Send to Both</button>
         </div>
     </form>
 </div>

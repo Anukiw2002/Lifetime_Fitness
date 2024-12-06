@@ -16,10 +16,11 @@
         <div class = "details-withbutton">
             <h1 class="mb-4">Notification Details</h1>
             <div class="btn-group">
-                <form action="${pageContext.request.contextPath}/createNotification" method="get" >
-                    <button class="btn btn-primary">Create+</button>
+                <form action="${pageContext.request.contextPath}/createNotificationRedirection" method="get">
+                    <button type="submit" class="btn btn-primary">Create Notification</button>
                 </form>
             </div>
+
         </div>
 
         <div class="notification-card card">
