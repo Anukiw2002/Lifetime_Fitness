@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Message UI</title>
-    link rel="stylesheet" href="${pageContext.request.contextPath}/css/ownerCreateNotification.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/ownerCreateNotification.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
 
 </head>
@@ -20,6 +20,8 @@
     <h1>Send a Message</h1>
     <form action="createNotifications.jsp" method="POST">
         <textarea id="message" name="message" placeholder="Type your message here..."></textarea>
+        <br>
+        <br>
         <div class="buttons">
             <button class="btn btn-primary" type="submit" value="customers">Send to Customers</button>
             <button class="btn btn-primary" type="submit" value="instructors">Send to Instructors</button>
