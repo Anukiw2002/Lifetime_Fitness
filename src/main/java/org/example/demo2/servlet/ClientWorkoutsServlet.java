@@ -33,7 +33,7 @@ public class ClientWorkoutsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
+        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
             return; // If not authorized, the redirection will be handled by the utility method
         }
         HttpSession session = request.getSession(false);
