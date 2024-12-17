@@ -243,6 +243,61 @@
     </div>
 </div>
 
+<section class="reviews-container">
+    <div class="container">
+        <h1 class="carousel-title"><u>What Our Members Say</u></h1>
+        <p class="text-center text-muted mb-4">Join our community of satisfied members and transform your fitness journey</p>
+
+        <div class="grid grid-3">
+            <!-- Review Card 1 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-avatar">JD</div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">John Doe</div>
+                        <div class="review-date">Member since 2023</div>
+                    </div>
+                </div>
+                <div class="review-rating">★★★★★</div>
+                <div class="review-content">
+                    "The trainers here are exceptional! They've helped me achieve my fitness goals and pushed me beyond what I thought was possible. The facilities are always clean and well-maintained."
+                </div>
+            </div>
+
+            <!-- Review Card 2 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-avatar">SK</div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">Sarah Kim</div>
+                        <div class="review-date">Member since 2024</div>
+                    </div>
+                </div>
+                <div class="review-rating">★★★★★</div>
+                <div class="review-content">
+                    "I love the variety of equipment and classes available. The atmosphere is welcoming and motivating. It's not just a gym, it's a community that supports each other."
+                </div>
+            </div>
+
+            <!-- Review Card 3 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-avatar">MP</div>
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">Mike Peterson</div>
+                        <div class="review-date">Member since 2022</div>
+                    </div>
+                </div>
+                <div class="review-rating">★★★★★</div>
+                <div class="review-content">
+                    "The 24/7 access and flexible membership plans make it perfect for my busy schedule. The staff is always friendly and professional. Best gym experience I've had!"
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script src="${pageContext.request.contextPath}/js/landingPage.js"></script>
