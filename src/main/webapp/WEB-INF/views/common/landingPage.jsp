@@ -52,29 +52,35 @@
             </div>
         </div>
 
-        <div class="carousel mt-4">
-            <button class="carousel-btn prev-btn">&#10094;</button>
-            <div class="carousel-track-container">
-                <ul class="carousel-track">
-                    <li class="carousel-slide">
-                        <img src="/images/gymimg1.jpg" alt="Gym Equipment" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
-                    </li>
-                    <li class="carousel-slide">
-                        <img src="/images/gymimg2.jpg" alt="Training Area" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
-                    </li>
-                    <li class="carousel-slide">
-                        <img src="/images/gymimg3.jpg" alt="Fitness Class" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
-                    </li>
-                </ul>
+        <!-- Inside the carousel-wrapper div, after the features-grid -->
+        <div class="enhanced-carousel" data-aos="fade-up">
+            <div class="carousel-slides">
+                <div class="slide active">
+                    <img src="/images/img1.jpg" alt="Gym Equipment">
+                </div>
+                <div class="slide">
+                    <img src="/images/img2.jpg" alt="Training Area">
+                </div>
+                <div class="slide">
+                    <img src="/images/img3.jpg" alt="Fitness Class">
+                </div>
+                <div class="slide">
+                    <img src="/images/img4.jpg" alt="Personal Training">
+                </div>
+                <div class="slide">
+                    <img src="/images/img5.jpg" alt="Recovery Area">
+                </div>
             </div>
-            <button class="carousel-btn next-btn">&#10095;</button>
+            <div class="carousel-controls">
+                <button class="prev-slide">❮</button>
+                <div class="slide-indicators"></div>
+                <button class="next-slide">❯</button>
+            </div>
         </div>
-        <div class="carousel-indicators"></div>
-    </div>
 </div>
 
 <!-- About Section -->
-<section class="about-section" data-aos="fade-up">
+<section class="about-section" id="about" data-aos="fade-up" >
     <div class="container">
         <h1><u>About Our Gym</u></h1>
 
@@ -135,7 +141,7 @@
 
 
 <!-- Pricing Section -->
-<section class="pricing-section" data-aos="fade-up">
+<section class="pricing-section" id="pricing" data-aos="fade-up">
     <div class="container">
         <h1 class="text-center"><u>MEMBER PRICING</u></h1>
         <div class="pricing-grid">
@@ -184,69 +190,48 @@
 </section>
 
 <!-- Our Coaches Section -->
-<div class="carousel-wrapper">
-    <div class="carousel-container" id="carousel2" data-aos="fade-up">
-        <h1 class="carousel-title"><u>OUR COACHES</u></h1>
-        <div class="carousel">
-            <button class="carousel-btn prev-btn">&#10094;</button>
-            <div class="carousel-track-container">
-                <ul class="carousel-track">
-                    <li class="carousel-slide">
-                        <div class="coach-card">
-                            <div class="coach-image">
-                                <img src="/images/coach1.jpg" alt="Coach 1">
-                            </div>
-                            <div class="coach-info">
-                                <h3>John Doe</h3>
-                                <p>Head Coach</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="carousel-slide">
-                        <div class="coach-card">
-                            <div class="coach-image">
-                                <img src="/images/coach2.jpg" alt="Coach 2">
-                            </div>
-                            <div class="coach-info">
-                                <h3>Jane Smith</h3>
-                                <p>Fitness Trainer</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="carousel-slide">
-                        <div class="coach-card">
-                            <div class="coach-image">
-                                <img src="/images/coach3.jpg" alt="Coach 3">
-                            </div>
-                            <div class="coach-info">
-                                <h3>Mike Johnson</h3>
-                                <p>Strength Coach</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="carousel-slide">
-                        <div class="coach-card">
-                            <div class="coach-image">
-                                <img src="/images/coach4.png" alt="Coach 4">
-                            </div>
-                            <div class="coach-info">
-                                <h3>Sarah Wilson</h3>
-                                <p>Personal Trainer</p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <button class="carousel-btn next-btn">&#10095;</button>
-        </div>
-        <div class="carousel-indicators"></div>
-    </div>
-</div>
+    <!-- Our Coaches Section -->
+    <section class="coaches-section" data-aos="fade-up">
+        <div class="container">
+            <h1 class="carousel-title"><u>OUR COACHES</u></h1>
+            <div class="coaches-grid">
+                <div class="coach-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="coach-image">
+                        <img src="/images/Head Coach.png" alt="Head Coach">
+                    </div>
+                    <div class="coach-info">
+                        <h3>
+                            Maduranga Perera</h3>
+                        <p>Founder, Head Coach</p>
+                    </div>
+                </div>
 
-<section class="reviews-container">
+                <div class="coach-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="coach-image">
+                        <img src="/images/coach4.png" alt="Fitness Trainer">
+                    </div>
+                    <div class="coach-info">
+                        <h3>Avishka Senevirathana</h3>
+                        <p>Instructor</p>
+                    </div>
+                </div>
+
+                <div class="coach-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="coach-image">
+                        <img src="/images/kavindu.png" alt="Strength Coach">
+                    </div>
+                    <div class="coach-info">
+                        <h3>Kavindu Pathiratne</h3>
+                        <p>Instructor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section class="reviews-container" id="reviews" data-aos="fade-up">
     <div class="container">
-        <h1 class="carousel-title"><u>What Our Members Say</u></h1>
-        <p class="text-center text-muted mb-4">Join our community of satisfied members and transform your fitness journey</p>
+        <h1 class="carousel-title"><u>REVIEWS</u></h1>
 
         <div class="grid grid-3">
             <!-- Review Card 1 -->
@@ -296,6 +281,86 @@
         </div>
     </div>
 </section>
+
+    <!-- Transformations Section -->
+    <section class="transformations-section" data-aos="fade-up">
+        <div class="container">
+            <h1 class="carousel-title"><u>SUCCESS STORIES</u></h1>
+
+            <div class="transformation-grid">
+                <!-- First Transformation -->
+                <div class="transformation-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="image-comparison">
+                        <div class="before-image">
+                            <img src="/images/before1.png" alt="Before Transformation">
+                            <span class="label">BEFORE</span>
+                        </div>
+                        <div class="after-image">
+                            <img src="/images/after1.png" alt="After Transformation">
+                            <span class="label">AFTER</span>
+                        </div>
+                    </div>
+                    <div class="transformation-info">
+                        <h3>-15kg in 6 Months</h3>
+                        <p>"The trainers at Lifetime Fitness helped me achieve what I thought was impossible!"</p>
+                        <span class="time-period">6 Months Journey</span>
+                    </div>
+                </div>
+
+                <!-- Add more transformation cards similarly -->
+                <div class="transformation-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="image-comparison">
+                        <div class="before-image">
+                            <img src="/images/before2.png" alt="Before Transformation">
+                            <span class="label">BEFORE</span>
+                        </div>
+                        <div class="after-image">
+                            <img src="/images/after2.png" alt="After Transformation">
+                            <span class="label">AFTER</span>
+                        </div>
+                    </div>
+                    <div class="transformation-info">
+                        <h3>-15kg in 6 Months</h3>
+                        <p>"The trainers at Lifetime Fitness helped me achieve what I thought was impossible!"</p>
+                        <span class="time-period">6 Months Journey</span>
+                    </div>
+                </div>
+
+
+                <div class="transformation-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="image-comparison">
+                        <div class="before-image">
+                            <img src="/images/before3.png" alt="Before Transformation">
+                            <span class="label">BEFORE</span>
+                        </div>
+                        <div class="after-image">
+                            <img src="/images/after3.png" alt="After Transformation">
+                            <span class="label">AFTER</span>
+                        </div>
+                    </div>
+                    <div class="transformation-info">
+                        <h3>-15kg in 6 Months</h3>
+                        <p>"The trainers at Lifetime Fitness helped me achieve what I thought was impossible!"</p>
+                        <span class="time-period">6 Months Journey</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="stats-container">
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">Success Stories</div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-number" data-target="10">0</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-number" data-target="98%">0</div>
+                <div class="stat-label">Goal Achievement</div>
+            </div>
+        </div>
+    </section>
 
 
 <!-- Scripts -->

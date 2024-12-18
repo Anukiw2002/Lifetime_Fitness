@@ -5,6 +5,100 @@ AOS.init({
     offset: 100
 });
 
+// Add this after the AOS initialization
+function initializeEnhancedCarousel() {
+    const carousel = document.querySelector('.enhanced-carousel');
+    if (!carousel) return;
+
+    const slidesContainer = carousel.querySelector('.carousel-slides');
+    const slides = carousel.querySelectorAll('.slide');
+    const indicatorsContainer = carousel.querySelector('.slide-indicators');
+    const prevButton = carousel.querySelector('.prev-slide');
+    const nextButton = carousel.querySelector('.next-slide');
+
+    let currentIndex = 0;
+    let interval;
+
+    // Create indicators
+    slides.forEach((_, index) => {
+        const indicator = document.createElement('div');
+        indicator.classList.add('indicator');
+        if (index === 0) indicator.classList.add('active');
+        indicator.addEventListener('click', () => goToSlide(index));
+        indicatorsContainer.appendChild(indicator);
+    });
+
+    function updateSlides() {
+        slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        // Update active states
+        slides.forEach((slide, index) => {
+            slide.classList.toggle('active', index === currentIndex);
+        });
+
+        const indicators = indicatorsContainer.querySelectorAll('.indicator');
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === currentIndex);
+        });
+    }
+
+    function goToSlide(index) {
+        currentIndex = index;
+        updateSlides();
+        resetInterval();
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateSlides();
+        resetInterval();
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        updateSlides();
+        resetInterval();
+    }
+
+    function resetInterval() {
+        clearInterval(interval);
+        interval = setInterval(nextSlide, 3000);
+    }
+
+    // Event listeners
+    prevButton.addEventListener('click', prevSlide);
+    nextButton.addEventListener('click', nextSlide);
+
+    // Touch support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carousel.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+    });
+
+    carousel.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].clientX;
+        const difference = touchStartX - touchEndX;
+
+        if (Math.abs(difference) > 50) {
+            if (difference > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        }
+    });
+
+    // Start autoplay
+    resetInterval();
+}
+
+// Call the function after DOM content is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initializeEnhancedCarousel();
+});
+
 // Hero Image Rotation
 document.addEventListener("DOMContentLoaded", () => {
     const heroImages = [
@@ -47,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Coaches Carousel Functionality
     function initializeCoachesCarousel() {
         const coachesCarousel = document.querySelector('#carousel2');
-        if (!coachesCarousel) return; // Exit if coaches carousel doesn't exist
+        if (!coachesCarousel) return;
 
         const track = coachesCarousel.querySelector('.carousel-track');
         const slides = Array.from(track.children);
@@ -55,18 +149,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const prevButton = coachesCarousel.querySelector('.prev-btn');
         const dotsContainer = coachesCarousel.querySelector('.carousel-indicators');
 
-        if (slides.length === 0) return; // Exit if no slides
-
         let currentIndex = 0;
         let isTransitioning = false;
 
-        // Create indicator dots
-        slides.forEach((_, index) => {
+        // Create exactly three dots for three coaches
+        for (let i = 0; i < 3; i++) {
             const dot = document.createElement('span');
             dot.classList.add('dot');
-            if (index === 0) dot.classList.add('active');
+            if (i === 0) dot.classList.add('active');
             dotsContainer.appendChild(dot);
-        });
+        }
 
         const dots = Array.from(dotsContainer.children);
 
@@ -74,13 +166,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (isTransitioning) return;
             isTransitioning = true;
 
+            // Calculate moveAmount based on viewport width
             const slideWidth = slides[0].offsetWidth;
-            const moveAmount = slideWidth + 30; // 30px is the gap
+            const moveAmount = slideWidth + 40; // 40px is our new gap
 
-            // Update track position
             track.style.transform = `translateX(-${currentIndex * moveAmount}px)`;
 
-            // Update active states
             slides.forEach((slide, index) => {
                 slide.classList.toggle('active', index === currentIndex);
             });
@@ -287,4 +378,58 @@ document.querySelectorAll('.carousel-container').forEach(carousel => {
             updateSlidePosition();
         }
     }
+});
+
+// Add this function to handle the counting animation
+function animateStats() {
+    const stats = document.querySelectorAll('.stat-number');
+
+    stats.forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-target'));
+        const duration = 2000;
+        const step = target / (duration / 16);
+        let current = 0;
+
+        const updateCount = () => {
+            current += step;
+            if (current < target) {
+                // Check if this is the goal achievement stat (98%)
+                if (stat.closest('.stat-item').querySelector('.stat-label').textContent.includes('Goal Achievement')) {
+                    stat.textContent = Math.round(Math.min(current, target)) + '%';
+                } else {
+                    // For other stats, keep the '+' suffix
+                    if (target <= 10) {
+                        stat.textContent = Math.min(current, target).toFixed(1) + '+';
+                    } else {
+                        stat.textContent = Math.round(Math.min(current, target)) + '+';
+                    }
+                }
+                requestAnimationFrame(updateCount);
+            } else {
+                // Final value
+                if (stat.closest('.stat-item').querySelector('.stat-label').textContent.includes('Goal Achievement')) {
+                    stat.textContent = target + '%';
+                } else {
+                    stat.textContent = target + '+';
+                }
+            }
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    updateCount();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(stat);
+    });
+}
+
+// Add this to your existing DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', () => {
+    // ... existing code ...
+    animateStats();
 });

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/map.css">
 </head>
 <body>
-<div class="contact-section" data-aos="fade-up">
+<div class="contact-section" id="contact-us" data-aos="fade-up">
   <h1 class="contact-title" data-aos="fade-up">CONTACT US</h1>
   <div class="contact-container">
     <form class="contact-form" data-aos="fade-right">
