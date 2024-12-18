@@ -243,45 +243,45 @@
             <!-- Review Card 1 -->
             <div class="review-card">
                 <div class="review-header">
-                    <div class="reviewer-avatar">JD</div>
+                    <div class="reviewer-avatar">VG</div>
                     <div class="reviewer-info">
-                        <div class="reviewer-name">John Doe</div>
-                        <div class="review-date">Member since 2023</div>
+                        <div class="reviewer-name">Vinura Gunasekara</div>
+                        <div class="review-date">Member since 2021</div>
                     </div>
                 </div>
                 <div class="review-rating">★★★★★</div>
                 <div class="review-content">
-                    "The trainers here are exceptional! They've helped me achieve my fitness goals and pushed me beyond what I thought was possible. The facilities are always clean and well-maintained."
+                    "Now open 24 Hours on all 5 weekdays 💪 The best gym in town with great service and good equipments. I personally suggest anyone who takes fitness seriously to make come join lifetime fitness - Thalawathugoda"
                 </div>
             </div>
 
             <!-- Review Card 2 -->
             <div class="review-card">
                 <div class="review-header">
-                    <div class="reviewer-avatar">SK</div>
+                    <div class="reviewer-avatar">LR</div>
                     <div class="reviewer-info">
-                        <div class="reviewer-name">Sarah Kim</div>
-                        <div class="review-date">Member since 2024</div>
+                        <div class="reviewer-name">Lakitha Ramanayake</div>
+                        <div class="review-date">Member since 2023</div>
                     </div>
                 </div>
                 <div class="review-rating">★★★★★</div>
                 <div class="review-content">
-                    "I love the variety of equipment and classes available. The atmosphere is welcoming and motivating. It's not just a gym, it's a community that supports each other."
+                    "First things first: superb atmosphere hats off for that. Kudos to the team who is doing an awesome job. I would recommend Lifetime Fitness to anyone whom would want to FOCUS.GAIN.ATTAIN 😁"
                 </div>
             </div>
 
             <!-- Review Card 3 -->
             <div class="review-card">
                 <div class="review-header">
-                    <div class="reviewer-avatar">MP</div>
+                    <div class="reviewer-avatar">CR</div>
                     <div class="reviewer-info">
-                        <div class="reviewer-name">Mike Peterson</div>
+                        <div class="reviewer-name">Chithmi Ranawaka</div>
                         <div class="review-date">Member since 2022</div>
                     </div>
                 </div>
                 <div class="review-rating">★★★★★</div>
                 <div class="review-content">
-                    "The 24/7 access and flexible membership plans make it perfect for my busy schedule. The staff is always friendly and professional. Best gym experience I've had!"
+                    "One of the best fitness place I have ever been. Best place with amazing trainers.. Surportive, Friendly and knowledgeable guides ... Hoping to workout more with you all❤️ ️💪"
                 </div>
             </div>
         </div>
