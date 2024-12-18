@@ -83,7 +83,7 @@ body {
 
 /* Hover effect */
 .nav-links a:hover {
-    color: #fb6a6a;
+    color: #0052CC;
     transform: scale(1.2);
 }
 
@@ -92,26 +92,26 @@ body {
     transform-origin: left;
 }
 
-.nav-buttons .btn {
-    background-color: #970000;
+.nav-buttons .register {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
     color: white;
-    padding: 15px 25px;
-    border-radius: 25px;
-    margin-left: 10px;
-    text-decoration: none;
-    margin-right: 50px;
-    font-size: 24px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    margin-right: 5px;
 }
 
-.nav-buttons .btn.register {
-    background-color: #970000;
-    margin-right: 10px;
+.nav-buttons .register:hover {
+    background-color: var(--primary-color);
+    color: white;
 }
 
-.nav-buttons .btn:hover {
-    background-color: #757575;
-    transform: scale(1.1);
+.nav-buttons .login {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.nav-buttons .login:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
 }
 
 .hamburger {
@@ -123,7 +123,7 @@ body {
 .hamburger .line {
     width: 25px;
     height: 3px;
-    background-color: black;
+    background-color: white;
     margin: 4px 0;
 }
 
@@ -171,12 +171,12 @@ body {
 .dropdown-buttons .btn-register{
     display: block;
     margin: 10px auto;
-    background-color: rgb(139, 0, 0);
+    background-color: #0052CC;
     width:200px;
     border-radius: 30px;
 }
 .dropdown-buttons .btn-login{
-    background-color: rgb(139, 0, 0);
+    background-color: #0052CC;
     width:200px;
     border-radius: 30px;
     margin: 10px auto;

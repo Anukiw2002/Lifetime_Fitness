@@ -5,8 +5,6 @@
     <title>Lifetime Fitness - Choose Your Plan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/signUp4.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/button.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/library/typography.css">
 </head>
 <body>
 <div class="container">
