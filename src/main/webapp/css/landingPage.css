@@ -50,6 +50,7 @@
     z-index: 2;
     max-width: 800px;
     padding: 0 2rem;
+    animation: fadeInUp 1.5s ease-out;
 }
 
 .hero-content h1 {
@@ -1077,4 +1078,27 @@
         left: 20%;
         right: auto;
     }
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    opacity: 0;
+    transition: 0.3s;
+    z-index: 1000;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    cursor: pointer;
 }

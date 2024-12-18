@@ -59,7 +59,9 @@
             <input type="date" class="signup-input signup-date" required>
           </div>
       </div>
-      <button type="submit" class="signup-button">Save and continue</button>
+      <div class="signup-button-container">
+        <button type="submit" class="signup-button">Save and continue</button>
+      </div>
     </form>
   </div>
   <div class="signup-image-section" style="background-image: url('${pageContext.request.contextPath}/images/ClientSignUpFormImg.jpg')">

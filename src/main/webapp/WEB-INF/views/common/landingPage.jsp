@@ -5,11 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Try multiple favicon approaches -->
+    <link rel="icon" href="/images/logo.png">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/images/logo.png">
+    <!-- Also add favicon in root path -->
+    <link rel="icon" href="favicon.png">
+    <title>Lifetime Fitness</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/landingPage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-    <title>Lifetime Fitness</title>
-
 </head>
 <body>
 <!-- Hero Section -->
