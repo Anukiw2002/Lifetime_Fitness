@@ -18,7 +18,7 @@ public class MemberManagementServlet extends HttpServlet {
             return; // If not authorized, the redirection will be handled by the utility method
         }
 
-        req.getRequestDispatcher("/WEB-INF/views/owner/memberManagement.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/owner/owner-dashboard.jsp").forward(req, resp);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
