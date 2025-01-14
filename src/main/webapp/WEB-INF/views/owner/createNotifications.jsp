@@ -13,6 +13,11 @@
     <title>Message UI</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/ownerCreateNotification.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
+    <script>
+        function setRecipientType(type){
+            document.getElementById('recipientType').value = type;
+        }
+    </script>
 
 </head>
 <body>
@@ -22,10 +27,11 @@
         <textarea id="message" name="message" placeholder="Type your message here..."></textarea>
         <br>
         <br>
+        <input type="hidden" id="recipientType" name="recipientType" value="">
         <div class="buttons">
-            <button class="btn btn-primary" type="submit" value="customers">Send to Customers</button>
-            <button class="btn btn-primary" type="submit" value="instructors">Send to Instructors</button>
-            <button class="btn btn-primary" type="submit" value="both">Send to Both</button>
+            <button class="btn btn-primary" type="submit" onclick="setRecipientType('client'); this.form.sumbit();">Send to Customers</button>
+            <button class="btn btn-primary" type="submit" onclick="setRecipientType('instructor'); this.form.sumbit();">Send to Instructors</button>
+            <button class="btn btn-primary" type="submit" onclick="setRecipientType('both'); this.form.submit();">Send to Both</button>
         </div>
     </form>
 </div>
