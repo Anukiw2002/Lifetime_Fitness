@@ -66,7 +66,7 @@ public class LoginServlet extends HttpServlet {
                 // Role-based redirection
                 switch (user.getRole()) {
                     case "client":
-                        request.getRequestDispatcher("/WEB-INF/views/client/memberProfile.jsp").forward(request, response);
+                        request.getRequestDispatcher("/WEB-INF/views/client/client-dashboard.jsp").forward(request, response);
                         break;
                     case "owner":
                         request.getRequestDispatcher("/memberManagement").forward(request, response);

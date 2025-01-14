@@ -240,50 +240,7 @@
         <h1 class="carousel-title"><u>REVIEWS</u></h1>
 
         <div class="grid grid-3">
-            <!-- Review Card 1 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="reviewer-avatar">VG</div>
-                    <div class="reviewer-info">
-                        <div class="reviewer-name">Vinura Gunasekara</div>
-                        <div class="review-date">Member since 2021</div>
-                    </div>
-                </div>
-                <div class="review-rating">★★★★★</div>
-                <div class="review-content">
-                    "Now open 24 Hours on all 5 weekdays 💪 The best gym in town with great service and good equipments. I personally suggest anyone who takes fitness seriously to make come join lifetime fitness - Thalawathugoda"
-                </div>
-            </div>
 
-            <!-- Review Card 2 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="reviewer-avatar">LR</div>
-                    <div class="reviewer-info">
-                        <div class="reviewer-name">Lakitha Ramanayake</div>
-                        <div class="review-date">Member since 2023</div>
-                    </div>
-                </div>
-                <div class="review-rating">★★★★★</div>
-                <div class="review-content">
-                    "First things first: superb atmosphere hats off for that. Kudos to the team who is doing an awesome job. I would recommend Lifetime Fitness to anyone whom would want to FOCUS.GAIN.ATTAIN 😁"
-                </div>
-            </div>
-
-            <!-- Review Card 3 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="reviewer-avatar">CR</div>
-                    <div class="reviewer-info">
-                        <div class="reviewer-name">Chithmi Ranawaka</div>
-                        <div class="review-date">Member since 2022</div>
-                    </div>
-                </div>
-                <div class="review-rating">★★★★★</div>
-                <div class="review-content">
-                    "One of the best fitness place I have ever been. Best place with amazing trainers.. Surportive, Friendly and knowledgeable guides ... Hoping to workout more with you all❤️ ️💪"
-                </div>
-            </div>
         </div>
     </div>
 </section>
