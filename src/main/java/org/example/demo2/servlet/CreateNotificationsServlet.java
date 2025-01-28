@@ -54,7 +54,7 @@ public class CreateNotificationsServlet extends HttpServlet {
     private void sendToCustomers(String notificationTitle, String notificationMessage) {
         System.out.println("Sending notification to customers: " + notificationMessage);
 
-        String sql = "INSERT INTO notifications (title, description, recipient_type) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO notifications (title, description, recipient_role) VALUES (?, ?, ?)";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -79,7 +79,7 @@ public class CreateNotificationsServlet extends HttpServlet {
     private void sendToInstructors(String notificationTitle, String notificationMessage) {
         System.out.println("Sending notification to instructors: " + notificationMessage);
 
-        String sql = "INSERT INTO notifications (title, description, recipient_type) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO notifications (title, description, recipient_role) VALUES (?, ?, ?)";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
