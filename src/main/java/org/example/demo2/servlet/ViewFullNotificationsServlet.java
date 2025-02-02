@@ -22,62 +22,63 @@ public class ViewFullNotificationsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Get the session object
         HttpSession session = req.getSession(false);
-
-        // Retrieve the user role from the session
         String userRole = (session != null) ? (String) session.getAttribute("userRole") : null;
 
-        // Log the retrieved user role
         System.out.println("User role from session: " + userRole);
 
-        // Validate the user role
         if (userRole == null || (!userRole.equals("client") && !userRole.equals("instructor"))) {
             System.out.println("Invalid or missing user role.");
             req.setAttribute("errorMessage", "Invalid or missing user role.");
             req.getRequestDispatcher("/WEB-INF/views/client/clientNotification.jsp").forward(req, resp);
             return;
         }
+        if (userRole.equals("client")) {
+            userRole = "customer"; // Adjust the role to match the database
+        }
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "SELECT title, description, created_at FROM notifications WHERE recipient_role = ? OR recipient_role = 'both' ORDER BY created_at DESC")) {
 
-            // Set the role parameter in the SQL query
+            if (connection != null) {
+                System.out.println("Database connection successful.");
+            } else {
+                System.out.println("Failed to establish database connection.");
+                req.setAttribute("errorMessage", "Database connection failed.");
+                req.getRequestDispatcher("/WEB-INF/views/client/clientNotification.jsp").forward(req, resp);
+                return;
+            }
+
             preparedStatement.setString(1, userRole);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             List<Notification> notifications = new ArrayList<>();
+            System.out.println("Fetching notifications for role: " + userRole);
 
-            // Fetch notifications from the database
             while (resultSet.next()) {
                 Notification notification = new Notification();
                 notification.setTitle(resultSet.getString("title"));
                 notification.setDescription(resultSet.getString("description"));
                 notification.setTimeAge(resultSet.getTimestamp("created_at").toString());
-
-                // Log each notification fetched
-                System.out.println("Fetched notification: " + notification);
-
                 notifications.add(notification);
+
+                // Print each notification to console
+                System.out.println("Fetched Notification: ");
+                System.out.println("Title: " + notification.getTitle());
+                System.out.println("Description: " + notification.getDescription());
+                System.out.println("Created At: " + notification.getTimeAge());
+                System.out.println("----------------------------");
             }
 
-            // Log the total number of notifications fetched
             System.out.println("Total notifications fetched: " + notifications.size());
-
-            // Set the notifications attribute for the JSP
             req.setAttribute("notifications", notifications);
-
         } catch (SQLException e) {
-            // Log the exception for debugging purposes
             System.err.println("Error while fetching notifications: " + e.getMessage());
             e.printStackTrace();
-
-            // Set error message for the JSP
             req.setAttribute("errorMessage", "An error occurred while retrieving notifications.");
         }
 
-        // Forward the request to the clientNotification.jsp
         req.getRequestDispatcher("/WEB-INF/views/client/clientNotification.jsp").forward(req, resp);
     }
 }
