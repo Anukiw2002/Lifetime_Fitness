@@ -30,7 +30,7 @@ public class InstructorNotificationsServlet extends HttpServlet {
         if (userRole == null || (!userRole.equals("client") && !userRole.equals("instructor"))) {
             System.out.println("Invalid or missing user role.");
             req.setAttribute("errorMessage", "Invalid or missing user role.");
-            req.getRequestDispatcher("/WEB-INF/views/instructor/instructorNotification.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/instructor/instructorNotifications.jsp").forward(req, resp);
             return;
         }
         if (userRole.equals("client")) {
@@ -46,7 +46,7 @@ public class InstructorNotificationsServlet extends HttpServlet {
             } else {
                 System.out.println("Failed to establish database connection.");
                 req.setAttribute("errorMessage", "Database connection failed.");
-                req.getRequestDispatcher("/WEB-INF/views/instructor/instructorNotification.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/views/instructor/instructorNotifications.jsp").forward(req, resp);
                 return;
             }
 
@@ -79,6 +79,6 @@ public class InstructorNotificationsServlet extends HttpServlet {
             req.setAttribute("errorMessage", "An error occurred while retrieving notifications.");
         }
 
-        req.getRequestDispatcher("/WEB-INF/views/instructor/instructorNotification.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/instructor/instructorNotifications.jsp").forward(req, resp);
     }
 }
