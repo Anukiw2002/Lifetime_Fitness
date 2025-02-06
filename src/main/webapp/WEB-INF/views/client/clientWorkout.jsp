@@ -144,25 +144,27 @@
         </div>
 
         <div class="workout-grid">
-            <!-- Hardcoded Workout Cards -->
-            <div class="card">
-                <a href="workoutOptionss?page=clientWorkoutDetails" class="card-body">
-                    <div class="flex items-center mb-3">
-                        <div class="exercise-icon-container">
-                            <i class="fas fa-running exercise-icon"></i>
+            <c:forEach var="workout" items="${clientWorkouts}">
+                <div class="card">
+                    <a href="workoutOptionss?page=clientWorkoutDetails&workoutId=${workout.workoutId}" class="card-body">
+                        <div class="flex items-center mb-3">
+                            <div class="exercise-icon-container">
+                                <i class="fas ${workout.category.icon} exercise-icon"></i>
+                            </div>
+                            <span class="exercise-title">${workout.workoutName}</span>
                         </div>
-                        <span class="exercise-title">Morning Run</span>
-                    </div>
-                    <div class="flex items-center gap-sm mb-2">
-                        <i class="fas fa-tag"></i>
-                        <span>Cardio</span>
-                    </div>
-                    <div class="flex items-center gap-sm text-muted">
-                        <i class="far fa-calendar-alt"></i>
-                        <span>Nov 15, 2024</span>
-                    </div>
-                </a>
-            </div>
+                        <div class="flex items-center gap-sm mb-2">
+                            <i class="fas fa-tag"></i>
+                            <span>${workout.category.categoryName}</span>
+                        </div>
+                        <div class="flex items-center gap-sm text-muted">
+                            <i class="far fa-calendar-alt"></i>
+                            <fmt:formatDate value="${workout.createdAt}" pattern="MMM dd, yyyy"/>
+                        </div>
+                    </a>
+                </div>
+            </c:forEach>
+
 
             <div class="card">
 

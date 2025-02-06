@@ -18,7 +18,7 @@ public class UpcommingSessionsServlet extends HttpServlet {
             return;
         }
         // Forward the request to navbar.html
-        request.getRequestDispatcher("/WEB-INF/views/instructor/upcomingSessions.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/instructor/instructor-dashboard.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

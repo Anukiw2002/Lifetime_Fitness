@@ -1,145 +1,204 @@
-/* css/medicalHistory.css */
-body {
-    background-color: #333;
-    color: white;
-    min-height: 100vh;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+/* ==========================================================================
+   Medical History Page Styles
+   ========================================================================== */
+
+/* Inherit variables from generalStyles.css */
+:root {
+    --primary-color: #0052CC;
+    --primary-hover: #0747A6;
+    --secondary-color: #616161;
+    --secondary-hover: #4A4A4A;
+    --bg-color: #333;
+    --bg-dark: #1a1a1a;
+    --card-bg: rgba(255, 255, 255, 0.1);
+    --input-bg: #fff;
+    --text-color: #fff;
+    --text-muted: #888;
+    --input-text: #333;
+    --border-radius: 6px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --transition: all 0.2s ease-in-out;
 }
 
 .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 20px;
+    margin-left: 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-xl);
+    background: linear-gradient(45deg, #2a2a2a, #333);
 }
 
 .form-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--bg-dark);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
     width: 100%;
 }
 
 .logo {
-    width: 150px;
-    margin-bottom: 50px;
+    display: block;
+    margin: 0 auto var(--spacing-2xl);
+    max-width: 200px;
+    height: auto;
+}
+
+/* Form Styles */
+.medical-form {
+    display: flex;
+    flex-direction: column;
 }
 
 .question-group {
-    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
 }
 
 .question {
-    margin-bottom: 35px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .question-content {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
 }
 
 .question label {
-    display: block;
-    margin-bottom: 15px;
-    font-size: 15px;
-    font-weight: 400;
-    color: #ffffff;
-    line-height: 1.4;
+    color: var(--text-color);
+    font-size: var(--font-size-base);
+    font-weight: 500;
 }
 
 .form-input {
     width: 100%;
-    height: 45px;
-    padding: 10px;
-    background: white;
-    border: none;
-    border-radius: 4px;
-    margin-bottom: 12px;
-    font-size: 15px;
-    box-sizing: border-box;
+    padding: 0.875rem 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    font-size: 1rem;
+    transition: var(--transition);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.2);
 }
 
 .radio-group {
     display: flex;
-    gap: 30px;
-    align-items: flex-start;
-    min-width: 140px;
-    justify-content: flex-end;
-    margin-top: 0;
+    gap: 2rem;
+    margin: 1rem 0;
 }
 
 .radio-group label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.75rem;
     cursor: pointer;
-    margin: 0;
-    font-size: 14px;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--border-radius);
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.radio-group label:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .radio-group input[type="radio"] {
-    width: 18px;
-    height: 18px;
     margin: 0;
-    cursor: pointer;
-    accent-color: white;
+    accent-color: var(--primary-color);
 }
 
+.question.no-radio {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* Button Styles */
 .primary-button {
-    width: 100%;
-    max-width: 400px;
-    padding: 15px;
-    background-color: #8b0000;
+    width: auto;
+    min-width: 200px;
+    padding: 0.875rem 1.75rem;
+    border-radius: var(--border-radius);
+    background-color: var(--primary-color);
     color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    font-weight: 600;
+    transition: var(--transition);
+    font-size: 0.938rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 3rem auto 0;
     display: block;
-    margin: 0 auto;
 }
 
 .primary-button:hover {
-    background-color: #a00000;
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-/* For questions without radio buttons */
-.question.no-radio {
+.question label {
+    margin-bottom: 1rem;
     display: block;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
-.question.no-radio .form-input {
-    width: 100%;
+.question-content {
+    margin-bottom: 1rem;
 }
 
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        padding: 20px;
+        padding: var(--spacing-md);
+    }
+
+    .form-wrapper {
+        padding: var(--spacing-lg);
     }
 
     .progress-steps {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+        gap: var(--spacing-md);
     }
 
-    .step-line {
-        display: none;
-    }
-
-    .step span {
-        position: static;
-        margin-top: 5px;
-    }
-
-    .question {
-        flex-direction: column;
-        gap: 10px;
+    .step-line1,
+    .step-line2 {
+        width: var(--line-height);
+        height: var(--spacing-lg);
+        transform: translateY(0);
     }
 
     .radio-group {
-        justify-content: flex-start;
-        margin-top: 10px;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .radio-group label {
+        width: 100%;
     }
 }

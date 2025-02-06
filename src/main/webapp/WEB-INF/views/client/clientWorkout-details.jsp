@@ -88,8 +88,9 @@
     <jsp:include page="../client/clientVerticalNavbar.jsp" />
     <div class="container">
         <div class="flex mb-4">
-            <a href="/workoutOptionss?page=clientWorkout" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Back to Workouts
+            <a href="workoutOptionss?page=clientWorkoutDetails&workoutId=${workout.workoutId}"
+                class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Workouts
             </a>
         </div>
 

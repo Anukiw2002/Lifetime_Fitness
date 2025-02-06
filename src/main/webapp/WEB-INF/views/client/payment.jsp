@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="flex justify-center mt-4">
-                    <button type="submit" class="btn btn-primary">Make Payment</button>
+                    <a href="/processPayment" class="btn btn-primary">Make Payment</a>
                 </div>
             </form>
         </div>

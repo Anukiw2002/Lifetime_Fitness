@@ -1,71 +1,95 @@
-/* Base styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    /* Match variables from other pages */
+    --primary-color: #0052CC;
+    --primary-hover: #0747A6;
+    --bg-color: #333;
+    --bg-dark: #1a1a1a;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --text-color: #fff;
+    --text-muted: #888;
+    --border-radius: 6px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --transition: all 0.2s ease-in-out;
 }
 
 body {
-    background-color: #1a1a1a;
-    color: #ffffff;
-    font-family: 'Arial', sans-serif;
+    background: linear-gradient(45deg, #2a2a2a, #333);
+    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
+    min-height: 100vh;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2.5rem;
 }
 
 /* Logo */
 .logo-container {
-    text-align: left;
-    margin-bottom: 1rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
 }
 
 .logo {
-    height: 62px;
+    max-width: 200px;
+    height: auto;
 }
 
 /* Main Title */
 .main-title {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 1.875rem;
     margin-bottom: 3rem;
+    position: relative;
+    font-weight: 600;
 }
 
-/* Membership Grid */
-.membership-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+.main-title::after {
+    content: '';
+    position: absolute;
+    bottom: -0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
 }
 
 /* Membership Cards */
+.membership-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
 .membership-card {
-    background-color: #262626;
-    border-radius: 1rem;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
     padding: 2rem;
     position: relative;
-    border: 1px solid #4a4a4a;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
 }
 
 .membership-card:hover {
     transform: translateY(-5px);
-    border-color: #dc2626;
+    box-shadow: var(--primary-color);
 }
 
 .popular-badge {
     position: absolute;
     top: -12px;
     right: 1rem;
-    background-color: #fbbf24;
-    color: #000;
+    background-color: var(--primary-color);
+    color: white;
     padding: 0.25rem 1rem;
-    border-radius: 9999px;
-    font-weight: bold;
+    border-radius: 20px;
+    font-weight: 600;
     font-size: 0.875rem;
 }
 
@@ -78,104 +102,156 @@ body {
 }
 
 .card-header .timing {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #a3a3a3;
-    font-size: 0.875rem;
-    margin-bottom: 1.5rem;
 }
 
 /* Features */
-.features {
-    margin-bottom: 2rem;
-}
-
 .feature {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 0.5rem;
-    color: #d1d1d1;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
 }
 
 .feature i {
-    color: #22c55e;
+    color: var(--primary-color);
 }
 
 /* Price Options */
 .price-row {
-    background-color: #333;
+    background-color: rgba(255, 255, 255, 0.05);
     padding: 1rem;
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius);
     margin-bottom: 0.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: background-color 0.3s ease;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
 }
 
 .price-row:hover {
-    background-color: #404040;
-}
-
-.price-select {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .price {
     font-size: 1.25rem;
-    font-weight: bold;
+    font-weight: 600;
+    color: var(--text-color);
 }
 
 .select-btn {
-    background-color: #dc2626;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
+    border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: var(--transition);
+    font-weight: 600;
+    font-size: 0.875rem;
 }
 
 .select-btn:hover {
-    background-color: #b91c1c;
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Tier-specific colors */
-.platinum .fa-star {
-    color: #e5e5e5;
-}
-
-.gold .fa-star {
-    color: #fbbf24;
-}
-
-.silver .fa-star {
-    color: #a3a3a3;
-}
-
-.day-pass .fa-star {
-    color: #7f1d1d;
-}
+.platinum .fa-star { color: #e5e5e5; }
+.gold .fa-star { color: #ffd700; }
+.silver .fa-star { color: #c0c0c0; }
+.day-pass .fa-star { color: var(--primary-color); }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        padding: 1rem;
+        padding: 1.5rem;
     }
 
     .membership-grid {
         grid-template-columns: 1fr;
     }
 
-    .progress-container {
-        padding: 0 1rem;
+    .main-title {
+        font-size: 1.5rem;
     }
 
-    .step-label {
-        font-size: 0.75rem;
+    .membership-card {
+        padding: 1.5rem;
     }
+}
+
+/*progress tracker*/
+.progress-steps {
+    display: flex;
+    align-items: center;
+    margin-bottom: 60px;
+    justify-content: center;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+    font-size: 14px;
+    position: relative;
+    text-align: center;
+}
+
+.step span {
+    position: absolute;
+    top: 35px;
+    white-space: nowrap;
+    color: #888;
+    font-size: 13px;
+}
+
+.step.active span {
+    color: white;
+}
+
+.step-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #676565;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.step.active .step-number {
+    background-color: white;
+    color: black;
+}
+
+.step.completed .step-number {
+    background-color: #64cf69;
+    color: white;
+}
+
+.step-line1 {
+    height: 1px;
+    background-color: #64cf69;
+    width: 120px;
+    margin: 0 15px;
+}
+
+.step-line2 {
+    height: 1px;
+    background-color: #676565;
+    width: 120px;
+    margin: 0 15px;
 }

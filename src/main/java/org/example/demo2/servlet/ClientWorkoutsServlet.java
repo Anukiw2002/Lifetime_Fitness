@@ -33,7 +33,7 @@ public class ClientWorkoutsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
+        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
             return; // If not authorized, the redirection will be handled by the utility method
         }
         HttpSession session = request.getSession(false);
@@ -58,10 +58,10 @@ public class ClientWorkoutsServlet extends HttpServlet {
             }
 
             // Get all workouts for the client
-            List<ClientWorkout> workouts = clientWorkoutDAO.findByClientPhone(phoneNumber);
+            List<ClientWorkout> clientWorkouts = clientWorkoutDAO.findByClientPhone(phoneNumber);
 
             // Convert LocalDateTime to Date for each workout
-            for (ClientWorkout workout : workouts) {
+            for (ClientWorkout workout : clientWorkouts) {
                 if (workout.getCreatedAt() != null) {
                     Date date = Date.from(workout.getCreatedAt()
                             .atZone(ZoneId.systemDefault())
@@ -72,7 +72,7 @@ public class ClientWorkoutsServlet extends HttpServlet {
 
             // Set attributes for the JSP
             request.setAttribute("client", client);
-            request.setAttribute("workouts", workouts);
+            request.setAttribute("clientWorkouts", clientWorkouts); // Updated attribute name
 
             // Forward to the JSP page
             request.getRequestDispatcher("/WEB-INF/views/instructor/client-workouts.jsp").forward(request, response);
