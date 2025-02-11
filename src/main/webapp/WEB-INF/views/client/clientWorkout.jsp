@@ -50,65 +50,6 @@
             margin-left: 1rem;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-
-        .card-modal {
-            background-color: var(--bg-dark);
-            margin: 15% auto;
-            padding: var(--spacing-xl);
-            border-radius: var(--border-radius);
-            width: 80%;
-            max-width: 500px;
-            position: relative;
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-        }
-
-        .card-modal-header {
-            margin-bottom: var(--spacing-md);
-        }
-
-        .card-modal-header h3 {
-            margin: 0;
-            color: var(--danger-color);
-        }
-
-        .card-modal-body {
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .delete-icon {
-            position: absolute;
-            top: var(--spacing-md);
-            right: var(--spacing-md);
-            background: none;
-            border: none;
-            color: var(--danger-color);
-            cursor: pointer;
-            padding: var(--spacing-xs);
-            font-size: var(--font-size-lg);
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-
-        .delete-icon:hover {
-            background-color: rgba(220, 53, 69, 0.1);
-        }
-
         .workout-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -129,15 +70,15 @@
                 <div class="grid grid-3">
                     <div class="flex items-center gap-md">
                         <i class="fas fa-user"></i>
-                        <span>Lewis Hamilton</span>
+                        <span>${client.name}</span> <!-- Updated -->
                     </div>
                     <div class="flex items-center gap-md">
                         <i class="fas fa-phone"></i>
-                        <span>07798765</span>
+                        <span>${client.phoneNumber}</span> <!-- Updated -->
                     </div>
                     <div class="flex items-center gap-md">
                         <i class="fas fa-envelope"></i>
-                        <span>lewsihamilton@ferrari.com</span>
+                        <span>${client.email}</span> <!-- Updated -->
                     </div>
                 </div>
             </div>
@@ -146,7 +87,7 @@
         <div class="workout-grid">
             <c:forEach var="workout" items="${clientWorkouts}">
                 <div class="card">
-                    <a href="workoutOptionss?page=clientWorkoutDetails&workoutId=${workout.workoutId}" class="card-body">
+                    <a href="workoutOptions?page=clientWorkoutDetails&workoutId=${workout.workoutId}" class="card-body">
                         <div class="flex items-center mb-3">
                             <div class="exercise-icon-container">
                                 <i class="fas ${workout.category.icon} exercise-icon"></i>
@@ -159,58 +100,14 @@
                         </div>
                         <div class="flex items-center gap-sm text-muted">
                             <i class="far fa-calendar-alt"></i>
-                            <fmt:formatDate value="${workout.createdAt}" pattern="MMM dd, yyyy"/>
+                            <fmt:formatDate value="${workout.createdAtDate}" pattern="MMM dd, yyyy"/> <!-- Fixed -->
                         </div>
                     </a>
                 </div>
             </c:forEach>
-
-
-            <div class="card">
-
-                <a href="workoutOptionss?page=clientWorkoutDetails" class="card-body">
-                    <div class="flex items-center mb-3">
-                        <div class="exercise-icon-container">
-                            <i class="fas fa-dumbbell exercise-icon"></i>
-                        </div>
-                        <span class="exercise-title">Strength Training</span>
-                    </div>
-                    <div class="flex items-center gap-sm mb-2">
-                        <i class="fas fa-tag"></i>
-                        <span>Strength</span>
-                    </div>
-                    <div class="flex items-center gap-sm text-muted">
-                        <i class="far fa-calendar-alt"></i>
-                        <span>Nov 18, 2024</span>
-                    </div>
-                </a>
-            </div>
-
-            <div class="card">
-
-                <a href="workoutOptionss?page=clientWorkoutDetails" class="card-body">
-                    <div class="flex items-center mb-3">
-                        <div class="exercise-icon-container">
-                            <i class="fas fa-spa exercise-icon"></i>
-                        </div>
-                        <span class="exercise-title">Yoga Session</span>
-                    </div>
-                    <div class="flex items-center gap-sm mb-2">
-                        <i class="fas fa-tag"></i>
-                        <span>Flexibility</span>
-                    </div>
-                    <div class="flex items-center gap-sm text-muted">
-                        <i class="far fa-calendar-alt"></i>
-                        <span>Nov 20, 2024</span>
-                    </div>
-                </a>
-            </div>
         </div>
     </div>
 </div>
 
-<script>
-    // JavaScript remains unchanged
-</script>
 </body>
 </html>
