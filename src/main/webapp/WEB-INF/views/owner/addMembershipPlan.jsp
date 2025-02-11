@@ -21,6 +21,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="planColor">Plan Color</label>
+                    <input type="color" id="planColor" name="planColor" value="#000000" required>
+                </div>
+
+                <div class="form-group">
                     <label>Duration</label>
                     <div style="display: flex; gap: 20px;">
                         <div style="flex: 1;">
