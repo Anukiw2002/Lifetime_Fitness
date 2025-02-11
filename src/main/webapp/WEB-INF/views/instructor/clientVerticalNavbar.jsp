@@ -29,7 +29,7 @@
         <a href="/leaderBoardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard Details
         </a>
-        <a href="/InstructorViewNotification" class="nav-link">
+        <a href="/viewInstructorNotification" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
         <a href="/InstructorMemberManagement" class="nav-link">
