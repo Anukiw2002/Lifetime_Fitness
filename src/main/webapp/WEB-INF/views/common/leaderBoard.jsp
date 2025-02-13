@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lifetime Fitness - Leaderboard</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/leaderBoard2.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/leaderBoard.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -25,9 +25,9 @@
         </h1>
 
         <div class="category-tabs" data-aos="fade-up">
-            <button class="tab-btn active" data-category="weight-loss">Weight Loss Champions</button>
-            <button class="tab-btn" data-category="strength">Strength Kings & Queens</button>
-            <button class="tab-btn" data-category="dedication">Dedication Heroes</button>
+            <button class="tab-btn active" data-category="weight-loss">Weight Loss</button>
+            <button class="tab-btn" data-category="strength">Strength</button>
+            <button class="tab-btn" data-category="dedication">Dedication</button>
         </div>
 
         <!-- Weight Loss Category -->
