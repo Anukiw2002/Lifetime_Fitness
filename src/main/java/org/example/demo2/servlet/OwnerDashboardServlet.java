@@ -10,8 +10,8 @@ import org.example.demo2.util.SessionUtils  ;
 
 import java.io.IOException;
 
-@WebServlet("/memberManagement")
-public class MemberManagementServlet extends HttpServlet {
+@WebServlet("/dashboard")
+public class OwnerDashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(req, resp, "owner")) {
