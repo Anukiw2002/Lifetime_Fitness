@@ -19,35 +19,25 @@
             </div>
 
             <div class="card-body">
-                <form action="createNotifications.jsp" method="POST" id="notificationForm">
+                <form action="createNotificationRedirection" method="POST" id="notificationForm">
                     <div class="grid grid-2">
                         <div class="form-group">
                             <label class="form-label" for="recipients">Recipients*</label>
-                            <select id="recipients" name="recipients" class="form-control" required>
+                            <select id="recipients" name="targetGroup" class="form-control" required>
                                 <option value="">Select recipients</option>
                                 <option value="customers">All Customers</option>
                                 <option value="instructors">All Instructors</option>
                                 <option value="both">Both Customers & Instructors</option>
-                                <option value="active_customers">Active Customers Only</option>
-                                <option value="new_customers">New Customers (Last 30 days)</option>
-                                <option value="inactive_customers">Inactive Customers (>30 days)</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label" for="priority">Priority Level</label>
-                            <select id="priority" name="priority" class="form-control">
-                                <option value="normal">Normal</option>
-                                <option value="important">Important</option>
-                                <option value="urgent">Urgent</option>
-                            </select>
-                        </div>
+
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="subject">Message Subject*</label>
                         <input type="text"
                                id="subject"
-                               name="subject"
+                               name="notificationTitle"
                                class="form-control"
                                placeholder="Enter message subject"
                                required>
@@ -58,7 +48,7 @@
                         <div class="message-box">
                             <textarea
                                     id="message"
-                                    name="message"
+                                    name="notificationMessage"
                                     class="form-control"
                                     placeholder="Type your message here..."
                                     rows="6"
@@ -84,7 +74,6 @@
 
                     <div class="form-actions mt-4">
                         <button type="button" class="btn btn-secondary" onclick="window.location.href='memberManagement'">Cancel</button>
-                        <button type="button" class="btn btn-secondary" onclick="previewMessage()">Preview</button>
                         <button type="submit" class="btn btn-primary">Send Notification</button>
                     </div>
                 </form>
@@ -108,25 +97,6 @@
             charCountSpan.textContent = maxLength;
         }
     });
-
-    function previewMessage() {
-        const subject = document.getElementById('subject').value;
-        const recipients = document.getElementById('recipients');
-        const priority = document.getElementById('priority');
-        const message = document.getElementById('message').value;
-
-        if (!subject || !recipients.value || !message) {
-            alert('Please fill in all required fields before previewing.');
-            return;
-        }
-
-        document.getElementById('previewSubject').textContent = subject;
-        document.getElementById('previewRecipients').textContent = recipients.options[recipients.selectedIndex].text;
-        document.getElementById('previewPriority').textContent = priority.options[priority.selectedIndex].text;
-        document.getElementById('previewMessage').textContent = message;
-
-        document.getElementById('previewBox').style.display = 'block';
-    }
 
     document.getElementById('notificationForm').addEventListener('submit', function(e) {
         if (!confirm('Are you sure you want to send this notification?')) {
