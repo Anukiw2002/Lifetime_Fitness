@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,29 +25,15 @@
 
         </div>
 
-        <div class="notification-card card">
-            <div class="notification-title">Upcoming Session Due</div>
-            <div class="notification-description">
-                You have an upcoming session scheduled on <strong>Monday, Nov 15, 2024</strong> at <strong>10:00 AM</strong>.
+        <c:forEach var="notification" items="${notifications}">
+            <div class="notification-card card">
+                <div class="notification-title">${notification.title}</div>
+                <div class="notification-description">
+                        ${notification.description}
+                </div>
+                <div class="notification-time">${notification.timeAge}</div>
             </div>
-            <div class="notification-time">3 days 10 hours ago</div>
-        </div>
-
-        <div class="notification-card card">
-            <div class="notification-title">Upcoming Session Due</div>
-            <div class="notification-description">
-                You have an upcoming session scheduled on <strong>Wednesday, Nov 17, 2024</strong> at <strong>2:00 PM</strong>.
-            </div>
-            <div class="notification-time">4 days 15 hours ago</div>
-        </div>
-
-        <div class="notification-card card">
-            <div class="notification-title">Upcoming Session Due</div>
-            <div class="notification-description">
-                You have an upcoming session scheduled on <strong>Friday, Nov 19, 2024</strong> at <strong>11:00 AM</strong>.
-            </div>
-            <div class="notification-time">7 days 2 hours ago</div>
-        </div>
+        </c:forEach>
 
         <a href="/memberProfile" class="back-link">
             <span>&larr;</span>
