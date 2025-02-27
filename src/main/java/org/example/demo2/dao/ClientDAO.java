@@ -11,22 +11,25 @@ public class ClientDAO {
         this.dbConnection = dbConnection;
     }
 
-    public Client findByPhoneNumber(String phoneNumber) throws SQLException {
+    public Client findByPhoneNumber(String clientPhone) throws SQLException {
         Connection connection = null;
         try {
             connection = dbConnection.getConnection();
-            String sql = "SELECT * FROM clients WHERE phone_number = ?";
+            String sql = "SELECT * FROM client_details WHERE client_phone = ?";
 
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setString(1, phoneNumber);
+                stmt.setString(1, clientPhone);
                 ResultSet rs = stmt.executeQuery();
 
                 if (rs.next()) {
                     Client client = new Client();
-                    client.setClientId(rs.getLong("client_id"));
-                    client.setPhoneNumber(rs.getString("phone_number"));
-                    client.setName(rs.getString("name"));
-                    client.setEmail(rs.getString("email"));
+                    client.setId(rs.getLong("id"));  // Updated from setClientId to setId
+                    client.setUserId(rs.getInt("user_id"));
+                    client.setClientPhone(rs.getString("client_phone"));  // Updated method name
+                    client.setAddress(rs.getString("address"));
+                    client.setDateOfBirth(rs.getDate("date_of_birth"));
+                    client.setEmergencyContactName(rs.getString("emergency_contact_name"));
+                    client.setEmergencyContactNumber(rs.getString("emergency_contact_number"));
                     return client;
                 }
                 return null;

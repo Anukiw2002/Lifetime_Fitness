@@ -31,9 +31,8 @@ public class ViewWorkoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String pathInfo = request.getPathInfo();
-        String page = request.getParameter("page");
 
         try {
             // Default to search page
@@ -46,9 +45,15 @@ public class ViewWorkoutServlet extends HttpServlet {
             // Handle workout list page
             if (pathInfo.equals("/list")) {
                 String clientPhone = (String) request.getSession().getAttribute("clientPhone");
+
                 if (clientPhone != null) {
-                    List<ClientWorkout> workouts = workoutDAO.findByClientPhone(clientPhone);
                     Client client = clientDAO.findByPhoneNumber(clientPhone);
+                    if (client == null) {
+                        response.sendRedirect(request.getContextPath() + "/workoutOptions");
+                        return;
+                    }
+
+                    List<ClientWorkout> workouts = workoutDAO.findByUserId(client.getUserId());
 
                     request.setAttribute("client", client);
                     request.setAttribute("workouts", workouts);
@@ -62,8 +67,14 @@ public class ViewWorkoutServlet extends HttpServlet {
 
             // Handle workout details
             if (pathInfo.startsWith("/details/")) {
-                String workoutId = pathInfo.substring(9);
-                List<WorkoutExercise> exercises = workoutExerciseDAO.findByWorkoutId(Long.parseLong(workoutId));
+                String workoutIdStr = pathInfo.substring(9); // Extract ID from URL
+                if (!workoutIdStr.matches("\\d+")) {
+                    response.sendRedirect(request.getContextPath() + "/workoutOptions");
+                    return;
+                }
+
+                Long workoutId = Long.parseLong(workoutIdStr);
+                List<WorkoutExercise> exercises = workoutExerciseDAO.findByWorkoutId(workoutId);
                 request.setAttribute("exercises", exercises);
                 request.getRequestDispatcher("/WEB-INF/views/instructor/workoutDetails.jsp")
                         .forward(request, response);
@@ -90,8 +101,12 @@ public class ViewWorkoutServlet extends HttpServlet {
                     if (client != null) {
                         // Store in session
                         HttpSession session = request.getSession();
-                        session.setAttribute("clientPhone", clientPhone);
-                        session.setAttribute("clientName", client.getName());
+                        session.setAttribute("clientPhone", client.getClientPhone()); // Updated method name
+                        session.setAttribute("userId", client.getUserId());
+                        session.setAttribute("address", client.getAddress());
+                        session.setAttribute("dateOfBirth", client.getDateOfBirth());
+                        session.setAttribute("emergencyContactName", client.getEmergencyContactName());
+                        session.setAttribute("emergencyContactNumber", client.getEmergencyContactNumber());
 
                         // Redirect to workout list
                         response.sendRedirect(request.getContextPath() + "/workoutOptions/list");
