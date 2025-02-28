@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +7,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/generalStyles.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/memberManagement.css">
+    <script>
+        function cancelMembership(id) {
+            if (confirm("Are you sure you want to cancel this membership?")) {
+                fetch('${pageContext.request.contextPath}/cancelMembership', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'id=' + id
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            alert('Error cancelling membership');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="../common/verticalNavBar.jsp" />
@@ -52,58 +72,31 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>John Doe</td>
-                    <td>Platinum</td>
-                    <td><span class="status-badge active">Active</span></td>
-                    <td>2023-12-31</td>
-                    <td>
-                        <div class="flex">
-                            <button class="action-button edit"><i class="fas fa-edit"></i></button>
-                            <button class="action-button suspend"><i class="fas fa-pause"></i></button>
-                            <button class="action-button cancel"><i class="fas fa-times"></i></button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Jane Smith</td>
-                    <td>Gold</td>
-                    <td><span class="status-badge active">Active</span></td>
-                    <td>2024-06-30</td>
-                    <td>
-                        <div class="flex">
-                            <button class="action-button edit"><i class="fas fa-edit"></i></button>
-                            <button class="action-button suspend"><i class="fas fa-pause"></i></button>
-                            <button class="action-button cancel"><i class="fas fa-times"></i></button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Bob Johnson</td>
-                    <td>Silver</td>
-                    <td><span class="status-badge suspended">Suspended</span></td>
-                    <td>2023-09-15</td>
-                    <td>
-                        <div class="flex">
-                            <button class="action-button edit"><i class="fas fa-edit"></i></button>
-                            <button class="action-button suspend"><i class="fas fa-pause"></i></button>
-                            <button class="action-button cancel"><i class="fas fa-times"></i></button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Sara Lee</td>
-                    <td>Platinum</td>
-                    <td><span class="status-badge cancelled">Cancelled</span></td>
-                    <td>2023-03-01</td>
-                    <td>
-                        <div class="flex">
-                            <button class="action-button edit"><i class="fas fa-edit"></i></button>
-                            <button class="action-button suspend"><i class="fas fa-pause"></i></button>
-                            <button class="action-button cancel"><i class="fas fa-times"></i></button>
-                        </div>
-                    </td>
-                </tr>
+                <c:forEach var="membership" items="${memberships}">
+                    <tr>
+                        <td>${membership.clientName}</td>
+                        <td>${membership.planName}</td>
+                        <td>
+                                    <span class="status-badge ${membership.status}">
+                                            ${membership.status}
+                                    </span>
+                        </td>
+                        <td>${membership.endDate}</td>
+                        <td>
+                            <div class="flex">
+                                <button class="action-button edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-button suspend">
+                                    <i class="fas fa-pause"></i>
+                                </button>
+                                <button class="action-button cancel" onclick="cancelMembership(${membership.membershipId})">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
