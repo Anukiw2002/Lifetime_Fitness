@@ -164,7 +164,7 @@
                 <i class="fas fa-plus"></i>
                 Add Membership Plan
             </a>
-            <a href="addExercise.jsp" class="action-btn">
+            <a href="/clientMemberships" class="action-btn">
                 <i class="fas fa-dumbbell"></i>
                 Member Management
             </a>
