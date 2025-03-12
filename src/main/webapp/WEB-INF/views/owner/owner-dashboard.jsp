@@ -11,7 +11,7 @@
     <title>Gym Management Dashboard</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/owner-dashboard.css">
 </head>
 <body>
@@ -41,11 +41,13 @@
 
         <div class="dashboard-grid">
             <div class="stat-card">
-                <div class="stat-value">254</div>
+
                 <div class="stat-label">Active Members</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">12</div>
+                <div class="stat-value">
+                    <c:out value="${membershipPlanCount}" />
+                </div>
                 <div class="stat-label">Active Plans</div>
             </div>
             <div class="stat-card">
@@ -61,11 +63,13 @@
         <div class="charts-grid">
             <div class="chart-container">
                 <h3>Membership Growth</h3>
+                <!-- Adding the canvas for the membership chart -->
                 <canvas id="membershipChart"></canvas>
             </div>
 
             <div class="chart-container revenue-chart-container">
                 <h3>Revenue by Plan Type</h3>
+                <!-- Adding the canvas for the revenue chart -->
                 <canvas id="revenueChart"></canvas>
             </div>
         </div>
@@ -105,6 +109,89 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Fetch data from the /dashboard endpoint
+    fetch("/dashboard", {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest' // This is crucial for the server to recognize the request as AJAX
+        }
+    })
+        .then(response => response.json()) // Parse JSON response
+        .then(data => {
+            // Get the context of the canvas elements for the charts
+            const membershipCtx = document.getElementById("membershipChart").getContext("2d");
+            const revenueCtx = document.getElementById("revenueChart").getContext("2d");
+
+            // Membership Growth Chart
+            new Chart(membershipCtx, {
+                type: 'line', // Line chart for membership growth
+                data: {
+                    labels: data.months, // Use months from the JSON response
+                    datasets: [{
+                        label: 'Membership Growth',
+                        data: data.userCounts, // Use userCounts from the JSON response
+                        borderColor: 'blue',
+                        backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Months'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Number of Users'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Revenue Growth Chart (You can create the second chart for revenue similarly)
+            new Chart(revenueCtx, {
+                type: 'line', // Line chart for revenue growth
+                data: {
+                    labels: data.months, // Use months from the JSON response
+                    datasets: [{
+                        label: 'Revenue Growth',
+                        data: data.revenue, // Assuming you have revenue data in your response
+                        borderColor: 'green',
+                        backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Months'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Revenue'
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error); // Handle any errors that occur during the fetch
+        });
+</script>
 
 <script src="${pageContext.request.contextPath}/js/owner-dashboard.js"></script>
 </body>
