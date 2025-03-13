@@ -51,7 +51,9 @@
                 <div class="stat-label">Active Plans</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">8</div>
+                <div class="stat-value">
+                    <c:out value="${instructors}" />
+                </div>
                 <div class="stat-label">Instructors</div>
             </div>
             <div class="stat-card">

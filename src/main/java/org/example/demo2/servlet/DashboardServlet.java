@@ -77,20 +77,30 @@ public class DashboardServlet extends HttpServlet {
 
         // If it's NOT an AJAX request, process JSP forwarding
         int membershipPlanCount = 0;
+        int instructors = 0;
         try (Connection conn = DBConnection.getConnection()) {
             if (conn != null) {
                 System.out.println("Connected to the database");
 
                 String query1 = "SELECT COUNT(*) AS count FROM membership_plans";
+                String query2 = "SELECT COUNT(*) AS count1 FROM users WHERE role = 'instructor' ";
                 PreparedStatement stmt1 = conn.prepareStatement(query1);
+                PreparedStatement stmt2 = conn.prepareStatement(query2);
                 ResultSet rs1 = stmt1.executeQuery();
+                ResultSet rs2 = stmt2.executeQuery();
 
                 if (rs1.next()) {
                     membershipPlanCount = rs1.getInt("count");
                 }
 
+                if (rs2.next()){
+                    instructors = rs2.getInt("count1");
+                }
+
+                System.out.println("instructors: " + instructors);
                 System.out.println("membershipPlanCount: " + membershipPlanCount);
                 request.setAttribute("membershipPlanCount", membershipPlanCount);
+                request.setAttribute("instructors", instructors);
             }
         } catch (Exception e) {
             e.printStackTrace();
