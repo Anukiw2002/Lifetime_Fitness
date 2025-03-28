@@ -26,6 +26,8 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
+        HttpSession session = request.getSession();
+        session.setAttribute("userEmail", email);
 
         // Validate inputs
         if (isInvalidInput(firstName, lastName, email, password, confirmPassword)) {
