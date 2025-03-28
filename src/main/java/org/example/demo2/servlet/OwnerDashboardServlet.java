@@ -10,7 +10,7 @@ import org.example.demo2.util.SessionUtils  ;
 
 import java.io.IOException;
 
-@WebServlet("/dashboard")
+
 public class OwnerDashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
