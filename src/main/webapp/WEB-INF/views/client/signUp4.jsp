@@ -47,7 +47,9 @@
         <c:forEach var="plan" items="${membershipPlans}">
             <div class="membership-card ${plan.status == 'INACTIVE' ? 'inactive-plan' : ''}">
                     <div class="card-header">
-                        <h2 style="color: white;"><i class="fas fa-star"></i> ${plan.planName} </h2>
+                        <h2 style="color: white;">
+                            <i class="fas fa-star" style="color: ${plan.colour};"></i> ${plan.planName}
+                        </h2>
                         <div class="timing">
                             <i class="far fa-clock"></i>
                                 ${plan.startTime} to ${plan.endTime}
