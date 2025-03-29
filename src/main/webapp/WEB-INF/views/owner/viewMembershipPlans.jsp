@@ -32,7 +32,7 @@
         <c:forEach var="plan" items="${membershipPlans}">
             <div class="plan-card ${plan.status == 'INACTIVE' ? 'inactive-plan' : ''}">
                 <div class="plan-header">
-                    <h2>${plan.planName}</h2>
+                    <h2 style="color: ${plan.colour};">${plan.planName}</h2>
                     <p class="time-slot">${plan.startTime} to ${plan.endTime}</p>
                 </div>
                 <div class="plan-options">
