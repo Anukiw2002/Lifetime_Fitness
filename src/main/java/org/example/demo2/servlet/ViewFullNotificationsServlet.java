@@ -24,7 +24,6 @@ public class ViewFullNotificationsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         String userRole = (session != null) ? (String) session.getAttribute("userRole") : null;
-
         System.out.println("User role from session: " + userRole);
 
         if (userRole == null || (!userRole.equals("client") && !userRole.equals("instructor"))) {
@@ -39,7 +38,7 @@ public class ViewFullNotificationsServlet extends HttpServlet {
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "SELECT title, description, created_at FROM notifications WHERE recipient_role = ? OR recipient_role = 'both' ORDER BY created_at DESC")) {
+                     "SELECT id, title, description, created_at FROM notifications WHERE recipient_role = ? OR recipient_role = 'both' ORDER BY created_at DESC")) {
 
             if (connection != null) {
                 System.out.println("Database connection successful.");
@@ -58,6 +57,7 @@ public class ViewFullNotificationsServlet extends HttpServlet {
 
             while (resultSet.next()) {
                 Notification notification = new Notification();
+                notification.setId(resultSet.getInt("id"));
                 notification.setTitle(resultSet.getString("title"));
                 notification.setDescription(resultSet.getString("description"));
                 notification.setTimeAge(resultSet.getTimestamp("created_at").toString());
@@ -80,5 +80,12 @@ public class ViewFullNotificationsServlet extends HttpServlet {
         }
 
         req.getRequestDispatcher("/WEB-INF/views/client/clientNotification.jsp").forward(req, resp);
+    }
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        HttpSession session = req.getSession(false);
+        int user_id = (int)session.getAttribute("user_id");
+
+
     }
 }
