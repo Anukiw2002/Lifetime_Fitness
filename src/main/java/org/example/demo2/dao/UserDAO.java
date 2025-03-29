@@ -118,6 +118,7 @@ public class UserDAO implements IUserDAO {
 
                         // Return the User object
                         return new User(
+                                rs.getInt("id"),
                                 rs.getString("full_name"),
                                 rs.getString("username"),
                                 rs.getString("email"),
@@ -170,6 +171,7 @@ public class UserDAO implements IUserDAO {
 
                     // Return the User object
                     return new User(
+                            rs.getInt("id"),
                             rs.getString("full_name"),
                             rs.getString("username"),
                             rs.getString("email"),
@@ -217,7 +219,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User getUserByResetToken(String token) throws SQLException {
-        String sql = "SELECT * FROM users WHERE reset_token = ?";
+        String sql = "SELECT id, full_name, username, email, hashed_password,reset_token, token_expiry, role FROM users WHERE reset_token = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -230,6 +232,7 @@ public class UserDAO implements IUserDAO {
 
                     // Return the User object
                     return new User(
+                            rs.getInt("id"),
                             rs.getString("full_name"),
                             rs.getString("username"),
                             rs.getString("email"),

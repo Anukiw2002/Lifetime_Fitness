@@ -3,6 +3,7 @@ package org.example.demo2.model;
 import java.sql.Timestamp;
 
 public class User {
+    private int user_id;
     private String fullName;
     private String username;
     private String email;
@@ -12,7 +13,7 @@ public class User {
     private String role;
 
     // Constructor with fullName, username, email, hashedPassword, and role
-    public User(String fullName, String username, String email, String hashedPassword, String role) {
+    public User( String fullName, String username, String email, String hashedPassword, String role) {
         this.fullName = fullName;
         this.username = username;
         this.email = email;
@@ -21,7 +22,8 @@ public class User {
     }
 
     // Constructor with fullName, username, email, hashedPassword, tokenExpiry, and role
-    public User(String fullName, String username, String email, String hashedPassword, Timestamp tokenExpiry, String role) {
+    public User(int user_id,String fullName, String username, String email, String hashedPassword, Timestamp tokenExpiry, String role) {
+        this.user_id = user_id;
         this.fullName = fullName;
         this.username = username;
         this.email = email;
@@ -31,7 +33,8 @@ public class User {
     }
 
     // Constructor with all fields: fullName, username, email, hashedPassword, resetToken, tokenExpiry, and role
-    public User(String fullName, String username, String email, String hashedPassword, String resetToken, Timestamp tokenExpiry, String role) {
+    public User(int user_id, String fullName, String username, String email, String hashedPassword, String resetToken, Timestamp tokenExpiry, String role) {
+        this.user_id = user_id;
         this.fullName = fullName;
         this.username = username;
         this.email = email;
@@ -41,6 +44,18 @@ public class User {
         this.role = role;
     }
 
+    // Constructor that includes user_id along with other fields
+    public User(int user_id, String fullName, String username, String email, String hashedPassword, String role) {
+        this.user_id = user_id;
+        this.fullName = fullName;
+        this.username = username;
+        this.email = email;
+        this.hashedPassword = hashedPassword;
+        this.role = role;
+    }
+
+
+    public int getUser_id() {return user_id;}
     // Getters and setters for all fields
     public String getFullName() {
         return fullName;
