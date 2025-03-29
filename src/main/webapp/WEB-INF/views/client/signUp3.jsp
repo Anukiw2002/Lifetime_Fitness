@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <form class="medical-form"action="${pageContext.request.contextPath}/signup/step3" method="post">
+        <form class="medical-form"action="${pageContext.request.contextPath}/MedicalHistory" method="post">
             <div class="question-group">
                 <div class="question">
                     <div class="question-content">

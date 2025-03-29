@@ -31,9 +31,9 @@ public class SignUpServlet extends HttpServlet {
             case "/step3":
                 jspPath = "/WEB-INF/views/client/signUp3.jsp";
                 break;
-            case "/step4":
-                jspPath = "/WEB-INF/views/client/signUp4.jsp";
-                break;
+            //case "/step4":
+                //jspPath = "/WEB-INF/views/client/signUp4.jsp";
+               // break;
             default:
                 jspPath = "/WEB-INF/views/client/signUp1.jsp";
         }

@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +10,12 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/signUp4.css">
 </head>
 <body>
+<%!
+    public String formatDurationType(int value, String durationType) {
+        if (durationType == null) return "";
+        return value == 1 ? durationType.substring(0, durationType.length() - 1) : durationType;
+    }
+%>
 <div class="container">
     <!-- Logo -->
     <div class="logo-container">
@@ -35,149 +44,68 @@
     <h1 class="main-title" style="color: white;">Choose your plan</h1>
 
     <div class="membership-grid">
-        <!-- Platinum Membership -->
-        <div class="membership-card platinum">
-            <div class="popular-badge">Most Popular</div>
-            <div class="card-header">
-                <h2 style="color: white;"><i class="fas fa-star"></i> Platinum Membership</h2>
-                <div class="timing">
-                    <i class="far fa-clock"></i>
-                    4:00 am to 12:00 Midnight
-                </div>
+        <c:forEach var="plan" items="${membershipPlans}">
+            <div class="membership-card ${plan.status == 'INACTIVE' ? 'inactive-plan' : ''}">
+                    <div class="card-header">
+                        <h2 style="color: white;"><i class="fas fa-star"></i> ${plan.planName} </h2>
+                        <div class="timing">
+                            <i class="far fa-clock"></i>
+                                ${plan.startTime} to ${plan.endTime}
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="price-options">
+                            <c:forEach var="duration" items="${plan.durations}">
+                                <c:choose>
+                                    <c:when test="${plan.pricingType eq 'uniform'}">
+                                        <div class="price-row">
+                                            <span class="label">Individual -
+                                                ${duration.durationValue}
+                                                <%
+                                                    Object durationObj = pageContext.getAttribute("duration");
+                                                    if (durationObj != null) {
+                                                        java.lang.reflect.Method getDurationValueMethod = durationObj.getClass().getMethod("getDurationValue");
+                                                        java.lang.reflect.Method getDurationTypeMethod = durationObj.getClass().getMethod("getDurationType");
+                                                        int durationValue = (Integer) getDurationValueMethod.invoke(durationObj);
+                                                        String durationType = (String) getDurationTypeMethod.invoke(durationObj);
+                                                        out.print(formatDurationType(durationValue, durationType));
+                                                    }
+                                                %>
+                                            </span>
+                                            <div class="price-select">
+                                                <span class="price">Rs.
+                                                    <fmt:formatNumber value="${duration.uniformPricing[0].price}" type="number" pattern="#,##,###"/>
+                                                </span>
+                                                <a href="/payment?planId=${plan.planId}&durationId=${duration.durationId}" class="select-btn">Select</a>
+                                            </div>
+                                        </div>
+                                    </c:when>
+                                    <c:when test="${plan.pricingType eq 'category'}">
+                                        <c:forEach var="pricing" items="${duration.categoryPricing}">
+                                            <div class="price-row">
+                                                <span class="label">
+                                                    <c:choose>
+                                                        <c:when test="${pricing.category eq 'Gents'}">Gents - Annual</c:when>
+                                                        <c:when test="${pricing.category eq 'Ladies'}">Ladies - Annual</c:when>
+                                                        <c:when test="${pricing.category eq 'Couple'}">Couple - Annual</c:when>
+                                                        <c:otherwise>${pricing.category}</c:otherwise>
+                                                    </c:choose>
+                                                </span>
+                                                <div class="price-select">
+                                                    <span class="price">Rs.
+                                                        <fmt:formatNumber value="${pricing.price}" type="number" pattern="#,##,###"/>
+                                                    </span>
+                                                    <a href="/payment?planId=${plan.planId}&durationId=${duration.durationId}&category=${pricing.category}" class="select-btn">Select</a>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </c:when>
+                                </c:choose>
+                            </c:forEach>
+                        </div>
+                    </div>
             </div>
-            <div class="card-content">
-                <div class="features">
-                    <div class="feature"><i class="fas fa-check"></i> Access to all premium equipment</div>
-                    <div class="feature"><i class="fas fa-check"></i> Personal trainer sessions</div>
-                    <div class="feature"><i class="fas fa-check"></i> Spa & Sauna access</div>
-                    <div class="feature"><i class="fas fa-check"></i> Group classes included</div>
-                </div>
-                <div class="price-options">
-                    <div class="price-row">
-                        <span class="label">Gents</span>
-                        <div class="price-select">
-                            <span class="price">Rs. 65,000</span>
-                            <a href="/payment" class="select-btn">Select</a>
-                        </div>
-                    </div>
-                    <div class="price-row">
-                        <span class="label">Ladies</span>
-                        <div class="price-select">
-                            <span class="price">Rs. 65,000</span>
-                            <button class="select-btn">Select</button>
-                        </div>
-                    </div>
-                    <div class="price-row">
-                        <span class="label">Couple</span>
-                        <div class="price-select">
-                            <span class="price">Rs. 85,000</span>
-                            <button class="select-btn">Select</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Gold Membership -->
-        <div class="membership-card gold">
-            <div class="card-header">
-                <h2 style="color: white;"><i class="fas fa-star"></i> Gold Membership</h2>
-                <div class="timing">
-                    <i class="far fa-clock"></i>
-                    4:00 am to 4:30 pm
-                </div>
-            </div>
-            <div class="card-content">
-                <div class="features">
-                    <div class="feature"><i class="fas fa-check"></i> Access to all equipment</div>
-                    <div class="feature"><i class="fas fa-check"></i> 2 Personal trainer sessions</div>
-                    <div class="feature"><i class="fas fa-check"></i> Group classes included</div>
-                </div>
-                <div class="price-options">
-                    <div class="price-row">
-                        <span class="label">Gents</span>
-                        <div class="price-select">
-                            <span class="price">Rs. 48,000</span>
-                            <button class="select-btn">Select</button>
-                        </div>
-                    </div>
-                    <div class="price-row">
-                        <span class="label">Ladies</span>
-                        <div class="price-select">
-                            <span class="price">Rs. 48,000</span>
-                            <button class="select-btn">Select</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Silver Membership -->
-        <div class="membership-card silver">
-            <div class="card-header">
-                <h2 style="color: white;"><i class="fas fa-star"></i> Silver Membership</h2>
-                <div class="timing">
-                    <i class="far fa-clock"></i>
-                    4:00 am to 12:00 Midnight
-                </div>
-            </div>
-            <div class="card-content">
-                <div class="features">
-                    <div class="feature"><i class="fas fa-check"></i> Basic equipment access</div>
-                    <div class="feature"><i class="fas fa-check"></i> 1 Personal trainer session</div>
-                    <div class="feature"><i class="fas fa-check"></i> Pay-per-class option</div>
-                </div>
-                <div class="price-options">
-                    <div class="price-row">
-                        <span class="label">6 Months</span>
-                        <div class="price-select">
-                            <span class="price">Rs. 45,000</span>
-                            <button class="select-btn">Select</button>
-                        </div>
-                    </div>
-                    <div class="price-row">
-                        <span class="label">3 Months</span>
-                        <div class="price-select">
-                            <span class="price">Rs. 35,000</span>
-                            <button class="select-btn">Select</button>
-                        </div>
-                    </div>
-                    <div class="price-row">
-                        <span class="label">1 Month</span>
-                        <div class="price-select">
-                            <span class="price">Rs. 15,000</span>
-                            <button class="select-btn">Select</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Day Pass -->
-        <div class="membership-card day-pass">
-            <div class="card-header">
-                <h2 style="color: white;"><i class="fas fa-star"></i> Day Pass</h2>
-                <div class="timing">
-                    <i class="far fa-clock"></i>
-                    4:00 am to 12:00 Midnight
-                </div>
-            </div>
-            <div class="card-content">
-                <div class="features">
-                    <div class="feature"><i class="fas fa-check"></i> Single day access to facilities</div>
-                    <div class="feature"><i class="fas fa-check"></i> Basic equipment access</div>
-                </div>
-                <div class="price-options">
-                    <div class="price-row">
-                        <span class="label">Individual</span>
-                        <div class="price-select">
-                            <span class="price">Rs. 1,500</span>
-                            <button class="select-btn">Select</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </c:forEach>
     </div>
 </div>
 </body>
