@@ -33,49 +33,38 @@ public class ClientWorkoutsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
-            return; // If not authorized, the redirection will be handled by the utility method
-        }
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
-            response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
-        String phoneNumber = request.getParameter("phoneNumber");
 
-        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
-            response.sendRedirect("searchClient");
+        // Get and validate userId
+        Long userId;
+        try {
+            userId = Long.parseLong(request.getParameter("userId"));
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid user ID");
             return;
         }
 
         try {
             // Get client information
-            Client client = clientDAO.findByPhoneNumber(phoneNumber);
+            Client client = clientDAO.findById(userId);
             if (client == null) {
                 response.sendRedirect("searchClient");
                 return;
             }
 
-            // Get all workouts for the client
-            List<ClientWorkout> clientWorkouts = clientWorkoutDAO.findByClientPhone(phoneNumber);
+            // Get workouts
+            List<ClientWorkout> workouts = clientWorkoutDAO.findByUserId(userId);
 
-            // Convert LocalDateTime to Date for each workout
-            for (ClientWorkout workout : clientWorkouts) {
-                if (workout.getCreatedAt() != null) {
-                    Date date = Date.from(workout.getCreatedAt()
-                            .atZone(ZoneId.systemDefault())
-                            .toInstant());
-                    workout.setCreatedAtDate(date);
-                }
-            }
-
-            // Set attributes for the JSP
+            // Set attributes
             request.setAttribute("client", client);
-            request.setAttribute("clientWorkouts", clientWorkouts); // Updated attribute name
+            request.setAttribute("workouts", workouts);
 
-            // Forward to the JSP page
-            request.getRequestDispatcher("/WEB-INF/views/instructor/client-workouts.jsp").forward(request, response);
+            // Forward to JSP
+            request.getRequestDispatcher("/WEB-INF/views/instructor/client-workouts.jsp")
+                    .forward(request, response);
 
         } catch (SQLException e) {
             throw new ServletException("Database error occurred", e);

@@ -4,18 +4,18 @@ import java.sql.Date;
 
 public class Client {
     private Long id; // Matches 'id' column in client_workout table
-    private int userId; // Matches 'user_id'
-    private String clientPhone; // Matches 'client_phone'
-    private String address; // Matches 'address'
-    private Date dateOfBirth; // Matches 'date_of_birth'
-    private String emergencyContactName; // Matches 'emergency_contact_name'
-    private String emergencyContactNumber; // Matches 'emergency_contact_number'
-    private String name; // New field added to match JSP requirement
+    private Long userId; // Changed from int to Long to match database schema
+    private String clientPhone;
+    private String address;
+    private Date dateOfBirth;
+    private String emergencyContactName;
+    private String emergencyContactNumber;
+    private String name;
 
     // Constructors
     public Client() {}
 
-    public Client(Long id, int userId, String clientPhone, String address, Date dateOfBirth,
+    public Client(Long id, Long userId, String clientPhone, String address, Date dateOfBirth,
                   String emergencyContactName, String emergencyContactNumber, String name) {
         this.id = id;
         this.userId = userId;
@@ -31,8 +31,8 @@ public class Client {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 
     public String getClientPhone() { return clientPhone; }
     public void setClientPhone(String clientPhone) { this.clientPhone = clientPhone; }
@@ -44,10 +44,14 @@ public class Client {
     public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
 
     public String getEmergencyContactName() { return emergencyContactName; }
-    public void setEmergencyContactName(String emergencyContactName) { this.emergencyContactName = emergencyContactName; }
+    public void setEmergencyContactName(String emergencyContactName) {
+        this.emergencyContactName = emergencyContactName;
+    }
 
     public String getEmergencyContactNumber() { return emergencyContactNumber; }
-    public void setEmergencyContactNumber(String emergencyContactNumber) { this.emergencyContactNumber = emergencyContactNumber; }
+    public void setEmergencyContactNumber(String emergencyContactNumber) {
+        this.emergencyContactNumber = emergencyContactNumber;
+    }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

@@ -55,7 +55,7 @@ public class ReportServlet extends HttpServlet {
         double waistCircumference = parseDouble(request.getParameter("waist_circumference"));
         double bodyWeight = parseDouble(request.getParameter("body_weight"));
         double height = parseDouble(request.getParameter("height"));
-        double fatPercentage = parseDouble(request.getParameter("fat"));
+        double fatPercentage = parseDouble(request.getParameter("fat_percentage"));
         double bmr = parseDouble(request.getParameter("bmr"));
         String goal = request.getParameter("goal");
         String warm_up = request.getParameter("warm_up");

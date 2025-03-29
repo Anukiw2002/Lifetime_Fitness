@@ -11,33 +11,39 @@ public class ClientDAO {
         this.dbConnection = dbConnection;
     }
 
-    public Client findByPhoneNumber(String clientPhone) throws SQLException {
-        Connection connection = null;
-        try {
-            connection = dbConnection.getConnection();
-            String sql = "SELECT * FROM client_details WHERE client_phone = ?";
-
-            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setString(1, clientPhone);
-                ResultSet rs = stmt.executeQuery();
-
-                if (rs.next()) {
+    // Add this method to your ClientDAO class:
+    public Client findById(Long userId) throws SQLException {
+        String query = "SELECT * FROM clients WHERE user_id = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, userId);  // Using setLong instead of setInt
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
                     Client client = new Client();
-                    client.setId(rs.getLong("id"));  // Updated from setClientId to setId
-                    client.setUserId(rs.getInt("user_id"));
-                    client.setClientPhone(rs.getString("client_phone"));  // Updated method name
-                    client.setAddress(rs.getString("address"));
-                    client.setDateOfBirth(rs.getDate("date_of_birth"));
-                    client.setEmergencyContactName(rs.getString("emergency_contact_name"));
-                    client.setEmergencyContactNumber(rs.getString("emergency_contact_number"));
+                    client.setUserId(resultSet.getLong("user_id"));  // Using getLong
+                    // Set other fields...
                     return client;
                 }
-                return null;
-            }
-        } finally {
-            if (connection != null) {
-                connection.close();
             }
         }
+        return null;
+    }
+
+    public Client getById(Long clientId) throws SQLException {
+        String sql = "SELECT * FROM clients WHERE user_id = ?";
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, clientId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Client client = new Client();
+                client.setUserId(rs.getLong("user_id"));
+                client.setName(rs.getString("name"));
+                client.setClientPhone(rs.getString("client_phone"));
+                // Set other fields...
+                return client;
+            }
+        }
+        return null;
     }
 }

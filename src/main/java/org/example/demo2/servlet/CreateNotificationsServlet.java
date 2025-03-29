@@ -37,9 +37,9 @@ public class CreateNotificationsServlet extends HttpServlet {
         }
 
         // Send notifications based on the target group
-        if ("customer".equals(targetGroup)) {
+        if ("customers".equals(targetGroup)) {
             sendToCustomers(notificationTitle, notificationMessage);
-        } else if ("instructor".equals(targetGroup)) {
+        } else if ("instructors".equals(targetGroup)) {
             sendToInstructors(notificationTitle, notificationMessage);
         } else if ("both".equals(targetGroup)) {
             sendToCustomers(notificationTitle, notificationMessage);
