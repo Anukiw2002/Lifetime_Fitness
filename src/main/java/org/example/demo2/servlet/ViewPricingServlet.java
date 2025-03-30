@@ -89,6 +89,4 @@ public class ViewPricingServlet extends HttpServlet {
         // Forward to JSP
         request.getRequestDispatcher("/WEB-INF/views/client/signUp4.jsp").forward(request, response);
     }
-
-
 }

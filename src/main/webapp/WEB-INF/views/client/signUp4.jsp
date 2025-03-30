@@ -61,7 +61,7 @@
                                 <c:choose>
                                     <c:when test="${plan.pricingType eq 'uniform'}">
                                         <div class="price-row">
-                                            <span class="label">Individual -
+                                            <span class="label">Solo -
                                                 ${duration.durationValue}
                                                 <%
                                                     Object durationObj = pageContext.getAttribute("duration");

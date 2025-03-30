@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="navbar.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -145,55 +148,85 @@
         </div>
     </div>
 
+        <%!
+    public String formatDurationType(int value, String durationType) {
+        if (durationType == null) return "";
+        return value == 1 ? durationType.substring(0, durationType.length() - 1) : durationType;
+    }
+%>
 
-<!-- Pricing Section -->
-<section class="pricing-section" id="pricing" data-aos="fade-up">
-    <div class="container">
-        <h1 class="text-center"><u>MEMBER PRICING</u></h1>
-        <div class="pricing-grid">
-            <div class="pricing-card platinum" data-aos="fade-up" data-aos-delay="100">
-                <div class="pricing-header">
-                    <h2>PLATINUM</h2>
-                    <p>MEMBERSHIP</p>
-                </div>
-                <div class="pricing-content">
-                    <p>Gents – Annual <span class="price">Rs. 85,000</span></p>
-                    <p>Ladies – Annual <span class="price">Rs. 85,000</span></p>
-                    <p>Couple – Annual <span class="price">Rs. 85,000</span></p>
-                    <p class="time-duration">Access: 4:00 am to 12:00 Midnight</p>
-                </div>
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing" data-aos="fade-up">
+        <div class="container">
+            <h1 class="text-center"><u>MEMBER PRICING</u></h1>
+            <div class="pricing-grid">
+                <c:forEach var="plan" items="${membershipPlans}" varStatus="status">
+                    <c:if test="${!fn:containsIgnoreCase(plan.planName, 'day pass')}">
+                        <div class="plan-card ${plan.status == 'INACTIVE' ? 'inactive-plan' : ''}">
+                            <div class="pricing-card" data-aos="fade-up" data-aos-delay="${status.index * 100 + 100}"
+                                 style="background: linear-gradient(135deg, ${plan.colour}0D 0%, ${plan.colour}12 100%);
+                                         border: 1px solid ${plan.colour}33;">
+                                <div class="pricing-header"
+                                     style="background: linear-gradient(135deg, ${plan.colour} 0%, ${plan.colour}99 100%);">
+                                    <h2>${fn:toUpperCase(plan.planName)}</h2>
+                                    <p>MEMBERSHIP</p>
+                                </div>
+                                <div class="pricing-content">
+                                    <c:choose>
+                                        <c:when test="${plan.pricingType eq 'category'}">
+                                            <c:forEach var="duration" items="${plan.durations}">
+                                                <c:forEach var="pricing" items="${duration.categoryPricing}">
+                                                    <p>
+                                                        <c:choose>
+                                                            <c:when test="${pricing.category eq 'Male'}">Gents – Annual</c:when>
+                                                            <c:when test="${pricing.category eq 'Female'}">Ladies – Annual</c:when>
+                                                            <c:when test="${pricing.category eq 'Couple'}">Couple – Annual</c:when>
+                                                            <c:otherwise>${pricing.category} – Annual</c:otherwise>
+                                                        </c:choose>
+                                                        <span class="price">Rs. <fmt:formatNumber value="${pricing.price}" type="number" pattern="#,##,###"/></span>
+                                                    </p>
+                                                </c:forEach>
+                                            </c:forEach>
+                                        </c:when>
+                                        <c:when test="${plan.pricingType eq 'uniform'}">
+                                            <c:forEach var="duration" items="${plan.durations}">
+                                                <p>
+                                                    Solo - ${duration.durationValue}
+                                                    <%
+                                                        Object durationObj = pageContext.getAttribute("duration");
+                                                        if (durationObj != null) {
+                                                            java.lang.reflect.Method getDurationValueMethod = durationObj.getClass().getMethod("getDurationValue");
+                                                            java.lang.reflect.Method getDurationTypeMethod = durationObj.getClass().getMethod("getDurationType");
+                                                            int durationValue = (Integer) getDurationValueMethod.invoke(durationObj);
+                                                            String durationType = (String) getDurationTypeMethod.invoke(durationObj);
+                                                            out.print(formatDurationType(durationValue, durationType));
+                                                        }
+                                                    %>
+                                                    <span class="price">Rs. <fmt:formatNumber value="${duration.uniformPricing[0].price}" type="number" pattern="#,##,###"/></span>
+                                                </p>
+                                            </c:forEach>
+                                        </c:when>
+                                    </c:choose>
+                                    <p class="time-duration">Access: ${plan.startTime} am to ${plan.endTime} pm</p>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+                </c:forEach>
             </div>
 
-            <div class="pricing-card gold" data-aos="fade-up" data-aos-delay="200">
-                <div class="pricing-header">
-                    <h2>GOLD</h2>
-                    <p>MEMBERSHIP</p>
-                </div>
-                <div class="pricing-content">
-                    <p>Gents – Annual <span class="price">Rs. 48,000</span></p>
-                    <p>Ladies – Annual <span class="price">Rs. 48,000</span></p>
-                    <p class="time-duration">Access: 4:00 am to 4:00 pm</p>
-                </div>
-            </div>
-
-            <div class="pricing-card silver" data-aos="fade-up" data-aos-delay="300">
-                <div class="pricing-header">
-                    <h2>SILVER</h2>
-                    <p>MEMBERSHIP</p>
-                </div>
-                <div class="pricing-content">
-                    <p>6 months <span class="price">Rs. 45,000</span></p>
-                    <p>3 months <span class="price">Rs. 25,000</span></p>
-                    <p>1 month <span class="price">Rs. 15,000</span></p>
-                    <p class="time-duration">Access: 4:00 am to 12:00 Midnight</p>
-                </div>
-            </div>
+            <!-- Day Pass Section -->
+            <c:forEach var="plan" items="${membershipPlans}">
+                <c:if test="${fn:containsIgnoreCase(plan.planName, 'day pass')}">
+                    <div class="plan-card ${plan.status == 'INACTIVE' ? 'inactive-plan' : ''}">
+                        <div class="day-pass" data-aos="fade-up">
+                            <p>Day Pass: <span class="price">Rs. <fmt:formatNumber value="${plan.durations[0].uniformPricing[0].price}" type="number" pattern="#,##,###"/></span></p>
+                        </div>
+                    </div>
+                </c:if>
+            </c:forEach>
         </div>
-        <div class="day-pass" data-aos="fade-up">
-            <p>Day Pass: <span class="price">Rs. 1,500</span></p>
-        </div>
-    </div>
-</section>
+    </section>
 
 <!-- Our Coaches Section -->
     <!-- Our Coaches Section -->
