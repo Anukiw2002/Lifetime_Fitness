@@ -21,8 +21,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="planColor">Plan Color</label>
-                    <input type="color" id="planColor" name="planColor" value="#000000" required>
+                    <label for="colour">Plan Color</label>
+                    <input type="color" id="colour" name="colour" value="#000000" required>
                 </div>
 
                 <div class="form-group">
@@ -321,6 +321,7 @@
         formData.append('planName', document.getElementById('planName').value);
         formData.append('startTime', document.getElementById('startTime').value);
         formData.append('endTime', document.getElementById('endTime').value);
+        formData.append('colour', document.getElementById('colour').value);
 
         const pricingType = document.querySelector('input[name="pricingType"]:checked').value;
         formData.append('pricingType', pricingType);

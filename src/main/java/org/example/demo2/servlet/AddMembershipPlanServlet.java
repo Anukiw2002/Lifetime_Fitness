@@ -74,8 +74,9 @@ public class AddMembershipPlanServlet extends HttpServlet {
             String startTimeStr = request.getParameter("startTime");
             String endTimeStr = request.getParameter("endTime");
             String pricingType = request.getParameter("pricingType");
+            String colour = request.getParameter("colour");
 
-            if (planName == null || startTimeStr == null || endTimeStr == null || pricingType == null) {
+            if (planName == null || startTimeStr == null || endTimeStr == null || pricingType == null || colour == null) {
                 throw new IllegalArgumentException("Missing required fields");
             }
 
@@ -90,7 +91,7 @@ public class AddMembershipPlanServlet extends HttpServlet {
             // Create membership plan
             LocalTime startTime = LocalTime.parse(startTimeStr);
             LocalTime endTime = LocalTime.parse(endTimeStr);
-            MembershipPlan membershipPlan = new MembershipPlan(planName, startTime, endTime, pricingType);
+            MembershipPlan membershipPlan = new MembershipPlan(planName, startTime, endTime, pricingType, colour);
             membershipPlan = membershipPlanDAO.create(membershipPlan);
 
             // Get all duration values and types
