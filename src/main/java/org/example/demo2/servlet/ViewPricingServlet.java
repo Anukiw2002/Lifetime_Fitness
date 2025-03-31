@@ -23,8 +23,8 @@ import org.example.demo2.dao.CategoryPricingDAO;
 import org.example.demo2.util.DBConnection;
 import org.example.demo2.util.SessionUtils;
 
-@WebServlet("/landingPage")
-public class LandingPageServlet extends HttpServlet {
+@WebServlet("/signup/step4")
+public class ViewPricingServlet extends HttpServlet {
     private MembershipPlanDAO membershipPlanDAO;
     private DurationDAO durationDAO;
     private UniformPricingDAO uniformPricingDAO;
@@ -45,6 +45,9 @@ public class LandingPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
+            return; // If not authorized, the redirection will be handled by the utility method
+        }
         try {
             // Fetch all membership plans
             List<MembershipPlan> membershipPlans = membershipPlanDAO.findAll();
@@ -84,6 +87,6 @@ public class LandingPageServlet extends HttpServlet {
         }
 
         // Forward to JSP
-        request.getRequestDispatcher("/WEB-INF/views/common/landingPage.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/client/signUp4.jsp").forward(request, response);
     }
 }

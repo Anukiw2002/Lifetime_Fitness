@@ -22,7 +22,7 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 2.5rem;
 }
@@ -62,7 +62,7 @@ body {
 /* Membership Cards */
 .membership-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 2rem;
 }
 
@@ -124,11 +124,17 @@ body {
 }
 
 /* Price Options */
+
+.price-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
 .price-row {
     background-color: rgba(255, 255, 255, 0.05);
     padding: 1rem;
     border-radius: var(--border-radius);
-    margin-bottom: 0.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -140,14 +146,26 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.label {
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+.price-select {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
 .price {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-color);
+    white-space: nowrap;
 }
 
 .select-btn {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.2rem;
     background-color: var(--primary-color);
     color: white;
     border: none;
@@ -156,6 +174,10 @@ body {
     transition: var(--transition);
     font-weight: 600;
     font-size: 0.875rem;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    min-width: 80px;
 }
 
 .select-btn:hover {
@@ -163,6 +185,7 @@ body {
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
 
 /* Tier-specific colors */
 .platinum .fa-star { color: #e5e5e5; }

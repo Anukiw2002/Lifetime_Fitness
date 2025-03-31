@@ -17,13 +17,14 @@ public class MembershipPlanDAO {
         Connection connection = null;
         try {
             connection = dbConnection.getConnection();
-            String sql = "INSERT INTO membership_plans (plan_name, start_time, end_time, pricing_type) VALUES (?, ?, ?, ?) RETURNING plan_id";
+            String sql = "INSERT INTO membership_plans (plan_name, start_time, end_time, pricing_type, colour) VALUES (?, ?, ?, ?, ?) RETURNING plan_id";
 
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 stmt.setString(1, plan.getPlanName());
                 stmt.setTime(2, Time.valueOf(plan.getStartTime()));
                 stmt.setTime(3, Time.valueOf(plan.getEndTime()));
                 stmt.setString(4, plan.getPricingType());
+                stmt.setString(5, plan.getColour());
 
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
@@ -56,6 +57,7 @@ public class MembershipPlanDAO {
                     plan.setEndTime(rs.getTime("end_time").toLocalTime());
                     plan.setPricingType(rs.getString("pricing_type"));
                     plan.setStatus(rs.getString("status")); // Make sure to get the status
+                    plan.setColour(rs.getString("colour"));
                     return plan;
                 }
             }
@@ -84,6 +86,7 @@ public class MembershipPlanDAO {
                     plan.setStartTime(rs.getTime("start_time").toLocalTime());
                     plan.setEndTime(rs.getTime("end_time").toLocalTime());
                     plan.setPricingType(rs.getString("pricing_type"));
+                    plan.setColour(rs.getString("colour"));
                     plans.add(plan);
                 }
             }
@@ -99,14 +102,15 @@ public class MembershipPlanDAO {
         Connection connection = null;
         try {
             connection = dbConnection.getConnection();
-            String sql = "UPDATE membership_plans SET plan_name = ?, start_time = ?, end_time = ?, pricing_type = ? WHERE plan_id = ?";
+            String sql = "UPDATE membership_plans SET plan_name = ?, start_time = ?, end_time = ?, pricing_type = ?, colour = ? WHERE plan_id = ?";
 
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 stmt.setString(1, plan.getPlanName());
                 stmt.setTime(2, Time.valueOf(plan.getStartTime()));
                 stmt.setTime(3, Time.valueOf(plan.getEndTime()));
                 stmt.setString(4, plan.getPricingType());
-                stmt.setLong(5, plan.getPlanId());
+                stmt.setString(5, plan.getColour());
+                stmt.setLong(6, plan.getPlanId());
                 stmt.executeUpdate();
             }
         } finally {
