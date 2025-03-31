@@ -33,38 +33,61 @@ public class ClientWorkoutsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
+            return; // If not authorized, the redirection will be handled by the utility method
+        }
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userRole") == null) {
+            // If the session is invalid or the user is not logged in, redirect to the login page
+            response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
 
-        // Get and validate userId
-        Long userId;
-        try {
-            userId = Long.parseLong(request.getParameter("userId"));
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid user ID");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String clientPhone = request.getParameter("clientPhone");
+
+        // Use clientPhone parameter if phoneNumber is not provided
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
+            phoneNumber = clientPhone;
+        }
+
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
+            response.sendRedirect("searchClient");
             return;
         }
 
         try {
             // Get client information
-            Client client = clientDAO.findById(userId);
+            Client client = clientDAO.findByPhoneNumber(phoneNumber);
             if (client == null) {
                 response.sendRedirect("searchClient");
                 return;
             }
 
-            // Get workouts
-            List<ClientWorkout> workouts = clientWorkoutDAO.findByUserId(userId);
+            // Store client ID in session for further operations if not already stored
+            if (session.getAttribute("clientUserId") == null) {
+                session.setAttribute("clientUserId", client.getUserId());
+            }
 
-            // Set attributes
+            // Get all workouts for the client
+            List<ClientWorkout> workouts = clientWorkoutDAO.findByClientPhone(phoneNumber);
+
+            // Convert LocalDateTime to Date for each workout
+            for (ClientWorkout workout : workouts) {
+                if (workout.getCreatedAt() != null) {
+                    Date date = Date.from(workout.getCreatedAt()
+                            .atZone(ZoneId.systemDefault())
+                            .toInstant());
+                    workout.setCreatedAtDate(date);
+                }
+            }
+
+            // Set attributes for the JSP
             request.setAttribute("client", client);
             request.setAttribute("workouts", workouts);
 
-            // Forward to JSP
-            request.getRequestDispatcher("/WEB-INF/views/instructor/client-workouts.jsp")
-                    .forward(request, response);
+            // Forward to the JSP page
+            request.getRequestDispatcher("/WEB-INF/views/instructor/client-workouts.jsp").forward(request, response);
 
         } catch (SQLException e) {
             throw new ServletException("Database error occurred", e);

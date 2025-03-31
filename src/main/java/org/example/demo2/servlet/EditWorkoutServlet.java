@@ -34,31 +34,29 @@ public class EditWorkoutServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
+            // If the session is invalid or user is not logged in, redirect to the login page
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
-
-        String workoutIdStr = request.getParameter("workoutId");
+        String workoutId = request.getParameter("workoutId");
 
         try {
-            if (workoutIdStr == null || workoutIdStr.trim().isEmpty() || !workoutIdStr.matches("\\d+")) {
-                response.sendRedirect(request.getContextPath() + "/instructor/clientWorkouts");
+            if (workoutId == null || workoutId.trim().isEmpty()) {
+                response.sendRedirect("clientWorkouts");
                 return;
             }
-            Long workoutId = Long.parseLong(workoutIdStr);
 
-            // Load workout with exercises
-            ClientWorkout workout = clientWorkoutDAO.findById(workoutId);
+            // Load the workout with exercises
+            ClientWorkout workout = clientWorkoutDAO.findWithExercises(Long.parseLong(workoutId));
             if (workout == null) {
-                response.sendRedirect(request.getContextPath() + "/instructor/clientWorkouts");
+                response.sendRedirect("clientWorkouts");
                 return;
             }
 
-            List<WorkoutExercise> workoutExercises = workoutExerciseDAO.findByWorkoutId(workoutId);
+            // Load all available exercises for the add exercise dropdown
             List<Exercise> availableExercises = exerciseDAO.findAll();
 
             request.setAttribute("workout", workout);
-            request.setAttribute("workoutExercises", workoutExercises);
             request.setAttribute("availableExercises", availableExercises);
             request.getRequestDispatcher("/WEB-INF/views/instructor/edit-workout.jsp")
                     .forward(request, response);
@@ -66,7 +64,7 @@ public class EditWorkoutServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new ServletException("Database error occurred", e);
         } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/instructor/clientWorkouts");
+            response.sendRedirect("clientWorkouts");
         }
     }
 
@@ -75,8 +73,8 @@ public class EditWorkoutServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             String workoutIdStr = request.getParameter("workoutId");
-            if (workoutIdStr == null || workoutIdStr.trim().isEmpty() || !workoutIdStr.matches("\\d+")) {
-                throw new ServletException("Invalid Workout ID");
+            if (workoutIdStr == null || workoutIdStr.trim().isEmpty()) {
+                throw new ServletException("Workout ID is required");
             }
             Long workoutId = Long.parseLong(workoutIdStr);
 
@@ -85,14 +83,11 @@ public class EditWorkoutServlet extends HttpServlet {
             String[] reps = request.getParameterValues("reps");
             String[] notes = request.getParameterValues("notes");
 
-            // Validate required fields
+            // Validate that we have all required arrays and they're the same length
             if (exerciseIds == null || setNumbers == null || reps == null || notes == null ||
-                    exerciseIds.length != setNumbers.length ||
-                    exerciseIds.length != reps.length ||
+                    exerciseIds.length != setNumbers.length || exerciseIds.length != reps.length ||
                     exerciseIds.length != notes.length) {
-                request.setAttribute("errorMessage", "All fields must be filled correctly.");
-                doGet(request, response);
-                return;
+                throw new ServletException("Invalid form data submitted");
             }
 
             // Check for duplicate exercises
@@ -102,7 +97,7 @@ public class EditWorkoutServlet extends HttpServlet {
                     Long parsedExerciseId = Long.parseLong(exerciseId.trim());
                     if (uniqueExerciseIds.contains(parsedExerciseId)) {
                         request.setAttribute("errorMessage", "Duplicate exercises are not allowed.");
-                        doGet(request, response);
+                        doGet(request, response); // Reload the page with an error message
                         return;
                     }
                     uniqueExerciseIds.add(parsedExerciseId);
@@ -112,14 +107,13 @@ public class EditWorkoutServlet extends HttpServlet {
             // Delete existing exercises
             workoutExerciseDAO.deleteByWorkoutId(workoutId);
 
-            // Add exercises from the form
+            // Add all exercises from the form
             for (int i = 0; i < exerciseIds.length; i++) {
-                if (exerciseIds[i].trim().isEmpty() ||
-                        setNumbers[i].trim().isEmpty() ||
-                        reps[i].trim().isEmpty()) {
-                    request.setAttribute("errorMessage", "Exercise fields cannot be empty.");
-                    doGet(request, response);
-                    return;
+                // Skip if essential values are empty
+                if (exerciseIds[i] == null || exerciseIds[i].trim().isEmpty() ||
+                        setNumbers[i] == null || setNumbers[i].trim().isEmpty() ||
+                        reps[i] == null || reps[i].trim().isEmpty()) {
+                    continue;
                 }
 
                 WorkoutExercise workoutExercise = new WorkoutExercise();
@@ -132,13 +126,15 @@ public class EditWorkoutServlet extends HttpServlet {
                 workoutExerciseDAO.create(workoutExercise);
             }
 
-            response.sendRedirect(request.getContextPath() + "/instructor/workoutDetails?workoutId=" + workoutId);
+            // Get the workout to get client phone for redirection
+            ClientWorkout workout = clientWorkoutDAO.findWithExercises(workoutId);
+            response.sendRedirect(request.getContextPath() +
+                    "/instructor/workoutDetails?workoutId=" + workoutId);
 
         } catch (SQLException e) {
             throw new ServletException("Database error occurred", e);
         } catch (NumberFormatException e) {
-            request.setAttribute("errorMessage", "Invalid number format in form data.");
-            doGet(request, response);
+            throw new ServletException("Invalid number format in form data", e);
         }
     }
 }

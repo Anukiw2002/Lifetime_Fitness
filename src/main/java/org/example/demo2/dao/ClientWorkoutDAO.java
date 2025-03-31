@@ -1,9 +1,7 @@
 package org.example.demo2.dao;
 
-import org.example.demo2.model.ClientWorkout;
-import org.example.demo2.model.WorkoutExercise;
+import org.example.demo2.model.*;
 import org.example.demo2.util.DBConnection;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,156 +13,279 @@ public class ClientWorkoutDAO {
         this.dbConnection = dbConnection;
     }
 
-    // In ClientWorkoutDAO.java
-    public boolean workoutNameExists(Long userId, String workoutName) throws SQLException {
-        String query = "SELECT COUNT(*) FROM client_workouts WHERE user_id = ? AND workout_name = ?";
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, userId);  // Changed from setString to setLong
-            statement.setString(2, workoutName);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                return resultSet.next() && resultSet.getInt(1) > 0;
+    public List<ClientWorkout> findByClientPhone(String clientPhone) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            List<ClientWorkout> workouts = new ArrayList<>();
+            String sql = "SELECT w.*, c.category_name, cd.phone_number, u.full_name AS client_name " +
+                    "FROM client_workouts w " +
+                    "JOIN workout_categories c ON w.category_id = c.category_id " +
+                    "JOIN client_details cd ON w.user_id = cd.user_id " +
+                    "JOIN users u ON cd.user_id = u.id " +
+                    "WHERE cd.phone_number = ? " +
+                    "ORDER BY w.created_at DESC";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, clientPhone);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    ClientWorkout workout = new ClientWorkout();
+                    workout.setWorkoutId(rs.getLong("workout_id"));
+                    workout.setUserId(rs.getLong("user_id"));
+                    workout.setWorkoutName(rs.getString("workout_name"));
+                    workout.setCategoryId(rs.getLong("category_id"));
+                    workout.setInstructorId(rs.getLong("instructor_id"));
+                    workout.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                    workout.setClientPhone(rs.getString("phone_number"));
+                    workout.setClientName(rs.getString("client_name"));
+
+                    // Create and set the category
+                    WorkoutCategory category = new WorkoutCategory();
+                    category.setCategoryId(rs.getLong("category_id"));
+                    category.setCategoryName(rs.getString("category_name"));
+                    workout.setCategory(category);
+
+                    workouts.add(workout);
+                }
             }
+            return workouts;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public List<ClientWorkout> findByUserId(Long userId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            List<ClientWorkout> workouts = new ArrayList<>();
+            String sql = "SELECT w.*, c.category_name, cd.phone_number, u.full_name AS client_name " +
+                    "FROM client_workouts w " +
+                    "JOIN workout_categories c ON w.category_id = c.category_id " +
+                    "JOIN client_details cd ON w.user_id = cd.user_id " +
+                    "JOIN users u ON cd.user_id = u.id " +
+                    "WHERE w.user_id = ? " +
+                    "ORDER BY w.created_at DESC";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, userId);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    ClientWorkout workout = new ClientWorkout();
+                    workout.setWorkoutId(rs.getLong("workout_id"));
+                    workout.setUserId(rs.getLong("user_id"));
+                    workout.setWorkoutName(rs.getString("workout_name"));
+                    workout.setCategoryId(rs.getLong("category_id"));
+                    workout.setInstructorId(rs.getLong("instructor_id"));
+                    workout.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                    workout.setClientPhone(rs.getString("phone_number"));
+                    workout.setClientName(rs.getString("client_name"));
+
+                    // Create and set the category
+                    WorkoutCategory category = new WorkoutCategory();
+                    category.setCategoryId(rs.getLong("category_id"));
+                    category.setCategoryName(rs.getString("category_name"));
+                    workout.setCategory(category);
+
+                    workouts.add(workout);
+                }
+            }
+            return workouts;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public ClientWorkout findWithExercises(Long workoutId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+
+            // First get the workout with complete details
+            String sql = "SELECT w.*, c.category_name, cd.phone_number, u.full_name AS client_name " +
+                    "FROM client_workouts w " +
+                    "JOIN workout_categories c ON w.category_id = c.category_id " +
+                    "JOIN client_details cd ON w.user_id = cd.user_id " +
+                    "JOIN users u ON cd.user_id = u.id " +
+                    "WHERE w.workout_id = ?";
+
+            ClientWorkout workout = null;
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, workoutId);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    workout = new ClientWorkout();
+                    workout.setWorkoutId(rs.getLong("workout_id"));
+                    workout.setUserId(rs.getLong("user_id"));
+                    workout.setWorkoutName(rs.getString("workout_name"));
+                    workout.setCategoryId(rs.getLong("category_id"));
+                    workout.setInstructorId(rs.getLong("instructor_id"));
+                    workout.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                    workout.setClientPhone(rs.getString("phone_number"));
+                    workout.setClientName(rs.getString("client_name"));
+
+                    // Set the category
+                    WorkoutCategory category = new WorkoutCategory();
+                    category.setCategoryId(rs.getLong("category_id"));
+                    category.setCategoryName(rs.getString("category_name"));
+                    workout.setCategory(category);
+                }
+            }
+
+            if (workout != null) {
+                // Get exercises for this workout using WorkoutExerciseDAO
+                WorkoutExerciseDAO exerciseDAO = new WorkoutExerciseDAO(dbConnection);
+                List<WorkoutExercise> exercises = exerciseDAO.findByWorkoutId(workoutId);
+                workout.setExercises(exercises);
+            }
+
+            return workout;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+   /* public void delete(Long workoutId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            connection.setAutoCommit(false); // Start transaction
+
+            // First delete associated exercises
+            String deleteExercisesSql = "DELETE FROM workout_exercises WHERE workout_id = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(deleteExercisesSql)) {
+                stmt.setLong(1, workoutId);
+                stmt.executeUpdate();
+            }
+
+            // Then delete the workout
+            String deleteWorkoutSql = "DELETE FROM client_workouts WHERE workout_id = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(deleteWorkoutSql)) {
+                stmt.setLong(1, workoutId);
+                stmt.executeUpdate();
+            }
+
+            connection.commit(); // Commit transaction
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback(); // Rollback in case of error
+                } catch (SQLException ex) {
+                    throw new SQLException("Error rolling back transaction", ex);
+                }
+            }
+            throw e;
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true); // Reset auto-commit
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new SQLException("Error closing connection", e);
+                }
+            }
+        }
+    } */
+
+
+    public boolean delete(Long workoutId) throws SQLException {
+        String sql = "DELETE FROM client_workouts WHERE workout_id = ?";
+
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, workoutId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Error in ClientWorkoutDAO.delete: " + e.getMessage());
+            throw e;
         }
     }
 
     public ClientWorkout create(ClientWorkout workout) throws SQLException {
-        String query = "INSERT INTO client_workouts (user_id, workout_name, category_id, instructor_id, created_at) " +
-                "VALUES (?, ?, ?, ?, ?) RETURNING workout_id";
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, workout.getUserId());
-            statement.setString(2, workout.getWorkoutName());
-            statement.setLong(3, workout.getCategoryId());
-            statement.setLong(4, workout.getInstructorId());
-            statement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "INSERT INTO client_workouts (user_id, workout_name, category_id, instructor_id) " +
+                    "VALUES (?, ?, ?, ?) " +
+                    "RETURNING workout_id, created_at";
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    workout.setWorkoutId(resultSet.getLong(1));
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, workout.getUserId());
+                stmt.setString(2, workout.getWorkoutName());
+                stmt.setLong(3, workout.getCategoryId());
+                stmt.setLong(4, workout.getInstructorId());
+
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    workout.setWorkoutId(rs.getLong("workout_id"));
+                    workout.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
                 }
             }
+            return workout;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
         }
-        return workout;
     }
 
-    public ClientWorkout findWithExercises(Long workoutId) throws SQLException {
-        String workoutQuery = "SELECT * FROM client_workouts WHERE workout_id = ?";
-        String exercisesQuery = "SELECT * FROM workout_exercises WHERE workout_id = ?";
+    public boolean workoutNameExists(Long userId, String workoutName) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "SELECT COUNT(*) FROM client_workouts WHERE user_id = ? AND workout_name = ?";
 
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement workoutStatement = connection.prepareStatement(workoutQuery);
-             PreparedStatement exercisesStatement = connection.prepareStatement(exercisesQuery)) {
-
-            workoutStatement.setLong(1, workoutId);
-            exercisesStatement.setLong(1, workoutId);
-
-            try (ResultSet workoutResultSet = workoutStatement.executeQuery()) {
-                if (workoutResultSet.next()) {
-                    ClientWorkout workout = new ClientWorkout();
-                    workout.setWorkoutId(workoutResultSet.getLong("workout_id"));
-                    workout.setUserId(workoutResultSet.getLong("user_id"));
-                    workout.setWorkoutName(workoutResultSet.getString("workout_name"));
-                    workout.setCategoryId(workoutResultSet.getLong("category_id"));
-                    workout.setInstructorId(workoutResultSet.getLong("instructor_id"));
-                    workout.setCreatedAt(workoutResultSet.getTimestamp("created_at"));
-
-                    List<WorkoutExercise> exercises = new ArrayList<>();
-                    try (ResultSet exercisesResultSet = exercisesStatement.executeQuery()) {
-                        while (exercisesResultSet.next()) {
-                            WorkoutExercise exercise = new WorkoutExercise();
-                            exercise.setWorkoutId(workoutId);
-                            exercise.setExerciseId(exercisesResultSet.getLong("exercise_id"));
-                            exercise.setSetNumber(exercisesResultSet.getInt("set_number"));
-                            exercise.setReps(exercisesResultSet.getInt("reps"));
-                            exercise.setNotes(exercisesResultSet.getString("notes"));
-                            exercises.add(exercise);
-                        }
-                    }
-                    workout.setExercises(exercises);
-                    return workout;
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, userId);
+                stmt.setString(2, workoutName);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
                 }
+                return false;
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
             }
         }
-        return null;
     }
 
-    public List<ClientWorkout> findByUserId(Long userId) throws SQLException {
-        String sql = "SELECT * FROM client_workouts WHERE user_id = ?";
-        List<ClientWorkout> workouts = new ArrayList<>();
+    // Keep this for backward compatibility
+    public boolean workoutNameExists(String clientPhone, String workoutName) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "SELECT COUNT(*) FROM client_workouts cw " +
+                    "JOIN client_details cd ON cw.user_id = cd.user_id " +
+                    "WHERE cd.phone_number = ? AND cw.workout_name = ?";
 
-        try (Connection conn = dbConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setLong(1, userId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                ClientWorkout workout = new ClientWorkout();
-                workout.setWorkoutId(rs.getLong("workout_id"));
-                workout.setUserId(rs.getLong("user_id"));
-                workout.setWorkoutName(rs.getString("workout_name"));
-                workout.setCategoryId(rs.getLong("category_id"));
-                workout.setInstructorId(rs.getLong("instructor_id"));
-                workout.setCreatedAt(rs.getTimestamp("created_at"));
-                workouts.add(workout);
-            }
-        }
-        return workouts;
-    }
-
-    private ClientWorkout mapResultSetToWorkout(ResultSet rs) throws SQLException {
-        ClientWorkout workout = new ClientWorkout();
-        workout.setWorkoutId(rs.getLong("workout_id"));
-        workout.setUserId(rs.getLong("user_id"));  // Ensure this matches your model
-        workout.setWorkoutName(rs.getString("workout_name"));
-        // Set other fields...
-        return workout;
-    }
-
-    public ClientWorkout findById(Long workoutId) throws SQLException {
-        String query = "SELECT * FROM client_workouts WHERE workout_id = ?";
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, workoutId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    ClientWorkout workout = new ClientWorkout();
-                    workout.setWorkoutId(resultSet.getLong("workout_id"));
-                    workout.setUserId(resultSet.getLong("user_id"));
-                    workout.setWorkoutName(resultSet.getString("workout_name"));
-                    workout.setCategoryId(resultSet.getLong("category_id"));
-                    workout.setInstructorId(resultSet.getLong("instructor_id"));
-                    workout.setCreatedAt(resultSet.getTimestamp("created_at"));
-                    return workout;
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, clientPhone);
+                stmt.setString(2, workoutName);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
                 }
+                return false;
             }
-        }
-        return null;
-    }
-
-    public void delete(Long workoutId) throws SQLException {
-        // First delete exercises to maintain referential integrity
-        String deleteExercisesQuery = "DELETE FROM workout_exercises WHERE workout_id = ?";
-        String deleteWorkoutQuery = "DELETE FROM client_workouts WHERE workout_id = ?";
-
-        try (Connection connection = dbConnection.getConnection()) {
-            // Start transaction
-            connection.setAutoCommit(false);
-
-            try (PreparedStatement deleteExercises = connection.prepareStatement(deleteExercisesQuery);
-                 PreparedStatement deleteWorkout = connection.prepareStatement(deleteWorkoutQuery)) {
-
-                deleteExercises.setLong(1, workoutId);
-                deleteExercises.executeUpdate();
-
-                deleteWorkout.setLong(1, workoutId);
-                deleteWorkout.executeUpdate();
-
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                throw e;
-            } finally {
-                connection.setAutoCommit(true);
+        } finally {
+            if (connection != null) {
+                connection.close();
             }
         }
     }

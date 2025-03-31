@@ -1,58 +1,46 @@
 package org.example.demo2.model;
 
-import java.sql.Date;
-
 public class Client {
-    private Long id; // Matches 'id' column in client_workout table
-    private Long userId; // Changed from int to Long to match database schema
-    private String clientPhone;
+    private Long id;
+    private Long userId;
+    private String phoneNumber;
     private String address;
-    private Date dateOfBirth;
+    private String dateOfBirth;
     private String emergencyContactName;
     private String emergencyContactNumber;
-    private String name;
+    private String name; // We'll keep this for convenience, retrieving from users table
+    private String email; // We'll keep this for convenience, retrieving from users table
 
     // Constructors
     public Client() {}
 
-    public Client(Long id, Long userId, String clientPhone, String address, Date dateOfBirth,
-                  String emergencyContactName, String emergencyContactNumber, String name) {
-        this.id = id;
+    public Client(Long userId, String phoneNumber, String address, String dateOfBirth,
+                  String emergencyContactName, String emergencyContactNumber) {
         this.userId = userId;
-        this.clientPhone = clientPhone;
+        this.phoneNumber = phoneNumber;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
         this.emergencyContactName = emergencyContactName;
         this.emergencyContactNumber = emergencyContactNumber;
-        this.name = name;
     }
 
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
     public Long getUserId() { return userId; }
     public void setUserId(Long userId) { this.userId = userId; }
-
-    public String getClientPhone() { return clientPhone; }
-    public void setClientPhone(String clientPhone) { this.clientPhone = clientPhone; }
-
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
-
-    public Date getDateOfBirth() { return dateOfBirth; }
-    public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
-
+    public String getDateOfBirth() { return dateOfBirth; }
+    public void setDateOfBirth(String dateOfBirth) { this.dateOfBirth = dateOfBirth; }
     public String getEmergencyContactName() { return emergencyContactName; }
-    public void setEmergencyContactName(String emergencyContactName) {
-        this.emergencyContactName = emergencyContactName;
-    }
-
+    public void setEmergencyContactName(String emergencyContactName) { this.emergencyContactName = emergencyContactName; }
     public String getEmergencyContactNumber() { return emergencyContactNumber; }
-    public void setEmergencyContactNumber(String emergencyContactNumber) {
-        this.emergencyContactNumber = emergencyContactNumber;
-    }
-
+    public void setEmergencyContactNumber(String emergencyContactNumber) { this.emergencyContactNumber = emergencyContactNumber; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 }

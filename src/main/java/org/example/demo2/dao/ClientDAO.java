@@ -11,39 +11,75 @@ public class ClientDAO {
         this.dbConnection = dbConnection;
     }
 
-    // Add this method to your ClientDAO class:
-    public Client findById(Long userId) throws SQLException {
-        String query = "SELECT * FROM clients WHERE user_id = ?";
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, userId);  // Using setLong instead of setInt
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+    public Client findByPhoneNumber(String phoneNumber) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "SELECT cd.id, cd.user_id, cd.phone_number, cd.address, cd.date_of_birth, " +
+                    "cd.emergency_contact_name, cd.emergency_contact_number, u.full_name AS name, u.email " +
+                    "FROM client_details cd " +
+                    "JOIN users u ON cd.user_id = u.id " +
+                    "WHERE cd.phone_number = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, phoneNumber);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
                     Client client = new Client();
-                    client.setUserId(resultSet.getLong("user_id"));  // Using getLong
-                    // Set other fields...
+                    client.setId(rs.getLong("id"));
+                    client.setUserId(rs.getLong("user_id"));
+                    client.setPhoneNumber(rs.getString("phone_number"));
+                    client.setAddress(rs.getString("address"));
+                    client.setDateOfBirth(rs.getString("date_of_birth"));
+                    client.setEmergencyContactName(rs.getString("emergency_contact_name"));
+                    client.setEmergencyContactNumber(rs.getString("emergency_contact_number"));
+                    client.setName(rs.getString("name"));
+                    client.setEmail(rs.getString("email"));
                     return client;
                 }
+                return null;
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
             }
         }
-        return null;
     }
 
-    public Client getById(Long clientId) throws SQLException {
-        String sql = "SELECT * FROM clients WHERE user_id = ?";
-        try (Connection conn = dbConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setLong(1, clientId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                Client client = new Client();
-                client.setUserId(rs.getLong("user_id"));
-                client.setName(rs.getString("name"));
-                client.setClientPhone(rs.getString("client_phone"));
-                // Set other fields...
-                return client;
+    public Client findByUserId(Long userId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dbConnection.getConnection();
+            String sql = "SELECT cd.id, cd.user_id, cd.phone_number, cd.address, cd.date_of_birth, " +
+                    "cd.emergency_contact_name, cd.emergency_contact_number, u.full_name AS name, u.email " +
+                    "FROM client_details cd " +
+                    "JOIN users u ON cd.user_id = u.id " +
+                    "WHERE cd.user_id = ?";
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setLong(1, userId);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    Client client = new Client();
+                    client.setId(rs.getLong("id"));
+                    client.setUserId(rs.getLong("user_id"));
+                    client.setPhoneNumber(rs.getString("phone_number"));
+                    client.setAddress(rs.getString("address"));
+                    client.setDateOfBirth(rs.getString("date_of_birth"));
+                    client.setEmergencyContactName(rs.getString("emergency_contact_name"));
+                    client.setEmergencyContactNumber(rs.getString("emergency_contact_number"));
+                    client.setName(rs.getString("name"));
+                    client.setEmail(rs.getString("email"));
+                    return client;
+                }
+                return null;
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
             }
         }
-        return null;
     }
 }

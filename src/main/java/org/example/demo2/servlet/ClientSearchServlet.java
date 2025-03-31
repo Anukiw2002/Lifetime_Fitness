@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.*;
 import org.example.demo2.model.*;
 import org.example.demo2.util.DBConnection;
-import org.example.demo2.util.SessionUtils;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,13 +14,14 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+
 @WebServlet("/instructor/searchClient")
 public class ClientSearchServlet extends HttpServlet {
     private ClientDAO clientDAO;
 
     @Override
     public void init() throws ServletException {
-        DBConnection dbConnection = new DBConnection();
+        DBConnection dbConnection = new DBConnection(); // Assume you have this configured
         this.clientDAO = new ClientDAO(dbConnection);
     }
 
@@ -29,44 +29,34 @@ public class ClientSearchServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Check authorization first
-        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
-            return;
+        String phoneNumber = request.getParameter("phoneNumber");
+        String clientPhone = request.getParameter("clientPhone");
+
+        // Use clientPhone parameter if phoneNumber is not provided
+        if (clientPhone != null && !clientPhone.trim().isEmpty()) {
+            phoneNumber = clientPhone;
         }
 
-        // Check if we're searching by ID
-        String userIdParam = request.getParameter("userId");
-
-        if (userIdParam != null && !userIdParam.trim().isEmpty()) {
+        if (phoneNumber != null && !phoneNumber.trim().isEmpty()) {
             try {
-                Long userId = Long.parseLong(userIdParam);
-                Client client = clientDAO.findById(userId);
-
+                Client client = clientDAO.findByPhoneNumber(phoneNumber);
                 if (client != null) {
-                    // Store client info in session
+                    // Store client ID in session for further operations
                     HttpSession session = request.getSession();
-                    session.setAttribute("clientId", client.getId());
-                    session.setAttribute("userId", client.getUserId());
-                    session.setAttribute("clientName", client.getName());
+                    session.setAttribute("clientUserId", client.getUserId());
 
-                    // Redirect to client workouts page using ID
-                    response.sendRedirect("clientWorkouts?userId=" + userId);
+                    // Redirect to client workouts page
+                    response.sendRedirect("clientWorkouts?phoneNumber=" + phoneNumber);
                 } else {
-                    request.setAttribute("errorMessage", "No client found with this ID");
-                    request.getRequestDispatcher("/WEB-INF/views/instructor/client-search.jsp")
-                            .forward(request, response);
+                    request.setAttribute("errorMessage", "No client found with this phone number");
+                    request.getRequestDispatcher("/WEB-INF/views/instructor/client-search.jsp").forward(request, response);
                 }
-            } catch (NumberFormatException e) {
-                request.setAttribute("errorMessage", "Invalid client ID format");
-                request.getRequestDispatcher("/WEB-INF/views/instructor/client-search.jsp")
-                        .forward(request, response);
             } catch (SQLException e) {
                 throw new ServletException("Database error occurred", e);
             }
         } else {
-            // First time visiting the page or no ID entered
-            request.getRequestDispatcher("/WEB-INF/views/instructor/client-search.jsp")
-                    .forward(request, response);
+            // First time visiting the page or no phone number entered
+            request.getRequestDispatcher("/WEB-INF/views/instructor/client-search.jsp").forward(request, response);
         }
     }
 }
