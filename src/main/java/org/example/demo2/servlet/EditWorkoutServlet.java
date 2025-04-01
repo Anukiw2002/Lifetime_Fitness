@@ -34,7 +34,7 @@ public class EditWorkoutServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
+            // If the session is invalid or user is not logged in, redirect to the login page
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
@@ -126,6 +126,8 @@ public class EditWorkoutServlet extends HttpServlet {
                 workoutExerciseDAO.create(workoutExercise);
             }
 
+            // Get the workout to get client phone for redirection
+            ClientWorkout workout = clientWorkoutDAO.findWithExercises(workoutId);
             response.sendRedirect(request.getContextPath() +
                     "/instructor/workoutDetails?workoutId=" + workoutId);
 
@@ -135,6 +137,4 @@ public class EditWorkoutServlet extends HttpServlet {
             throw new ServletException("Invalid number format in form data", e);
         }
     }
-
-
 }

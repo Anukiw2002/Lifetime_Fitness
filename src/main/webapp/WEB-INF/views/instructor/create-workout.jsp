@@ -15,6 +15,13 @@
             <i class="fas fa-arrow-left"></i> Back to Workouts
         </button>
 
+        <c:if test="${not empty client}">
+            <div class="flex items-center gap-md">
+                <i class="fas fa-user"></i>
+                <span>${client.name}</span>
+            </div>
+        </c:if>
+
         <form action="createWorkout" method="POST" class="card" id="workoutForm" onsubmit="return validateForm()">
             <input type="hidden" name="clientPhone" value="${param.clientPhone}">
 
@@ -44,21 +51,18 @@
 
                 <div class="mt-4">
                     <h3 class="mb-3">Exercises</h3>
-                    <div id="exerciseList" class="grid gap-lg">
-                        <!-- Exercise items will be added here -->
-                    </div>
-
+                    <div id="exerciseList" class="grid gap-lg"></div>
                     <button type="button" class="btn btn-secondary mt-3" onclick="addExercise()">
                         <i class="fas fa-plus"></i> Add Exercise
                     </button>
                 </div>
             </div>
 
-                <div class="flex justify-end">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Create Workout
-                    </button>
-                </div>
+            <div class="flex justify-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Create Workout
+                </button>
+            </div>
         </form>
     </div>
 </div>
@@ -71,46 +75,36 @@
         const exerciseItem = document.createElement('div');
         exerciseItem.className = 'card';
         exerciseItem.dataset.index = exerciseCount;
-
         exerciseItem.innerHTML = `
-                <div class="card-body">
-                    <button type="button" class="btn btn-danger" style="position: absolute; top: 10px; right: 10px;" onclick="removeExercise(this.parentElement.parentElement)">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="grid grid-3 gap-md">
-                        <div class="form-group">
-                            <label class="form-label" for="exercise_${exerciseCount}">Exercise</label>
-                            <select id="exercise_${exerciseCount}" name="exerciseId" class="form-control" required>
-                                <option value="">Select Exercise</option>
-                                <c:forEach var="exercise" items="${exercises}">
-                                    <option value="${exercise.exerciseId}">${exercise.exerciseName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="sets_${exerciseCount}">Sets</label>
-                            <input type="number" id="sets_${exerciseCount}"
-                                   name="setNumber"
-                                   class="form-control"
-                                   min="1" required value="1">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="reps_${exerciseCount}">Reps</label>
-                            <input type="number" id="reps_${exerciseCount}"
-                                   name="reps"
-                                   class="form-control"
-                                   min="1" required value="1">
-                        </div>
+            <div class="card-body">
+                <button type="button" class="btn btn-danger" style="position: absolute; top: 10px; right: 10px;" onclick="removeExercise(this.parentElement.parentElement)">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="grid grid-3 gap-md">
+                    <div class="form-group">
+                        <label class="form-label" for="exercise_${exerciseCount}">Exercise</label>
+                        <select id="exercise_${exerciseCount}" name="exerciseId" class="form-control" required>
+                            <option value="">Select Exercise</option>
+                            <c:forEach var="exercise" items="${exercises}">
+                                <option value="${exercise.exerciseId}">${exercise.exerciseName}</option>
+                            </c:forEach>
+                        </select>
                     </div>
-                    <div class="form-group mt-3">
-                        <label class="form-label" for="notes_${exerciseCount}">Notes</label>
-                        <textarea id="notes_${exerciseCount}"
-                                 name="notes" rows="2"
-                                 class="form-control"></textarea>
+                    <div class="form-group">
+                        <label class="form-label" for="sets_${exerciseCount}">Sets</label>
+                        <input type="number" id="sets_${exerciseCount}" name="setNumber" class="form-control" min="1" required value="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="reps_${exerciseCount}">Reps</label>
+                        <input type="number" id="reps_${exerciseCount}" name="reps" class="form-control" min="1" required value="1">
                     </div>
                 </div>
-            `;
-
+                <div class="form-group mt-3">
+                    <label class="form-label" for="notes_${exerciseCount}">Notes</label>
+                    <textarea id="notes_${exerciseCount}" name="notes" rows="2" class="form-control"></textarea>
+                </div>
+            </div>
+        `;
         exerciseList.appendChild(exerciseItem);
         exerciseCount++;
     }
@@ -129,10 +123,7 @@
     }
 
     function validateForm() {
-        if (!validateWorkoutName()) {
-            return false;
-        }
-
+        if (!validateWorkoutName()) return false;
         const exerciseList = document.getElementById('exerciseList');
         if (exerciseList.children.length === 0) {
             alert('Please add at least one exercise to the workout.');
@@ -141,7 +132,6 @@
         return true;
     }
 
-    // Add first exercise by default when page loads
     document.addEventListener('DOMContentLoaded', function() {
         addExercise();
     });
