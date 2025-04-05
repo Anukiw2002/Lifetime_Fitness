@@ -42,7 +42,7 @@
     color: white;
 }
 
-.status-badge.suspended {
+.status-badge.expired {
     background-color: var(--warning-color);
     color: var(--bg-dark);
 }
@@ -71,3 +71,26 @@
 .action-button.edit:hover { color: var(--primary-color); }
 .action-button.suspend:hover { color: var(--warning-color); }
 .action-button.cancel:hover { color: var(--danger-color); }
+
+.search-section .flex {
+    display: flex;
+    align-items: center !important;
+    flex-wrap: nowrap;
+}
+
+.form-group.mb-0 {
+    margin-bottom: 0 !important;
+    display: flex;
+    align-items: center;
+}
+
+.form-control {
+    height: 50px;
+}
+
+.btn {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
