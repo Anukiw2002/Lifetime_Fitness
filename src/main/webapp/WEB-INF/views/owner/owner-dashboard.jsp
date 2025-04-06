@@ -21,9 +21,9 @@
         <h1>Dashboard</h1>
 
         <div class="quick-actions">
-            <a href="addMembershipPlan.jsp" class="action-btn">
-                <i class="fas fa-plus"></i>
-                Add Membership Plan
+            <a href="/membership/view" class="action-btn">
+                <i class="fas fa-credit-card"></i>
+                Membership Plans
             </a>
             <a href="/clientMemberships" class="action-btn">
                 <i class="fas fa-dumbbell"></i>
