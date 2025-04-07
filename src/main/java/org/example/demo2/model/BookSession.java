@@ -7,6 +7,7 @@ public class BookSession {
     private int bookingId;
     private Date date;
     private Time timeSlot;
+    private String status;
     private int userId;
 
     public int getBookingId(){
@@ -31,6 +32,14 @@ public class BookSession {
 
     public void setTimeSlot(Time timeSlot){
         this.timeSlot = timeSlot;
+    }
+
+    public String getStatus(){
+        return status;
+    }
+
+    public void setStatus(String status){
+        this.status = status;
     }
 
     public int getUserId(){

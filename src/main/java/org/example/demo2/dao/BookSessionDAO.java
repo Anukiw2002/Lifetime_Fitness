@@ -2,10 +2,7 @@ package org.example.demo2.dao;
 import jakarta.servlet.http.HttpSession;
 import org.example.demo2.util.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class BookSessionDAO {
 
@@ -34,4 +31,26 @@ public class BookSessionDAO {
             e.printStackTrace();
         }
     }
+
+    public boolean createSessionBooking(Date date, Time timeSlot, String status, int userId){
+        String sql = "INSERT INTO bookings (date, timeSlot, status, userId) VALUES (?,?,?,?)";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setDate(1, date);
+            pstmt.setTime(2, timeSlot);
+            pstmt.setString(3, status);
+            pstmt.setInt(4, userId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Replace with logger in real apps
+            return false;
+        }
+    }
+
 }
+
