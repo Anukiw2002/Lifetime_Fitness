@@ -118,7 +118,7 @@
                             <div class="stats-container">
                                 <div class="grid grid-2 gap-md">
                                     <div>
-                                        ${exercise.exercise.exerciseName}
+                                            ${exercise.exercise.exerciseName}
                                     </div>
                                     <div>
                                         <div class="stats-label">Sets</div>
@@ -142,7 +142,7 @@
                 </div>
             </div>
             <div class="flex mb-4">
-                <a href="/workoutOptionss?page=workoutLogs" class="btn btn-success">
+                <a href="${pageContext.request.contextPath}/StartExercises?workoutId=${workout.workoutId}" class="btn btn-success">
                     START
                 </a>
             </div>
