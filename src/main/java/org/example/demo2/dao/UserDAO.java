@@ -191,6 +191,38 @@ public class UserDAO implements IUserDAO {
         }
     }
 
+    public User getUserById(int userId) throws SQLException {
+        String sql = "SELECT id, full_name, username, email, hashed_password, reset_token, token_expiry, role FROM users WHERE id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Create and return a User object with all data
+                    User user = new User(
+                            rs.getInt("id"),
+                            rs.getString("full_name"),
+                            rs.getString("username"),
+                            rs.getString("email"),
+                            rs.getString("hashed_password"),
+                            rs.getString("reset_token"),
+                            rs.getTimestamp("token_expiry"),
+                            rs.getString("role")
+                    );
+                    return user;
+                }
+                return null;
+            }
+        } catch (SQLException e) {
+            System.err.println("getUserById: Error retrieving user with ID " + userId);
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
 
     @Override
     public boolean verifyPassword(String plainPassword, String hashedPassword) {

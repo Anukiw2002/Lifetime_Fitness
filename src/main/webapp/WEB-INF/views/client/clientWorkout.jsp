@@ -4,11 +4,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Client Workouts | Lifetime Fitness</title>
+    <title>My Workouts | Lifetime Fitness</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
     <style>
-        /* All your existing CSS remains exactly the same */
         body {
             color: var(--text-color) !important;
         }
@@ -55,19 +54,19 @@
         }
         .alert-info {
             background-color: rgba(0, 123, 255, 0.2);
-            border-left: 4px solid var(--info-color);
+            border-left: 4px solid;
         }
     </style>
 </head>
 <body>
 
 <div class="main-content">
-    <jsp:include page="../client/clientVerticalNavbar.jsp" />
+    <jsp:include page="clientVerticalNavbar.jsp" />
     <div class="container">
         <!-- Client Information Section -->
         <div class="card mb-4">
             <div class="card-header">
-                <h2 class="text-center">Client Information</h2>
+                <h2 class="text-center">My Information</h2>
             </div>
             <div class="card-body">
                 <div class="grid grid-3">
@@ -76,77 +75,80 @@
                         <span>${client.name}</span>
                     </div>
                     <div class="flex items-center gap-md">
-                        <i class="fas fa-id-card"></i>
-                        <span>Client ID: ${client.userId}</span>
-                    </div>
-                    <div class="flex items-center gap-md">
-                        <i class="fas fa-phone"></i>
-                        <span>${client.clientPhone}</span>
+                        <i class="fas fa-envelope"></i>
+                        <span>${client.email}</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Workouts Section -->
-        <c:if test="${not empty param.userId}">
-            <h3 class="mb-3">Workouts for User ID: ${param.userId}</h3>
+        <h3 class="mb-3">My Workouts</h3>
 
-            <c:choose>
-                <c:when test="${not empty workouts}">
-                    <div class="workout-grid">
-                        <c:forEach var="workout" items="${workouts}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="flex items-center mb-3">
-                                        <div class="exercise-icon-container">
-                                            <c:choose>
-                                                <c:when test="${workout.categoryId == 1}">
-                                                    <i class="fas fa-running exercise-icon"></i>
-                                                </c:when>
-                                                <c:when test="${workout.categoryId == 2}">
-                                                    <i class="fas fa-dumbbell exercise-icon"></i>
-                                                </c:when>
-                                                <c:when test="${workout.categoryId == 3}">
-                                                    <i class="fas fa-spa exercise-icon"></i>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <i class="fas fa-heartbeat exercise-icon"></i>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                        <span class="exercise-title">${workout.workoutName}</span>
+        <c:choose>
+            <c:when test="${not empty workouts}">
+                <div class="workout-grid">
+                    <c:forEach var="workout" items="${workouts}">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="flex items-center mb-3">
+                                    <div class="exercise-icon-container">
+                                        <c:choose>
+                                            <c:when test="${workout.categoryId == 1}">
+                                                <i class="fas fa-running exercise-icon"></i>
+                                            </c:when>
+                                            <c:when test="${workout.categoryId == 2}">
+                                                <i class="fas fa-dumbbell exercise-icon"></i>
+                                            </c:when>
+                                            <c:when test="${workout.categoryId == 3}">
+                                                <i class="fas fa-spa exercise-icon"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <i class="fas fa-heartbeat exercise-icon"></i>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
-                                    <div class="flex items-center gap-sm mb-2">
-                                        <i class="fas fa-tag"></i>
-                                        <span>
-                                            <c:choose>
-                                                <c:when test="${workout.categoryId == 1}">Cardio</c:when>
-                                                <c:when test="${workout.categoryId == 2}">Strength</c:when>
-                                                <c:when test="${workout.categoryId == 3}">Yoga</c:when>
-                                                <c:otherwise>Other</c:otherwise>
-                                            </c:choose>
-                                        </span>
-                                    </div>
-                                    <div class="flex items-center gap-sm text-muted">
-                                        <i class="far fa-calendar-alt"></i>
-                                        <fmt:formatDate value="${workout.createdAt}" pattern="MMM dd, yyyy"/>
-                                    </div>
-                                    <div class="flex items-center gap-sm text-muted mt-2">
-                                        <i class="fas fa-user-tie"></i>
-                                        <span>Instructor ID: ${workout.instructorId}</span>
-                                    </div>
+                                    <span class="exercise-title">${workout.workoutName}</span>
+                                </div>
+                                <div class="flex items-center gap-sm mb-2">
+                                    <i class="fas fa-tag"></i>
+                                    <span>
+                                        <c:choose>
+                                            <c:when test="${workout.category != null}">
+                                                ${workout.category.categoryName}
+                                            </c:when>
+                                            <c:when test="${workout.categoryId == 1}">Cardio</c:when>
+                                            <c:when test="${workout.categoryId == 2}">Strength</c:when>
+                                            <c:when test="${workout.categoryId == 3}">Yoga</c:when>
+                                            <c:otherwise>Other</c:otherwise>
+                                        </c:choose>
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-sm text-muted">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <fmt:formatDate value="${workout.createdAtDate}" pattern="MMM dd, yyyy"/>
+                                </div>
+                                <div class="flex items-center gap-sm text-muted mt-2">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span>Instructor ID: ${workout.instructorId}</span>
+                                </div>
+                                <div class="mt-3">
+                                    <a href="${pageContext.request.contextPath}/workoutOptionss?page=clientWorkoutDetails&workoutId=${workout.workoutId}"
+                                       class="btn btn-primary btn-sm">
+                                        View Details
+                                    </a>
                                 </div>
                             </div>
-                        </c:forEach>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i> No workouts found for this client.
-                    </div>
-                </c:otherwise>
-            </c:choose>
-        </c:if>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> No workouts found. Contact an instructor to get started with your fitness journey!
+                </div>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 
