@@ -1,11 +1,14 @@
 package org.example.demo2.dao;
 import jakarta.servlet.http.HttpSession;
+import org.example.demo2.model.BookSession;
 import org.example.demo2.util.DBConnection;
 import org.example.demo2.model.BookingConstraints;
 
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class BookSessionDAO {
 
@@ -131,7 +134,52 @@ public class BookSessionDAO {
         return success;
     }
 
+    public List<BookSession> getAllBookingsForClient(int userId) {
+        List<BookSession> sessionList = new ArrayList<>();
+        String sql = "SELECT date, timeSlot FROM bookings WHERE userId = ?  AND status = 'booked' " +
+                "AND (date > CURRENT_DATE OR (date = CURRENT_DATE AND timeSlot > CURRENT_TIME)) " +
+                "ORDER BY date, timeSlot ASC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    BookSession b = new BookSession(
+                            rs.getDate("date"),
+                            rs.getTime("timeSlot")
+                    );
+                    sessionList.add(b);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sessionList;
+    }
+
+    public boolean cancelSession(int bookingId){
+        String sql = "UPDATE bookings SET status = 'cancelled' WHERE bookingId = ? ";
 
 
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, bookingId);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
+
+
+
 

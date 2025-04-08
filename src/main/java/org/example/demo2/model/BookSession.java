@@ -10,6 +10,12 @@ public class BookSession {
     private String status;
     private int userId;
 
+    //Constructor which is needed to retreive the sessions of a client
+    public BookSession(Date date, Time timeSlot){
+        this.date = date;
+        this.timeSlot = timeSlot;
+    }
+
     public int getBookingId(){
         return bookingId;
     }
