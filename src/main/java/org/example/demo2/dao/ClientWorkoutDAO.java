@@ -58,12 +58,12 @@ public class ClientWorkoutDAO {
         }
     }
 
-    public List<ClientWorkout> findByUserId(Long userId) throws SQLException {
+    public List<ClientWorkout> findByUserId(int userId) throws SQLException {
         Connection connection = null;
         try {
             connection = dbConnection.getConnection();
             List<ClientWorkout> workouts = new ArrayList<>();
-            String sql = "SELECT w.*, c.category_name, cd.phone_number, u.full_name AS client_name " +
+            String sql = "SELECT w.*, c.category_name, cd.phone_number, concat(u.full_name, '' ,u.username) AS client_name " +
                     "FROM client_workouts w " +
                     "JOIN workout_categories c ON w.category_id = c.category_id " +
                     "JOIN client_details cd ON w.user_id = cd.user_id " +

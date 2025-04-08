@@ -47,7 +47,7 @@ public class ClientDAO {
         }
     }
 
-    public Client findByUserId(Long userId) throws SQLException {
+    public Client findByUserId(int userId) throws SQLException {
         Connection connection = null;
         try {
             connection = dbConnection.getConnection();

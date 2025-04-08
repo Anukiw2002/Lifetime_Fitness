@@ -26,8 +26,8 @@
         <a href="leaderBoard" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Leaderboard
         </a>
-        <a href="workoutOptionss?page=clientWorkout" class="nav-link">
-            <i class="fas fa-dumbbell icon"></i>Workout
+        <a href="${pageContext.request.contextPath}/clientWorkoutView" class="nav-link">
+            <i class="fas fa-dumbbell icon"></i>Workouts
         </a>
         <a href="viewNotification" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
