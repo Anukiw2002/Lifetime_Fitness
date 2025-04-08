@@ -37,7 +37,8 @@ public class BookSessionConfirmationServlet extends HttpServlet {
             String selectedDateStr = request.getParameter("selectedDate");
             String selectedTimeStr = request.getParameter("selectedSlot");
             String status = "booked";
-            int userId = (int) session.getAttribute("userId");  // Get userId from session instead
+            int userId = (int) session.getAttribute("userId");// Get userId from session instead
+            String frequency = request.getParameter("frequency");
 
             String timeOnly = selectedTimeStr.split(" - ")[0];
 
@@ -50,7 +51,7 @@ public class BookSessionConfirmationServlet extends HttpServlet {
 
             // Use BookSessionDAO instead of BookSession
             BookSessionDAO bookSessionDAO = new BookSessionDAO();
-            boolean insertSuccess = bookSessionDAO.createSessionBooking(date, timeSlot, status, userId);
+            boolean insertSuccess = bookSessionDAO.createRecurringSessionBooking(date, timeSlot, status, userId, frequency);
 
             if (insertSuccess) {
                 request.setAttribute("successMessage", "Booking confirmed successfully!");

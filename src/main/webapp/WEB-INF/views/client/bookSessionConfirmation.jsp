@@ -39,15 +39,14 @@
   }
 %>
 <form method="POST" action="bookSessionConfirmation">
-  <input type="hidden" name="selectedDate" value="<%= selectedDate %>">
-  <input type="hidden" name="selectedSlot" value="<%= selectedSlot %>">
+  <input type="hidden" name="selectedDate" value="<%= selectedDate %>" required>
+  <input type="hidden" name="selectedSlot" value="<%= selectedSlot %>" required>
   <p>Recurrence</p>
-  <select id="frequency" name="frequency">
-    <option>One time only</option>
-    <option>Daily</option>
-    <option>Every other day</option>
-    <option>Weekly</option>
-    <option>Customize</option>
+  <select id="frequency" name="frequency" required>
+    <option id="one-time">One time only</option>
+    <option id="daily">Daily</option>
+    <option id="every-other-day">Every other day</option>
+    <option id="weekly">Weekly</option>
   </select>
 
   <button type="button" onclick="window.location.href='bookSession'">Cancel</button>

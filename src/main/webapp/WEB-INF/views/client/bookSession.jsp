@@ -2,39 +2,40 @@
 <%@ page import="java.util.*, java.text.*" %>
 <%@ page import="org.example.demo2.model.BookingConstraints" %>
 <%@ page import="org.example.demo2.dao.BookingConstraintsDAO" %>
+<%@ page import="java.util.Calendar" %>
 
 <html>
 <head>
   <title>Book a session</title>
   <script>
-      // Function to handle date click and fetch available time slots via AJAX
-      function selectDate(selectedDate) {
+    // Function to handle date click and fetch available time slots via AJAX
+    function selectDate(selectedDate) {
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "bookSession", true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-      // Parse the response (HTML) and update the slots section
-      document.getElementById("timeSlots").innerHTML = xhr.responseText;
-    }
-    };
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          // Parse the response (HTML) and update the slots section
+          document.getElementById("timeSlots").innerHTML = xhr.responseText;
+        }
+      };
       xhr.send("selectedDate=" + selectedDate);
 
       // Highlight the selected date
       var dateElements = document.getElementsByClassName("date-box");
       for (var i = 0; i < dateElements.length; i++) {
-      dateElements[i].classList.remove("selected");
-    }
+        dateElements[i].classList.remove("selected");
+      }
       document.getElementById("date-" + selectedDate).classList.add("selected");
     }
 
-      //function to send the selected date and the slot to the bookingConfirmation.jsp page
-      function selectSlot(selectedDate, selectedSlot){
+    //function to send the selected date and the slot to the bookingConfirmation.jsp page
+    function selectSlot(selectedDate, selectedSlot){
       window.location.href = "bookSessionConfirmation?selectedDate=" + encodeURIComponent(selectedDate) + "&selectedSlot=" + encodeURIComponent(selectedSlot);
     }
 
-      // Load today's slots when the page loads
-      window.onload = function() {
+    // Load today's slots when the page loads
+    window.onload = function() {
       // Get today's date in yyyy-MM-dd format
       var today = new Date();
       var dd = String(today.getDate()).padStart(2, '0');

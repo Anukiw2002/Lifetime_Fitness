@@ -93,7 +93,7 @@ public class BookSessionServlet extends HttpServlet {
                     currentSlot = currentSlot.plusHours(1);
                 }
 
-// Handle the last slot (if any) that is less than 1 hour
+                // Handle the last slot (if any) that is less than 1 hour
                 if (!currentSlot.equals(end)) {
                     String lastSlotDisplay = currentSlot.format(DateTimeFormatter.ofPattern("h:mm a")) + " - "
                             + end.format(DateTimeFormatter.ofPattern("h:mm a"));
