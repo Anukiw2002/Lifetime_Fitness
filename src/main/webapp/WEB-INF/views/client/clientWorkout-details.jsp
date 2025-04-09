@@ -88,104 +88,62 @@
     <jsp:include page="../client/clientVerticalNavbar.jsp" />
     <div class="container">
         <div class="flex mb-4">
-            <a href="workoutOptionss?page=clientWorkoutDetails&workoutId=${workout.workoutId}"
-                class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back to Workouts
+            <a href="javascript:history.back()"
+               class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Workouts
             </a>
         </div>
 
         <div class="card">
             <div class="card-header flex justify-between items-center">
-                <h2 class="mb-0">Full Body Strength</h2>
+                <h2 class="mb-0">${workout.workoutName}</h2>
                 <span class="category-badge">
-                    <i class="fas fa-tag"></i> Strength Training
+                    <i class="fas fa-tag"></i>  ${workout.category.categoryName}
                 </span>
             </div>
 
             <div class="card-body">
-                <!-- Hardcoded Exercise Cards -->
                 <div class="grid grid-auto-fit gap-lg">
-                    <!-- Exercise 1 -->
+                    <!-- Since we're displaying a single workout, don't loop through workouts -->
                     <div class="exercise-card">
                         <div class="flex items-center mb-3">
                             <div class="exercise-icon-container">
                                 <i class="fas fa-dumbbell exercise-icon"></i>
                             </div>
-                            <span class="exercise-title">Bench Press</span>
+                            <span class="exercise-title">${workout.workoutName}</span>
                         </div>
 
-                        <div class="stats-container">
-                            <div class="grid grid-2 gap-md">
-                                <div>
-                                    <div class="stats-label">Sets</div>
-                                    <div class="stats-value">4</div>
+                        <!-- Loop through the exercises of the single workout -->
+                        <c:forEach var="exercise" items="${workout.exercises}" varStatus="status">
+                            <div class="stats-container">
+                                <div class="grid grid-2 gap-md">
+                                    <div>
+                                            ${exercise.exercise.exerciseName}
+                                    </div>
+                                    <div>
+                                        <div class="stats-label">Sets</div>
+                                        <div class="stats-value">${exercise.setNumber}</div>
+                                    </div>
+                                    <div>
+                                        <div class="stats-label">Reps</div>
+                                        <div class="stats-value">${exercise.reps}</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div class="stats-label">Reps</div>
-                                    <div class="stats-value">10</div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="note-container">
-                            <div class="note-text">
-                                <i class="fas fa-sticky-note"></i>
-                                <span>Focus on form and maintain a steady tempo.</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Exercise 2 -->
-                    <div class="exercise-card">
-                        <div class="flex items-center mb-3">
-                            <div class="exercise-icon-container">
-                                <i class="fas fa-running exercise-icon"></i>
-                            </div>
-                            <span class="exercise-title">Squats</span>
-                        </div>
-
-                        <div class="stats-container">
-                            <div class="grid grid-2 gap-md">
-                                <div>
-                                    <div class="stats-label">Sets</div>
-                                    <div class="stats-value">3</div>
-                                </div>
-                                <div>
-                                    <div class="stats-label">Reps</div>
-                                    <div class="stats-value">12</div>
+                                <div class="note-container">
+                                    <div class="note-text">
+                                        <i class="fas fa-sticky-note"></i>
+                                        <span>${exercise.notes}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Exercise 3 -->
-                    <div class="exercise-card">
-                        <div class="flex items-center mb-3">
-                            <div class="exercise-icon-container">
-                                <i class="fas fa-bicycle exercise-icon"></i>
-                            </div>
-                            <span class="exercise-title">Cycling</span>
-                        </div>
-
-                        <div class="stats-container">
-                            <div class="grid grid-2 gap-md">
-                                <div>
-                                    <div class="stats-label">Duration</div>
-                                    <div class="stats-value">20 min</div>
-                                </div>
-                                <div>
-                                    <div class="stats-label">Intensity</div>
-                                    <div class="stats-value">Moderate</div>
-                                </div>
-                            </div>
-                        </div>
+                        </c:forEach>
                     </div>
                 </div>
-                <!-- End of Hardcoded Exercise Cards -->
             </div>
             <div class="flex mb-4">
-                <a href="/workoutOptionss?page=workoutLogs" class="btn btn-success">
-                     START
+                <a href="${pageContext.request.contextPath}/StartExercises?workoutId=${workout.workoutId}" class="btn btn-success">
+                    START
                 </a>
             </div>
         </div>

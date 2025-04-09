@@ -6,9 +6,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.demo2.dao.NotificationsDAO;
 
 import java.io.IOException;
-@WebServlet("/instructor/upcomingSessions")
+@WebServlet("/instructorDashboard")
 public class UpcommingSessionsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
@@ -19,7 +20,13 @@ public class UpcommingSessionsServlet extends HttpServlet {
         }
         // Forward the request to navbar.html
         request.getRequestDispatcher("/WEB-INF/views/instructor/instructor-dashboard.jsp").forward(request, response);
+
+        int user_id = (int)session.getAttribute("userId");
+
+        boolean hasUnread = NotificationsDAO.hasUnreadNotifications(user_id);
+        request.setAttribute("hasUnread", hasUnread);
     }
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);

@@ -29,8 +29,11 @@
         <a href="/leaderBoardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard Details
         </a>
-        <a href="/viewInstructorNotification" class="nav-link">
+        <a href="viewNotification" class="nav-link notification-wrapper">
             <i class="fas fa-bell icon"></i>Notifications
+            <c:if test="${hasUnread}">
+                <span class="notification-dot"></span>  <!-- Red dot for unread notifications -->
+            </c:if>
         </a>
         <a href="/InstructorMemberManagement" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Members
