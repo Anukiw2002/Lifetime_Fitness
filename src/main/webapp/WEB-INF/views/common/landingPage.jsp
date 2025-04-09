@@ -115,10 +115,9 @@
 
             <!-- Right Column - Image -->
             <div class="about-image" data-aos="fade-left">
-                <img src="/images/ourGym.jpg" alt="Lifetime Fitness Gym Interior"
-                     loading="lazy"
-                     width="600"
-                     height="400">
+                <video src="/images/ourGym.mp4" width="650" height="400" controls preload="auto" style="display: block;">
+                    Your browser does not support the video tag.
+                </video>
             </div>
         </div>
     </div>

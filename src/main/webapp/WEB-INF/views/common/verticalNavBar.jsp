@@ -45,8 +45,8 @@
         <a href="/GetAllBlogs" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
-        <a href="/membership/view" class="nav-link">
-            <i class="fas fa-credit-card icon"></i>Membership
+        <a href="/booking/constraints" class="nav-link">
+            <i class="fas fa-credit-card icon"></i>Booking Constraints
         </a>
     </div>
 
