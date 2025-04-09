@@ -133,7 +133,7 @@
                                     <span>Instructor ID: ${workout.instructorId}</span>
                                 </div>
                                 <div class="mt-3">
-                                    <a href="${pageContext.request.contextPath}/workoutOptionss?page=clientWorkoutDetails&workoutId=${workout.workoutId}"
+                                    <a href="${pageContext.request.contextPath}/client/ViewExercises?page=clientWorkoutDetails&workoutId=${workout.workoutId}"
                                        class="btn btn-primary btn-sm">
                                         View Details
                                     </a>

@@ -15,8 +15,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/instructor/editWorkout")
-public class EditWorkoutServlet extends HttpServlet {
+@WebServlet("/client/ViewExercises")
+public class ClientViewExercisesServlet extends HttpServlet {
     private ClientWorkoutDAO clientWorkoutDAO;
     private WorkoutExerciseDAO workoutExerciseDAO;
     private ExerciseDAO exerciseDAO;
@@ -33,7 +33,7 @@ public class EditWorkoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userRole") == "instructor") {
+        if (session == null || !"client".equals(session.getAttribute("userRole"))) {
             // If the session is invalid or user is not logged in, redirect to the login page
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
@@ -53,12 +53,10 @@ public class EditWorkoutServlet extends HttpServlet {
                 return;
             }
 
-            // Load all available exercises for the add exercise dropdown
             List<Exercise> availableExercises = exerciseDAO.findAll();
 
             request.setAttribute("workout", workout);
-            request.setAttribute("availableExercises", availableExercises);
-            request.getRequestDispatcher("/WEB-INF/views/instructor/edit-workout.jsp")
+            request.getRequestDispatcher("/WEB-INF/views/client/clientWorkout-details.jsp")
                     .forward(request, response);
 
         } catch (SQLException e) {
