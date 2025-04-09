@@ -36,6 +36,8 @@ public class ViewClientSessionBookingsServlet extends HttpServlet {
         for (BookSession slot : sessionList) {
             Map<String, String> formattedSession = new HashMap<>();
 
+            formattedSession.put("bookingId", String.valueOf(slot.getBookingId()));
+
             // Format the date (this part is fine as is)
             formattedSession.put("formattedDate", dateFormatter.format(slot.getDate()));
 

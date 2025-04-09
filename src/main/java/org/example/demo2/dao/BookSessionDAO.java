@@ -136,7 +136,7 @@ public class BookSessionDAO {
 
     public List<BookSession> getAllBookingsForClient(int userId) {
         List<BookSession> sessionList = new ArrayList<>();
-        String sql = "SELECT date, timeSlot FROM bookings WHERE userId = ?  AND status = 'booked' " +
+        String sql = "SELECT bookingId, date, timeSlot FROM bookings WHERE userId = ?  AND status = 'booked' " +
                 "AND (date > CURRENT_DATE OR (date = CURRENT_DATE AND timeSlot > CURRENT_TIME)) " +
                 "ORDER BY date, timeSlot ASC";
 
@@ -151,6 +151,7 @@ public class BookSessionDAO {
                             rs.getDate("date"),
                             rs.getTime("timeSlot")
                     );
+                    b.setBookingId(rs.getInt("bookingId"));
                     sessionList.add(b);
                 }
             }
