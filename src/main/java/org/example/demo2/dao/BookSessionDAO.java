@@ -136,7 +136,7 @@ public class BookSessionDAO {
 
     public List<BookSession> getAllBookingsForClient(int userId) {
         List<BookSession> sessionList = new ArrayList<>();
-        String sql = "SELECT bookingId, date, timeSlot FROM bookings WHERE userId = ?  AND status = 'booked' " +
+        String sql = "SELECT bookingId, date, timeSlot FROM bookings WHERE userId = ?  AND status IN ('booked', 'rescheduled')" +
                 "AND (date > CURRENT_DATE OR (date = CURRENT_DATE AND timeSlot > CURRENT_TIME)) " +
                 "ORDER BY date, timeSlot ASC";
 
@@ -179,6 +179,51 @@ public class BookSessionDAO {
             return false;
         }
     }
+
+    public boolean rescheduleSession(Date date, Time timeSlot, int bookingId) {
+        String sql = "Update bookings SET date = ?, timeSlot = ?, status = 'rescheduled' WHERE bookingId = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setDate(1, date);
+            pstmt.setTime(2, timeSlot);
+            pstmt.setInt(3, bookingId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public BookSession getBookingById(int bookingId) {
+        BookSession booking = null;
+        String sql = "SELECT date, timeSlot FROM bookings WHERE bookingId = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, bookingId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    booking = new BookSession(
+                            rs.getDate("date"),
+                            rs.getTime("timeSlot")
+                    );
+                    booking.setBookingId(bookingId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return booking;
+    }
+
 }
 
 

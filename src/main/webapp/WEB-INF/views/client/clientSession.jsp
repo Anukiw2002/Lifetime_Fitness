@@ -27,7 +27,7 @@
               <div class="session-time">${formattedSession.startTime} - ${formattedSession.endTime}</div>
               <div class="flex gap-md justify-center mt-3">
                 <a href="cancelBooking?bookingId=${formattedSession.bookingId}" class="btn btn-danger" style="text-decoration: none;">Cancel</a>
-                <button class="btn btn-secondary">Reschedule</button>
+                <a href="rescheduleSession?bookingId=${formattedSession.bookingId}" class="btn btn-secondary" style="text-decoration: none;">Reschedule</a>
               </div>
             </div>
           </div>
