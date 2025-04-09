@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="navbar.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -5,11 +8,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Try multiple favicon approaches -->
+    <link rel="icon" href="/images/logo.png">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/images/logo.png">
+    <!-- Also add favicon in root path -->
+    <link rel="icon" href="favicon.png">
+    <title>Lifetime Fitness</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/landingPage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-    <title>Lifetime Fitness</title>
-
 </head>
 <body>
 <!-- Hero Section -->
@@ -52,29 +61,35 @@
             </div>
         </div>
 
-        <div class="carousel mt-4">
-            <button class="carousel-btn prev-btn">&#10094;</button>
-            <div class="carousel-track-container">
-                <ul class="carousel-track">
-                    <li class="carousel-slide">
-                        <img src="/images/gymimg1.jpg" alt="Gym Equipment" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
-                    </li>
-                    <li class="carousel-slide">
-                        <img src="/images/gymimg2.jpg" alt="Training Area" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
-                    </li>
-                    <li class="carousel-slide">
-                        <img src="/images/gymimg3.jpg" alt="Fitness Class" style="width: 100%; height: 300px; object-fit: cover; border-radius: var(--border-radius);">
-                    </li>
-                </ul>
+        <!-- Inside the carousel-wrapper div, after the features-grid -->
+        <div class="enhanced-carousel" data-aos="fade-up">
+            <div class="carousel-slides">
+                <div class="slide active">
+                    <img src="/images/img1.jpg" alt="Gym Equipment">
+                </div>
+                <div class="slide">
+                    <img src="/images/img2.jpg" alt="Training Area">
+                </div>
+                <div class="slide">
+                    <img src="/images/img3.jpg" alt="Fitness Class">
+                </div>
+                <div class="slide">
+                    <img src="/images/img4.jpg" alt="Personal Training">
+                </div>
+                <div class="slide">
+                    <img src="/images/img5.jpg" alt="Recovery Area">
+                </div>
             </div>
-            <button class="carousel-btn next-btn">&#10095;</button>
+            <div class="carousel-controls">
+                <button class="prev-slide">❮</button>
+                <div class="slide-indicators"></div>
+                <button class="next-slide">❯</button>
+            </div>
         </div>
-        <div class="carousel-indicators"></div>
-    </div>
 </div>
 
 <!-- About Section -->
-<section class="about-section" data-aos="fade-up">
+<section class="about-section" id="about" data-aos="fade-up" >
     <div class="container">
         <h1><u>About Our Gym</u></h1>
 
@@ -100,10 +115,9 @@
 
             <!-- Right Column - Image -->
             <div class="about-image" data-aos="fade-left">
-                <img src="/images/ourGym.jpg" alt="Lifetime Fitness Gym Interior"
-                     loading="lazy"
-                     width="600"
-                     height="400">
+                <video src="/images/ourGym.mp4" width="650" height="400" controls preload="auto" style="display: block;">
+                    Your browser does not support the video tag.
+                </video>
             </div>
         </div>
     </div>
@@ -133,115 +147,216 @@
         </div>
     </div>
 
+        <%!
+    public String formatDurationType(int value, String durationType) {
+        if (durationType == null) return "";
+        return value == 1 ? durationType.substring(0, durationType.length() - 1) : durationType;
+    }
+%>
 
-<!-- Pricing Section -->
-<section class="pricing-section" data-aos="fade-up">
-    <div class="container">
-        <h1 class="text-center"><u>MEMBER PRICING</u></h1>
-        <div class="pricing-grid">
-            <div class="pricing-card platinum" data-aos="fade-up" data-aos-delay="100">
-                <div class="pricing-header">
-                    <h2>PLATINUM</h2>
-                    <p>MEMBERSHIP</p>
-                </div>
-                <div class="pricing-content">
-                    <p>Gents – Annual <span class="price">Rs. 85,000</span></p>
-                    <p>Ladies – Annual <span class="price">Rs. 85,000</span></p>
-                    <p>Couple – Annual <span class="price">Rs. 85,000</span></p>
-                    <p class="time-duration">Access: 4:00 am to 12:00 Midnight</p>
-                </div>
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing" data-aos="fade-up">
+        <div class="container">
+            <h1 class="text-center"><u>MEMBER PRICING</u></h1>
+            <div class="pricing-grid">
+                <c:forEach var="plan" items="${membershipPlans}" varStatus="status">
+                    <c:if test="${!fn:containsIgnoreCase(plan.planName, 'day pass')}">
+                        <div class="plan-card ${plan.status == 'INACTIVE' ? 'inactive-plan' : ''}">
+                            <div class="pricing-card" data-aos="fade-up" data-aos-delay="${status.index * 100 + 100}"
+                                 style="background: linear-gradient(135deg, ${plan.colour}0D 0%, ${plan.colour}12 100%);
+                                         border: 1px solid ${plan.colour}33;">
+                                <div class="pricing-header"
+                                     style="background: linear-gradient(135deg, ${plan.colour} 0%, ${plan.colour}99 100%);">
+                                    <h2>${fn:toUpperCase(plan.planName)}</h2>
+                                    <p>MEMBERSHIP</p>
+                                </div>
+                                <div class="pricing-content">
+                                    <c:choose>
+                                        <c:when test="${plan.pricingType eq 'category'}">
+                                            <c:forEach var="duration" items="${plan.durations}">
+                                                <c:forEach var="pricing" items="${duration.categoryPricing}">
+                                                    <p>
+                                                        <c:choose>
+                                                            <c:when test="${pricing.category eq 'Male'}">Gents – Annual</c:when>
+                                                            <c:when test="${pricing.category eq 'Female'}">Ladies – Annual</c:when>
+                                                            <c:when test="${pricing.category eq 'Couple'}">Couple – Annual</c:when>
+                                                            <c:otherwise>${pricing.category} – Annual</c:otherwise>
+                                                        </c:choose>
+                                                        <span class="price">Rs. <fmt:formatNumber value="${pricing.price}" type="number" pattern="#,##,###"/></span>
+                                                    </p>
+                                                </c:forEach>
+                                            </c:forEach>
+                                        </c:when>
+                                        <c:when test="${plan.pricingType eq 'uniform'}">
+                                            <c:forEach var="duration" items="${plan.durations}">
+                                                <p>
+                                                    Solo - ${duration.durationValue}
+                                                    <%
+                                                        Object durationObj = pageContext.getAttribute("duration");
+                                                        if (durationObj != null) {
+                                                            java.lang.reflect.Method getDurationValueMethod = durationObj.getClass().getMethod("getDurationValue");
+                                                            java.lang.reflect.Method getDurationTypeMethod = durationObj.getClass().getMethod("getDurationType");
+                                                            int durationValue = (Integer) getDurationValueMethod.invoke(durationObj);
+                                                            String durationType = (String) getDurationTypeMethod.invoke(durationObj);
+                                                            out.print(formatDurationType(durationValue, durationType));
+                                                        }
+                                                    %>
+                                                    <span class="price">Rs. <fmt:formatNumber value="${duration.uniformPricing[0].price}" type="number" pattern="#,##,###"/></span>
+                                                </p>
+                                            </c:forEach>
+                                        </c:when>
+                                    </c:choose>
+                                    <p class="time-duration">Access: ${plan.startTime} am to ${plan.endTime} pm</p>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+                </c:forEach>
             </div>
 
-            <div class="pricing-card gold" data-aos="fade-up" data-aos-delay="200">
-                <div class="pricing-header">
-                    <h2>GOLD</h2>
-                    <p>MEMBERSHIP</p>
-                </div>
-                <div class="pricing-content">
-                    <p>Gents – Annual <span class="price">Rs. 48,000</span></p>
-                    <p>Ladies – Annual <span class="price">Rs. 48,000</span></p>
-                    <p class="time-duration">Access: 4:00 am to 4:00 pm</p>
-                </div>
-            </div>
+            <!-- Day Pass Section -->
+            <c:forEach var="plan" items="${membershipPlans}">
+                <c:if test="${fn:containsIgnoreCase(plan.planName, 'day pass')}">
+                    <div class="plan-card ${plan.status == 'INACTIVE' ? 'inactive-plan' : ''}">
+                        <div class="day-pass" data-aos="fade-up">
+                            <p>Day Pass: <span class="price">Rs. <fmt:formatNumber value="${plan.durations[0].uniformPricing[0].price}" type="number" pattern="#,##,###"/></span></p>
+                        </div>
+                    </div>
+                </c:if>
+            </c:forEach>
+        </div>
+    </section>
 
-            <div class="pricing-card silver" data-aos="fade-up" data-aos-delay="300">
-                <div class="pricing-header">
-                    <h2>SILVER</h2>
-                    <p>MEMBERSHIP</p>
+<!-- Our Coaches Section -->
+    <!-- Our Coaches Section -->
+    <section class="coaches-section" data-aos="fade-up">
+        <div class="container">
+            <h1 class="carousel-title"><u>OUR COACHES</u></h1>
+            <div class="coaches-grid">
+                <div class="coach-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="coach-image">
+                        <img src="/images/Head Coach.png" alt="Head Coach">
+                    </div>
+                    <div class="coach-info">
+                        <h3>
+                            Maduranga Perera</h3>
+                        <p>Founder, Head Coach</p>
+                    </div>
                 </div>
-                <div class="pricing-content">
-                    <p>6 months <span class="price">Rs. 45,000</span></p>
-                    <p>3 months <span class="price">Rs. 25,000</span></p>
-                    <p>1 month <span class="price">Rs. 15,000</span></p>
-                    <p class="time-duration">Access: 4:00 am to 12:00 Midnight</p>
+
+                <div class="coach-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="coach-image">
+                        <img src="/images/coach4.png" alt="Fitness Trainer">
+                    </div>
+                    <div class="coach-info">
+                        <h3>Avishka Senevirathana</h3>
+                        <p>Instructor</p>
+                    </div>
+                </div>
+
+                <div class="coach-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="coach-image">
+                        <img src="/images/kavindu.png" alt="Strength Coach">
+                    </div>
+                    <div class="coach-info">
+                        <h3>Kavindu Pathiratne</h3>
+                        <p>Instructor</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="day-pass" data-aos="fade-up">
-            <p>Day Pass: <span class="price">Rs. 1,500</span></p>
+    </section>
+
+<section class="reviews-container" id="reviews" data-aos="fade-up">
+    <div class="container">
+        <h1 class="carousel-title"><u>REVIEWS</u></h1>
+
+        <div class="grid grid-3">
+
         </div>
     </div>
 </section>
 
-<!-- Our Coaches Section -->
-<div class="carousel-wrapper">
-    <div class="carousel-container" id="carousel2" data-aos="fade-up">
-        <h1 class="carousel-title"><u>OUR COACHES</u></h1>
-        <div class="carousel">
-            <button class="carousel-btn prev-btn">&#10094;</button>
-            <div class="carousel-track-container">
-                <ul class="carousel-track">
-                    <li class="carousel-slide">
-                        <div class="coach-card">
-                            <div class="coach-image">
-                                <img src="/images/coach1.jpg" alt="Coach 1">
-                            </div>
-                            <div class="coach-info">
-                                <h3>John Doe</h3>
-                                <p>Head Coach</p>
-                            </div>
+    <!-- Transformations Section -->
+    <section class="transformations-section" data-aos="fade-up">
+        <div class="container">
+            <h1 class="carousel-title"><u>SUCCESS STORIES</u></h1>
+
+            <div class="transformation-grid">
+                <!-- First Transformation -->
+                <div class="transformation-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="image-comparison">
+                        <div class="before-image">
+                            <img src="/images/before1.png" alt="Before Transformation">
+                            <span class="label">BEFORE</span>
                         </div>
-                    </li>
-                    <li class="carousel-slide">
-                        <div class="coach-card">
-                            <div class="coach-image">
-                                <img src="/images/coach2.jpg" alt="Coach 2">
-                            </div>
-                            <div class="coach-info">
-                                <h3>Jane Smith</h3>
-                                <p>Fitness Trainer</p>
-                            </div>
+                        <div class="after-image">
+                            <img src="/images/after1.png" alt="After Transformation">
+                            <span class="label">AFTER</span>
                         </div>
-                    </li>
-                    <li class="carousel-slide">
-                        <div class="coach-card">
-                            <div class="coach-image">
-                                <img src="/images/coach3.jpg" alt="Coach 3">
-                            </div>
-                            <div class="coach-info">
-                                <h3>Mike Johnson</h3>
-                                <p>Strength Coach</p>
-                            </div>
+                    </div>
+                    <div class="transformation-info">
+                        <h3>-15kg in 6 Months</h3>
+                        <p>"The trainers at Lifetime Fitness helped me achieve what I thought was impossible!"</p>
+                        <span class="time-period">6 Months Journey</span>
+                    </div>
+                </div>
+
+                <!-- Add more transformation cards similarly -->
+                <div class="transformation-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="image-comparison">
+                        <div class="before-image">
+                            <img src="/images/before2.png" alt="Before Transformation">
+                            <span class="label">BEFORE</span>
                         </div>
-                    </li>
-                    <li class="carousel-slide">
-                        <div class="coach-card">
-                            <div class="coach-image">
-                                <img src="/images/coach4.png" alt="Coach 4">
-                            </div>
-                            <div class="coach-info">
-                                <h3>Sarah Wilson</h3>
-                                <p>Personal Trainer</p>
-                            </div>
+                        <div class="after-image">
+                            <img src="/images/after2.png" alt="After Transformation">
+                            <span class="label">AFTER</span>
                         </div>
-                    </li>
-                </ul>
+                    </div>
+                    <div class="transformation-info">
+                        <h3>-15kg in 6 Months</h3>
+                        <p>"The trainers at Lifetime Fitness helped me achieve what I thought was impossible!"</p>
+                        <span class="time-period">6 Months Journey</span>
+                    </div>
+                </div>
+
+
+                <div class="transformation-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="image-comparison">
+                        <div class="before-image">
+                            <img src="/images/before3.png" alt="Before Transformation">
+                            <span class="label">BEFORE</span>
+                        </div>
+                        <div class="after-image">
+                            <img src="/images/after3.png" alt="After Transformation">
+                            <span class="label">AFTER</span>
+                        </div>
+                    </div>
+                    <div class="transformation-info">
+                        <h3>-15kg in 6 Months</h3>
+                        <p>"The trainers at Lifetime Fitness helped me achieve what I thought was impossible!"</p>
+                        <span class="time-period">6 Months Journey</span>
+                    </div>
+                </div>
             </div>
-            <button class="carousel-btn next-btn">&#10095;</button>
         </div>
-        <div class="carousel-indicators"></div>
-    </div>
-</div>
+        <div class="stats-container">
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">Success Stories</div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-number" data-target="10">0</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-number" data-target="98%">0</div>
+                <div class="stat-label">Goal Achievement</div>
+            </div>
+        </div>
+    </section>
+
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>

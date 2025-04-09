@@ -103,7 +103,7 @@ public class UserDAOImpl implements IUserDAO {
 
     @Override
     public User getUserByEmail(String email) throws SQLException {
-        String sql = "SELECT * FROM users WHERE email = ?";
+        String sql = "SELECT id, full_name, username, email, hashed_password,reset_token,token_expiry, role FROM users WHERE email = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -112,10 +112,11 @@ public class UserDAOImpl implements IUserDAO {
                 if (rs.next()) {
                     return mapUserFromResultSet(rs);
                 }
-                return null;
+                return null; // Return null if no user is found
             }
         }
     }
+
 
     @Override
     public void updatePassword(String email, String newPassword) throws SQLException {
@@ -165,8 +166,11 @@ public class UserDAOImpl implements IUserDAO {
             }
         }
 
+        int userId = rs.getInt("id");
+
         // Return the User object
         return new User(
+                userId,
                 rs.getString("full_name"),
                 rs.getString("username"),
                 rs.getString("email"),

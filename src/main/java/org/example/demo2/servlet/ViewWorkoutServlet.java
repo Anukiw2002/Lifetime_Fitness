@@ -31,7 +31,7 @@ public class ViewWorkoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String pathInfo = request.getPathInfo();
         String page = request.getParameter("page");
 
@@ -63,10 +63,16 @@ public class ViewWorkoutServlet extends HttpServlet {
             // Handle workout details
             if (pathInfo.startsWith("/details/")) {
                 String workoutId = pathInfo.substring(9);
-                List<WorkoutExercise> exercises = workoutExerciseDAO.findByWorkoutId(Long.parseLong(workoutId));
-                request.setAttribute("exercises", exercises);
-                request.getRequestDispatcher("/WEB-INF/views/instructor/workoutDetails.jsp")
-                        .forward(request, response);
+                ClientWorkout workout = workoutDAO.findWithExercises(Long.parseLong(workoutId));
+                if (workout != null) {
+                    List<WorkoutExercise> exercises = workout.getExercises();
+                    request.setAttribute("workout", workout);
+                    request.setAttribute("exercises", exercises);
+                    request.getRequestDispatcher("/WEB-INF/views/instructor/workoutDetails.jsp")
+                            .forward(request, response);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/workoutOptions");
+                }
                 return;
             }
         } catch (SQLException e) {

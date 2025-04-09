@@ -19,6 +19,6 @@ public class MemberProfileServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
-        request.getRequestDispatcher("/WEB-INF/views/client/memberProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/client/client-dashboard.jsp").forward(request, response);
     }
 }

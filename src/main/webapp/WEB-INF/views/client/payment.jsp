@@ -9,7 +9,6 @@
 </head>
 <body>
 <div class="main-content">
-    <jsp:include page="../client/clientVerticalNavbar.jsp" />
 
     <div class="container">
         <div class="card">

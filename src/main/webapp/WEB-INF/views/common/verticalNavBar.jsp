@@ -20,7 +20,7 @@
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
     </div>
     <div>
-        <a href="/memberManagement" class="nav-link">
+        <a href="/dashboard" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
         <a href="/owner/leaderboard" class="nav-link">
@@ -45,8 +45,8 @@
         <a href="/GetAllBlogs" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
-        <a href="/membership/view" class="nav-link">
-            <i class="fas fa-credit-card icon"></i>Membership
+        <a href="/booking/constraints" class="nav-link">
+            <i class="fas fa-credit-card icon"></i>Booking Constraints
         </a>
     </div>
 

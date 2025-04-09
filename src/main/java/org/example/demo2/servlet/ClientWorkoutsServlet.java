@@ -33,7 +33,7 @@ public class ClientWorkoutsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
+        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
             return; // If not authorized, the redirection will be handled by the utility method
         }
         HttpSession session = request.getSession(false);
@@ -42,7 +42,14 @@ public class ClientWorkoutsServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
+
         String phoneNumber = request.getParameter("phoneNumber");
+        String clientPhone = request.getParameter("clientPhone");
+
+        // Use clientPhone parameter if phoneNumber is not provided
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
+            phoneNumber = clientPhone;
+        }
 
         if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
             response.sendRedirect("searchClient");
@@ -55,6 +62,11 @@ public class ClientWorkoutsServlet extends HttpServlet {
             if (client == null) {
                 response.sendRedirect("searchClient");
                 return;
+            }
+
+            // Store client ID in session for further operations if not already stored
+            if (session.getAttribute("clientUserId") == null) {
+                session.setAttribute("clientUserId", client.getUserId());
             }
 
             // Get all workouts for the client

@@ -76,7 +76,9 @@ public class TemporaryServlet extends HttpServlet {
         }
         else if ("page41".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/owner/bookingConstraints.jsp").forward(request, response);
-
+        }
+        else if ("page43".equals(page)) {
+            request.getRequestDispatcher("/WEB-INF/views/instructor/instructor-dashboard.jsp").forward(request, response);
         }
         else {
             // Default or error page

@@ -99,6 +99,7 @@ public class EditMembershipPlanServlet extends HttpServlet {
             plan.setStartTime(LocalTime.parse(request.getParameter("startTime")));
             plan.setEndTime(LocalTime.parse(request.getParameter("endTime")));
             plan.setPricingType(request.getParameter("pricingType"));
+            plan.setColour(request.getParameter("colour"));
 
             membershipPlanDAO.update(plan);
 

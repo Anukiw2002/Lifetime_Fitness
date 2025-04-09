@@ -18,7 +18,7 @@
                 <form action="searchClient" method="GET" class="form-group">
                     <div class="form-group">
                         <input type="tel"
-                               name="phoneNumber"
+                               name="clientPhone"
                                class="form-control"
                                placeholder="Enter client's phone number"
                                pattern="[0-9]{10}"

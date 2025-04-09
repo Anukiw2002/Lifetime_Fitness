@@ -15,9 +15,7 @@ public class GetAllVideosClientServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
-            return; // If not authorized, the redirection will be handled by the utility method
-        }
+
         try {
             // Fetch all videos using the VideoController
             List<VideoModel> allVideos = VideoController.getAllVideos();
@@ -36,16 +34,14 @@ public class GetAllVideosClientServlet extends HttpServlet {
             e.printStackTrace();
 
             // Set an error message to display on the JSP
-            request.setAttribute("errorMessage", "An error occurred while fetching videos.");
+            request.setAttribute("erro  rMessage", "An error occurred while fetching videos.");
             request.getRequestDispatcher("/WEB-INF/views/client/viewVideos.jsp").forward(request, response);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
-            return; // If not authorized, the redirection will be handled by the utility method
-        }
+
         // For this servlet, forward POST requests to doGet
         doGet(request, response);
     }

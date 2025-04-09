@@ -26,6 +26,8 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
+        HttpSession session = request.getSession();
+        session.setAttribute("userEmail", email);
 
         // Validate inputs
         if (isInvalidInput(firstName, lastName, email, password, confirmPassword)) {
@@ -50,7 +52,7 @@ public class RegisterServlet extends HttpServlet {
             userDAO.registerUser(user);
 
             // Redirect to login page after successful registration
-            sendAlert(response, "Registration successful. ", "/medicalDetails1");
+            sendAlert(response, "Registration successful. ", "/signup/step2");
         } catch (SQLException e) {
             e.printStackTrace();
             sendAlert(response, "An error occurred while processing your registration. Please try again later.", "testView?page=page1");

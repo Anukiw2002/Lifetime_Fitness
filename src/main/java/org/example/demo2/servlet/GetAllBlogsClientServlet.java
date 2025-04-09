@@ -17,9 +17,7 @@ public class GetAllBlogsClientServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
-            return; // If not authorized, the redirection will be handled by the utility method
-        }
+
         try {
             // Fetch all blogs using the BlogController
             List<BlogModel> allBlogs = BlogController.getAllBlogs();
@@ -45,9 +43,7 @@ public class GetAllBlogsClientServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
-            return; // If not authorized, the redirection will be handled by the utility method
-        }
+
         // For this servlet, forward POST requests to doGet
         doGet(request, response);
     }

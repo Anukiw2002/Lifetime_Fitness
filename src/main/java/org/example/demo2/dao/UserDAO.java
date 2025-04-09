@@ -118,6 +118,7 @@ public class UserDAO implements IUserDAO {
 
                         // Return the User object
                         return new User(
+                                rs.getInt("id"),
                                 rs.getString("full_name"),
                                 rs.getString("username"),
                                 rs.getString("email"),
@@ -170,6 +171,7 @@ public class UserDAO implements IUserDAO {
 
                     // Return the User object
                     return new User(
+                            rs.getInt("id"),
                             rs.getString("full_name"),
                             rs.getString("username"),
                             rs.getString("email"),
@@ -184,6 +186,38 @@ public class UserDAO implements IUserDAO {
 
         } catch (SQLException e) {
             System.err.println("getUserByEmail: Error retrieving user by email '" + email + "'");
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public User getUserById(int userId) throws SQLException {
+        String sql = "SELECT id, full_name, username, email, hashed_password, reset_token, token_expiry, role FROM users WHERE id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Create and return a User object with all data
+                    User user = new User(
+                            rs.getInt("id"),
+                            rs.getString("full_name"),
+                            rs.getString("username"),
+                            rs.getString("email"),
+                            rs.getString("hashed_password"),
+                            rs.getString("reset_token"),
+                            rs.getTimestamp("token_expiry"),
+                            rs.getString("role")
+                    );
+                    return user;
+                }
+                return null;
+            }
+        } catch (SQLException e) {
+            System.err.println("getUserById: Error retrieving user with ID " + userId);
             e.printStackTrace();
             throw e;
         }
@@ -217,7 +251,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User getUserByResetToken(String token) throws SQLException {
-        String sql = "SELECT * FROM users WHERE reset_token = ?";
+        String sql = "SELECT id, full_name, username, email, hashed_password,reset_token, token_expiry, role FROM users WHERE reset_token = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -230,6 +264,7 @@ public class UserDAO implements IUserDAO {
 
                     // Return the User object
                     return new User(
+                            rs.getInt("id"),
                             rs.getString("full_name"),
                             rs.getString("username"),
                             rs.getString("email"),

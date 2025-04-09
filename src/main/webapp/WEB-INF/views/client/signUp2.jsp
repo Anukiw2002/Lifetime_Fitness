@@ -35,31 +35,82 @@
     <form action="${pageContext.request.contextPath}/signup/step2" method="post">
       <div class="signup-form-group">
         <!-- Phone Number -->
-        <input type="tel" placeholder="Enter your phone number" class="signup-input" required>
+        <div class="input-wrapper">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" name="phoneNumber" id="phoneNumber"
+                 placeholder="Enter your mobile number"
+                 pattern="[0-9]{10}"
+                 class="signup-input"
+                 required>
+        </div>
 
         <!-- Address Section -->
         <div class="address-section">
-         <label class="form-label" style="color: white;">Address</label>
+          <label class="form-label">Address</label>
           <div class="address-grid">
-            <input type="text" placeholder="House number" class="signup-input" required>
-            <input type="text" placeholder="Street Name" class="signup-input" required>
+            <div class="input-wrapper">
+              <input type="text" name="houseNumber" id="houseNumber"
+                     placeholder="House No."
+                     class="signup-input"
+                     required>
+            </div>
+            <div class="input-wrapper">
+              <input type="text" name="streetName" id="streetName"
+                     placeholder="Street name"
+                     class="signup-input"
+                     required>
+            </div>
           </div>
-          <input type="text" placeholder="City" class="signup-input" required>
+          <div class="input-wrapper">
+            <input type="text" name="city" id="city"
+                   placeholder="City"
+                   class="signup-input"
+                   required>
+          </div>
         </div>
 
         <!-- Personal Details -->
-          <select class="signup-select" required>
-            <option value="" disabled selected>Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-          <div class="date-input-group">
-            <label class="form-label" style="color: white;">Date of Birth</label>
-            <input type="date" class="signup-input signup-date" required>
+        <div class="details-grid">
+          <div class="input-wrapper">
+            <label class="form-label">Gender</label>
+            <select name="gender" id="gender" class="signup-select" required>
+              <option value="" disabled selected>Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
           </div>
+
+          <div class="input-wrapper">
+            <label class="form-label">Date of Birth</label>
+            <input type="date" name="dateOfBirth" id="dateOfBirth"
+                   class="signup-input signup-date"
+                   max="2010-12-31"
+                   required>
+          </div>
+        </div>
+
+        <!-- Additional Suggested Fields -->
+        <div class="input-wrapper">
+          <label class="form-label">Emergency Contact</label>
+          <input type="tel" name="emergencyContact" id="emergencyContact"
+                 placeholder="Emergency contact number"
+                 pattern="[0-9]{10}"
+                 class="signup-input"
+                 required>
+        </div>
+
+        <div class="input-wrapper">
+          <label class="form-label">Relationship to Emergency Contact</label>
+          <input type="text" name="emergencyContactRelation" id="emergencyContactRelation"
+                 placeholder="e.g., Parent, Spouse, Sibling"
+                 class="signup-input"
+                 required>
+        </div>
       </div>
-      <button type="submit" class="signup-button">Save and continue</button>
+
+      <div class="signup-button-container">
+        <button type="submit" class="signup-button">Save and continue</button>
+      </div>
     </form>
   </div>
   <div class="signup-image-section" style="background-image: url('${pageContext.request.contextPath}/images/ClientSignUpFormImg.jpg')">

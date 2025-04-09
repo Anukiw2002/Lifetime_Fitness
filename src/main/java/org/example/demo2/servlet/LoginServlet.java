@@ -61,15 +61,16 @@ public class LoginServlet extends HttpServlet {
                 // Create a session and redirect based on the user's role
                 HttpSession session = request.getSession();
                 session.setAttribute("userRole", user.getRole());
+                session.setAttribute("userId", user.getUser_id());
                 session.setMaxInactiveInterval(30*60);;
 
                 // Role-based redirection
                 switch (user.getRole()) {
                     case "client":
-                        request.getRequestDispatcher("/WEB-INF/views/client/memberProfile.jsp").forward(request, response);
+                        request.getRequestDispatcher("/WEB-INF/views/client/client-dashboard.jsp").forward(request, response);
                         break;
                     case "owner":
-                        request.getRequestDispatcher("/memberManagement").forward(request, response);
+                        response.sendRedirect(request.getContextPath() + "/dashboard");
                         break;
                     case "instructor":
                         request.getRequestDispatcher("/instructor/upcomingSessions").forward(request, response);

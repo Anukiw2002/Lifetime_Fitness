@@ -33,6 +33,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="colour">Plan Color</label>
+                    <input type="color" id="colour" name="colour" value="${membershipPlan.colour}" required>
+                </div>
+
+                <div class="form-group">
                     <label>Duration</label>
                     <div style="display: flex; gap: 20px;">
                         <div style="flex: 1;">
