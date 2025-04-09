@@ -47,6 +47,7 @@
     </style>
 </head>
 <body>
+
 <jsp:include page="../client/clientVerticalNavbar.jsp" />
 <div class="main-content">
     <div class="container">

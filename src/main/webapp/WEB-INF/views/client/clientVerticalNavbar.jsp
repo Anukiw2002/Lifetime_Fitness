@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,8 +30,11 @@
         <a href="workoutOptionss?page=clientWorkout" class="nav-link">
             <i class="fas fa-dumbbell icon"></i>Workout
         </a>
-        <a href="viewNotification" class="nav-link">
+        <a href="viewNotification" class="nav-link notification-wrapper">
             <i class="fas fa-bell icon"></i>Notifications
+            <c:if test="${hasUnread}">
+                <span class="notification-dot"></span>  <!-- Red dot for unread notifications -->
+            </c:if>
         </a>
 
         <a href="getAllVideosClient" class="nav-link">
