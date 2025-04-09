@@ -224,7 +224,41 @@ public class BookSessionDAO {
         return booking;
     }
 
+    public String getSessionAvailabilityLabel(Date date, Time timeSlot) {
+        String sql = "SELECT COUNT(*) FROM bookings WHERE date = ? AND timeSlot = ? AND status IN ('booked', 'rescheduled')";
+        String label = "Available";
+
+        BookingConstraintsDAO constraintsDAO = new BookingConstraintsDAO();
+        BookingConstraints constraints = constraintsDAO.getLatestConstraints();
+
+        int maxBookings = constraints.getMaxBookingsPerSlot();
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setDate(1, date);
+            pstmt.setTime(2, timeSlot);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+
+                    if (count >= maxBookings) {
+                        label = "Fully Booked";
+                    } else if (count >= maxBookings * 0.85) {
+                        label = "Almost Full";
+                    } else if (count >= maxBookings * 0.75) {
+                        label = "Filling Fast";
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return label;
+    }
 }
+
 
 
 
