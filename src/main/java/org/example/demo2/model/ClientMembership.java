@@ -10,6 +10,8 @@ public class ClientMembership {
     private LocalDate startDate;
     private LocalDate endDate;
     private String status;
+    private int durationId;
+
 
     public int getMembershipId() {
         return membershipId;
@@ -65,6 +67,14 @@ public class ClientMembership {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getDurationId() {
+        return durationId;
+    }
+
+    public void setDurationId(int durationId) {
+        this.durationId = durationId;
     }
 
 

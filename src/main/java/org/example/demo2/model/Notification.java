@@ -10,6 +10,7 @@ public class Notification {
     private int user_id;
     private Timestamp created_at;
     private String timeAge;
+    private boolean read;
 
     public Notification() {
     }
@@ -20,6 +21,12 @@ public class Notification {
         this.description = description;
         this.recipient_role = recipient_role;
         this.user_id = user_id;
+        this.created_at = created_at;
+    }
+
+    public Notification(String title, String description, Timestamp created_at) {
+        this.title = title;
+        this.description = description;
         this.created_at = created_at;
     }
 
@@ -78,6 +85,11 @@ public class Notification {
     public void setCreatedAt(Timestamp created_at) {
         this.created_at = created_at;
     }
+
+    public boolean isRead(){
+        return read;
+    }
+    public void setRead(boolean read){this.read = read;}
 
     @Override
     public String toString() {

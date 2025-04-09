@@ -47,12 +47,13 @@
     </style>
 </head>
 <body>
+
 <jsp:include page="../client/clientVerticalNavbar.jsp" />
 <div class="main-content">
     <div class="container">
         <!-- Welcome Section -->
         <div class="flex items-center justify-between mb-4">
-            <h1>Welcome back, John Doe!</h1>
+            <h1>Welcome back, ${userName}!</h1>
             <p class="text-muted">December 15, 2024</p>
         </div>
 
@@ -172,28 +173,17 @@
                         <h2>Recent Announcements</h2>
                     </div>
                     <div class="card-body">
-                        <div class="announcement">
-                            <div class="flex justify-between">
-                                <h4>Holiday Schedule</h4>
-                                <span class="text-muted">2 hours ago</span>
+                        <c:forEach var="notifications" items="${notifications}">
+                            <div class="notifications">
+                                <div class="flex justify-between">
+                                    <h4>${notifications.title}</h4>
+                                    <span class="text-muted">${notifications.created_at}</span>
+                                </div>
+                                <p>${notifications.message}</p>
                             </div>
-                            <p>Please note that we will have modified hours during the upcoming holiday season.</p>
-                        </div>
-                        <div class="announcement">
-                            <div class="flex justify-between">
-                                <h4>New Equipment Arrival</h4>
-                                <span class="text-muted">1 day ago</span>
-                            </div>
-                            <p>We've added new equipment to our cardio section. Check them out!</p>
-                        </div>
-                        <div class="announcement">
-                            <div class="flex justify-between">
-                                <h4>Maintenance Notice</h4>
-                                <span class="text-muted">2 days ago</span>
-                            </div>
-                            <p>The pool area will be under maintenance this weekend.</p>
-                        </div>
+                        </c:forEach>
                     </div>
+
                 </div>
             </div>
         </div>

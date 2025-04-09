@@ -25,6 +25,60 @@
                     .catch(error => console.error('Error:', error));
             }
         }
+
+        // Searching Members by name - Fixed function
+        function membershipSearch() {
+            var input = document.getElementById("clientSearch").value.toLowerCase();
+            var table = document.getElementById("memberTable");
+            var rows = table.getElementsByClassName("memberRow");
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var clientName = row.cells[0].textContent.toLowerCase();
+
+                if (clientName.indexOf(input) > -1) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        }
+
+        // Filter memberships by plan and status
+        function filterMemberships() {
+            var planFilter = document.getElementById("planFilter").value.toLowerCase();
+            var statusFilter = document.getElementById("statusFilter").value.toLowerCase();
+            var table = document.getElementById("memberTable");
+            var rows = table.getElementsByClassName("memberRow");
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var planName = row.cells[1].textContent.toLowerCase();
+                var status = row.cells[2].textContent.trim().toLowerCase();
+
+                var matchPlan = planFilter === "" || planName === planFilter;
+                var matchStatus = statusFilter === "" || status === statusFilter;
+
+                if (matchPlan && matchStatus) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        }
+
+        // Reset all filters
+        function resetFilters() {
+            document.getElementById("clientSearch").value = "";
+            document.getElementById("planFilter").selectedIndex = 0;
+            document.getElementById("statusFilter").selectedIndex = 0;
+
+            var table = document.getElementById("memberTable");
+            var rows = table.getElementsByClassName("memberRow");
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].style.display = "";
+            }
+        }
     </script>
 </head>
 <body>
@@ -37,23 +91,30 @@
         <div class="search-section">
             <div class="flex justify-between items-center gap-lg">
                 <div class="form-group mb-0">
-                    <input type="text" class="form-control" placeholder="Search members...">
+                    <input type="text" id="clientSearch" class="form-control" placeholder="Search members..." onkeyup="membershipSearch()">
                 </div>
                 <div class="flex gap-md">
-                    <select class="form-control">
+                    <select id="planFilter" class="form-control">
                         <option value="">All Memberships</option>
-                        <option value="platinum">Platinum</option>
-                        <option value="gold">Gold</option>
-                        <option value="silver">Silver</option>
+                        <c:set var="plans" value="" />
+                        <c:forEach var="membership" items="${memberships}">
+                            <c:if test="${!plans.contains(membership.planName)}">
+                                <c:set var="plans" value="${plans}${membership.planName}," />
+                                <option value="${membership.planName}">${membership.planName}</option>
+                            </c:if>
+                        </c:forEach>
                     </select>
-                    <select class="form-control">
+                    <select id="statusFilter" class="form-control">
                         <option value="">All Statuses</option>
                         <option value="active">Active</option>
-                        <option value="suspended">Suspended</option>
+                        <option value="expired">Expired</option>
                         <option value="cancelled">Cancelled</option>
                     </select>
-                    <button class="btn btn-secondary">
-                        <i class="fas fa-filter"></i>
+                    <button class="btn btn-secondary" onclick="filterMemberships()">
+                        <i class="fas fa-filter"></i> Apply
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="resetFilters()">
+                        <i class="fas fa-undo"></i> Reset
                     </button>
                 </div>
             </div>
@@ -61,7 +122,7 @@
 
         <!-- Member List -->
         <div class="card">
-            <table class="member-table">
+            <table class="member-table" id="memberTable">
                 <thead>
                 <tr>
                     <th>Name</th>
@@ -73,13 +134,13 @@
                 </thead>
                 <tbody>
                 <c:forEach var="membership" items="${memberships}">
-                    <tr>
+                    <tr class="memberRow">
                         <td>${membership.clientName}</td>
                         <td>${membership.planName}</td>
                         <td>
-                                    <span class="status-badge ${membership.status}">
-                                            ${membership.status}
-                                    </span>
+                            <span class="status-badge ${membership.status}">
+                                    ${membership.status}
+                            </span>
                         </td>
                         <td>${membership.endDate}</td>
                         <td>
