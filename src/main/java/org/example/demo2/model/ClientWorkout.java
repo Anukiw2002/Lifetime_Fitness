@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class ClientWorkout {
     private Long workoutId;
-    private String clientPhone;
+    private Long userId;
     private String workoutName;
     private Long categoryId;
     private Long instructorId;
@@ -15,11 +15,15 @@ public class ClientWorkout {
     private WorkoutCategory category;
     private Date createdAtDate; // For joining with category details
 
+    // For backward compatibility or UI convenience
+    private String clientPhone;
+    private String clientName;
+
     // Constructors
     public ClientWorkout() {}
 
-    public ClientWorkout(String clientPhone, String workoutName, Long categoryId, Long instructorId) {
-        this.clientPhone = clientPhone;
+    public ClientWorkout(Long userId, String workoutName, Long categoryId, Long instructorId) {
+        this.userId = userId;
         this.workoutName = workoutName;
         this.categoryId = categoryId;
         this.instructorId = instructorId;
@@ -28,8 +32,8 @@ public class ClientWorkout {
     // Getters and Setters
     public Long getWorkoutId() { return workoutId; }
     public void setWorkoutId(Long workoutId) { this.workoutId = workoutId; }
-    public String getClientPhone() { return clientPhone; }
-    public void setClientPhone(String clientPhone) { this.clientPhone = clientPhone; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
     public String getWorkoutName() { return workoutName; }
     public void setWorkoutName(String workoutName) { this.workoutName = workoutName; }
     public Long getCategoryId() { return categoryId; }
@@ -42,11 +46,12 @@ public class ClientWorkout {
     public void setExercises(List<WorkoutExercise> exercises) { this.exercises = exercises; }
     public WorkoutCategory getCategory() { return category; }
     public void setCategory(WorkoutCategory category) { this.category = category; }
-    public Date getCreatedAtDate() {
-        return createdAtDate;
-    }
+    public Date getCreatedAtDate() { return createdAtDate; }
+    public void setCreatedAtDate(Date createdAtDate) { this.createdAtDate = createdAtDate; }
 
-    public void setCreatedAtDate(Date createdAtDate) {
-        this.createdAtDate = createdAtDate;
-    }
+    // For backward compatibility
+    public String getClientPhone() { return clientPhone; }
+    public void setClientPhone(String clientPhone) { this.clientPhone = clientPhone; }
+    public String getClientName() { return clientName; }
+    public void setClientName(String clientName) { this.clientName = clientName; }
 }

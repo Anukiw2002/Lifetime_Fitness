@@ -1,25 +1,44 @@
 package org.example.demo2.model;
 
 public class Client {
-    private Long clientId;
+    private Long id;
+    private Long userId;
     private String phoneNumber;
-    private String name;
-    private String email;
+    private String address;
+    private String dateOfBirth;
+    private String emergencyContactName;
+    private String emergencyContactNumber;
+    private String name; // We'll keep this for convenience, retrieving from users table
+    private String email; // We'll keep this for convenience, retrieving from users table
 
     // Constructors
     public Client() {}
 
-    public Client(String phoneNumber, String name, String email) {
+    public Client(Long userId, String phoneNumber, String address, String dateOfBirth,
+                  String emergencyContactName, String emergencyContactNumber) {
+        this.userId = userId;
         this.phoneNumber = phoneNumber;
-        this.name = name;
-        this.email = email;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.emergencyContactName = emergencyContactName;
+        this.emergencyContactNumber = emergencyContactNumber;
     }
 
     // Getters and Setters
-    public Long getClientId() { return clientId; }
-    public void setClientId(Long clientId) { this.clientId = clientId; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
     public String getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+    public String getDateOfBirth() { return dateOfBirth; }
+    public void setDateOfBirth(String dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+    public String getEmergencyContactName() { return emergencyContactName; }
+    public void setEmergencyContactName(String emergencyContactName) { this.emergencyContactName = emergencyContactName; }
+    public String getEmergencyContactNumber() { return emergencyContactNumber; }
+    public void setEmergencyContactNumber(String emergencyContactNumber) { this.emergencyContactNumber = emergencyContactNumber; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public String getEmail() { return email; }

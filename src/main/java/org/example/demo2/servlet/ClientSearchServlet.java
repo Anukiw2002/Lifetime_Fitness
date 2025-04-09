@@ -30,11 +30,21 @@ public class ClientSearchServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String phoneNumber = request.getParameter("phoneNumber");
+        String clientPhone = request.getParameter("clientPhone");
+
+        // Use clientPhone parameter if phoneNumber is not provided
+        if (clientPhone != null && !clientPhone.trim().isEmpty()) {
+            phoneNumber = clientPhone;
+        }
 
         if (phoneNumber != null && !phoneNumber.trim().isEmpty()) {
             try {
                 Client client = clientDAO.findByPhoneNumber(phoneNumber);
                 if (client != null) {
+                    // Store client ID in session for further operations
+                    HttpSession session = request.getSession();
+                    session.setAttribute("clientUserId", client.getUserId());
+
                     // Redirect to client workouts page
                     response.sendRedirect("clientWorkouts?phoneNumber=" + phoneNumber);
                 } else {
@@ -50,8 +60,3 @@ public class ClientSearchServlet extends HttpServlet {
         }
     }
 }
-
-
-
-
-

@@ -22,13 +22,14 @@ public class ClientMembershipDAO {
     public List<ClientMembership> getAllMemberships() throws SQLException {
         List<ClientMembership> memberships = new ArrayList<>();
 
-        String sql = "SELECT cm.membership_id, cm.user_id, u.full_name AS client_name, " +
+        String sql = "SELECT cm.membership_id, cm.user_id, CONCAT(u.full_name, ' ', u.username) AS client_name, " +
                 "mp.plan_name, cm.start_date, d.duration_value, d.duration_type, cm.is_cancelled " +
                 "FROM client_membership cm " +
                 "JOIN users u ON u.id = cm.user_id " +
-                "JOIN membership_plans mp ON cm.plan_id = mp.plan_id " +
-                "JOIN durations d ON mp.plan_id = d.plan_id " +
+                "JOIN durations d ON cm.duration_id = d.duration_id " +
+                "JOIN membership_plans mp ON d.plan_id = mp.plan_id " +
                 "WHERE u.role = 'client'";
+
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql);

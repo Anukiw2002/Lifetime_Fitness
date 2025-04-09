@@ -9,15 +9,12 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/selectUser.css">
 </head>
 <body>
-<!-- Navbar Container -->
 <div class="navbar-container">
   <jsp:include page="../common/verticalNavBar.jsp" />
 </div>
 
-<!-- Main Content Container -->
 <div class="content-container">
   <div class="search-bar">
-    <!-- Updated form action to include /search -->
     <form action="${pageContext.request.contextPath}/workoutOptions/search" method="post">
       <label for="searchInput" class="label">Search Client by Phone:</label>
       <input type="text" id="searchInput" name="clientPhone"
