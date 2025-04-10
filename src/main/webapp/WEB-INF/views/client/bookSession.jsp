@@ -2,7 +2,6 @@
 <%@ page import="java.util.*, java.text.*" %>
 <%@ page import="org.example.demo2.model.BookingConstraints" %>
 <%@ page import="org.example.demo2.dao.BookingConstraintsDAO" %>
-<%@ page import="org.example.demo2.dao.BookSessionDAO" %>
 <%@ page import="java.util.Calendar" %>
 <html>
 <head>
