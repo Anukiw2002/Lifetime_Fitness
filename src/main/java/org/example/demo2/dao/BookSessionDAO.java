@@ -297,7 +297,7 @@ public class BookSessionDAO {
 
                     if (count >= maxBookings) {
                         label = "Fully Booked";
-                    } else if (count >= maxBookings * 0.85) {
+                    } else if (count >=  maxBookings * 0.85) {
                         label = "Almost Full";
                     } else if (count >= maxBookings * 0.75) {
                         label = "Filling Fast";
@@ -310,8 +310,3 @@ public class BookSessionDAO {
         return label;
     }
 }
-
-
-
-
-

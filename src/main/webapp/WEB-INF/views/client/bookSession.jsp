@@ -64,16 +64,12 @@
         return;
       }
 
-      // Parse out the time slots from the response HTML
-      // This assumes the server returns time slots as elements with onclick attributes
-      // containing "selectSlot" function calls
-
       // Create a temporary container to parse the HTML
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = content;
 
-      // Look for elements with selectSlot function calls
-      const slotElements = tempDiv.querySelectorAll('[onclick*="selectSlot"]');
+      // Look for elements with selectSlot function calls or data-availability attribute
+      const slotElements = tempDiv.querySelectorAll('li[data-availability]');
 
       if (slotElements.length > 0) {
         // Create the grid container
@@ -84,11 +80,22 @@
         slotElements.forEach(slotElement => {
           // Extract the onclick attribute
           const onclickAttr = slotElement.getAttribute('onclick');
+          const availability = slotElement.getAttribute('data-availability');
 
           // Create a new time slot element with proper styling
           const timeSlot = document.createElement('div');
           timeSlot.className = 'time-slot';
-          timeSlot.setAttribute('onclick', onclickAttr);
+
+          // Add availability class
+          timeSlot.classList.add('availability-' + availability.toLowerCase().replace(/\s+/g, '-'));
+
+          if (onclickAttr) {
+            timeSlot.setAttribute('onclick', onclickAttr);
+            timeSlot.style.cursor = 'pointer';
+          } else {
+            timeSlot.style.cursor = 'not-allowed';
+          }
+
           timeSlot.textContent = slotElement.textContent.trim();
 
           // Add to the grid
@@ -171,7 +178,12 @@
     <div class="card">
       <div class="card-header">
         <h3>Available Time Slots</h3>
-        <p>Filling Fast          Almost Full              Fully Booked</p>
+        <div class="availability-legend">
+          <span><span class="availability-indicator indicator-available"></span> Available</span>
+          <span><span class="availability-indicator indicator-filling-fast"></span> Filling Fast</span>
+          <span><span class="availability-indicator indicator-almost-full"></span> Almost Full</span>
+          <span><span class="availability-indicator indicator-fully-booked"></span> Fully Booked</span>
+        </div>
       </div>
       <div class="card-body">
         <div id="timeSlots" class="time-slots-container">
