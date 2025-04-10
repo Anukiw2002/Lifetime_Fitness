@@ -68,7 +68,7 @@
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = content;
 
-      // Look for elements with selectSlot function calls or data-availability attribute
+      // Look for elements with data-availability attribute
       const slotElements = tempDiv.querySelectorAll('li[data-availability]');
 
       if (slotElements.length > 0) {
@@ -86,12 +86,22 @@
           const timeSlot = document.createElement('div');
           timeSlot.className = 'time-slot';
 
-          // Add availability class
-          timeSlot.classList.add('availability-' + availability.toLowerCase().replace(/\s+/g, '-'));
+          // Add availability class - convert exactly as returned from server
+          if (availability === "Available") {
+            timeSlot.classList.add('availability-available');
+          } else if (availability === "Filling Fast") {
+            timeSlot.classList.add('availability-filling-fast');
+          } else if (availability === "Almost Full") {
+            timeSlot.classList.add('availability-almost-full');
+          } else if (availability === "Fully Booked") {
+            timeSlot.classList.add('availability-fully-booked');
+          } else if (availability === "Already Booked") {
+            timeSlot.classList.add('availability-already-booked');
+          }
 
           if (onclickAttr) {
             timeSlot.setAttribute('onclick', onclickAttr);
-            timeSlot.style.cursor = 'pointer';
+            timeSlot.style.cursor = onclickAttr.includes('alreadyBookedAlert') ? 'not-allowed' : 'pointer';
           } else {
             timeSlot.style.cursor = 'not-allowed';
           }
@@ -113,7 +123,9 @@
         }
       }
     }
-
+    function alreadyBookedAlert() {
+      alert("You have already booked this time slot. Please select another time slot.");
+    }
   </script>
 </head>
 <body>
@@ -183,6 +195,7 @@
           <span><span class="availability-indicator indicator-filling-fast"></span> Filling Fast</span>
           <span><span class="availability-indicator indicator-almost-full"></span> Almost Full</span>
           <span><span class="availability-indicator indicator-fully-booked"></span> Fully Booked</span>
+          <span><span class="availability-indicator indicator-already-booked"></span> Already Booked</span>
         </div>
       </div>
       <div class="card-body">

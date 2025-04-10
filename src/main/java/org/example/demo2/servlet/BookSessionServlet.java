@@ -90,20 +90,31 @@ public class BookSessionServlet extends HttpServlet {
                     // Get availability status
                     String availabilityStatus = bookSessionDAO.getSessionAvailabilityLabel(sqlDate, sqlTime);
 
+                    // Check if the user has already booked this slot
+                    boolean userHasBooked = bookSessionDAO.hasUserBookedSlot(userId, sqlDate, sqlTime);
+
+                    // Set status for already booked slots by this user
+                    String displayStatus = availabilityStatus;
+                    if (userHasBooked) {
+                        displayStatus = "Already Booked";
+                    }
+
                     // Append the slot to the HTML list with availability class
                     timeSlotsHtml.append("<li data-availability=\"")
-                            .append(availabilityStatus)
+                            .append(displayStatus)
                             .append("\" style='cursor:")
-                            .append("Fully Booked".equals(availabilityStatus) ? "not-allowed" : "pointer")
+                            .append(("Fully Booked".equals(availabilityStatus) || userHasBooked) ? "not-allowed" : "pointer")
                             .append(";' ");
 
-                    // Only add onClick handler if not fully booked
-                    if (!"Fully Booked".equals(availabilityStatus)) {
+                    // Only add onClick handler if not fully booked and not already booked by user
+                    if (!"Fully Booked".equals(availabilityStatus) && !userHasBooked) {
                         timeSlotsHtml.append("onClick='selectSlot(\"")
                                 .append(selectedDate)
                                 .append("\", \"")
                                 .append(slotDisplay)
                                 .append("\")'");
+                    } else if (userHasBooked) {
+                        timeSlotsHtml.append("onClick='alreadyBookedAlert()'");
                     }
 
                     timeSlotsHtml.append(">")
@@ -126,19 +137,30 @@ public class BookSessionServlet extends HttpServlet {
                     // Get availability status
                     String availabilityStatus = bookSessionDAO.getSessionAvailabilityLabel(sqlDate, sqlTime);
 
+                    // Check if the user has already booked this slot
+                    boolean userHasBooked = bookSessionDAO.hasUserBookedSlot(userId, sqlDate, sqlTime);
+
+                    // Set status for already booked slots by this user
+                    String displayStatus = availabilityStatus;
+                    if (userHasBooked) {
+                        displayStatus = "Already Booked";
+                    }
+
                     timeSlotsHtml.append("<li data-availability=\"")
-                            .append(availabilityStatus)
+                            .append(displayStatus)
                             .append("\" style='cursor:")
-                            .append("Fully Booked".equals(availabilityStatus) ? "not-allowed" : "pointer")
+                            .append(("Fully Booked".equals(availabilityStatus) || userHasBooked) ? "not-allowed" : "pointer")
                             .append(";' ");
 
-                    // Only add onClick handler if not fully booked
-                    if (!"Fully Booked".equals(availabilityStatus)) {
+                    // Only add onClick handler if not fully booked and not already booked by user
+                    if (!"Fully Booked".equals(availabilityStatus) && !userHasBooked) {
                         timeSlotsHtml.append("onClick='selectSlot(\"")
                                 .append(selectedDate)
                                 .append("\", \"")
                                 .append(lastSlotDisplay)
                                 .append("\")'");
+                    } else if (userHasBooked) {
+                        timeSlotsHtml.append("onClick='alreadyBookedAlert()'");
                     }
 
                     timeSlotsHtml.append(">")

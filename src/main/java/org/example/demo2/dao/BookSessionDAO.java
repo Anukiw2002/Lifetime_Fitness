@@ -309,4 +309,28 @@ public class BookSessionDAO {
         }
         return label;
     }
+
+    public boolean hasUserBookedSlot(int userId, Date date, Time timeSlot) {
+        String sql = "SELECT COUNT(*) FROM bookings WHERE userId = ? AND date = ? AND timeSlot = ? AND status IN ('booked', 'rescheduled')";
+        boolean hasBooked = false;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            stmt.setDate(2, date);
+            stmt.setTime(3, timeSlot);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                hasBooked = rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hasBooked;
+
+    }
 }
