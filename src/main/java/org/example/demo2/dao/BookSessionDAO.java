@@ -82,7 +82,7 @@ public class BookSessionDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Replace with proper logging
+            e.printStackTrace();
         }
 
         return false;
@@ -121,9 +121,6 @@ public class BookSessionDAO {
             switch (frequency.toLowerCase()) {
                 case "daily":
                     calendar.add(Calendar.DATE, 1);
-                    break;
-                case "every-other-day":
-                    calendar.add(Calendar.DATE, 2);
                     break;
                 case "weekly":
                     calendar.add(Calendar.DATE, 7);
@@ -332,5 +329,101 @@ public class BookSessionDAO {
 
         return hasBooked;
 
+    }
+
+    public boolean createCustomRecurringBooking(Date startDate, Time timeSlot, String status, int userId,
+                                                List<String> selectedDays, Date endDate, Integer occurrences) {
+        BookingConstraintsDAO constraintsDAO = new BookingConstraintsDAO();
+        BookingConstraints constraints = constraintsDAO.getLatestConstraints();
+
+        if (constraints == null) {
+            System.out.println("No booking constraints found.");
+            return false;
+        }
+
+        int maxWeeks = constraints.getMaxBookingAdvanceWeeks();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+
+        // Calculate the end date based on parameters
+        Calendar maxEndDate = Calendar.getInstance();
+        maxEndDate.setTime(new Date(System.currentTimeMillis()));
+        maxEndDate.add(Calendar.WEEK_OF_YEAR, maxWeeks);
+
+        Calendar actualEndDate = Calendar.getInstance();
+
+        if (endDate != null) {
+            // Use the specified end date
+            actualEndDate.setTime(endDate);
+            // Make sure it doesn't exceed max allowed
+            if (actualEndDate.after(maxEndDate)) {
+                actualEndDate = maxEndDate;
+            }
+        } else if (occurrences != null) {
+            // Calculate end date based on occurrences
+            actualEndDate.setTime(startDate);
+
+            // We need to count only days that match selected weekdays
+            int bookedCount = 0;
+            Calendar tempCal = (Calendar) calendar.clone();
+
+            while (bookedCount < occurrences && !tempCal.after(maxEndDate)) {
+                int dayOfWeek = tempCal.get(Calendar.DAY_OF_WEEK);
+                String dayName = getDayName(dayOfWeek);
+
+                if (selectedDays.contains(dayName)) {
+                    bookedCount++;
+                    actualEndDate.setTime(tempCal.getTime());
+                }
+
+                tempCal.add(Calendar.DATE, 1);
+            }
+        } else {
+            // Default to max allowed
+            actualEndDate = maxEndDate;
+        }
+
+        boolean success = true;
+        int bookedCount = 0;
+
+        // Don't exceed the end date
+        while (!calendar.after(actualEndDate)) {
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            String dayName = getDayName(dayOfWeek);
+
+            if (selectedDays.contains(dayName)) {
+                boolean booked = createSessionBooking(
+                        new java.sql.Date(calendar.getTimeInMillis()), timeSlot, status, userId);
+
+                if (booked) {
+                    bookedCount++;
+                    if (occurrences != null && bookedCount >= occurrences) {
+                        break;
+                    }
+                } else {
+                    // Don't fail the entire operation for one slot
+                    System.out.println("Failed to book session on " + calendar.getTime());
+                }
+            }
+
+            // Always increment by one day
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        return bookedCount > 0;
+    }
+
+    private String getDayName(int dayOfWeek) {
+        switch (dayOfWeek) {
+            case Calendar.MONDAY: return "MONDAY";
+            case Calendar.TUESDAY: return "TUESDAY";
+            case Calendar.WEDNESDAY: return "WEDNESDAY";
+            case Calendar.THURSDAY: return "THURSDAY";
+            case Calendar.FRIDAY: return "FRIDAY";
+            case Calendar.SATURDAY: return "SATURDAY";
+            case Calendar.SUNDAY: return "SUNDAY";
+            default: return "";
+        }
     }
 }
