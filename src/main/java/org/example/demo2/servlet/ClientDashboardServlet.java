@@ -74,8 +74,7 @@ public class ClientDashboardServlet extends HttpServlet {
         req.setAttribute("currentDay", currentDay);
         req.setAttribute("currentMonth", currentMonth);
         req.setAttribute("currentYear", currentYear);
-        System.out.println("Streak: " + streak);
-        System.out.println("workouts:" + workoutCount);
+
         // Forward the request to the JSP
         req.getRequestDispatcher("/WEB-INF/views/client/client-dashboard.jsp").forward(req, resp);
     }
