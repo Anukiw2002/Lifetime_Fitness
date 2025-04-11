@@ -5,18 +5,40 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import org.example.demo2.dao.ClientMembershipDAO;
+import org.example.demo2.model.ClientMembership;
+import org.example.demo2.util.DBConnection;
 import org.example.demo2.util.SessionUtils;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
-@WebServlet("/InstructorMemberManagement")
+@WebServlet("/instructorMemberManagement")
 public class InstructorMemberManagementServlet extends HttpServlet {
+    private ClientMembershipDAO membershipDAO;
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(req, resp, "instructor")) {
+    public void init() throws ServletException {
+        // Create your DBConnection instance as needed by your project.
+        DBConnection dbConnection = new DBConnection();
+        membershipDAO = new ClientMembershipDAO(dbConnection);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Add the authorization check at the beginning
+        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
             return; // If not authorized, the redirection will be handled by the utility method
         }
-        req.getRequestDispatcher("/WEB-INF/views/instructor/instructorMemberManagmement.jsp").forward(req, resp);
+
+        try {
+            List<ClientMembership> memberships = membershipDAO.getAllMemberships();
+            request.setAttribute("memberships", memberships);
+            request.getRequestDispatcher("/WEB-INF/views/instructor/instructorMemberManagemement.jsp").forward(request, response);
+        } catch (SQLException e) {
+            throw new ServletException("Error retrieving memberships", e);
+        }
     }
 }
