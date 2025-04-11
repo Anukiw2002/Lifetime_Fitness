@@ -28,10 +28,11 @@
             </c:if>
         </div>
 
-        <form id="workoutLogForm" action="${pageContext.request.contextPath}/StartExercises" method="get">
+        <form id="workoutLogForm" action="${pageContext.request.contextPath}/InsertWorkoutLogsServlet" method="post">
             <input type="hidden" name="workoutId" value="${workout.workoutId}">
+            <input type="hidden" name="exerciseId" value="${currentExercise.exercise.exerciseId}">
             <input type="hidden" name="exerciseIndex" value="${exerciseIndex}">
-            <input type="hidden" name="currentIndex" value="${exerciseIndex}">
+            <input type="hidden" name="totalSets" value="${currentExercise.setNumber}">
 
             <div class="set-grid">
                 <c:forEach var="setNum" begin="1" end="${currentExercise.setNumber}">
@@ -65,22 +66,22 @@
                         </button>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/StartExercises?workoutId=${workout.workoutId}&exerciseIndex=${exerciseIndex-1}" class="btn btn-secondary">
+                        <button type="submit" name="action" value="previous" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Previous Exercise
-                        </a>
+                        </button>
                     </c:otherwise>
                 </c:choose>
 
                 <c:choose>
                     <c:when test="${isLastExercise}">
-                        <a href="${pageContext.request.contextPath}/workoutOptionss?page=workoutStats" class="btn btn-success">
+                        <button type="submit" name="action" value="finish" class="btn btn-success">
                             <i class="fas fa-check"></i> Finish Workout
-                        </a>
+                        </button>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/StartExercises?workoutId=${workout.workoutId}&exerciseIndex=${exerciseIndex+1}" class="btn btn-primary">
+                        <button type="submit" name="action" value="next" class="btn btn-primary">
                             Next Exercise <i class="fas fa-arrow-right"></i>
-                        </a>
+                        </button>
                     </c:otherwise>
                 </c:choose>
             </div>
