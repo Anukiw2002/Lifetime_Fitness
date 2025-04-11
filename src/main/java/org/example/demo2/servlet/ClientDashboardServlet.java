@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.demo2.dao.DashboardDAO;
 import org.example.demo2.dao.NotificationsDAO;
 import org.example.demo2.dao.ReportDAO;
 import org.example.demo2.model.UserWeightData;
@@ -54,13 +55,17 @@ public class ClientDashboardServlet extends HttpServlet {
         ReportDAO reportDAO = new ReportDAO();
         UserWeightData weightData = reportDAO.getWeightByEmail(email);
 
+        DashboardDAO dashboardDAO = new DashboardDAO();
+        int workoutCount = dashboardDAO.getWorkoutCountById(user_id);
+        int streak = dashboardDAO.getWorkoutSteakById(user_id);
+
         req.setAttribute("beginningWeight", weightData.getBeginningWeight());
         req.setAttribute("currentWeight", weightData.getCurrentWeight());
         req.setAttribute("targetWeight", weightData.getTargetWeight());
-        System.out.println("Beginning Weight: " + weightData.getBeginningWeight());
-        System.out.println("Current Weight: " + weightData.getCurrentWeight());
-        System.out.println("Target Weight: " + weightData.getTargetWeight());
-
+        req.setAttribute("workoutCount", workoutCount);
+        req.setAttribute("streak", streak);
+        System.out.println("Streak: " + streak);
+        System.out.println("workouts:" + workoutCount);
         // Forward the request to the JSP
         req.getRequestDispatcher("/WEB-INF/views/client/client-dashboard.jsp").forward(req, resp);
     }
