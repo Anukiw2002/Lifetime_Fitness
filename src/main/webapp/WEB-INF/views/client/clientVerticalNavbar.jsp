@@ -43,8 +43,8 @@
         <a href="GetAllBlogsClient" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
-        <a href="testView?page=page7" class="nav-link">
-            <i class="fas fa-book icon"></i>My Profile <!--memberProfile.jsp-->
+        <a href="memberProfile" class="nav-link">
+            <i class="fas fa-user icon"></i>My Profile
         </a>
     </div>
 

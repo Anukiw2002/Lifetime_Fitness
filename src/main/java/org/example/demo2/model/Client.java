@@ -9,7 +9,8 @@ public class Client {
     private String emergencyContactName;
     private String emergencyContactNumber;
     private String name; // We'll keep this for convenience, retrieving from users table
-    private String email; // We'll keep this for convenience, retrieving from users table
+    private String email;
+    private String username;// We'll keep this for convenience, retrieving from users table
 
     // Constructors
     public Client() {}
@@ -43,4 +44,6 @@ public class Client {
     public void setName(String name) { this.name = name; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 }

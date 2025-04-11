@@ -1,58 +1,144 @@
 <%@ page import="java.time.LocalDate" %>
-<%@ page import="java.time.format.DateTimeFormatter" %><%--
-  Created by IntelliJ IDEA.
-  User: anukiwanniarachchi
-  Date: 2025-04-07
-  Time: 3:00 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Cofirm Session Booking</title>
+  <title>Confirm Session Booking</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookSessionConfirmation.css">
 </head>
 <body>
-<h1>Confirm Your Booking</h1>
-<p>Date & Time</p>
+<div class="booking-card">
+  <h1>Confirm Your Booking</h1>
 
-<%
-  String selectedDate = request.getParameter("selectedDate");
-  String selectedSlot = request.getParameter("selectedSlot");
+  <div class="form-section">
+    <p class="section-label">Date & Time</p>
+    <div class="date-display">
+      <%
+        String selectedDate = request.getParameter("selectedDate");
+        String selectedSlot = request.getParameter("selectedSlot");
 
-  if (selectedDate != null && selectedSlot != null) {
-    try {
+        if (selectedDate != null && selectedSlot != null) {
+          try {
+            // Parse the date from yyyy-MM-dd format
+            LocalDate date = LocalDate.parse(selectedDate);
 
-      // Parse the date from yyyy-MM-dd format
-      LocalDate date = LocalDate.parse(selectedDate);
+            // Format the date as "Monday, April 28, 2025"
+            String formattedDate = date.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy"));
 
-      // Format the date as "Monday, April 28, 2025"
-      String formattedDate = date.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy"));
+            out.println("<p class='date-value'>" + formattedDate + "</p>");
+            out.println("<p class='time-value'>" + selectedSlot + "</p>");
+          } catch (Exception e) {
+            out.println("<p class='date-value'>Error formatting date: " + selectedDate + "</p>");
+            out.println("<p class='time-value'>" + selectedSlot + "</p>");
+          }
+        } else {
+          out.println("<p class='date-value'>Invalid booking details.</p>");
+        }
+      %>
+    </div>
+  </div>
 
-      out.println("<p>" + formattedDate + "</p>");
-      out.println("<p>" + selectedSlot + "</p>");
-    } catch (Exception e) {
-      out.println("<p>Error formatting date: " + selectedDate + "</p>");
-      out.println("<p>" + selectedSlot + "</p>");
+  <form method="POST" action="bookSessionConfirmation">
+    <input type="hidden" name="selectedDate" value="<%= selectedDate %>" required>
+    <input type="hidden" name="selectedSlot" value="<%= selectedSlot %>" required>
+
+    <div class="form-section">
+      <p class="section-label">Recurrence</p>
+      <select id="frequency" name="frequency" onchange="toggleCustomOptions()" required>
+        <option value="one-time">One time only</option>
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="custom">Custom</option>
+      </select>
+
+      <div id="customOptions" style="display:none;">
+        <p class="sub-label">Repeat on:</p>
+        <div class="weekday-selector">
+          <label><input type="checkbox" name="weekday" value="MONDAY"> Monday</label>
+          <label><input type="checkbox" name="weekday" value="TUESDAY"> Tuesday</label>
+          <label><input type="checkbox" name="weekday" value="WEDNESDAY"> Wednesday</label>
+          <label><input type="checkbox" name="weekday" value="THURSDAY"> Thursday</label>
+          <label><input type="checkbox" name="weekday" value="FRIDAY"> Friday</label>
+          <label><input type="checkbox" name="weekday" value="SATURDAY"> Saturday</label>
+          <label><input type="checkbox" name="weekday" value="SUNDAY"> Sunday</label>
+        </div>
+
+        <p class="sub-label">End recurrence:</p>
+        <div class="end-recurrence">
+          <select id="endRecurrenceType" name="endRecurrenceType" onchange="toggleEndDateOptions()">
+            <option value="max">Maximum allowed (until <%= request.getAttribute("maxEndDateFormatted") %>)</option>
+            <option value="custom-date">On specific date</option>
+            <option value="occurrences">After number of occurrences</option>
+          </select>
+
+          <div id="endDateOption" style="display:none; margin-top: var(--spacing-md);">
+            <input type="date" name="endDate" id="endDate" min="<%= selectedDate %>">
+          </div>
+
+          <div id="occurrencesOption" style="display:none; margin-top: var(--spacing-md);">
+            <input type="number" name="occurrences" id="occurrences" min="1" max="<%= request.getAttribute("maxOccurrences") %>" value="1">
+            <span>occurrence(s)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button type="button" class="btn-cancel" onclick="window.location.href='bookSession'">Cancel</button>
+      <button type="submit" class="btn-confirm">Confirm Booking</button>
+    </div>
+  </form>
+</div>
+<script>
+  function toggleCustomOptions() {
+    const frequency = document.getElementById('frequency').value;
+    const customOptions = document.getElementById('customOptions');
+
+    if (frequency === 'custom') {
+      customOptions.style.display = 'block';
+      // Pre-select the day of the selected date
+      const selectedDate = new Date('<%= selectedDate %>');
+      const dayOfWeek = selectedDate.getDay();
+      const weekdayNames = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+      const checkboxes = document.querySelectorAll('input[name="weekday"]');
+      checkboxes.forEach(cb => {
+        if (cb.value === weekdayNames[dayOfWeek]) {
+          cb.checked = true;
+        }
+      });
+    } else {
+      customOptions.style.display = 'none';
     }
-  } else {
-    out.println("<p>Invalid booking details.</p>");
   }
-%>
-<form method="POST" action="bookSessionConfirmation">
-  <input type="hidden" name="selectedDate" value="<%= selectedDate %>" required>
-  <input type="hidden" name="selectedSlot" value="<%= selectedSlot %>" required>
-  <p>Recurrence</p>
-  <select id="frequency" name="frequency" required>
-    <option id="one-time">One time only</option>
-    <option id="daily">Daily</option>
-    <option id="every-other-day">Every other day</option>
-    <option id="weekly">Weekly</option>
-  </select>
 
-  <button type="button" onclick="window.location.href='bookSession'">Cancel</button>
-  <button type="submit">Confirm Booking</button>
+  function toggleEndDateOptions() {
+    const endType = document.getElementById('endRecurrenceType').value;
+    document.getElementById('endDateOption').style.display = endType === 'custom-date' ? 'block' : 'none';
+    document.getElementById('occurrencesOption').style.display = endType === 'occurrences' ? 'block' : 'none';
 
-</form>
+    // Set max date for endDate
+    if (endType === 'custom-date') {
+      const endDate = document.getElementById('endDate');
+      endDate.max = '<%= request.getAttribute("maxEndDate") %>';
 
+      // Ensure minimum date is today
+      const today = new Date().toISOString().split('T')[0];
+      if (endDate.value < today) {
+        endDate.value = today;
+      }
+    }
+  }
+
+  // Initialize date picker with proper restrictions when the page loads
+  window.onload = function() {
+    const endDatePicker = document.getElementById('endDate');
+    if (endDatePicker) {
+      const today = new Date().toISOString().split('T')[0];
+      endDatePicker.min = today;
+      endDatePicker.max = '<%= request.getAttribute("maxEndDate") %>';
+    }
+  };
+</script>
 </body>
 </html>

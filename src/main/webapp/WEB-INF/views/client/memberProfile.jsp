@@ -16,7 +16,7 @@
                 <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg"
                      alt="Profile Picture"
                      class="profile-image">
-                <h1 class="mb-2">Mihindu Dharamasena</h1>
+                <h1 class="mb-2">${client.name}</h1>
                 <div class="text-muted mb-3">
                     <h2 class="mb-1">Platinum Membership - Gents</h2>
                     <p>Expiration Date: 24/02/2024</p>
@@ -75,7 +75,7 @@
             <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientEditProfile'">
                 Edit Profile
             </button>
-            <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientSessions'">
+            <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientBookings'">
                 View Schedule
             </button>
             <button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/bookSession'">

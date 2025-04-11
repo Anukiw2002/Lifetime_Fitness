@@ -39,14 +39,17 @@ public class BookSessionServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String selectedDate = request.getParameter("selectedDate");
+        HttpSession session = request.getSession();
 
-        String startTimeStr = (String) request.getSession().getAttribute("startTime");
-        String endTimeStr = (String) request.getSession().getAttribute("endTime");
+        String startTimeStr = (String) session.getAttribute("startTime");
+        String endTimeStr = (String) session.getAttribute("endTime");
+        int userId = (int) session.getAttribute("userId");
 
         if (startTimeStr != null && endTimeStr != null) {
             try {
                 LocalTime start = LocalTime.parse(startTimeStr);
                 LocalTime end = LocalTime.parse(endTimeStr);
+                BookSessionDAO bookSessionDAO = new BookSessionDAO();
 
                 // If the selected date is today, update start time to current time if it's later
                 LocalDate today = LocalDate.now();
@@ -80,12 +83,41 @@ public class BookSessionServlet extends HttpServlet {
                     String slotDisplay = currentSlot.format(DateTimeFormatter.ofPattern("h:mm a")) + " - "
                             + slotEnd.format(DateTimeFormatter.ofPattern("h:mm a"));
 
-                    // Append the slot to the HTML list
-                    timeSlotsHtml.append("<li style='cursor:pointer;' onClick='selectSlot(\"")
-                            .append(selectedDate)
-                            .append("\", \"")
-                            .append(slotDisplay)
-                            .append("\")'>")
+                    // Convert LocalTime to java.sql.Time for checking availability
+                    java.sql.Date sqlDate = java.sql.Date.valueOf(selected);
+                    java.sql.Time sqlTime = java.sql.Time.valueOf(currentSlot);
+
+                    // Get availability status
+                    String availabilityStatus = bookSessionDAO.getSessionAvailabilityLabel(sqlDate, sqlTime);
+
+                    // Check if the user has already booked this slot
+                    boolean userHasBooked = bookSessionDAO.hasUserBookedSlot(userId, sqlDate, sqlTime);
+
+                    // Set status for already booked slots by this user
+                    String displayStatus = availabilityStatus;
+                    if (userHasBooked) {
+                        displayStatus = "Already Booked";
+                    }
+
+                    // Append the slot to the HTML list with availability class
+                    timeSlotsHtml.append("<li data-availability=\"")
+                            .append(displayStatus)
+                            .append("\" style='cursor:")
+                            .append(("Fully Booked".equals(availabilityStatus) || userHasBooked) ? "not-allowed" : "pointer")
+                            .append(";' ");
+
+                    // Only add onClick handler if not fully booked and not already booked by user
+                    if (!"Fully Booked".equals(availabilityStatus) && !userHasBooked) {
+                        timeSlotsHtml.append("onClick='selectSlot(\"")
+                                .append(selectedDate)
+                                .append("\", \"")
+                                .append(slotDisplay)
+                                .append("\")'");
+                    } else if (userHasBooked) {
+                        timeSlotsHtml.append("onClick='alreadyBookedAlert()'");
+                    }
+
+                    timeSlotsHtml.append(">")
                             .append(slotDisplay)
                             .append("</li>");
 
@@ -98,15 +130,43 @@ public class BookSessionServlet extends HttpServlet {
                     String lastSlotDisplay = currentSlot.format(DateTimeFormatter.ofPattern("h:mm a")) + " - "
                             + end.format(DateTimeFormatter.ofPattern("h:mm a"));
 
-                    timeSlotsHtml.append("<li style='cursor:pointer;' onClick='selectSlot(\"")
-                            .append(selectedDate)
-                            .append("\", \"")
-                            .append(lastSlotDisplay)
-                            .append("\")'>")
+                    // Convert LocalTime to java.sql.Time for checking availability
+                    java.sql.Date sqlDate = java.sql.Date.valueOf(selected);
+                    java.sql.Time sqlTime = java.sql.Time.valueOf(currentSlot);
+
+                    // Get availability status
+                    String availabilityStatus = bookSessionDAO.getSessionAvailabilityLabel(sqlDate, sqlTime);
+
+                    // Check if the user has already booked this slot
+                    boolean userHasBooked = bookSessionDAO.hasUserBookedSlot(userId, sqlDate, sqlTime);
+
+                    // Set status for already booked slots by this user
+                    String displayStatus = availabilityStatus;
+                    if (userHasBooked) {
+                        displayStatus = "Already Booked";
+                    }
+
+                    timeSlotsHtml.append("<li data-availability=\"")
+                            .append(displayStatus)
+                            .append("\" style='cursor:")
+                            .append(("Fully Booked".equals(availabilityStatus) || userHasBooked) ? "not-allowed" : "pointer")
+                            .append(";' ");
+
+                    // Only add onClick handler if not fully booked and not already booked by user
+                    if (!"Fully Booked".equals(availabilityStatus) && !userHasBooked) {
+                        timeSlotsHtml.append("onClick='selectSlot(\"")
+                                .append(selectedDate)
+                                .append("\", \"")
+                                .append(lastSlotDisplay)
+                                .append("\")'");
+                    } else if (userHasBooked) {
+                        timeSlotsHtml.append("onClick='alreadyBookedAlert()'");
+                    }
+
+                    timeSlotsHtml.append(">")
                             .append(lastSlotDisplay)
                             .append("</li>");
                 }
-
 
                 response.setContentType("text/html");
                 response.getWriter().write("<ul>" + timeSlotsHtml.toString() + "</ul>");

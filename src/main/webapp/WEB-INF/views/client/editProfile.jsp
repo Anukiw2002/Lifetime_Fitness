@@ -25,7 +25,7 @@
                     <h2 class="mb-3">Personal Information</h2>
                     <div class="form-group">
                         <label class="form-label" for="fullName">Full Name</label>
-                        <input type="text" id="fullName" class="form-control" value="Mihindu Dharamasena" required>
+                        <input type="text" id="fullName" class="form-control" value="${client.name}" required>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
@@ -47,15 +47,15 @@
                     <h2 class="mb-3">Contact Information</h2>
                     <div class="form-group">
                         <label class="form-label" for="email">Email Address</label>
-                        <input type="email" id="email" class="form-control" value="mihindu@example.com" required>
+                        <input type="email" id="email" class="form-control" value="${client.email}" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="phone">Phone Number</label>
-                        <input type="tel" id="phone" class="form-control" value="+94 77 123 4567" required>
+                        <input type="tel" id="phone" class="form-control" value="${client.phoneNumber}" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="address">Address</label>
-                        <textarea id="address" class="form-control">123 Gym Street, Colombo</textarea>
+                        <textarea id="address" class="form-control">${client.address}</textarea>
                     </div>
                 </div>
 
@@ -81,11 +81,11 @@
                     <h2 class="mb-3">Emergency Contact</h2>
                     <div class="form-group">
                         <label class="form-label" for="emergencyName">Contact Name</label>
-                        <input type="text" id="emergencyName" class="form-control" value="Emergency Contact">
+                        <input type="text" id="emergencyName" class="form-control" value="${client.emergencyContactName}">
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="emergencyPhone">Contact Phone</label>
-                        <input type="tel" id="emergencyPhone" class="form-control" value="+94 77 987 6543">
+                        <input type="tel" id="emergencyPhone" class="form-control" value="${client.emergencyContactNumber}">
                     </div>
                 </div>
 

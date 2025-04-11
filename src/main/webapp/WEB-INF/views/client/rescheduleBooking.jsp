@@ -3,25 +3,25 @@
 <%@ page import="org.example.demo2.model.BookingConstraints" %>
 <%@ page import="org.example.demo2.dao.BookingConstraintsDAO" %>
 <%@ page import="java.util.Calendar" %>
+
 <html>
 <head>
-  <title>Book a session</title>
+  <title>Reschedule Session</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookSession.css">
 
   <script>
     // Function to handle date click and fetch available time slots via AJAX
-    // Function to handle date click and fetch available time slots via AJAX
     function selectDate(selectedDate) {
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", "bookSession", true);
+      xhr.open("POST", "rescheduleSession", true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
           // Parse the response (HTML) and update the slots section
           document.getElementById("timeSlots").innerHTML = xhr.responseText;
 
-          // Call formatTimeSlots() to apply the grid styling
+          // Format time slots to match the grid layout
           formatTimeSlots();
         }
       };
@@ -33,11 +33,33 @@
         dateElements[i].classList.remove("selected");
       }
       document.getElementById("date-" + selectedDate).classList.add("selected");
+
+      // Update the form's hidden date field
+      document.getElementById("newDate").value = selectedDate;
     }
 
-    // Function to send the selected date and the slot to the bookingConfirmation.jsp page
-    function selectSlot(selectedDate, selectedSlot) {
-      window.location.href = "bookSessionConfirmation?selectedDate=" + encodeURIComponent(selectedDate) + "&selectedSlot=" + encodeURIComponent(selectedSlot);
+    // Function to send the selected date and the slot
+    function selectSlot(selectedDate, selectedTime, displayTime) {
+      // Update the form's hidden fields
+      document.getElementById("newDate").value = selectedDate;
+      document.getElementById("newTime").value = selectedTime;
+      document.getElementById("newTimeDisplay").value = displayTime;
+
+      // Show the confirmation modal instead of the bottom section
+      var formattedDate = new Date(selectedDate).toLocaleDateString('en-US',
+              { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      showRescheduleModal(formattedDate, displayTime);
+    }
+
+    // Show the reschedule confirmation modal
+    function showRescheduleModal(formattedDate, displayTime) {
+      document.getElementById('selectedDateTimeDisplay').textContent = formattedDate + " at " + displayTime;
+      document.getElementById('rescheduleModal').style.display = 'block';
+    }
+
+    // Hide the reschedule confirmation modal
+    function hideRescheduleModal() {
+      document.getElementById('rescheduleModal').style.display = 'none';
     }
 
     // Load today's slots when the page loads
@@ -53,7 +75,7 @@
       selectDate(todayFormatted);
     }
 
-    // Format the time slots into a grid
+    // Format the time slots into a grid, matching the styling from bookSession.jsp
     function formatTimeSlots() {
       const timeSlotsContainer = document.getElementById("timeSlots");
       const content = timeSlotsContainer.innerHTML;
@@ -67,8 +89,8 @@
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = content;
 
-      // Look for elements with data-availability attribute
-      const slotElements = tempDiv.querySelectorAll('li[data-availability]');
+      // Look for elements with data-availability attribute or regular list items
+      const slotElements = tempDiv.querySelectorAll('li');
 
       if (slotElements.length > 0) {
         // Create the grid container
@@ -79,13 +101,13 @@
         slotElements.forEach(slotElement => {
           // Extract the onclick attribute
           const onclickAttr = slotElement.getAttribute('onclick');
-          const availability = slotElement.getAttribute('data-availability');
+          const availability = slotElement.getAttribute('data-availability') || "Available";
 
           // Create a new time slot element with proper styling
           const timeSlot = document.createElement('div');
           timeSlot.className = 'time-slot';
 
-          // Add availability class - convert exactly as returned from server
+          // Add availability class
           if (availability === "Available") {
             timeSlot.classList.add('availability-available');
           } else if (availability === "Filling Fast") {
@@ -122,8 +144,17 @@
         }
       }
     }
+
+    // Function to show alert when user tries to select a slot they already booked
     function alreadyBookedAlert() {
       alert("You have already booked this time slot. Please select another time slot.");
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      if (event.target == document.getElementById('rescheduleModal')) {
+        hideRescheduleModal();
+      }
     }
   </script>
 </head>
@@ -132,9 +163,36 @@
   <jsp:include page="../client/clientVerticalNavbar.jsp" />
   <div class="container">
     <div class="page-header">
-      <h1>Book a Gym Session</h1>
-      <p class="text-muted">Select your preferred date and time slot</p>
+      <h1>Reschedule Gym Session</h1>
+      <p class="text-muted">Select a new date and time for your session</p>
     </div>
+
+    <% if (session.getAttribute("originalDate") != null && session.getAttribute("originalTime") != null) {
+      java.sql.Date origDate = (java.sql.Date) session.getAttribute("originalDate");
+      java.sql.Time origTime = (java.sql.Time) session.getAttribute("originalTime");
+
+      SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+      SimpleDateFormat timeFormatter = new SimpleDateFormat("h:mm a");
+
+      String formattedDate = dateFormatter.format(origDate);
+      String formattedTime = timeFormatter.format(origTime);
+    %>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h3>Original Booking</h3>
+      </div>
+      <div class="card-body">
+        <p>Your currently scheduled session: <strong><%= formattedDate %> at <%= formattedTime %></strong></p>
+        <p class="text-muted">Please select a new date and time below</p>
+      </div>
+    </div>
+    <% } %>
+
+    <% if (request.getAttribute("error") != null) { %>
+    <div class="alert alert-danger">
+      <%= request.getAttribute("error") %>
+    </div>
+    <% } %>
 
     <div class="card mb-4">
       <div class="card-header">
@@ -201,6 +259,33 @@
         <div id="timeSlots" class="time-slots-container">
           <!-- This will be dynamically updated -->
           <p class="text-muted">Please select a date to view available time slots</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden form fields to store selected values -->
+    <form id="rescheduleForm" action="rescheduleSession" method="post" style="display: none;">
+      <input type="hidden" id="bookingId" name="bookingId" value="<%= session.getAttribute("bookingId") %>">
+      <input type="hidden" id="newDate" name="newDate" value="">
+      <input type="hidden" id="newTime" name="newTime" value="">
+      <input type="hidden" id="newTimeDisplay" name="newTimeDisplay" value="">
+    </form>
+
+    <!-- Reschedule Confirmation Modal -->
+    <div id="rescheduleModal" class="modal">
+      <div class="card-modal">
+        <div class="card-modal-header">
+          <h3><i class="fas fa-calendar-alt"></i> Confirm Reschedule</h3>
+        </div>
+        <div class="card-modal-body">
+          <p>You are about to reschedule your session to: <strong><span id="selectedDateTimeDisplay"></span></strong></p>
+          <p class="text-muted">Please confirm your new booking time.</p>
+        </div>
+        <div class="flex justify-end gap-md">
+          <button class="btn btn-secondary" onclick="hideRescheduleModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="document.getElementById('rescheduleForm').submit();">
+            Confirm Reschedule
+          </button>
         </div>
       </div>
     </div>
