@@ -25,22 +25,19 @@
             <div class="stat-card">
                 <h3>Workout Streak</h3>
                 <div class="flex items-center justify-between">
-                    <span class="text-2xl">7 days</span>
-                    <span class="text-success">↑</span>
+                    <span class="text-2xl">${streak}</span>
                 </div>
             </div>
             <div class="stat-card">
                 <h3>Current Weight</h3>
                 <div class="flex items-center justify-between">
-                    <span class="text-2xl">75 kg</span>
-                    <span class="text-success">↓</span>
+                    <span class="text-2xl">${currentWeight}</span>
                 </div>
             </div>
             <div class="stat-card">
                 <h3>Total Workouts</h3>
                 <div class="flex items-center justify-between">
-                    <span class="text-2xl">48</span>
-                    <span class="text-success">↑</span>
+                    <span class="text-2xl">${workoutCount}</span>
                 </div>
             </div>
             <div class="stat-card">
