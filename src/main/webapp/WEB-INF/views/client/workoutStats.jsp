@@ -31,7 +31,7 @@
             <div class="stat-card">
                 <div class="stat-title">Total Repetitions</div>
                 <div class="stat-value">
-                    <span id="totalRepsValue">124</span>
+                    <span id="totalRepsValue">${stats.totalReps}</span>
                     <span class="stat-unit">reps</span>
                 </div>
             </div>
@@ -40,7 +40,7 @@
             <div class="stat-card">
                 <div class="stat-title">Total Weight Lifted</div>
                 <div class="stat-value">
-                    <span id="totalWeightValue">2,450</span>
+                    <span id="totalWeightValue">${stats.totalWeight}</span>
                     <span class="stat-unit">kg</span>
                 </div>
             </div>
@@ -49,7 +49,7 @@
             <div class="stat-card">
                 <div class="stat-title">Average Weight Per Set</div>
                 <div class="stat-value">
-                    <span id="avgWeightValue">61.25</span>
+                    <span id="avgWeightValue">${(stats.totalWeight / stats.totalSets)}</span>
                     <span class="stat-unit">kg</span>
                 </div>
             </div>

@@ -98,7 +98,7 @@ public class InsertWorkoutLogsServlet extends HttpServlet {
                         break;
                     case "finish":
                         // Finish workout and go to stats page
-                        response.sendRedirect(request.getContextPath() + "/workoutOptionss?page=workoutStats");
+                        response.sendRedirect(request.getContextPath() + "/WorkoutStats?workoutId=" + workoutId);
                         break;
                     default:
                         // Default navigation if no action specified
