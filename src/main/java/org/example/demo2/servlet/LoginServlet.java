@@ -73,7 +73,7 @@ public class LoginServlet extends HttpServlet {
                         response.sendRedirect(request.getContextPath() + "/dashboard");
                         break;
                     case "instructor":
-                        request.getRequestDispatcher("/instructor/upcomingSessions").forward(request, response);
+                        request.getRequestDispatcher("/instructorDashboard").forward(request, response);
                         break;
                     default:
                         sendAlert(response, "Unknown user role.");
