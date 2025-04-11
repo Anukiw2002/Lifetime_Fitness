@@ -64,6 +64,7 @@
                 <label>Cardio: <input type="text" name="cardio" value="<%= reportDetails.get("cardio") %>"></label>
                 <label>Remarks: <input type="text" name="remarks" value="<%= reportDetails.get("remarks") %>"></label>
                 <input type="hidden" name="email" value="<%= reportDetails.get("email") %>">
+                <label>Target Weight: <input type="number" name="target_weight" value="<%= reportDetails.get("target_weight") %>"></label>
             </div>
 
             <!-- Exercises Table -->

@@ -1,5 +1,6 @@
 package org.example.demo2.dao;
 
+import org.example.demo2.model.UserWeightData;
 import org.example.demo2.util.DBConnection;
 
 import java.sql.*;
@@ -75,5 +76,34 @@ public class ReportDAO {
             }
             pstmt.executeBatch();
         }
+    }
+
+    public UserWeightData getWeightByEmail(String email){
+        UserWeightData data = new UserWeightData();
+
+        String reportQuery = "SELECT body_weight, target_weight FROM user_reports WHERE email = ? ";
+        String exerciseQuery = "SELECT weight FROM user_exercises WHERE email=? ";
+
+        try(Connection conn = DBConnection.getConnection()){
+            try(PreparedStatement reportStmt = conn.prepareStatement(reportQuery)){
+                reportStmt.setString(1,email);
+                ResultSet rs = reportStmt.executeQuery();
+                if(rs.next()){
+                    data.setBeginningWeight(rs.getDouble("body_weight"));
+                    data.setTargetWeight(rs.getDouble("target_weight"));
+                }
+            }
+
+            try(PreparedStatement exerciseStmt = conn.prepareStatement(exerciseQuery)){
+                exerciseStmt.setString(1, email);
+                ResultSet rs = exerciseStmt.executeQuery();
+                if (rs.next()){
+                    data.setCurrentWeight(rs.getDouble("weight"));
+                }
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return data;
     }
 }

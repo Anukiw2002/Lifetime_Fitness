@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.NotificationsDAO;
+import org.example.demo2.dao.ReportDAO;
+import org.example.demo2.model.UserWeightData;
 import org.example.demo2.util.DBConnection;
 
 import java.io.IOException;
@@ -24,7 +26,8 @@ public class ClientDashboardServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
-
+        String email = (String) session.getAttribute("email");
+        System.out.println("email" +email);
         int user_id = (int)session.getAttribute("userId");
 
         // Use NotificationsDAO to check for unread notifications
@@ -48,7 +51,16 @@ public class ClientDashboardServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        
+        ReportDAO reportDAO = new ReportDAO();
+        UserWeightData weightData = reportDAO.getWeightByEmail(email);
+
+        req.setAttribute("beginningWeight", weightData.getBeginningWeight());
+        req.setAttribute("currentWeight", weightData.getCurrentWeight());
+        req.setAttribute("targetWeight", weightData.getTargetWeight());
+        System.out.println("Beginning Weight: " + weightData.getBeginningWeight());
+        System.out.println("Current Weight: " + weightData.getCurrentWeight());
+        System.out.println("Target Weight: " + weightData.getTargetWeight());
+
         // Forward the request to the JSP
         req.getRequestDispatcher("/WEB-INF/views/client/client-dashboard.jsp").forward(req, resp);
     }

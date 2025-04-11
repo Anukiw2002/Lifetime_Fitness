@@ -61,21 +61,27 @@
                         <h2>Progress Overview</h2>
                     </div>
                     <div class="card-body">
+                        <div id="weight-data"
+                             data-beginning-weight="${beginningWeight}"
+                             data-current-weight="${currentWeight}"
+                             data-target-weight="${targetWeight}">
+                        </div>
+
                         <div class="weight-trend">
                             <canvas id="weightTrendChart" width="400" height="200"></canvas>
                         </div>
                         <div class="flex justify-between">
                             <div>
                                 <p class="text-muted">Starting Weight</p>
-                                <p class="text-xl">82 kg</p>
+                                <p class="text-xl">${beginningWeight}</p>
                             </div>
                             <div>
                                 <p class="text-muted">Current Weight</p>
-                                <p class="text-xl">75 kg</p>
+                                <p class="text-xl">${currentWeight}</p>
                             </div>
                             <div>
                                 <p class="text-muted">Target Weight</p>
-                                <p class="text-xl">70 kg</p>
+                                <p class="text-xl">${targetWeight}</p>
                             </div>
                         </div>
                     </div>
