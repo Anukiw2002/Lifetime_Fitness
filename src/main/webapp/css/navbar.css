@@ -97,6 +97,7 @@ body {
     border: 2px solid var(--primary-color);
     color: white;
     margin-right: 5px;
+    text-decoration: none;
 }
 
 .nav-buttons .register:hover {
@@ -107,6 +108,7 @@ body {
 .nav-buttons .login {
     background-color: var(--primary-color);
     color: white;
+    text-decoration: none;
 }
 
 .nav-buttons .login:hover {
@@ -189,6 +191,7 @@ body {
     .nav-buttons .btn {
         padding: 10px 15px;
         font-size: 22px;
+        text-decoration: none;
     }
     .logo {
         width: 280px;
@@ -213,6 +216,7 @@ body {
     .nav-buttons .btn {
         padding: 7px 11px;
         font-size: 20px;
+        text-decoration: none;
     }
     .logo {
         width: 250px;
@@ -235,6 +239,7 @@ body {
     .nav-buttons .btn {
         padding: 3px 7px;
         font-size: 15px;
+        text-decoration: none;
     }
     .logo {
         width: 200px;
