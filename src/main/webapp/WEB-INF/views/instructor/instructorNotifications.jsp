@@ -9,8 +9,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
 </head>
 <body>
-<jsp:include page="../client/clientVerticalNavbar.jsp" />
-
+<jsp:include page="instructorVerticalNavbar.jsp" />
 <div class="main-content">
   <div class="container">
     <h1 class="mb-4">Notification Details</h1>

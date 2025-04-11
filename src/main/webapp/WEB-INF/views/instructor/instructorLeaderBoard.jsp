@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-<jsp:include page="../instructor/clientVerticalNavbar.jsp" />
+<jsp:include page="instructorVerticalNavbar.jsp" />
 <div class="main-content">
     <div class="leaderboard-container">
         <h1 class="leaderboard-title" data-aos="fade-down">

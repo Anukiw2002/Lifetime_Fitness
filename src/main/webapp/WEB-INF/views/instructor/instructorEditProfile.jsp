@@ -82,4 +82,4 @@
 </div>
 </body>
 </html>
-<%@ include file="clientVerticalNavbar.jsp" %>
+<%@ include file="instructorVerticalNavbar.jsp" %>
