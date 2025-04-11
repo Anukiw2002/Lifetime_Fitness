@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+
+
 import java.util.List;
 
 public class DashboardDAO {
@@ -29,7 +31,9 @@ public class DashboardDAO {
     }
 
     public int getWorkoutSteakById(Integer user_id){
-        List<LocalDate> workoutDates = new ArrrayList<>();
+
+        List<LocalDate> workoutDates = new ArrayList<>();
+
 
         String query = "SELECT DISTINCT created_at FROM client_workouts WHERE user_id = ? ORDER BY created_at DESC";
 
