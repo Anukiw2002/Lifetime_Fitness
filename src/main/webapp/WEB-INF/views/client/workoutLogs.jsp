@@ -2,11 +2,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- ... existing head content ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Log</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/workoutLogs.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="../client/clientVerticalNavbar.jsp" />
 <div class="main-content">
+    <!-- Workout Logs Container -->
     <div class="workout-logs-container">
         <div class="exercise-info">
             <h2 class="exercise-name">${workout.workoutName} - ${currentExercise.exercise.exerciseName}</h2>
@@ -22,8 +28,9 @@
             </c:if>
         </div>
 
-        <form id="workoutLogForm" action="${pageContext.request.contextPath}/StartExercises" method="post">
+        <form id="workoutLogForm" action="${pageContext.request.contextPath}/InsertWorkoutLogsServlet" method="post">
             <input type="hidden" name="workoutId" value="${workout.workoutId}">
+            <input type="hidden" name="exerciseId" value="${currentExercise.exercise.exerciseId}">
             <input type="hidden" name="exerciseIndex" value="${exerciseIndex}">
             <input type="hidden" name="totalSets" value="${currentExercise.setNumber}">
 
@@ -59,7 +66,7 @@
                         </button>
                     </c:when>
                     <c:otherwise>
-                        <button type="submit" name="nextAction" value="previousExercise" class="btn btn-secondary">
+                        <button type="submit" name="action" value="previous" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Previous Exercise
                         </button>
                     </c:otherwise>
@@ -67,12 +74,12 @@
 
                 <c:choose>
                     <c:when test="${isLastExercise}">
-                        <button type="submit" name="nextAction" value="finishWorkout" class="btn btn-success">
+                        <button type="submit" name="action" value="finish" class="btn btn-success">
                             <i class="fas fa-check"></i> Finish Workout
                         </button>
                     </c:when>
                     <c:otherwise>
-                        <button type="submit" name="nextAction" value="nextExercise" class="btn btn-primary">
+                        <button type="submit" name="action" value="next" class="btn btn-primary">
                             Next Exercise <i class="fas fa-arrow-right"></i>
                         </button>
                     </c:otherwise>
@@ -83,17 +90,23 @@
 </div>
 
 <script>
-    // Input validation
+    // Track progress
+    const currentExercise = ${exerciseIndex} + 1;
+    const totalExercises = ${totalExercises};
+
+    // Add input validation for numbers
     document.querySelectorAll('input[type="number"]').forEach(input => {
         input.addEventListener('input', function() {
             if (this.value < 0) this.value = 0;
         });
     });
 
-    // Form submission validation
-    document.getElementById('workoutLogForm').addEventListener('submit', function(e) {
-        // Optional: Add client-side validation if needed
-        // For example, ensure at least one set has data
+    // Show completion confirmation
+    document.querySelector('button[value="finish"]')?.addEventListener('click', function(e) {
+        const confirmed = confirm('Are you sure you want to finish this workout?');
+        if (!confirmed) {
+            e.preventDefault();
+        }
     });
 </script>
 </body>

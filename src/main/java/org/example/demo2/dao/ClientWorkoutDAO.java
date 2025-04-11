@@ -18,7 +18,7 @@ public class ClientWorkoutDAO {
         try {
             connection = dbConnection.getConnection();
             List<ClientWorkout> workouts = new ArrayList<>();
-            String sql = "SELECT w.*, c.category_name, cd.phone_number, u.full_name AS client_name " +
+            String sql = "SELECT w.*, c.category_name, cd.phone_number, CONCAT(u.full_name, ' ', u.username) AS client_name " +
                     "FROM client_workouts w " +
                     "JOIN workout_categories c ON w.category_id = c.category_id " +
                     "JOIN client_details cd ON w.user_id = cd.user_id " +
@@ -63,7 +63,7 @@ public class ClientWorkoutDAO {
         try {
             connection = dbConnection.getConnection();
             List<ClientWorkout> workouts = new ArrayList<>();
-            String sql = "SELECT w.*, c.category_name, cd.phone_number, concat(u.full_name, '' ,u.username) AS client_name " +
+            String sql = "SELECT w.*, c.category_name, cd.phone_number, CONCAT(u.full_name, ' ', u.username) AS client_name " +
                     "FROM client_workouts w " +
                     "JOIN workout_categories c ON w.category_id = c.category_id " +
                     "JOIN client_details cd ON w.user_id = cd.user_id " +
@@ -109,7 +109,7 @@ public class ClientWorkoutDAO {
             connection = dbConnection.getConnection();
 
             // First get the workout with complete details
-            String sql = "SELECT w.*, c.category_name, cd.phone_number, u.full_name AS client_name " +
+            String sql = "SELECT w.*, c.category_name, cd.phone_number, CONCAT(u.full_name, ' ', u.username) AS client_name " +
                     "FROM client_workouts w " +
                     "JOIN workout_categories c ON w.category_id = c.category_id " +
                     "JOIN client_details cd ON w.user_id = cd.user_id " +
@@ -155,48 +155,6 @@ public class ClientWorkoutDAO {
             }
         }
     }
-
-   /* public void delete(Long workoutId) throws SQLException {
-        Connection connection = null;
-        try {
-            connection = dbConnection.getConnection();
-            connection.setAutoCommit(false); // Start transaction
-
-            // First delete associated exercises
-            String deleteExercisesSql = "DELETE FROM workout_exercises WHERE workout_id = ?";
-            try (PreparedStatement stmt = connection.prepareStatement(deleteExercisesSql)) {
-                stmt.setLong(1, workoutId);
-                stmt.executeUpdate();
-            }
-
-            // Then delete the workout
-            String deleteWorkoutSql = "DELETE FROM client_workouts WHERE workout_id = ?";
-            try (PreparedStatement stmt = connection.prepareStatement(deleteWorkoutSql)) {
-                stmt.setLong(1, workoutId);
-                stmt.executeUpdate();
-            }
-
-            connection.commit(); // Commit transaction
-        } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback(); // Rollback in case of error
-                } catch (SQLException ex) {
-                    throw new SQLException("Error rolling back transaction", ex);
-                }
-            }
-            throw e;
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.setAutoCommit(true); // Reset auto-commit
-                    connection.close();
-                } catch (SQLException e) {
-                    throw new SQLException("Error closing connection", e);
-                }
-            }
-        }
-    } */
 
 
     public boolean delete(Long workoutId) throws SQLException {
