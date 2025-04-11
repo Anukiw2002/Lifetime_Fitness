@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+c<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,11 +17,6 @@
             <div class="card-body">
                 <div class="filters">
                     <div class="filter-group">
-                        <select id="instructorFilter" class="form-control filter-control">
-                            <option value="">Instructor</option>
-                            <option value="bonnie">Bonnie Green</option>
-                        </select>
-
                         <select id="timeFrameFilter" class="form-control filter-control">
                             <option value="">Time Frame</option>
                             <option value="today">Today</option>
@@ -70,20 +66,18 @@
                             <th>Client</th>
                             <th>DATE</th>
                             <th>Time</th>
-                            <th>Instructor</th>
-                            <th>BOOKING ID</th>
                             <th>STATUS</th>
                         </tr>
                         </thead>
                         <tbody>
+                        <c:forEach var = "booking" items = "${allSessions}" >
                         <tr>
-                            <td>Rachel Green</td>
-                            <td>Oct 23, 2024</td>
-                            <td>4:00 - 5:00 am</td>
-                            <td>Bonnie Green</td>
-                            <td>12234565</td>
-                            <td><span class="status-badge status-in-progress">In progress</span></td>
+                            <td>${booking.fname} ${booking.lname}</td>
+                            <td>${booking.date}</td>
+                            <td>${booking.timeSlot}</td>
+                            <td><span class="status-badge ${booking.status}">${booking.status}</span></td>
                         </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>

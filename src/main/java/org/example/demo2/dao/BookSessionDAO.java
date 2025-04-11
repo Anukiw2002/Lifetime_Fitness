@@ -1,11 +1,17 @@
 package org.example.demo2.dao;
 import jakarta.servlet.http.HttpSession;
+import org.example.demo2.model.BookSession;
+import org.example.demo2.model.ClientMembership;
 import org.example.demo2.util.DBConnection;
 import org.example.demo2.model.BookingConstraints;
 
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class BookSessionDAO {
 
@@ -131,7 +137,181 @@ public class BookSessionDAO {
         return success;
     }
 
+    public List<BookSession> getAllBookingsForClient(int userId) {
+        List<BookSession> sessionList = new ArrayList<>();
+        String sql = "SELECT bookingId, date, timeSlot FROM bookings WHERE userId = ?  AND status IN ('booked', 'rescheduled')" +
+                "AND (date > CURRENT_DATE OR (date = CURRENT_DATE AND timeSlot > CURRENT_TIME)) " +
+                "ORDER BY date, timeSlot ASC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    BookSession b = new BookSession(
+                            rs.getDate("date"),
+                            rs.getTime("timeSlot")
+                    );
+                    b.setBookingId(rs.getInt("bookingId"));
+                    sessionList.add(b);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sessionList;
+    }
+
+    public List<BookSession> getAllBookings() {
+        List<BookSession> sessionList = new ArrayList<>();
+        String sql = "SELECT b.date, b.timeSlot, b.status, u.full_name AS fname, u.username AS lname " +
+                "FROM bookings b " +
+                "INNER JOIN users u ON u.id = b.userId " +
+                "WHERE (b.date > CURRENT_DATE OR (b.date = CURRENT_DATE AND b.timeSlot >= CURRENT_TIME)) " +
+                "ORDER BY b.date, b.timeSlot ASC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                // Get current date and time
+                LocalDate currentDate = LocalDate.now();
+                LocalTime currentTime = LocalTime.now();
+
+                while (rs.next()) {
+                    // Get the values from ResultSet first
+                    Date date = rs.getDate("date");
+                    Time timeSlot = rs.getTime("timeSlot");
+                    String dbStatus = rs.getString("status");
+
+                    // Create the object with constructor
+                    BookSession b = new BookSession(date, timeSlot);
+
+                    // Check if this session is currently in progress
+                    if (dbStatus.equals("booked") &&
+                            date.toLocalDate().equals(currentDate) &&
+                            currentTime.isAfter(timeSlot.toLocalTime()) &&
+                            currentTime.isBefore(timeSlot.toLocalTime().plusHours(1))) {
+                        b.setStatus("in progress");
+                    } else {
+                        b.setStatus(dbStatus);
+                    }
+
+                    b.setFname(rs.getString("fname"));
+                    b.setLname(rs.getString("lname"));
+
+                    // Add the object to the list
+                    sessionList.add(b);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sessionList;
+    }
+
+    public boolean cancelSession(int bookingId){
+        String sql = "UPDATE bookings SET status = 'cancelled' WHERE bookingId = ? ";
 
 
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, bookingId);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean rescheduleSession(Date date, Time timeSlot, int bookingId) {
+        String sql = "Update bookings SET date = ?, timeSlot = ?, status = 'rescheduled' WHERE bookingId = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setDate(1, date);
+            pstmt.setTime(2, timeSlot);
+            pstmt.setInt(3, bookingId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public BookSession getBookingById(int bookingId) {
+        BookSession booking = null;
+        String sql = "SELECT date, timeSlot FROM bookings WHERE bookingId = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, bookingId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    booking = new BookSession(
+                            rs.getDate("date"),
+                            rs.getTime("timeSlot")
+                    );
+                    booking.setBookingId(bookingId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return booking;
+    }
+
+    public String getSessionAvailabilityLabel(Date date, Time timeSlot) {
+        String sql = "SELECT COUNT(*) FROM bookings WHERE date = ? AND timeSlot = ? AND status IN ('booked', 'rescheduled')";
+        String label = "Available";
+
+        BookingConstraintsDAO constraintsDAO = new BookingConstraintsDAO();
+        BookingConstraints constraints = constraintsDAO.getLatestConstraints();
+
+        int maxBookings = constraints.getMaxBookingsPerSlot();
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setDate(1, date);
+            pstmt.setTime(2, timeSlot);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+
+                    if (count >= maxBookings) {
+                        label = "Fully Booked";
+                    } else if (count >= maxBookings * 0.85) {
+                        label = "Almost Full";
+                    } else if (count >= maxBookings * 0.75) {
+                        label = "Filling Fast";
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return label;
+    }
 }
+
+
+
+
 

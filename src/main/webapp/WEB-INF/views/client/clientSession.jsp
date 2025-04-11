@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,20 +15,27 @@
     <h1 class="text-center mb-4">Client Sessions</h1>
 
     <div class="grid grid-3">
-      <!-- Upcoming Sessions -->
+      <!-- Upcoming Sessions-->
       <div class="card">
         <div class="card-header">
           <h2 class="mb-0">Upcoming Sessions</h2>
         </div>
-        <div class="card-body">
-          <div class="session-date">Monday, 4 October</div>
-          <div class="session-time">8:00 pm - 9:00 pm</div>
-          <div class="flex gap-md justify-center mt-3">
-            <button class="btn btn-danger">Cancel</button>
-            <button class="btn btn-secondary">Reschedule</button>
+        <c:forEach var="formattedSession" items="${formattedSessions}">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="session-date">${formattedSession.formattedDate}</div>
+              <div class="session-time">${formattedSession.startTime} - ${formattedSession.endTime}</div>
+              <div class="flex gap-md justify-center mt-3">
+                <a href="cancelBooking?bookingId=${formattedSession.bookingId}" class="btn btn-danger" style="text-decoration: none;">Cancel</a>
+                <a href="rescheduleSession?bookingId=${formattedSession.bookingId}" class="btn btn-secondary" style="text-decoration: none;">Reschedule</a>
+              </div>
+            </div>
           </div>
-        </div>
+        </c:forEach>
+
+
       </div>
+
 
       <!-- Completed Sessions -->
       <div class="card">
