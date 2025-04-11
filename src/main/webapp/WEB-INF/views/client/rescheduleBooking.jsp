@@ -7,6 +7,9 @@
 <html>
 <head>
   <title>Reschedule Session</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bookSession.css">
+
   <script>
     // Function to handle date click and fetch available time slots via AJAX
     function selectDate(selectedDate) {
@@ -17,6 +20,9 @@
         if (xhr.readyState == 4 && xhr.status == 200) {
           // Parse the response (HTML) and update the slots section
           document.getElementById("timeSlots").innerHTML = xhr.responseText;
+
+          // Format time slots to match the grid layout
+          formatTimeSlots();
         }
       };
       xhr.send("selectedDate=" + selectedDate);
@@ -39,11 +45,21 @@
       document.getElementById("newTime").value = selectedTime;
       document.getElementById("newTimeDisplay").value = displayTime;
 
-      // Show the confirmation section
-      document.getElementById("confirmationSection").style.display = "block";
-      document.getElementById("selectedDateTimeDisplay").innerHTML =
-              new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
-              + " at " + displayTime;
+      // Show the confirmation modal instead of the bottom section
+      var formattedDate = new Date(selectedDate).toLocaleDateString('en-US',
+              { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      showRescheduleModal(formattedDate, displayTime);
+    }
+
+    // Show the reschedule confirmation modal
+    function showRescheduleModal(formattedDate, displayTime) {
+      document.getElementById('selectedDateTimeDisplay').textContent = formattedDate + " at " + displayTime;
+      document.getElementById('rescheduleModal').style.display = 'block';
+    }
+
+    // Hide the reschedule confirmation modal
+    function hideRescheduleModal() {
+      document.getElementById('rescheduleModal').style.display = 'none';
     }
 
     // Load today's slots when the page loads
@@ -58,77 +74,100 @@
       // Auto-select today's date
       selectDate(todayFormatted);
     }
+
+    // Format the time slots into a grid, matching the styling from bookSession.jsp
+    function formatTimeSlots() {
+      const timeSlotsContainer = document.getElementById("timeSlots");
+      const content = timeSlotsContainer.innerHTML;
+
+      // Check if it's already in our grid format
+      if (timeSlotsContainer.querySelector('.time-slots-grid')) {
+        return;
+      }
+
+      // Create a temporary container to parse the HTML
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = content;
+
+      // Look for elements with data-availability attribute or regular list items
+      const slotElements = tempDiv.querySelectorAll('li');
+
+      if (slotElements.length > 0) {
+        // Create the grid container
+        const grid = document.createElement('div');
+        grid.className = 'time-slots-grid';
+
+        // Process each slot element
+        slotElements.forEach(slotElement => {
+          // Extract the onclick attribute
+          const onclickAttr = slotElement.getAttribute('onclick');
+          const availability = slotElement.getAttribute('data-availability') || "Available";
+
+          // Create a new time slot element with proper styling
+          const timeSlot = document.createElement('div');
+          timeSlot.className = 'time-slot';
+
+          // Add availability class
+          if (availability === "Available") {
+            timeSlot.classList.add('availability-available');
+          } else if (availability === "Filling Fast") {
+            timeSlot.classList.add('availability-filling-fast');
+          } else if (availability === "Almost Full") {
+            timeSlot.classList.add('availability-almost-full');
+          } else if (availability === "Fully Booked") {
+            timeSlot.classList.add('availability-fully-booked');
+          } else if (availability === "Already Booked") {
+            timeSlot.classList.add('availability-already-booked');
+          }
+
+          if (onclickAttr) {
+            timeSlot.setAttribute('onclick', onclickAttr);
+            timeSlot.style.cursor = onclickAttr.includes('alreadyBookedAlert') ? 'not-allowed' : 'pointer';
+          } else {
+            timeSlot.style.cursor = 'not-allowed';
+          }
+
+          timeSlot.textContent = slotElement.textContent.trim();
+
+          // Add to the grid
+          grid.appendChild(timeSlot);
+        });
+
+        // Replace the content with our properly formatted grid
+        timeSlotsContainer.innerHTML = '';
+        timeSlotsContainer.appendChild(grid);
+      } else {
+        // If no slots were found, check if there's a message like "No available slots"
+        const noSlotsMessage = tempDiv.textContent.trim();
+        if (noSlotsMessage) {
+          timeSlotsContainer.innerHTML = `<p class="text-muted">${noSlotsMessage}</p>`;
+        }
+      }
+    }
+
+    // Function to show alert when user tries to select a slot they already booked
+    function alreadyBookedAlert() {
+      alert("You have already booked this time slot. Please select another time slot.");
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      if (event.target == document.getElementById('rescheduleModal')) {
+        hideRescheduleModal();
+      }
+    }
   </script>
-  <style>
-    .date-box {
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    .date-box.selected {
-      background-color: #e0e0ff;
-      border-color: #6060ff;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .date-container {
-      display: flex;
-      overflow-x: auto;
-      padding: 10px 0;
-      margin-bottom: 20px;
-    }
-    #timeSlots ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    #timeSlots li {
-      padding: 10px;
-      margin: 5px 0;
-      background-color: #f0f0f0;
-      border-radius: 4px;
-    }
-    #timeSlots li:hover {
-      background-color: #e0e0ff;
-    }
-    .error-message {
-      color: red;
-      margin-bottom: 15px;
-    }
-    #confirmationSection {
-      display: none;
-      margin-top: 30px;
-      padding: 15px;
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    .btn {
-      display: inline-block;
-      padding: 8px 16px;
-      margin-right: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .btn-cancel {
-      background-color: #f44336;
-    }
-  </style>
 </head>
 <body>
-<div class="container">
-  <h2>Reschedule Booking</h2>
-  <%
-    // Format the original booking details if available
-    if (session.getAttribute("originalDate") != null && session.getAttribute("originalTime") != null) {
+<div class="main-content">
+  <jsp:include page="../client/clientVerticalNavbar.jsp" />
+  <div class="container">
+    <div class="page-header">
+      <h1>Reschedule Gym Session</h1>
+      <p class="text-muted">Select a new date and time for your session</p>
+    </div>
+
+    <% if (session.getAttribute("originalDate") != null && session.getAttribute("originalTime") != null) {
       java.sql.Date origDate = (java.sql.Date) session.getAttribute("originalDate");
       java.sql.Time origTime = (java.sql.Time) session.getAttribute("originalTime");
 
@@ -137,78 +176,119 @@
 
       String formattedDate = dateFormatter.format(origDate);
       String formattedTime = timeFormatter.format(origTime);
-  %>
-  <div class="original-booking-info">
-    <p>Original session: <strong><%= formattedDate %> at <%= formattedTime %></strong></p>
-    <p>Select a new date and time for your gym session.</p>
-  </div>
-  <% } else { %>
-  <p>Select a new date and time for your gym session.</p>
-  <% } %>
-
-  <% if (request.getAttribute("error") != null) { %>
-  <div class="error-message"><%= request.getAttribute("error") %></div>
-  <% } %>
-
-  <div class="date-container">
-    <%
-      SimpleDateFormat dayNameFormat = new SimpleDateFormat("EEEE");
-      SimpleDateFormat dayFormat = new SimpleDateFormat("d");
-      SimpleDateFormat monthFormat = new SimpleDateFormat("MMM");
-      SimpleDateFormat fullDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-      Calendar calendar = Calendar.getInstance();
-
-      // Get the booking constraints from the database
-      BookingConstraintsDAO constraintsDAO = new BookingConstraintsDAO();
-      BookingConstraints constraints = constraintsDAO.getLatestConstraints();
-
-      int maxDays = (constraints != null) ? constraints.getMaxBookingAdvanceWeeks() * 7 : 14;
-
-      // Generate date labels for the next 'maxDays' days
-      for (int i = 0; i < maxDays; i++) {
-        Date date = calendar.getTime();
-        String label;
-
-        if (i == 0) {
-          label = "Today";
-        } else if (i == 1) {
-          label = "Tomorrow";
-        } else {
-          label = dayNameFormat.format(date);
-        }
-
-        String day = dayFormat.format(date);
-        String month = monthFormat.format(date);
-        String formattedDate = fullDateFormat.format(date);
     %>
-    <div id="date-<%= formattedDate %>" class="date-box" onClick="selectDate('<%= formattedDate %>')">
-      <strong><%= label %></strong><br>
-      <span><%= day %> <%= month %></span>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h3>Original Booking</h3>
+      </div>
+      <div class="card-body">
+        <p>Your currently scheduled session: <strong><%= formattedDate %> at <%= formattedTime %></strong></p>
+        <p class="text-muted">Please select a new date and time below</p>
+      </div>
     </div>
-    <%
-        calendar.add(Calendar.DATE, 1); // Move to the next day
-      }
-    %>
-  </div>
+    <% } %>
 
-  <p>Available Time Slots:</p>
-  <div id="timeSlots"><!-- This will be dynamically updated --></div>
+    <% if (request.getAttribute("error") != null) { %>
+    <div class="alert alert-danger">
+      <%= request.getAttribute("error") %>
+    </div>
+    <% } %>
 
-  <!-- Confirmation Section -->
-  <div id="confirmationSection">
-    <h3>Confirm Reschedule</h3>
-    <p>You are about to reschedule your session to: <span id="selectedDateTimeDisplay"></span></p>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h3>Select a Date</h3>
+        <p class="text-muted">Scroll horizontally to see more available dates</p>
+      </div>
+      <div class="card-body">
+        <div class="dates-container">
+          <%
+            SimpleDateFormat dayNameFormat = new SimpleDateFormat("EEEE");
+            SimpleDateFormat dayFormat = new SimpleDateFormat("d");
+            SimpleDateFormat monthFormat = new SimpleDateFormat("MMM");
+            SimpleDateFormat fullDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    <form action="rescheduleSession" method="post">
+            Calendar calendar = Calendar.getInstance();
+
+            // Get the booking constraints from the database
+            BookingConstraintsDAO constraintsDAO = new BookingConstraintsDAO();
+            BookingConstraints constraints = constraintsDAO.getLatestConstraints();
+
+            int maxDays = (constraints != null) ? constraints.getMaxBookingAdvanceWeeks() * 7 : 14;
+
+            // Generate date labels for the next 'maxDays' days
+            for (int i = 0; i < maxDays; i++) {
+              Date date = calendar.getTime();
+              String label;
+
+              if (i == 0) {
+                label = "Today";
+              } else if (i == 1) {
+                label = "Tomorrow";
+              } else {
+                label = dayNameFormat.format(date);
+              }
+
+              String day = dayFormat.format(date);
+              String month = monthFormat.format(date);
+              String formattedDate = fullDateFormat.format(date);
+          %>
+          <div id="date-<%= formattedDate %>" class="date-box" onClick="selectDate('<%= formattedDate %>')">
+            <div class="date-label"><%= label %></div>
+            <div class="date-number"><%= day %> <%= month %></div>
+          </div>
+          <%
+              calendar.add(Calendar.DATE, 1); // Move to the next day
+            }
+          %>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>Available Time Slots</h3>
+        <div class="availability-legend">
+          <span><span class="availability-indicator indicator-available"></span> Available</span>
+          <span><span class="availability-indicator indicator-filling-fast"></span> Filling Fast</span>
+          <span><span class="availability-indicator indicator-almost-full"></span> Almost Full</span>
+          <span><span class="availability-indicator indicator-fully-booked"></span> Fully Booked</span>
+          <span><span class="availability-indicator indicator-already-booked"></span> Already Booked</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="timeSlots" class="time-slots-container">
+          <!-- This will be dynamically updated -->
+          <p class="text-muted">Please select a date to view available time slots</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden form fields to store selected values -->
+    <form id="rescheduleForm" action="rescheduleSession" method="post" style="display: none;">
       <input type="hidden" id="bookingId" name="bookingId" value="<%= session.getAttribute("bookingId") %>">
       <input type="hidden" id="newDate" name="newDate" value="">
       <input type="hidden" id="newTime" name="newTime" value="">
       <input type="hidden" id="newTimeDisplay" name="newTimeDisplay" value="">
-
-      <button type="submit" class="btn">Confirm Reschedule</button>
-      <a href="clientBookings" class="btn btn-cancel">Cancel</a>
     </form>
+
+    <!-- Reschedule Confirmation Modal -->
+    <div id="rescheduleModal" class="modal">
+      <div class="card-modal">
+        <div class="card-modal-header">
+          <h3><i class="fas fa-calendar-alt"></i> Confirm Reschedule</h3>
+        </div>
+        <div class="card-modal-body">
+          <p>You are about to reschedule your session to: <strong><span id="selectedDateTimeDisplay"></span></strong></p>
+          <p class="text-muted">Please confirm your new booking time.</p>
+        </div>
+        <div class="flex justify-end gap-md">
+          <button class="btn btn-secondary" onclick="hideRescheduleModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="document.getElementById('rescheduleForm').submit();">
+            Confirm Reschedule
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 </body>

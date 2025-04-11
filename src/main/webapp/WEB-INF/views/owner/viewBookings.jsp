@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-c<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +8,81 @@ c<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="U
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewBookings.css">
 </head>
+<script>
+    function filterBookings() {
+        var timeFrameFilter = document.getElementById("timeFrameFilter").value.toLowerCase();
+        var statusFilter = document.getElementById("statusFilter").value.toLowerCase();
+        var table = document.getElementById("bookingsTable");
+        var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var date = row.cells[1].textContent.toLowerCase(); // DATE column
+            var status = row.cells[3].textContent.trim().toLowerCase(); // STATUS column
+
+            var showRow = true;
+
+            // Apply timeframe filter
+            if (timeFrameFilter !== "") {
+                var currentDate = new Date();
+                var bookingDate = new Date(date);
+
+                if (timeFrameFilter === "today") {
+                    if (bookingDate.toDateString() !== currentDate.toDateString()) {
+                        showRow = false;
+                    }
+                } else if (timeFrameFilter === "week") {
+                    // Get start and end of current week
+                    var startOfWeek = new Date(currentDate);
+                    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+                    var endOfWeek = new Date(startOfWeek);
+                    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+                    if (bookingDate < startOfWeek || bookingDate > endOfWeek) {
+                        showRow = false;
+                    }
+                } else if (timeFrameFilter === "month") {
+                    if (bookingDate.getMonth() !== currentDate.getMonth() ||
+                        bookingDate.getFullYear() !== currentDate.getFullYear()) {
+                        showRow = false;
+                    }
+                }
+            }
+
+            // Apply status filter
+            if (statusFilter !== "") {
+                if (statusFilter === "upcoming") {
+                    // For "upcoming", show all booked sessions
+                    // This assumes that "booked" or any status that isn't "rescheduled" or "cancelled" is upcoming
+                    if (status === "rescheduled" || status === "cancelled") {
+                        showRow = false;
+                    }
+                } else if (status !== statusFilter) {
+                    showRow = false;
+                }
+            }
+
+            // Show or hide row based on filters
+            if (showRow) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        }
+    }
+
+    // Reset all filters
+    function resetFilters() {
+        document.getElementById("timeFrameFilter").selectedIndex = 0;
+        document.getElementById("statusFilter").selectedIndex = 0;
+
+        var table = document.getElementById("bookingsTable");
+        var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        for (var i = 0; i < rows.length; i++) {
+            rows[i].style.display = "";
+        }
+    }
+</script>
 <body>
 <jsp:include page="../common/verticalNavBar.jsp" />
 <div class="main-content">
@@ -22,20 +97,6 @@ c<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="U
                             <option value="today">Today</option>
                             <option value="week">This Week</option>
                             <option value="month">This Month</option>
-                            <option value="30days">Next 30 Days</option>
-                            <option value="custom">Custom Range</option>
-                        </select>
-
-                        <select id="membershipFilter" class="form-control filter-control">
-                            <option value="">Membership Type</option>
-                            <option value="platinum-gents">Platinum - Gents</option>
-                            <option value="platinum-ladies">Platinum - Ladies</option>
-                            <option value="platinum-couples">Platinum - Couples</option>
-                            <option value="gold-gents">Gold - Gents</option>
-                            <option value="gold-ladies">Gold - Ladies</option>
-                            <option value="silver-6">Silver - 6 months</option>
-                            <option value="silver-3">Silver - 3 months</option>
-                            <option value="silver-1">Silver - 1 month</option>
                         </select>
 
                         <select id="statusFilter" class="form-control filter-control">
@@ -43,11 +104,14 @@ c<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="U
                             <option value="upcoming">Upcoming</option>
                             <option value="rescheduled">Rescheduled</option>
                             <option value="cancelled">Cancelled</option>
-                            <option value="completed">Completed</option>
                         </select>
                     </div>
-
-                    <button class="btn btn-clear" onclick="clearFilters()">Clear Filters</button>
+                    <button class="btn btn-secondary" onclick="filterBookings()">
+                        <i class="fas fa-filter"></i> Apply
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="resetFilters()">
+                        <i class="fas fa-undo"></i> Reset
+                    </button>
                 </div>
             </div>
         </div>
@@ -70,13 +134,13 @@ c<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="U
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var = "booking" items = "${allSessions}" >
-                        <tr>
-                            <td>${booking.fname} ${booking.lname}</td>
-                            <td>${booking.date}</td>
-                            <td>${booking.timeSlot}</td>
-                            <td><span class="status-badge ${booking.status}">${booking.status}</span></td>
-                        </tr>
+                        <c:forEach var="booking" items="${allSessions}">
+                            <tr>
+                                <td>${booking.fname} ${booking.lname}</td>
+                                <td>${booking.date}</td>
+                                <td>${booking.timeSlot}</td>
+                                <td><span class="status-badge ${booking.status}">${booking.status}</span></td>
+                            </tr>
                         </c:forEach>
                         </tbody>
                     </table>
@@ -85,36 +149,5 @@ c<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="U
         </div>
     </div>
 </div>
-
-<script>
-    function clearFilters() {
-        const selects = document.querySelectorAll('select');
-        selects.forEach(select => {
-            select.value = '';
-        });
-        filterBookings();
-    }
-
-    function filterBookings() {
-        const instructor = document.getElementById('instructorFilter').value;
-        const timeFrame = document.getElementById('timeFrameFilter').value;
-        const membership = document.getElementById('membershipFilter').value;
-        const status = document.getElementById('statusFilter').value;
-        console.log('Filtering with:', { instructor, timeFrame, membership, status });
-    }
-
-    document.querySelectorAll('select').forEach(select => {
-        select.addEventListener('change', filterBookings);
-    });
-
-    document.querySelectorAll('.copy-icon').forEach(icon => {
-        icon.addEventListener('click', function() {
-            const bookingId = this.getAttribute('data-booking-id');
-            navigator.clipboard.writeText(bookingId)
-                .then(() => alert('Booking ID copied!'))
-                .catch(err => console.error('Failed to copy:', err));
-        });
-    });
-</script>
 </body>
 </html>
