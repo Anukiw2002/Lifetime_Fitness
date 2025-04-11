@@ -1,6 +1,7 @@
 package org.example.demo2.dao;
 
 import org.example.demo2.model.WorkoutLogs;
+import org.example.demo2.model.WorkoutStats;
 import org.example.demo2.util.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,9 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkoutLogsDAO {
-    /**
-     * Insert workout log entry into the database
-     */
+
     public boolean insertWorkoutLogs(int user_id, int workout_id, int exercise_id, int set_number, Double weight, int reps, String notes) {
         String sql = "INSERT INTO user_workout_logs (user_id, workout_id, exercise_id, set_number, weight, reps, notes) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -81,4 +80,42 @@ public class WorkoutLogsDAO {
 
         return logs;
     }
+
+    public WorkoutStats getStats(int userId, int workoutId) {
+        WorkoutStats stats = new WorkoutStats();
+        String sql = "SELECT SUM(weight * reps) AS totalWeight, SUM(reps) AS totalReps, COUNT(*) AS totalSets " +
+                "FROM user_workout_logs WHERE user_id = ? AND workout_id = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, workoutId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    double weight = rs.getDouble("totalWeight");
+                    int reps = rs.getInt("totalReps");
+                    int sets = rs.getInt("totalSets");
+
+                    System.out.println("DEBUG: totalWeight=" + weight + ", totalReps=" + reps + ", totalSets=" + sets);
+
+                    stats.setUserId(userId);
+                    stats.setWorkoutId(workoutId);
+                    stats.setTotalWeight(weight);
+                    stats.setTotalReps(reps);
+                    stats.setTotalSets(sets);
+                } else {
+                    System.out.println("DEBUG: No stats found for userId=" + userId + ", workoutId=" + workoutId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Replace with logging
+        }
+
+        return stats;
+    }
+
+
+
 }
