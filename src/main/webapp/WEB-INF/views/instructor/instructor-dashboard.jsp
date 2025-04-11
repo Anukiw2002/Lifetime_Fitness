@@ -166,7 +166,7 @@
     </style>
 </head>
 <body>
-<jsp:include page="../instructor/clientVerticalNavbar.jsp" />
+<jsp:include page="instructorVerticalNavbar.jsp" />
 
 <div class="main-content">
     <div class="dashboard-container">

@@ -10,7 +10,7 @@
 <div class="flex">
     <!-- Side Navbar -->
     <div>
-        <jsp:include page="clientVerticalNavbar.jsp" />
+        <jsp:include page="instructorVerticalNavbar.jsp" />
     </div>
 
     <!-- Main Content -->

@@ -87,7 +87,7 @@ public class ClientWorkoutsServlet extends HttpServlet {
             request.setAttribute("workouts", workouts);
 
             // Forward to the JSP page
-            request.getRequestDispatcher("/WEB-INF/views/instructor/client-workouts.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/instructor/instructorinstructor-workouts.jsp").forward(request, response);
 
         } catch (SQLException e) {
             throw new ServletException("Database error occurred", e);

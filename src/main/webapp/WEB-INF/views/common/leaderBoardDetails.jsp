@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/leaderBoardDetails.css">
 </head>
 <body>
-<jsp:include page="../instructor/clientVerticalNavbar.jsp" />
+<jsp:include page="../instructor/instructorVerticalNavbar.jsp" />
 <div class="main-content">
     <div class="container">
         <div class="card">
