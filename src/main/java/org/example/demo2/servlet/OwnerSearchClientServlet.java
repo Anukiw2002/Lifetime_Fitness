@@ -15,6 +15,6 @@ public class OwnerSearchClientServlet extends HttpServlet {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
             return; // If not authorized, the redirection will be handled by the utility method
         }
-        request.getRequestDispatcher("/WEB-INF/views/owner/OwnerSearchClient.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/owner/ownerSearchClient.jsp").forward(request, response);
     }
 }
