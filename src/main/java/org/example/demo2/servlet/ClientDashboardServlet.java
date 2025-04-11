@@ -48,6 +48,7 @@ public class ClientDashboardServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        
         // Forward the request to the JSP
         req.getRequestDispatcher("/WEB-INF/views/client/client-dashboard.jsp").forward(req, resp);
     }
