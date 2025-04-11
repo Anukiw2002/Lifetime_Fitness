@@ -20,7 +20,7 @@
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
     </div>
     <div>
-        <a href="/instructor/upcomingSessions" class="nav-link">
+        <a href="/instructorDashboard" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
         <a href="InstructorLeaderBoard" class="nav-link">

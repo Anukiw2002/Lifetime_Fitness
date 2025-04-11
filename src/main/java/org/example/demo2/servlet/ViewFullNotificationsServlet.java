@@ -104,7 +104,13 @@ public class ViewFullNotificationsServlet extends HttpServlet {
             req.setAttribute("errorMessage", "An error occurred while retrieving notifications.");
         }
 
-        req.getRequestDispatcher("/WEB-INF/views/client/clientNotification.jsp").forward(req, resp);
+        String forwardPage;
+        if (userRole.equals("customer")) {
+            forwardPage = "/WEB-INF/views/client/clientNotification.jsp";
+        } else {
+            forwardPage = "/WEB-INF/views/instructor/instructorNotifications.jsp";
+        }
+        req.getRequestDispatcher(forwardPage).forward(req, resp);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{

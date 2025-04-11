@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="main-container">
-    <jsp:include page="clientVerticalNavbar.jsp" />
+    <jsp:include page="instructorVerticalNavbar.jsp" />
     <div class="container">
         <h1>My Workouts</h1>
 

@@ -49,14 +49,14 @@ public class ClientSearchServlet extends HttpServlet {
                     response.sendRedirect("clientWorkouts?phoneNumber=" + phoneNumber);
                 } else {
                     request.setAttribute("errorMessage", "No client found with this phone number");
-                    request.getRequestDispatcher("/WEB-INF/views/instructor/client-search.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/views/instructor/instructor-search.jsp").forward(request, response);
                 }
             } catch (SQLException e) {
                 throw new ServletException("Database error occurred", e);
             }
         } else {
             // First time visiting the page or no phone number entered
-            request.getRequestDispatcher("/WEB-INF/views/instructor/client-search.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/instructor/instructor-search.jsp").forward(request, response);
         }
     }
 }
