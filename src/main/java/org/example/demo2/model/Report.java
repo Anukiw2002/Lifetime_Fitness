@@ -28,6 +28,7 @@ public class Report {
     private String remarks;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    private double target_weight;
 
     // Getters and setters for all fields
     public int getId() {
@@ -221,5 +222,9 @@ public class Report {
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public void setTarget_weight(double target_weight) {this.target_weight = target_weight;}
+
+    public double getTarget_weight() {return target_weight;}
 }
 

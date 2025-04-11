@@ -28,15 +28,19 @@ public class InsertWorkoutLogsServlet extends HttpServlet {
         }
 
         try {
-            int user_id = (int) session.getAttribute("userId");
-            int workout_id = (int) session.getAttribute("workoutId");
-            int exercise_id = (int) session.getAttribute("exerciseId");
+            int userId = (int) session.getAttribute("userId");
+            int workoutId = Integer.parseInt(request.getParameter("workoutId"));
+            int exerciseId = Integer.parseInt(request.getParameter("exerciseId"));
+            int exerciseIndex = Integer.parseInt(request.getParameter("exerciseIndex"));
+            String action = request.getParameter("action");
 
             // Get the number of sets for this exercise
             int totalSets = Integer.parseInt(request.getParameter("totalSets"));
 
+            // Save workout logs to database
             WorkoutLogsDAO workoutLogsDAO = new WorkoutLogsDAO();
             boolean insertSuccess = false;
+            String userNotes = request.getParameter("userNotes");
 
             // Loop through all sets and insert logs for each
             for (int set = 1; set <= totalSets; set++) {
@@ -72,28 +76,49 @@ public class InsertWorkoutLogsServlet extends HttpServlet {
                     }
                 }
 
-                // Get user notes (optional)
-                String notes = request.getParameter("userNotes");
-
                 // Insert log for this set
                 boolean setInsertSuccess = workoutLogsDAO.insertWorkoutLogs(
-                        user_id, workout_id, exercise_id, set, weight, reps, notes
+                        userId, workoutId, exerciseId, set, weight, reps, userNotes
                 );
 
                 // Track overall success
                 insertSuccess |= setInsertSuccess;
             }
 
-            if (insertSuccess) {
-                response.sendRedirect("GetAllServlet?status=insertSuccess");
+            // Handle navigation based on button pressed
+            if (action != null) {
+                switch (action) {
+                    case "previous":
+                        // Navigate to previous exercise
+                        response.sendRedirect(request.getContextPath() + "/StartExercises?workoutId=" + workoutId + "&exerciseIndex=" + (exerciseIndex - 1));
+                        break;
+                    case "next":
+                        // Navigate to next exercise
+                        response.sendRedirect(request.getContextPath() + "/StartExercises?workoutId=" + workoutId + "&exerciseIndex=" + (exerciseIndex + 1));
+                        break;
+                    case "finish":
+                        // Finish workout and go to stats page
+                        response.sendRedirect(request.getContextPath() + "/WorkoutStats?workoutId=" + workoutId);
+                        break;
+                    default:
+                        // Default navigation if no action specified
+                        response.sendRedirect(request.getContextPath() + "/StartExercises?workoutId=" + workoutId + "&exerciseIndex=" + (exerciseIndex + 1));
+                }
             } else {
-                request.setAttribute("errorMessage", "No workout logs were inserted");
-                RequestDispatcher dis = request.getRequestDispatcher("wrong.jsp");
-                dis.forward(request, response);
+                // Log success/failure message
+                if (insertSuccess) {
+                    request.setAttribute("successMessage", "Workout logs saved successfully");
+                } else {
+                    request.setAttribute("errorMessage", "No workout logs were saved");
+                }
+
+                // Default navigation if no action
+                response.sendRedirect(request.getContextPath() + "/StartExercises?workoutId=" + workoutId + "&exerciseIndex=" + (exerciseIndex + 1));
             }
 
         } catch (Exception e) {
-            request.setAttribute("errorMessage", "Error processing workout logs");
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error processing workout logs: " + e.getMessage());
             RequestDispatcher dis = request.getRequestDispatcher("wrong.jsp");
             dis.forward(request, response);
         }

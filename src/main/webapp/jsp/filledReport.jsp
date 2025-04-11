@@ -62,7 +62,10 @@
         <label>Flexibility: <input type="text" name="flexibility" value="<%= reportDetails.get("flexibility") %>" readonly></label>
         <label>Cardio: <input type="text" name="cardio" value="<%= reportDetails.get("cardio") %>" readonly></label>
         <label>Remarks: <input type="text" name="remarks" value="<%= reportDetails.get("remarks") %>" readonly></label>
+        <label>Target Weight:<input type="number" name="target_weight" value="<%= reportDetails.get("remarks") %>" readonly> </label>
       </div>
+
+
 
       <!-- Exercises Table -->
       <h3 class="section-title">Resistance Training Exercises</h3>

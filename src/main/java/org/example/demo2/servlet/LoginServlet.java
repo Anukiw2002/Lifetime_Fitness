@@ -62,6 +62,7 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("userRole", user.getRole());
                 session.setAttribute("userId", user.getUser_id());
+                session.setAttribute("email", user.getEmail());
                 session.setMaxInactiveInterval(30*60);;
 
                 // Role-based redirection
