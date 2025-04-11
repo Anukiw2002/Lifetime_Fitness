@@ -68,6 +68,7 @@ public class ViewReportServlet extends HttpServlet {
                 reportDetails.put("warm_up", rs.getString("warm_up"));
                 reportDetails.put("cardio", rs.getString("cardio"));
                 reportDetails.put("remarks", rs.getString("remarks"));
+                reportDetails.put("target_weight", rs.getDouble("target_weight"));
 
                 // Set the report details as a request attribute
                 request.setAttribute("reportDetails", reportDetails);

@@ -7,47 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Dashboard - Lifetime Fitness</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
-    <style>
-        .stat-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 8px;
-            transition: transform 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .upcoming-session {
-            padding: 1rem;
-            border-left: 4px solid var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .announcement {
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 1rem;
-        }
-
-        .weight-trend {
-            height: 200px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--border-radius);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-        }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/clientDashboard.css">
 </head>
 <body>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <jsp:include page="../client/clientVerticalNavbar.jsp" />
 <div class="main-content">
     <div class="container">
@@ -98,21 +61,27 @@
                         <h2>Progress Overview</h2>
                     </div>
                     <div class="card-body">
+                        <div id="weight-data"
+                             data-beginning-weight="${beginningWeight}"
+                             data-current-weight="${currentWeight}"
+                             data-target-weight="${targetWeight}">
+                        </div>
+
                         <div class="weight-trend">
-                            [Weight Trend Graph Placeholder]
+                            <canvas id="weightTrendChart" width="400" height="200"></canvas>
                         </div>
                         <div class="flex justify-between">
                             <div>
                                 <p class="text-muted">Starting Weight</p>
-                                <p class="text-xl">82 kg</p>
+                                <p class="text-xl">${beginningWeight}</p>
                             </div>
                             <div>
                                 <p class="text-muted">Current Weight</p>
-                                <p class="text-xl">75 kg</p>
+                                <p class="text-xl">${currentWeight}</p>
                             </div>
                             <div>
                                 <p class="text-muted">Target Weight</p>
-                                <p class="text-xl">70 kg</p>
+                                <p class="text-xl">${targetWeight}</p>
                             </div>
                         </div>
                     </div>
@@ -189,5 +158,6 @@
         </div>
     </div>
 </div>
+<script src="${pageContext.request.contextPath}/js/clientDashboard.js"></script>
 </body>
 </html>
