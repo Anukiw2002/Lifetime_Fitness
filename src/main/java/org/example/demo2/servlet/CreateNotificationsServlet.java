@@ -10,6 +10,7 @@ import org.example.demo2.util.DBConnection;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @WebServlet("/createNotificationRedirection")
@@ -54,22 +55,34 @@ public class CreateNotificationsServlet extends HttpServlet {
     private void sendToCustomers(String notificationTitle, String notificationMessage) {
         System.out.println("Sending notification to customers: " + notificationMessage);
 
-        String sql = "INSERT INTO notifications (title, description, recipient_role) VALUES (?, ?, ?)";
+        String getCustomerSql = "SELECT id FROM users WHERE role = 'client'";
+
 
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(getCustomerSql);
+             ResultSet resultSet = preparedStatement.executeQuery()
+             )
 
-            preparedStatement.setString(1, notificationTitle);
-            preparedStatement.setString(2, notificationMessage);
-            preparedStatement.setString(3, "customer");
+        {
+            while(resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String insertNotificationSql = "INSERT INTO notifications(title, description, recipient_role, user_id,is_read,created_at) VALUES (?,?,?,?,?, NOW())";
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Notification saved to the database for customers.");
-            } else {
-                System.out.println("Failed to save notification to the database for customers.");
+                try(PreparedStatement preparedStatement1 = connection.prepareStatement(insertNotificationSql)){
+                    preparedStatement1.setString(1, notificationTitle);
+                    preparedStatement1.setString(2, notificationMessage);
+                    preparedStatement1.setString(3,"customer");
+                    preparedStatement1.setInt(4, id);
+                    preparedStatement1.setBoolean(5, false);
+
+                    int rowsAffected = preparedStatement1.executeUpdate();
+                    if (rowsAffected > 0) {
+                        System.out.println("Notification saved to the database for customer with user_id " + id);
+                    } else {
+                        System.out.println("Failed to save notification to the database for customer with user_id " + id);
+                    }
+                }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Failed to send the notifications to customers: " + e.getMessage());
@@ -79,22 +92,30 @@ public class CreateNotificationsServlet extends HttpServlet {
     private void sendToInstructors(String notificationTitle, String notificationMessage) {
         System.out.println("Sending notification to instructors: " + notificationMessage);
 
-        String sql = "INSERT INTO notifications (title, description, recipient_role) VALUES (?, ?, ?)";
+        String getInstructorSql = "SELECT id FROM users WHERE role = 'instructor'";
 
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(getInstructorSql);
+             ResultSet resultset = preparedStatement.executeQuery()) {
 
-            preparedStatement.setString(1, notificationTitle);
-            preparedStatement.setString(2, notificationMessage);
-            preparedStatement.setString(3, "instructor");
+            while(resultset.next()){
+                int id = resultset.getInt("id");
+                String insertSql = "INSERT INTO notifications(title,description, recipient_role, user_id,is_read,created_at) values (?,?,?,?,?,NOW())";
+                try(PreparedStatement preparedStatement1 = connection.prepareStatement(insertSql)){
+                    preparedStatement1.setString(1, notificationTitle);
+                    preparedStatement1.setString(2, notificationMessage);
+                    preparedStatement1.setString(3,"instructor");
+                    preparedStatement1.setInt(4, id);
+                    preparedStatement1.setBoolean(5, false);
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Notification saved to the database for instructors.");
-            } else {
-                System.out.println("Failed to save notification to the database for instructors.");
+                    int rowsAffected = preparedStatement1.executeUpdate();
+                    if (rowsAffected > 0) {
+                        System.out.println("Notification saved to the database for instructor with user_id " + id);
+                    }else {
+                        System.out.println("Failed to save notification to the database for instructor with user_id " + id);
+                    }
+                }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Failed to send the notifications to instructors: " + e.getMessage());

@@ -1,11 +1,17 @@
 package org.example.demo2.dao;
 import jakarta.servlet.http.HttpSession;
+import org.example.demo2.model.BookSession;
+import org.example.demo2.model.ClientMembership;
 import org.example.demo2.util.DBConnection;
 import org.example.demo2.model.BookingConstraints;
 
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class BookSessionDAO {
 
@@ -76,7 +82,7 @@ public class BookSessionDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Replace with proper logging
+            e.printStackTrace();
         }
 
         return false;
@@ -116,9 +122,6 @@ public class BookSessionDAO {
                 case "daily":
                     calendar.add(Calendar.DATE, 1);
                     break;
-                case "every-other-day":
-                    calendar.add(Calendar.DATE, 2);
-                    break;
                 case "weekly":
                     calendar.add(Calendar.DATE, 7);
                     break;
@@ -131,7 +134,296 @@ public class BookSessionDAO {
         return success;
     }
 
+    public List<BookSession> getAllBookingsForClient(int userId) {
+        List<BookSession> sessionList = new ArrayList<>();
+        String sql = "SELECT bookingId, date, timeSlot FROM bookings WHERE userId = ?  AND status IN ('booked', 'rescheduled')" +
+                "AND (date > CURRENT_DATE OR (date = CURRENT_DATE AND timeSlot > CURRENT_TIME)) " +
+                "ORDER BY date, timeSlot ASC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    BookSession b = new BookSession(
+                            rs.getDate("date"),
+                            rs.getTime("timeSlot")
+                    );
+                    b.setBookingId(rs.getInt("bookingId"));
+                    sessionList.add(b);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sessionList;
+    }
+
+    public List<BookSession> getAllBookings() {
+        List<BookSession> sessionList = new ArrayList<>();
+        String sql = "SELECT b.date, b.timeSlot, b.status, u.full_name AS fname, u.username AS lname " +
+                "FROM bookings b " +
+                "INNER JOIN users u ON u.id = b.userId " +
+                "WHERE (b.date > CURRENT_DATE OR (b.date = CURRENT_DATE AND b.timeSlot >= CURRENT_TIME)) " +
+                "ORDER BY b.date, b.timeSlot ASC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                // Get current date and time
+                LocalDate currentDate = LocalDate.now();
+                LocalTime currentTime = LocalTime.now();
+
+                while (rs.next()) {
+                    // Get the values from ResultSet first
+                    Date date = rs.getDate("date");
+                    Time timeSlot = rs.getTime("timeSlot");
+                    String dbStatus = rs.getString("status");
+
+                    // Create the object with constructor
+                    BookSession b = new BookSession(date, timeSlot);
+
+                    // Check if this session is currently in progress
+                    if (dbStatus.equals("booked") &&
+                            date.toLocalDate().equals(currentDate) &&
+                            currentTime.isAfter(timeSlot.toLocalTime()) &&
+                            currentTime.isBefore(timeSlot.toLocalTime().plusHours(1))) {
+                        b.setStatus("in progress");
+                    } else {
+                        b.setStatus(dbStatus);
+                    }
+
+                    b.setFname(rs.getString("fname"));
+                    b.setLname(rs.getString("lname"));
+
+                    // Add the object to the list
+                    sessionList.add(b);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sessionList;
+    }
+
+    public boolean cancelSession(int bookingId){
+        String sql = "UPDATE bookings SET status = 'cancelled' WHERE bookingId = ? ";
 
 
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, bookingId);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean rescheduleSession(Date date, Time timeSlot, int bookingId) {
+        String sql = "Update bookings SET date = ?, timeSlot = ?, status = 'rescheduled' WHERE bookingId = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setDate(1, date);
+            pstmt.setTime(2, timeSlot);
+            pstmt.setInt(3, bookingId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public BookSession getBookingById(int bookingId) {
+        BookSession booking = null;
+        String sql = "SELECT date, timeSlot FROM bookings WHERE bookingId = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, bookingId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    booking = new BookSession(
+                            rs.getDate("date"),
+                            rs.getTime("timeSlot")
+                    );
+                    booking.setBookingId(bookingId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return booking;
+    }
+
+    public String getSessionAvailabilityLabel(Date date, Time timeSlot) {
+        String sql = "SELECT COUNT(*) FROM bookings WHERE date = ? AND timeSlot = ? AND status IN ('booked', 'rescheduled')";
+        String label = "Available";
+
+        BookingConstraintsDAO constraintsDAO = new BookingConstraintsDAO();
+        BookingConstraints constraints = constraintsDAO.getLatestConstraints();
+
+        int maxBookings = constraints.getMaxBookingsPerSlot();
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setDate(1, date);
+            pstmt.setTime(2, timeSlot);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+
+                    if (count >= maxBookings) {
+                        label = "Fully Booked";
+                    } else if (count >=  maxBookings * 0.85) {
+                        label = "Almost Full";
+                    } else if (count >= maxBookings * 0.75) {
+                        label = "Filling Fast";
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return label;
+    }
+
+    public boolean hasUserBookedSlot(int userId, Date date, Time timeSlot) {
+        String sql = "SELECT COUNT(*) FROM bookings WHERE userId = ? AND date = ? AND timeSlot = ? AND status IN ('booked', 'rescheduled')";
+        boolean hasBooked = false;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            stmt.setDate(2, date);
+            stmt.setTime(3, timeSlot);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                hasBooked = rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hasBooked;
+
+    }
+
+    public boolean createCustomRecurringBooking(Date startDate, Time timeSlot, String status, int userId,
+                                                List<String> selectedDays, Date endDate, Integer occurrences) {
+        BookingConstraintsDAO constraintsDAO = new BookingConstraintsDAO();
+        BookingConstraints constraints = constraintsDAO.getLatestConstraints();
+
+        if (constraints == null) {
+            System.out.println("No booking constraints found.");
+            return false;
+        }
+
+        int maxWeeks = constraints.getMaxBookingAdvanceWeeks();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+
+        // Calculate the end date based on parameters
+        Calendar maxEndDate = Calendar.getInstance();
+        maxEndDate.setTime(new Date(System.currentTimeMillis()));
+        maxEndDate.add(Calendar.WEEK_OF_YEAR, maxWeeks);
+
+        Calendar actualEndDate = Calendar.getInstance();
+
+        if (endDate != null) {
+            // Use the specified end date
+            actualEndDate.setTime(endDate);
+            // Make sure it doesn't exceed max allowed
+            if (actualEndDate.after(maxEndDate)) {
+                actualEndDate = maxEndDate;
+            }
+        } else if (occurrences != null) {
+            // Calculate end date based on occurrences
+            actualEndDate.setTime(startDate);
+
+            // We need to count only days that match selected weekdays
+            int bookedCount = 0;
+            Calendar tempCal = (Calendar) calendar.clone();
+
+            while (bookedCount < occurrences && !tempCal.after(maxEndDate)) {
+                int dayOfWeek = tempCal.get(Calendar.DAY_OF_WEEK);
+                String dayName = getDayName(dayOfWeek);
+
+                if (selectedDays.contains(dayName)) {
+                    bookedCount++;
+                    actualEndDate.setTime(tempCal.getTime());
+                }
+
+                tempCal.add(Calendar.DATE, 1);
+            }
+        } else {
+            // Default to max allowed
+            actualEndDate = maxEndDate;
+        }
+
+        boolean success = true;
+        int bookedCount = 0;
+
+        // Don't exceed the end date
+        while (!calendar.after(actualEndDate)) {
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            String dayName = getDayName(dayOfWeek);
+
+            if (selectedDays.contains(dayName)) {
+                boolean booked = createSessionBooking(
+                        new java.sql.Date(calendar.getTimeInMillis()), timeSlot, status, userId);
+
+                if (booked) {
+                    bookedCount++;
+                    if (occurrences != null && bookedCount >= occurrences) {
+                        break;
+                    }
+                } else {
+                    // Don't fail the entire operation for one slot
+                    System.out.println("Failed to book session on " + calendar.getTime());
+                }
+            }
+
+            // Always increment by one day
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        return bookedCount > 0;
+    }
+
+    private String getDayName(int dayOfWeek) {
+        switch (dayOfWeek) {
+            case Calendar.MONDAY: return "MONDAY";
+            case Calendar.TUESDAY: return "TUESDAY";
+            case Calendar.WEDNESDAY: return "WEDNESDAY";
+            case Calendar.THURSDAY: return "THURSDAY";
+            case Calendar.FRIDAY: return "FRIDAY";
+            case Calendar.SATURDAY: return "SATURDAY";
+            case Calendar.SUNDAY: return "SUNDAY";
+            default: return "";
+        }
+    }
 }
-

@@ -1,5 +1,8 @@
 package org.example.demo2.model;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 public class Client {
     private Long id;
     private Long userId;
@@ -8,8 +11,10 @@ public class Client {
     private String dateOfBirth;
     private String emergencyContactName;
     private String emergencyContactNumber;
+    private String gender;
     private String name; // We'll keep this for convenience, retrieving from users table
-    private String email; // We'll keep this for convenience, retrieving from users table
+    private String email;
+    private String username;// We'll keep this for convenience, retrieving from users table
 
     // Constructors
     public Client() {}
@@ -43,4 +48,13 @@ public class Client {
     public void setName(String name) { this.name = name; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getGender() { return gender; }
+    public void setGender(String gender) { this.gender = gender; }
+
+    public int getAge(){
+        if (dateOfBirth == null) return 0;
+        return Period.between(LocalDate.parse(dateOfBirth), LocalDate.now()).getYears();
+    }
 }

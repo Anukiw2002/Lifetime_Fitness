@@ -41,7 +41,10 @@ public class OwnerDetailedNotificationsServlet extends HttpServlet {
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "SELECT title, description, created_at FROM notifications WHERE recipient_role IN ('instructor', 'customer') OR recipient_role = 'both' ORDER BY created_at DESC")) {
+                     "SELECT title, MAX(description) AS description, MAX(created_at) AS created_at\n" +
+                             "FROM notifications\n" +
+                             "GROUP BY title\n" +
+                             "ORDER BY created_at DESC;")) {
 
             if (connection != null) {
                 System.out.println("Database connection successful.");

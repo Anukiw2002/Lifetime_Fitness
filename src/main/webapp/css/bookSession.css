@@ -1,0 +1,158 @@
+.date-box {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    min-width: 120px;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+}
+
+.date-box:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+.date-box.selected {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.date-label {
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.date-number {
+    font-weight: 400;
+    font-size: var(--font-size-xs);
+    color: white;
+}
+
+.date-box.selected .date-number {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.dates-container {
+    display: flex;
+    gap: var(--spacing-sm);
+    overflow-x: auto;
+    padding: var(--spacing-md) 0;
+    margin-bottom: var(--spacing-xl);
+}
+
+.time-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.time-slot {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    min-height: 60px;
+}
+
+.time-slot:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow);
+}
+
+.time-slot.selected {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.time-slot.unavailable {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.page-header {
+    margin-bottom: var(--spacing-2xl);
+}
+
+
+.time-slot.availability-available {
+    background-color: var(--card-bg);
+    color: white;
+}
+
+.time-slot.availability-filling-fast {
+    background-color: rgba(245, 124, 0, 0.2);
+    border-color: var(--accent-color);
+}
+
+.time-slot.availability-almost-full {
+    background-color: rgba(255, 215, 0, 0.2);
+    border-color: var(--warning-color);
+}
+
+.time-slot.availability-fully-booked {
+    background-color: rgba(211, 47, 47, 0.2);
+    border-color: var(--danger-color);
+    opacity: 0.7;
+    cursor: not-allowed !important;
+}
+
+.time-slot.availability-already-booked {
+    background-color: rgba(46, 125, 0, 0.2);
+    border-color: var(--success-color);
+    color: white;
+    opacity: 0.7;
+    cursor: not-allowed !important;
+}
+
+/* Update the legend for availability indicators */
+.availability-legend {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.availability-indicator {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+
+.indicator-available {
+    background-color: var(--card-bg);
+}
+
+.indicator-filling-fast {
+    background-color: var(--accent-color);
+}
+
+.indicator-almost-full {
+    background-color: var(--warning-color);
+}
+
+.indicator-fully-booked {
+    background-color: var(--danger-color);
+}
+
+.indicator-already-booked {
+    background-color: var(--success-color);
+}

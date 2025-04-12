@@ -10,7 +10,7 @@
 }
 
 .session-time {
-    color: var(--text-muted);
+    color: white;
     margin-bottom: var(--spacing-md);
 }
 

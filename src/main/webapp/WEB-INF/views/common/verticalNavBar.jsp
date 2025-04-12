@@ -48,6 +48,9 @@
         <a href="/booking/constraints" class="nav-link">
             <i class="fas fa-credit-card icon"></i>Booking Constraints
         </a>
+        <a href="/viewBookings" class="nav-link">
+            <i class="fas fa-credit-card icon"></i>Bookings
+        </a>
     </div>
 
     <div class="bottom-links">

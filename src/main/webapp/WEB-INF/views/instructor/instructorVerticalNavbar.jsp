@@ -20,7 +20,7 @@
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
     </div>
     <div>
-        <a href="/instructor/upcomingSessions" class="nav-link">
+        <a href="/instructorDashboard" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
         <a href="InstructorLeaderBoard" class="nav-link">
@@ -29,10 +29,13 @@
         <a href="/leaderBoardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard Details
         </a>
-        <a href="/viewInstructorNotification" class="nav-link">
+        <a href="viewNotification" class="nav-link notification-wrapper">
             <i class="fas fa-bell icon"></i>Notifications
+            <c:if test="${hasUnread}">
+                <span class="notification-dot"></span>  <!-- Red dot for unread notifications -->
+            </c:if>
         </a>
-        <a href="/InstructorMemberManagement" class="nav-link">
+        <a href="/instructorMemberManagement" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Members
         </a>
         <a href="/InstructorViewVideos" class="nav-link">

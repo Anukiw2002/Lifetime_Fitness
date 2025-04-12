@@ -85,7 +85,7 @@
 </head>
 <body>
 <div class="main-content">
-    <jsp:include page="clientVerticalNavbar.jsp" />
+    <jsp:include page="instructorVerticalNavbar.jsp" />
     <div class="container">
         <div class="flex mb-4">
             <a href="/instructor/clientWorkouts?phoneNumber=${workout.clientPhone}" class="btn btn-secondary">

@@ -15,8 +15,8 @@ public class ClientDAO {
         Connection connection = null;
         try {
             connection = dbConnection.getConnection();
-            String sql = "SELECT cd.id, cd.user_id, cd.phone_number, cd.address, cd.date_of_birth, " +
-                    "cd.emergency_contact_name, cd.emergency_contact_number, u.full_name AS name, u.email " +
+            String sql = "SELECT cd.id, cd.user_id, cd.phone_number, CONCAT(cd.house_no, ' ', cd.street_name, ', ', cd.city) AS address, cd.date_of_birth, " +
+                    "cd.emergency_contact_name, cd.emergency_contact_number, CONCAT(u.full_name, ' ', u.username) AS name, u.email " +
                     "FROM client_details cd " +
                     "JOIN users u ON cd.user_id = u.id " +
                     "WHERE cd.phone_number = ?";
@@ -51,8 +51,8 @@ public class ClientDAO {
         Connection connection = null;
         try {
             connection = dbConnection.getConnection();
-            String sql = "SELECT cd.id, cd.user_id, cd.phone_number, cd.address, cd.date_of_birth, " +
-                    "cd.emergency_contact_name, cd.emergency_contact_number, u.full_name AS name, u.email " +
+            String sql = "SELECT cd.id, cd.user_id, cd.phone_number, CONCAT(cd.house_no, ', ', cd.street_name, ', ', cd.city) AS address, cd.gender, cd.date_of_birth, " +
+                    "cd.emergency_contact_name, cd.emergency_contact_number, CONCAT(u.full_name, ' ', u.username) AS name, u.email " +
                     "FROM client_details cd " +
                     "JOIN users u ON cd.user_id = u.id " +
                     "WHERE cd.user_id = ?";
@@ -72,6 +72,7 @@ public class ClientDAO {
                     client.setEmergencyContactNumber(rs.getString("emergency_contact_number"));
                     client.setName(rs.getString("name"));
                     client.setEmail(rs.getString("email"));
+                    client.setGender(rs.getString("gender"));
                     return client;
                 }
                 return null;

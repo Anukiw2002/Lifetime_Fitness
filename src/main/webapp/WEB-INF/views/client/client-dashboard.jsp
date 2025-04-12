@@ -7,53 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Dashboard - Lifetime Fitness</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
-    <style>
-        .stat-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 8px;
-            transition: transform 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .upcoming-session {
-            padding: 1rem;
-            border-left: 4px solid var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .announcement {
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 1rem;
-        }
-
-        .weight-trend {
-            height: 200px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--border-radius);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-        }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/clientDashboard.css">
 </head>
 <body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <jsp:include page="../client/clientVerticalNavbar.jsp" />
 <div class="main-content">
     <div class="container">
         <!-- Welcome Section -->
         <div class="flex items-center justify-between mb-4">
-            <h1>Welcome back, John Doe!</h1>
-            <p class="text-muted">December 15, 2024</p>
+            <h1>Welcome back, ${userName}!</h1>
+            <p class="text-muted">${currentDay}/${currentMonth}/${currentYear}</p>
         </div>
 
         <!-- Stats Overview -->
@@ -61,22 +25,19 @@
             <div class="stat-card">
                 <h3>Workout Streak</h3>
                 <div class="flex items-center justify-between">
-                    <span class="text-2xl">7 days</span>
-                    <span class="text-success">↑</span>
+                    <span class="text-2xl">${streak}</span>
                 </div>
             </div>
             <div class="stat-card">
                 <h3>Current Weight</h3>
                 <div class="flex items-center justify-between">
-                    <span class="text-2xl">75 kg</span>
-                    <span class="text-success">↓</span>
+                    <span class="text-2xl">${currentWeight}</span>
                 </div>
             </div>
             <div class="stat-card">
                 <h3>Total Workouts</h3>
                 <div class="flex items-center justify-between">
-                    <span class="text-2xl">48</span>
-                    <span class="text-success">↑</span>
+                    <span class="text-2xl">${workoutCount}</span>
                 </div>
             </div>
             <div class="stat-card">
@@ -97,21 +58,27 @@
                         <h2>Progress Overview</h2>
                     </div>
                     <div class="card-body">
+                        <div id="weight-data"
+                             data-beginning-weight="${beginningWeight}"
+                             data-current-weight="${currentWeight}"
+                             data-target-weight="${targetWeight}">
+                        </div>
+
                         <div class="weight-trend">
-                            [Weight Trend Graph Placeholder]
+                            <canvas id="weightTrendChart" width="400" height="200"></canvas>
                         </div>
                         <div class="flex justify-between">
                             <div>
                                 <p class="text-muted">Starting Weight</p>
-                                <p class="text-xl">82 kg</p>
+                                <p class="text-xl">${beginningWeight}</p>
                             </div>
                             <div>
                                 <p class="text-muted">Current Weight</p>
-                                <p class="text-xl">75 kg</p>
+                                <p class="text-xl">${currentWeight}</p>
                             </div>
                             <div>
                                 <p class="text-muted">Target Weight</p>
-                                <p class="text-xl">70 kg</p>
+                                <p class="text-xl">${targetWeight}</p>
                             </div>
                         </div>
                     </div>
@@ -172,32 +139,22 @@
                         <h2>Recent Announcements</h2>
                     </div>
                     <div class="card-body">
-                        <div class="announcement">
-                            <div class="flex justify-between">
-                                <h4>Holiday Schedule</h4>
-                                <span class="text-muted">2 hours ago</span>
+                        <c:forEach var="notifications" items="${notifications}">
+                            <div class="notifications">
+                                <div class="flex justify-between">
+                                    <h4>${notifications.title}</h4>
+                                    <span class="text-muted">${notifications.created_at}</span>
+                                </div>
+                                <p>${notifications.message}</p>
                             </div>
-                            <p>Please note that we will have modified hours during the upcoming holiday season.</p>
-                        </div>
-                        <div class="announcement">
-                            <div class="flex justify-between">
-                                <h4>New Equipment Arrival</h4>
-                                <span class="text-muted">1 day ago</span>
-                            </div>
-                            <p>We've added new equipment to our cardio section. Check them out!</p>
-                        </div>
-                        <div class="announcement">
-                            <div class="flex justify-between">
-                                <h4>Maintenance Notice</h4>
-                                <span class="text-muted">2 days ago</span>
-                            </div>
-                            <p>The pool area will be under maintenance this weekend.</p>
-                        </div>
+                        </c:forEach>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="${pageContext.request.contextPath}/js/clientDashboard.js"></script>
 </body>
 </html>

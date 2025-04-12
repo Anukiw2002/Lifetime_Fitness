@@ -1,0 +1,195 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl);
+}
+
+.booking-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 600px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.form-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.section-label {
+    font-weight: 600;
+    font-size: var(--font-size-lg);
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: var(--spacing-xs);
+}
+
+.date-display {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--border-color);
+}
+
+.date-value, .time-value {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: var(--font-size-base);
+}
+
+select {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    font-size: var(--font-size-base);
+    transition: var(--transition);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: var(--spacing-xl);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10L6 8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+
+.btn-cancel {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-xl);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+    font-size: var(--font-size-sm);
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-cancel:hover {
+    background-color: var(--secondary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-confirm {
+    background-color: var(--success-color);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-xl);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+    font-size: var(--font-size-sm);
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-confirm:hover {
+    background-color: var(--success-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .booking-card {
+        padding: var(--spacing-lg);
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn-cancel, .btn-confirm {
+        width: 100%;
+        margin-bottom: var(--spacing-sm);
+    }
+}
+
+/* Recurrence Section Styling */
+.weekday-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.weekday-selector label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    cursor: pointer;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.weekday-selector label:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sub-label {
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+}
+
+.end-recurrence {
+    margin-bottom: var(--spacing-lg);
+}
+
+#endDateOption, #occurrencesOption {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+#occurrences {
+    width: 80px;
+    margin-right: var(--spacing-sm);
+}
+
+#customOptions {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    margin-top: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+    .weekday-selector {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+}

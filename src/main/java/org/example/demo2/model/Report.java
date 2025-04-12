@@ -17,8 +17,8 @@ public class Report {
     private int bpm75;
     private int bpm85;
     private int waistCircumference;
-    private int bodyWeight;
-    private int height;
+    private double bodyWeight;
+    private double height;
     private double fatPercentage;
     private double bmr;
     private String goal;
@@ -28,6 +28,7 @@ public class Report {
     private String remarks;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    private double target_weight;
 
     // Getters and setters for all fields
     public int getId() {
@@ -134,19 +135,19 @@ public class Report {
         this.waistCircumference = waistCircumference;
     }
 
-    public int getBodyWeight() {
+    public double getBodyWeight() {
         return bodyWeight;
     }
 
-    public void setBodyWeight(int bodyWeight) {
+    public void setBodyWeight(double bodyWeight) {
         this.bodyWeight = bodyWeight;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
@@ -220,6 +221,25 @@ public class Report {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setTarget_weight(double target_weight) {this.target_weight = target_weight;}
+
+    public double getTarget_weight() {return target_weight;}
+
+    public double getBmi() {
+        if (height <= 0) {
+            return 0;
+        }
+
+        // Determine if height is likely in cm (usually over 100) and convert to meters if needed
+        double heightInMeters = height;
+        if (height > 3) { // Assuming height > 3 means it's in cm
+            heightInMeters = height / 100.0;
+        }
+
+        double bmi = bodyWeight / (heightInMeters * heightInMeters);
+        return Math.round(bmi * 10) / 10.0; // Round to one decimal place
     }
 }
 
