@@ -3,34 +3,36 @@ package org.example.demo2.model;
 import java.util.Date;
 
 public class WorkoutSession {
-    private int session_id;
-    private int user_id;
-    private Date started_at;
-    private Date ended_at;
+    private int session_Id;
+    private int user_Id;
+    private Date started_at;  // Renamed to match the database column
+    private Date ended_at;    // Renamed to match the database column
     private String notes;
 
-    public WorkoutSession(int session_id, int user_id, Date started_at, Date ended_at, String notes) {
-        this.session_id = session_id;
-        this.user_id = user_id;
-        this.started_at = started_at;
-        this.ended_at = ended_at;
+    // Constructor with all required parameters
+    public WorkoutSession(int sessionId, int userId, Date startedAt, Date endedAt, String notes) {
+        this.session_Id = sessionId;
+        this.user_Id = userId;
+        this.started_at = startedAt;
+        this.ended_at = endedAt;
         this.notes = notes;
     }
 
-    public int getSession_id() {
-        return session_id;
+    // Getters and Setters
+    public int getSession_Id() {
+        return session_Id;
     }
 
-    public void setSession_id(int session_id) {
-        this.session_id = session_id;
+    public void setSession_Id(int session_Id) {
+        this.session_Id = session_Id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUser_Id() {
+        return user_Id;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUser_Id(int user_Id) {
+        this.user_Id = user_Id;
     }
 
     public Date getStarted_at() {
