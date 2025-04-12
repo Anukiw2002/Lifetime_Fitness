@@ -33,7 +33,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Link</th>
+                        <th>View</th>
                         <th>Update</th>
                         <th>Delete</th>
                     </tr>
@@ -44,7 +44,8 @@
                             <td>${blog.name}</td>
                             <td>${blog.description}</td>
                             <td>
-                                <form action="${blog.link}" method="get" target="_blank">
+                                <form action="${pageContext.request.contextPath}/viewEachBlog" method="get">
+                                    <input type="hidden" name="id" value="${blog.id}" />
                                     <button type="submit" class="btn btn-secondary">View</button>
                                 </form>
                             </td>

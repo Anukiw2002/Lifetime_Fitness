@@ -26,26 +26,6 @@
 
 
     <servlet>
-        <servlet-name>UploadBlogServlet</servlet-name>
-        <servlet-class>org.example.demo2.servlet.UploadBlogServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UploadBlogServlet</servlet-name>
-        <url-pattern>/uploadBlog</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
-        <servlet-name>GetAllBlogsServlet</servlet-name>
-        <servlet-class>org.example.demo2.servlet.GetAllBlogsServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GetAllBlogsServlet</servlet-name>
-        <url-pattern>/GetAllBlogs</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
         <servlet-name>GetAllBlogsClientServlet</servlet-name>
         <servlet-class>org.example.demo2.servlet.GetAllBlogsClientServlet</servlet-class>
     </servlet>
@@ -72,15 +52,6 @@
         <url-pattern>/deleteBlog</url-pattern>
     </servlet-mapping>
 
-
-    <servlet>
-        <servlet-name>GetAllVideosServlet</servlet-name>
-        <servlet-class>org.example.demo2.servlet.GetAllVideosServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GetAllVideosServlet</servlet-name>
-        <url-pattern>/getAllVideos</url-pattern>
-    </servlet-mapping>
 
 
     <servlet>

@@ -20,7 +20,7 @@
     <!-- Header Section -->
     <div class="flex justify-between items-center mb-4">
       <h2>All Videos</h2>
-      <form action="${pageContext.request.contextPath}/addVideo" method="get">
+      <form action="${pageContext.request.contextPath}/uploadVideo" method="get">
         <button type="submit" class="btn btn-primary">Add Video</button>
       </form>
     </div>
@@ -28,11 +28,12 @@
     <!-- Videos Content Section -->
     <div class="card">
       <c:if test="${not empty videos}">
-        <table class="blog-table">
+        <table class="video-table">
           <thead>
           <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Watch Video</th>
             <th>Update</th>
             <th>Delete</th>
           </tr>
@@ -42,6 +43,9 @@
             <tr>
               <td>${video.name}</td>
               <td>${video.description}</td>
+              <td>
+                <a href="${video.url}" target="_blank" class="btn btn-secondary">Watch</a>
+              </td>
               <td>
                 <form action="${pageContext.request.contextPath}/updateVideo" method="get">
                   <input type="hidden" name="id" value="${video.id}" />
@@ -61,7 +65,7 @@
       </c:if>
 
       <c:if test="${empty videos}">
-        <p class="no-blogs">No videos uploaded yet.</p>
+        <p class="no-videos">No videos uploaded yet.</p>
       </c:if>
     </div>
   </div>
