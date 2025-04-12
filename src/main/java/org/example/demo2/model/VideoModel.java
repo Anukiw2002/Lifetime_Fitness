@@ -5,6 +5,7 @@ public class VideoModel {
     private String name;
     private String description;
     private String url;
+
     public VideoModel(int id, String name, String description, String url) {
         this.id = id;
         this.name = name;
@@ -17,7 +18,7 @@ public class VideoModel {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
