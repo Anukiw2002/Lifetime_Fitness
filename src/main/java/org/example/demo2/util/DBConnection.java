@@ -33,6 +33,6 @@ public class DBConnection {
         } catch (SQLException e) {
             System.err.println("Error connecting to the database: " + e.getMessage());
             e.printStackTrace();
- }
-}
+        }
+    }
 }

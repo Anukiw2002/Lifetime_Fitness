@@ -7,13 +7,6 @@
     <title>Upload Blog</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewBlogs.css" />
-    <!-- Additional specific styles -->
-    <style>
-        
-    </style>
-
-    <!-- Include jQuery for easier DOM manipulation (optional) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div class="main-content">
@@ -22,6 +15,11 @@
     <div class="container">
         <div class="card">
             <h2 class="text-center mb-4">Upload a Blog</h2>
+
+            <!-- Display error message if any -->
+            <c:if test="${not empty errorMessage}">
+                <div class="error-message">${errorMessage}</div>
+            </c:if>
 
             <!-- Form for uploading a blog -->
             <form action="uploadBlog" method="post" id="uploadBlogForm">
@@ -42,19 +40,19 @@
                     <textarea id="description"
                               name="description"
                               class="form-control"
-                              placeholder="Enter a brief description of the blog"
+                              placeholder="Enter a short description"
                               required></textarea>
                 </div>
 
-                <!-- Blog Link -->
+                <!-- Blog Content -->
                 <div class="form-group">
-                    <label class="form-label" for="link">Link to the Blog:</label>
-                    <input type="url"
-                           id="link"
-                           name="link"
-                           class="form-control"
-                           placeholder="https://example.com/blog"
-                           required />
+                    <label class="form-label" for="content">Blog Content:</label>
+                    <textarea id="content"
+                              name="content"
+                              class="form-control"
+                              placeholder="Write your full blog content here..."
+                              rows="10"
+                              required></textarea>
                 </div>
 
                 <!-- Submit Button -->
@@ -65,6 +63,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

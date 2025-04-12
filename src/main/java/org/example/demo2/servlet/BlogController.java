@@ -21,7 +21,7 @@ public class BlogController {
                 throw new RuntimeException("Failed to connect to the database.");
             }
 
-            String query = "SELECT id, name, description, link FROM blogs";
+            String query = "SELECT id, name, description, content FROM blogs";
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(query)) {
 
@@ -30,7 +30,7 @@ public class BlogController {
                             resultSet.getInt("id"),
                             resultSet.getString("name"),
                             resultSet.getString("description"),
-                            resultSet.getString("link")
+                            resultSet.getString("content")
                     );
                     blogs.add(blog);
 
@@ -38,7 +38,7 @@ public class BlogController {
                     System.out.println("Blog ID: " + blog.getId());
                     System.out.println("Name: " + blog.getName());
                     System.out.println("Description: " + blog.getDescription());
-                    System.out.println("Link: " + blog.getLink());
+                    System.out.println("Content: " + blog.getContent());
                     System.out.println("---------------");
                 }
             }

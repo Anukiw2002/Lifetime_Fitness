@@ -1,6 +1,7 @@
 package org.example.demo2.servlet;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import org.example.demo2.util.SessionUtils;
 import java.io.IOException;
 import java.util.List;
 
+@WebServlet("/getAllVideos")
 public class GetAllVideosClientServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

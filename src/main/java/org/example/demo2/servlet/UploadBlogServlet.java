@@ -14,16 +14,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
+@WebServlet("/uploadBlog")
 public class UploadBlogServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
-        // Forward the request to the uploadBlog JSP page
         request.getRequestDispatcher("/WEB-INF/views/owner/uploadBlog.jsp").forward(request, response);
     }
 
@@ -31,28 +30,29 @@ public class UploadBlogServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
+
         // Retrieve form data
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        String link = request.getParameter("link");
+        String content = request.getParameter("content");
 
-        // Log the received data
         System.out.println("Name: " + name);
         System.out.println("Description: " + description);
-        System.out.println("Link: " + link);
+        System.out.println("Content: " + content);
 
-        // Validate the inputs
-        if (name == null || name.isEmpty() || description == null || description.isEmpty() || link == null || link.isEmpty()) {
-            // Log validation error
+        // Validation
+        if (name == null || name.isEmpty() ||
+                description == null || description.isEmpty() ||
+                content == null || content.isEmpty()) {
+
             System.err.println("Validation Error: Missing required fields.");
             request.setAttribute("errorMessage", "All fields are required!");
             request.getRequestDispatcher("/WEB-INF/views/owner/uploadBlog.jsp").forward(request, response);
             return;
         }
 
-        // Save blog metadata to the database
         try (Connection connection = DBConnection.getConnection()) {
             if (connection == null) {
                 System.err.println("Error: Database connection is null.");
@@ -61,42 +61,34 @@ public class UploadBlogServlet extends HttpServlet {
                 return;
             }
 
-            String sql = "INSERT INTO blogs (name, link, description) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO blogs (name, description, content) VALUES (?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, name);
-                statement.setString(2, link);
-                statement.setString(3, description);
+                statement.setString(2, description);
+                statement.setString(3, content);
 
-                // Log the SQL query being executed
                 System.out.println("Executing SQL Query: " + statement);
 
-                // Execute the insert and check if the data was successfully inserted
                 int rowsAffected = statement.executeUpdate();
                 System.out.println("Rows affected: " + rowsAffected);
 
                 if (rowsAffected > 0) {
-                    // Log success
                     System.out.println("Blog successfully uploaded!");
-                    // JavaScript code to show the pop-up message
-                    String successMessage = "Blog uploaded successfully!";
                     response.setContentType("text/html");
                     response.getWriter().println("<script type='text/javascript'>");
-                    response.getWriter().println("alert('" + successMessage + "');");
+                    response.getWriter().println("alert('Blog uploaded successfully!');");
                     response.getWriter().println("window.location.href = 'GetAllBlogs';");
                     response.getWriter().println("</script>");
                 } else {
-                    // Log failure
-                    System.err.println("Error: No rows were inserted into the database.");
+                    System.err.println("Error: No rows were inserted.");
                     request.setAttribute("errorMessage", "Failed to upload the blog. Please try again.");
                     request.getRequestDispatcher("/WEB-INF/views/owner/uploadBlog.jsp").forward(request, response);
                 }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         } catch (SQLException e) {
-            // Log SQL exceptions with detailed information
-            System.err.println("SQL Exception occurred:");
-            e.printStackTrace();
-            request.setAttribute("errorMessage", "Error saving blog metadata: " + e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/views/owner/uploadBlog.jsp").forward(request, response);
+            throw new RuntimeException(e);
         }
     }
 }
