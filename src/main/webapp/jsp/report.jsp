@@ -60,6 +60,7 @@
             <h3 class="section-title">Program Goal</h3>
             <div class="form-section">
                 <label>GOAL: <input type="text" name="goal"></label>
+                <label>Target weight : <input type="number" name="target_weight"></label>
             </div>
 
             <!-- Exercises -->

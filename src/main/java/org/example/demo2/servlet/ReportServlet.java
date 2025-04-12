@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.demo2.util.DBConnection; // Assuming this is your connection utility class
 import org.example.demo2.util.SessionUtils;
+import org.example.demo2.dao.ReportDAO;
 
 import java.io.IOException;
 import java.sql.*;
@@ -28,42 +29,39 @@ public class ReportServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
-            response.sendRedirect(request.getContextPath() + "/landingPage");
-            return;
-        }
-        String userEmail = (String) request.getSession().getAttribute("userEmail");
-        if (userEmail == null || userEmail.trim().isEmpty()) {
-            request.getRequestDispatcher("/WEB-INF/views/owner/first.jsp").forward(request, response);
-            return;
-        }
-
-        // Collect form data
+        // General Report Info
         String name = request.getParameter("name");
-        int age = parseInteger(request.getParameter("age"));
+        int age = Integer.parseInt(request.getParameter("age"));
         String programNo = request.getParameter("program_no");
         String startingDate = request.getParameter("starting_date");
         String expireDate = request.getParameter("expire_date");
         String frequency = request.getParameter("frequency");
-        int timesPerWeek = parseInteger(request.getParameter("times_per_week"));
-        int maxHeartRate = parseInteger(request.getParameter("max_heart_rate"));
-        int bpm65 = parseInteger(request.getParameter("bpm_65"));
-        int bpm75 = parseInteger(request.getParameter("bpm_75"));
-        int bpm85 = parseInteger(request.getParameter("bpm_85"));
-        double waistCircumference = parseDouble(request.getParameter("waist_circumference"));
-        double bodyWeight = parseDouble(request.getParameter("body_weight"));
-        double height = parseDouble(request.getParameter("height"));
-        double fatPercentage = parseDouble(request.getParameter("fat_percentage"));
-        double bmr = parseDouble(request.getParameter("bmr"));
+        int timesPerWeek = Integer.parseInt(request.getParameter("times_per_week"));
+        int maxHeartRate = Integer.parseInt(request.getParameter("max_heart_rate"));
+        int bpm65 = Integer.parseInt(request.getParameter("bpm_65"));
+        int bpm75 = Integer.parseInt(request.getParameter("bpm_75"));
+        int bpm85 = Integer.parseInt(request.getParameter("bpm_85"));
+        double waistCircumference = Double.parseDouble(request.getParameter("waist_circumference"));
+        double bodyWeight = Double.parseDouble(request.getParameter("body_weight"));
+        double height = Double.parseDouble(request.getParameter("height"));
+        double fatPercentage = Double.parseDouble(request.getParameter("fat_percentage"));
+        double bmr = Double.parseDouble(request.getParameter("bmr"));
         String goal = request.getParameter("goal");
         String warm_up = request.getParameter("warm_up");
         String flexibility = request.getParameter("flexibility");
         String cardio = request.getParameter("cardio");
         String remarks = request.getParameter("remarks");
+        String userEmail = request.getParameter("userEmail");
+        double target_weight = Double.parseDouble(request.getParameter("target_weight"));
 
-        // Dynamic exercises
+        // Exercises
+        String[] exerciseNamesArray = request.getParameterValues("exercise_name[]");
+        String[] repsArray = request.getParameterValues("reps[]");
+        String[] setsArray = request.getParameterValues("sets[]");
+        String[] exerciseDatesArray = request.getParameterValues("exercise_date[]");
+        String[] restsArray = request.getParameterValues("rest[]");
+        String[] weightsArray = request.getParameterValues("weight[]");
+
         List<String> exerciseNames = new ArrayList<>();
         List<Integer> reps = new ArrayList<>();
         List<Integer> sets = new ArrayList<>();
@@ -71,95 +69,49 @@ public class ReportServlet extends HttpServlet {
         List<String> rests = new ArrayList<>();
         List<Double> weights = new ArrayList<>();
 
-        int i = 1;
-        while (request.getParameter("exercise_" + i) != null) {
-            exerciseNames.add(request.getParameter("exercise_" + i));
-            reps.add(parseInteger(request.getParameter("reps_" + i)));
-            sets.add(parseInteger(request.getParameter("sets_" + i)));
-            exerciseDates.add(request.getParameter("date_" + i));
-            rests.add(request.getParameter("rest_" + i));
-            weights.add(parseDouble(request.getParameter("weight_" + i)));
-            i++;
+        if (exerciseNamesArray != null) {
+            for (int i = 0; i < exerciseNamesArray.length; i++) {
+                exerciseNames.add(exerciseNamesArray[i]);
+                reps.add(Integer.parseInt(repsArray[i]));
+                sets.add(Integer.parseInt(setsArray[i]));
+                exerciseDates.add(exerciseDatesArray[i]);
+                rests.add(restsArray[i]);
+                weights.add(Double.parseDouble(weightsArray[i]));
+            }
         }
 
-        try (Connection conn = DBConnection.getConnection()) {
-            if (conn != null) {
-                System.out.println("Database connection successful!");
-            }
+        // Database operation
+        ReportDAO reportDAO = new ReportDAO();
 
-            conn.setAutoCommit(false);
+        try (Connection conn = DBConnection.getConnection()) {
+            conn.setAutoCommit(false); // Start transaction
 
             try {
-                // Insert report
-                String insertReportQuery = "INSERT INTO user_reports (name, age, program_no, starting_date, expire_date, frequency, "
-                        + "times_per_week, max_heart_rate, bpm_65, bpm_75, bpm_85, waist_circumference, body_weight, height, "
-                        + "fat_percentage, bmr, goal,warm_up, flexibility, cardio, remarks, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                try (PreparedStatement pstmt = conn.prepareStatement(insertReportQuery, Statement.RETURN_GENERATED_KEYS)) {
-                    pstmt.setString(1, name);
-                    pstmt.setInt(2, age);
-                    pstmt.setString(3, programNo);
-                    pstmt.setDate(4, startingDate == null || startingDate.isEmpty() ? null : Date.valueOf(startingDate));
-                    pstmt.setDate(5, expireDate == null || expireDate.isEmpty() ? null : Date.valueOf(expireDate));
-                    pstmt.setString(6, frequency);
-                    pstmt.setInt(7, timesPerWeek);
-                    pstmt.setInt(8, maxHeartRate);
-                    pstmt.setInt(9, bpm65);
-                    pstmt.setInt(10, bpm75);
-                    pstmt.setInt(11, bpm85);
-                    pstmt.setDouble(12, waistCircumference);
-                    pstmt.setDouble(13, bodyWeight);
-                    pstmt.setDouble(14, height);
-                    pstmt.setDouble(15, fatPercentage);
-                    pstmt.setDouble(16, bmr);
-                    pstmt.setString(17, goal);
-                    pstmt.setString(18, warm_up);
-                    pstmt.setString(19, flexibility);
-                    pstmt.setString(20, cardio);
-                    pstmt.setString(21, remarks);
-                    pstmt.setString(22, userEmail);
+                // Insert report info and get the generated report ID
+                int reportId = reportDAO.insertReport(conn, name, age, programNo, startingDate, expireDate, frequency,
+                        timesPerWeek, maxHeartRate, bpm65, bpm75, bpm85, waistCircumference, bodyWeight, height,
+                        fatPercentage, bmr, goal, warm_up, flexibility, cardio, remarks, userEmail, target_weight);
 
-                    pstmt.executeUpdate();
-
-                    ResultSet generatedKeys = pstmt.getGeneratedKeys();
-                    int reportId = 0;
-                    if (generatedKeys.next()) {
-                        reportId = generatedKeys.getInt(1);
-                        System.out.println("Inserted report with ID: " + reportId);
-                    }
-
-                    // Insert exercises
-                    String insertExerciseQuery = "INSERT INTO user_exercises (report_id, exercise_name, reps, sets, exercise_date, rest, weight, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                    try (PreparedStatement exerciseStmt = conn.prepareStatement(insertExerciseQuery)) {
-                        for (int j = 0; j < exerciseNames.size(); j++) {
-                            exerciseStmt.setInt(1, reportId);
-                            exerciseStmt.setString(2, exerciseNames.get(j));
-                            exerciseStmt.setInt(3, reps.get(j));
-                            exerciseStmt.setInt(4, sets.get(j));
-                            exerciseStmt.setDate(5, exerciseDates.get(j).isEmpty() ? null : Date.valueOf(exerciseDates.get(j)));
-                            exerciseStmt.setString(6, rests.get(j));
-                            exerciseStmt.setDouble(7, weights.get(j));
-                            exerciseStmt.setString(8, userEmail);
-                            exerciseStmt.addBatch();
-                            System.out.println("Adding exercise: " + exerciseNames.get(j));
-                        }
-                        exerciseStmt.executeBatch();
-                    }
+                // Insert exercises if the report ID was successfully generated and exercises exist
+                if (reportId > 0 && !exerciseNames.isEmpty()) {
+                    reportDAO.insertExercises(conn, reportId, exerciseNames, reps, sets, exerciseDates, rests, weights, userEmail);
                 }
 
+                // Commit transaction if everything is successful
                 conn.commit();
-                System.out.println("Report and exercises inserted successfully!");
                 response.sendRedirect(request.getContextPath() + "/first");
+
             } catch (SQLException e) {
-                conn.rollback();
-                System.err.println("Transaction rolled back due to: " + e.getMessage());
-                throw e;
+                conn.rollback(); // Rollback on error
+                throw new ServletException("Error saving report and exercises. Rolled back.", e);
             }
+
         } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-            e.printStackTrace();
+            throw new ServletException("Database connection error", e);
         }
     }
 
+    // Helper methods for parsing integer and double values
     private int parseInteger(String value) {
         return (value != null && !value.isEmpty()) ? Integer.parseInt(value) : 0;
     }

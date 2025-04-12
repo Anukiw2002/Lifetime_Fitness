@@ -80,4 +80,55 @@ public class ClientMembershipDAO {
 
         return memberships;
     }
+
+    public List<ClientMembership> getClientMembership(int userId) throws SQLException {
+        List<ClientMembership> membership = new ArrayList<>();
+
+        String sql = "SELECT mp.plan_name, cm.start_date, d.duration_value, d.duration_type " +
+                "FROM client_membership cm " +
+                "JOIN users u ON u.id = cm.user_id " +
+                "JOIN durations d ON cm.duration_id = d.duration_id " +
+                "JOIN membership_plans mp ON d.plan_id = mp.plan_id " +
+                "WHERE cm.user_id = ?";
+
+
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ClientMembership cm = new ClientMembership();
+                    cm.setPlanName(rs.getString("plan_name"));
+
+                    // Convert SQL Date to LocalDate
+                    Date sqlStartDate = rs.getDate("start_date");
+                    if (sqlStartDate != null) {
+                        LocalDate startDate = sqlStartDate.toLocalDate();
+                        cm.setStartDate(startDate);
+
+                        // Compute end date based on duration info
+                        int durationValue = rs.getInt("duration_value");
+                        String durationType = rs.getString("duration_type");
+
+                        LocalDate computedEndDate;
+                        if ("years".equalsIgnoreCase(durationType)) {
+                            computedEndDate = startDate.plusYears(durationValue);
+                        } else if ("months".equalsIgnoreCase(durationType)) {
+                            computedEndDate = startDate.plusMonths(durationValue);
+                        } else if ("days".equalsIgnoreCase(durationType)) {
+                            computedEndDate = startDate.plusDays(durationValue);
+                        } else {
+                            computedEndDate = startDate; // fallback
+                        }
+                        cm.setEndDate(computedEndDate);
+                    }
+
+                    membership.add(cm);
+                }
+            }
+        }
+        return membership;
+    }
 }

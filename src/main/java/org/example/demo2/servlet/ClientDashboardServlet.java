@@ -6,8 +6,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.demo2.dao.DashboardDAO;
 import org.example.demo2.dao.NotificationsDAO;
+import org.example.demo2.dao.ReportDAO;
+import org.example.demo2.model.UserWeightData;
 import org.example.demo2.util.DBConnection;
+import java.time.LocalDate;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,7 +28,8 @@ public class ClientDashboardServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
-
+        String email = (String) session.getAttribute("email");
+        System.out.println("email" +email);
         int user_id = (int)session.getAttribute("userId");
 
         // Use NotificationsDAO to check for unread notifications
@@ -47,6 +52,28 @@ public class ClientDashboardServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LocalDate today = LocalDate.now();
+
+        int currentDay = today.getDayOfMonth();
+        int currentMonth = today.getMonthValue();
+        int currentYear = today.getYear();
+
+
+        ReportDAO reportDAO = new ReportDAO();
+        UserWeightData weightData = reportDAO.getWeightByEmail(email);
+
+        DashboardDAO dashboardDAO = new DashboardDAO();
+        int workoutCount = dashboardDAO.getWorkoutCountById(user_id);
+        int streak = dashboardDAO.getWorkoutSteakById(user_id);
+
+        req.setAttribute("beginningWeight", weightData.getBeginningWeight());
+        req.setAttribute("currentWeight", weightData.getCurrentWeight());
+        req.setAttribute("targetWeight", weightData.getTargetWeight());
+        req.setAttribute("workoutCount", workoutCount);
+        req.setAttribute("streak", streak);
+        req.setAttribute("currentDay", currentDay);
+        req.setAttribute("currentMonth", currentMonth);
+        req.setAttribute("currentYear", currentYear);
 
         // Forward the request to the JSP
         req.getRequestDispatcher("/WEB-INF/views/client/client-dashboard.jsp").forward(req, resp);
