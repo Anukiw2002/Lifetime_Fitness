@@ -7,6 +7,7 @@ public class LeaderBoard {
     private double currentWeight;
     private double weightLoss;
     private int rank;
+    private int streak;
 
     public String getName(){return name;}
     public void setName(String name){this.name = name;}
@@ -25,5 +26,8 @@ public class LeaderBoard {
 
     public int getRank(){return rank;}
     public void setRank(int rank){this.rank = rank;}
+
+    public int getStreak(){return streak;}
+    public void setStreak(int streak){this.streak = streak;}
 }
 
