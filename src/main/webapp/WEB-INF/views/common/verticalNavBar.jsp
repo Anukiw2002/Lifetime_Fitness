@@ -39,7 +39,7 @@
         <a href="/first" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Reports
         </a>
-        <a href="getAllVideos" class="nav-link">
+        <a href="/GetAllVideos" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
         <a href="/GetAllBlogs" class="nav-link">
