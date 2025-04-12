@@ -17,11 +17,8 @@ public class InsertWorkoutLogsServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-
-        // Ensure correct encoding
         request.setCharacterEncoding("UTF-8");
 
-        // Validate session
         if (session == null || session.getAttribute("userId") == null) {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
@@ -33,21 +30,26 @@ public class InsertWorkoutLogsServlet extends HttpServlet {
             int exerciseId = Integer.parseInt(request.getParameter("exerciseId"));
             int exerciseIndex = Integer.parseInt(request.getParameter("exerciseIndex"));
             String action = request.getParameter("action");
-
-            // Get the number of sets for this exercise
             int totalSets = Integer.parseInt(request.getParameter("totalSets"));
-
-            // Save workout logs to database
-            WorkoutLogsDAO workoutLogsDAO = new WorkoutLogsDAO();
-            boolean insertSuccess = false;
             String userNotes = request.getParameter("userNotes");
 
-            // Loop through all sets and insert logs for each
+            WorkoutLogsDAO workoutLogsDAO = new WorkoutLogsDAO();
+
+            // Get or create session_id for this workout session
+            Integer sessionId = (Integer) session.getAttribute("currentWorkoutSessionId");
+
+            if (sessionId == null) {
+                // New session: insert into workout_sessions and store sessionId
+                sessionId = workoutLogsDAO.createWorkoutSession(userId, workoutId);
+                session.setAttribute("currentWorkoutSessionId", sessionId);
+            }
+
+            boolean insertSuccess = false;
+
             for (int set = 1; set <= totalSets; set++) {
                 String weightParam = request.getParameter("weight" + set);
                 String repsParam = request.getParameter("reps" + set);
 
-                // Skip if both weight and reps are empty
                 if ((weightParam == null || weightParam.isEmpty()) &&
                         (repsParam == null || repsParam.isEmpty())) {
                     continue;
@@ -56,65 +58,47 @@ public class InsertWorkoutLogsServlet extends HttpServlet {
                 Double weight = null;
                 int reps = 0;
 
-                // Parse weight if provided
-                if (weightParam != null && !weightParam.isEmpty()) {
-                    try {
+                try {
+                    if (weightParam != null && !weightParam.isEmpty()) {
                         weight = Double.parseDouble(weightParam);
-                    } catch (NumberFormatException e) {
-                        // Log or handle invalid weight
-                        continue;
                     }
-                }
-
-                // Parse reps if provided
-                if (repsParam != null && !repsParam.isEmpty()) {
-                    try {
+                    if (repsParam != null && !repsParam.isEmpty()) {
                         reps = Integer.parseInt(repsParam);
-                    } catch (NumberFormatException e) {
-                        // Log or handle invalid reps
-                        continue;
                     }
+                } catch (NumberFormatException e) {
+                    continue; // skip this set if data is invalid
                 }
 
-                // Insert log for this set
-                boolean setInsertSuccess = workoutLogsDAO.insertWorkoutLogs(
-                        userId, workoutId, exerciseId, set, weight, reps, userNotes
+                boolean setInsertSuccess = workoutLogsDAO.insertWorkoutLogsWithSession(
+                        sessionId, userId, workoutId, exerciseId, set, weight, reps, userNotes
                 );
 
-                // Track overall success
                 insertSuccess |= setInsertSuccess;
             }
 
-            // Handle navigation based on button pressed
             if (action != null) {
                 switch (action) {
                     case "previous":
-                        // Navigate to previous exercise
                         response.sendRedirect(request.getContextPath() + "/StartExercises?workoutId=" + workoutId + "&exerciseIndex=" + (exerciseIndex - 1));
-                        break;
+                        return;
                     case "next":
-                        // Navigate to next exercise
                         response.sendRedirect(request.getContextPath() + "/StartExercises?workoutId=" + workoutId + "&exerciseIndex=" + (exerciseIndex + 1));
-                        break;
+                        return;
                     case "finish":
-                        // Finish workout and go to stats page
-                        response.sendRedirect(request.getContextPath() + "/WorkoutStats?workoutId=" + workoutId);
-                        break;
-                    default:
-                        // Default navigation if no action specified
-                        response.sendRedirect(request.getContextPath() + "/StartExercises?workoutId=" + workoutId + "&exerciseIndex=" + (exerciseIndex + 1));
+                        // Clear session after finishing workout
+                        session.removeAttribute("currentWorkoutSessionId");
+                        response.sendRedirect(request.getContextPath() + "/WorkoutStats?sessionId=" + sessionId);
+                        return;
                 }
-            } else {
-                // Log success/failure message
-                if (insertSuccess) {
-                    request.setAttribute("successMessage", "Workout logs saved successfully");
-                } else {
-                    request.setAttribute("errorMessage", "No workout logs were saved");
-                }
-
-                // Default navigation if no action
-                response.sendRedirect(request.getContextPath() + "/StartExercises?workoutId=" + workoutId + "&exerciseIndex=" + (exerciseIndex + 1));
             }
+
+            if (insertSuccess) {
+                request.setAttribute("successMessage", "Workout logs saved successfully");
+            } else {
+                request.setAttribute("errorMessage", "No workout logs were saved");
+            }
+
+            response.sendRedirect(request.getContextPath() + "/StartExercises?workoutId=" + workoutId + "&exerciseIndex=" + (exerciseIndex + 1));
 
         } catch (Exception e) {
             e.printStackTrace();
