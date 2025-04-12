@@ -32,7 +32,7 @@ public class DashboardDAO {
     public int getWorkoutSteakById(Integer user_id){
         List<LocalDate> workoutDates = new ArrayList<>();
 
-        String query = "SELECT DISTINCT created_at FROM client_workouts WHERE user_id = ? ORDER BY created_at DESC";
+        String query = "SELECT DISTINCT created_at FROM user_workout_logs WHERE user_id = ? ORDER BY created_at DESC";
 
         try(Connection conn = DBConnection.getConnection();
         PreparedStatement stmt = conn.prepareStatement(query)){
