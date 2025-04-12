@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Videos</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewBlogs.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewVideos.css" />
 </head>
 <body>
 
@@ -29,6 +29,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Description</th>
+                        <th>Watch Video</th>
                     </tr>
                     </thead>
                     <tbody>

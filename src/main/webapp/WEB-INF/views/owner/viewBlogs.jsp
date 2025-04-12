@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Blogs</title>
 
-    <!-- Link to external CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewBlogs.css" />
 </head>
@@ -16,8 +15,9 @@
 
 <div class="main-content">
     <jsp:include page="../common/verticalNavBar.jsp" />
+
     <div class="container">
-        <!-- Header Section -->
+
         <div class="flex justify-between items-center mb-4">
             <h2>All Blogs</h2>
             <form action="${pageContext.request.contextPath}/uploadBlog" method="get">
@@ -44,7 +44,7 @@
                             <td>${blog.name}</td>
                             <td>${blog.description}</td>
                             <td>
-                                <form action="${pageContext.request.contextPath}/viewEachBlog" method="get">
+                                <form action="${pageContext.request.contextPath}/ViewEachBlog" method="get">
                                     <input type="hidden" name="id" value="${blog.id}" />
                                     <button type="submit" class="btn btn-secondary">View</button>
                                 </form>

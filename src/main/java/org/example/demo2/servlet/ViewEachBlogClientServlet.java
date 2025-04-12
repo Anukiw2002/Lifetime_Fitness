@@ -13,8 +13,8 @@ import java.sql.ResultSet;
 
 import org.example.demo2.util.DBConnection;
 
-@WebServlet("/ViewEachBlog")
-public class ViewEachBlogServlet extends HttpServlet {
+@WebServlet("/ViewEachBlogClient")
+public class ViewEachBlogClientServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -36,7 +36,7 @@ public class ViewEachBlogServlet extends HttpServlet {
                     request.setAttribute("name", rs.getString("name"));
                     request.setAttribute("description", rs.getString("description"));
                     request.setAttribute("content", rs.getString("content"));
-                    request.getRequestDispatcher("/WEB-INF/views/owner/viewEachBlog.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/views/client/viewEachBlogClient.jsp").forward(request, response);
                 } else {
                     response.sendRedirect("GetAllBlogs");
                 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class VideoController {
 
-    // Method to fetch all videos
+
     public static List<VideoModel> getAllVideos() {
         List<VideoModel> videos = new ArrayList<>();
 
@@ -21,13 +21,11 @@ public class VideoController {
                 throw new RuntimeException("Failed to connect to the database.");
             }
 
-            // ✅ Updated query to fetch 'url'
             String query = "SELECT id, name, description, url FROM videos";
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(query)) {
 
                 while (resultSet.next()) {
-                    // ✅ Added 'url' to constructor
                     VideoModel video = new VideoModel(
                             resultSet.getInt("id"),
                             resultSet.getString("name"),
@@ -45,4 +43,32 @@ public class VideoController {
         return videos;
     }
 
+
+    public static VideoModel getVideoById(int id) {
+        try (Connection connection = DBConnection.getConnection()) {
+            if (connection == null) {
+                throw new RuntimeException("Failed to connect to the database.");
+            }
+
+            String query = "SELECT id, name, description, url FROM videos WHERE id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, id);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return new VideoModel(
+                                resultSet.getInt("id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("description"),
+                                resultSet.getString("url")
+                        );
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error while fetching video by ID: " + e.getMessage());
+        }
+
+        return null;
+    }
 }
