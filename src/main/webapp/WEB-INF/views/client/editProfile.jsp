@@ -30,15 +30,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label" for="age">Age</label>
-                            <input type="number" id="age" class="form-control" value="25" required>
+                            <input type="date" id="age" class="form-control" value="${client.dateOfBirth}" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="gender">Gender</label>
-                            <select id="gender" class="form-control">
-                                <option value="male" selected>Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-                            </select>
+                            <input type="text" id="gender" class="form-control" value="${client.gender}" required>
                         </div>
                     </div>
                 </div>
@@ -64,11 +60,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label" for="weight">Weight (kg)</label>
-                            <input type="number" id="weight" class="form-control" value="75" step="0.1">
+                            <input type="number" id="weight" class="form-control" value="${report != null ? report.bodyWeight : 'N/A'}" step="0.1">
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="height">Height (cm)</label>
-                            <input type="number" id="height" class="form-control" value="175">
+                            <input type="number" id="height" class="form-control" value="${report != null ? report.bodyWeight : 'N/A'}">
                         </div>
                     </div>
                     <div class="form-group">
