@@ -1,9 +1,11 @@
 package org.example.demo2.dao;
 
 import org.example.demo2.model.UserWeightData;
+import org.example.demo2.model.Report;
 import org.example.demo2.util.DBConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReportDAO {
@@ -106,4 +108,30 @@ public class ReportDAO {
         }
         return data;
     }
+
+    public Report getById(int userID) {
+        String sql = "SELECT r.body_weight, r.height, r.target_weight FROM users u INNER JOIN user_reports r ON r.email = u.email WHERE u.id = ?";
+        Report report = null;
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userID);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    report = new Report();
+                    report.setBodyWeight(rs.getDouble("body_weight"));
+                    report.setHeight(rs.getDouble("height"));
+                    report.setTarget_weight(rs.getDouble("target_weight"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return report;
+    }
+
 }
