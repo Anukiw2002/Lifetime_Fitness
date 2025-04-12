@@ -12,11 +12,10 @@ import java.io.IOException;
 @WebServlet("/processPayment")
 public class ProcessPaymentServlet extends HttpServlet {
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Prevent GET requests for payment processing
-        request.getRequestDispatcher("/WEB-INF/views/client/paymentConfirmation.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/client/paymentIntegration.jsp").forward(request, response);
     }
 
     @Override
@@ -27,6 +26,7 @@ public class ProcessPaymentServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
+
         // Retrieve form data
         String cardNumber = request.getParameter("cardNumber");
         String expiryMonth = request.getParameter("expiryMonth");
@@ -40,20 +40,28 @@ public class ProcessPaymentServlet extends HttpServlet {
                 securityCode != null && !securityCode.isEmpty()) {
 
             // Simulate a successful payment process (You can replace this with actual payment API calls)
-            // You could integrate with a payment gateway like Stripe, PayPal, etc.
+            // After simulating the payment, generate the order details for PayHere
 
-            // Add confirmation details to the request if needed
-            request.setAttribute("cardNumber", cardNumber);
-            request.setAttribute("expiryDate", expiryMonth + "/" + expiryYear);
+            // Set the PayHere parameters to trigger the payment page.
+            String orderId = "ORDER" + System.currentTimeMillis(); // Generate a unique order ID
+            String amount = "1000.00"; // Set the payment amount
+            String returnUrl = "http://localhost:8080/paymentSuccess"; // Set the return URL after payment success
+            String cancelUrl = "http://localhost:8080/paymentCancel"; // Set the URL for cancellation
 
-            // Forward to the payment confirmation page
-            request.getRequestDispatcher("/WEB-INF/views/client/paymentConfirmation.jsp").forward(request, response);
+            // Pass the payment information to the request (so it can be accessed on the JSP page)
+            request.setAttribute("orderId", orderId);
+            request.setAttribute("amount", amount);
+            request.setAttribute("returnUrl", returnUrl);
+            request.setAttribute("cancelUrl", cancelUrl);
+
+            // Redirect to the PayHere payment integration JSP
+            request.getRequestDispatcher("/WEB-INF/views/client/paymentIntegration.jsp").forward(request, response);
+
         } else {
             // Redirect to error page if validation fails
             request.setAttribute("error", "All fields are required!");
             request.getRequestDispatcher("/WEB-INF/views/client/paymentError.jsp").forward(request, response);
         }
     }
-
-
 }
+

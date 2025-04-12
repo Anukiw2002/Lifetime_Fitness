@@ -4,7 +4,7 @@ public class BlogModel {
     private int id;
     private String name;
     private String description;
-    private String link;
+    private String content;
 
     // Constructors
     public BlogModel() {}
@@ -13,7 +13,7 @@ public class BlogModel {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.link = link;
+        this.content = content;
     }
 
     // Getters and Setters
@@ -41,12 +41,12 @@ public class BlogModel {
         this.description = description;
     }
 
-    public String getLink() {
-        return link;
+    public String getContent() {
+        return content;
     }
 
     public void setLink(String link) {
-        this.link = link;
+        this.content = content;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class BlogModel {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", link='" + link + '\'' +
+                ", content='" + content + '\'' +
                 '}';
     }
 }
