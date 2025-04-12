@@ -1,0 +1,43 @@
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    margin-bottom: var(--spacing-lg);
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    color: var(--border-color);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-right: var(--spacing-xs);
+}
+
+.star-rating label:before {
+    content: "★";
+}
+
+.star-rating input:checked ~ label {
+    color: var(--accent-color);
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: var(--accent-hover);
+}
+
+.review-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
