@@ -24,7 +24,7 @@
         <!-- Video Content Section -->
         <div class="card">
             <c:if test="${not empty videos}">
-                <table class="blog-table">
+                <table class="video-table">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -38,6 +38,13 @@
                             <td>${video.name}</td>
                             <td>${video.description}</td>
                         </tr>
+
+                        <td>
+                            <form action="${video.url}" method="get" target="_blank">
+                                <button type="submit" class="btn btn-secondary">Watch Video</button>
+                            </form>
+                        </td>
+
                     </c:forEach>
                     </tbody>
                 </table>
