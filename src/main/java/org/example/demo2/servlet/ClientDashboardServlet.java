@@ -11,6 +11,7 @@ import org.example.demo2.dao.NotificationsDAO;
 import org.example.demo2.dao.ReportDAO;
 import org.example.demo2.model.UserWeightData;
 import org.example.demo2.util.DBConnection;
+import java.time.LocalDate;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -51,6 +52,12 @@ public class ClientDashboardServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LocalDate today = LocalDate.now();
+
+        int currentDay = today.getDayOfMonth();
+        int currentMonth = today.getMonthValue();
+        int currentYear = today.getYear();
+
 
         ReportDAO reportDAO = new ReportDAO();
         UserWeightData weightData = reportDAO.getWeightByEmail(email);
@@ -64,8 +71,10 @@ public class ClientDashboardServlet extends HttpServlet {
         req.setAttribute("targetWeight", weightData.getTargetWeight());
         req.setAttribute("workoutCount", workoutCount);
         req.setAttribute("streak", streak);
-        System.out.println("Streak: " + streak);
-        System.out.println("workouts:" + workoutCount);
+        req.setAttribute("currentDay", currentDay);
+        req.setAttribute("currentMonth", currentMonth);
+        req.setAttribute("currentYear", currentYear);
+
         // Forward the request to the JSP
         req.getRequestDispatcher("/WEB-INF/views/client/client-dashboard.jsp").forward(req, resp);
     }

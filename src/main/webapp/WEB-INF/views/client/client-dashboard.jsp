@@ -17,7 +17,7 @@
         <!-- Welcome Section -->
         <div class="flex items-center justify-between mb-4">
             <h1>Welcome back, ${userName}!</h1>
-            <p class="text-muted">December 15, 2024</p>
+            <p class="text-muted">${currentDay}/${currentMonth}/${currentYear}</p>
         </div>
 
         <!-- Stats Overview -->
