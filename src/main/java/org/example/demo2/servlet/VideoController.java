@@ -21,15 +21,18 @@ public class VideoController {
                 throw new RuntimeException("Failed to connect to the database.");
             }
 
-            String query = "SELECT id, name, description FROM videos";
+            // ✅ Updated query to fetch 'url'
+            String query = "SELECT id, name, description, url FROM videos";
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(query)) {
 
                 while (resultSet.next()) {
+                    // ✅ Added 'url' to constructor
                     VideoModel video = new VideoModel(
                             resultSet.getInt("id"),
                             resultSet.getString("name"),
-                            resultSet.getString("description")
+                            resultSet.getString("description"),
+                            resultSet.getString("url")
                     );
                     videos.add(video);
                 }

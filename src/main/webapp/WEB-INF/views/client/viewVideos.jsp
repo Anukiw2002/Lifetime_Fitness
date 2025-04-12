@@ -43,7 +43,7 @@
             </c:if>
 
             <c:if test="${empty videos}">
-                <p class="no-blogs">No videos available at the moment.</p>
+                <p class="no-videos">No videos available at the moment.</p>
             </c:if>
         </div>
     </div>
