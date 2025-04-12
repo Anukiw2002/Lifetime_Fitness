@@ -28,3 +28,8 @@
     color: var(--text-muted);
     padding: var(--spacing-xl);
 }
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
