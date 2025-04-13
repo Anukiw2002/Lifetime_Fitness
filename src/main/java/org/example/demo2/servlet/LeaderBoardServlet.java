@@ -8,7 +8,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.demo2.dao.LeaderboardDAO;
 import org.example.demo2.model.LeaderBoard;
 
+import org.example.demo2.util.DBConnection;
+
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/leaderBoard")
@@ -24,10 +29,12 @@ public class LeaderBoardServlet extends HttpServlet {
             // 🖨️ Print each user and their weight loss
             for (LeaderBoard entry : leaderboardWL) {
                 System.out.println("User: " + entry.getName() + ", Weight Loss: " + entry.getWeightLoss());
+
             }
             for (LeaderBoard entry : streakList) {
                 System.out.println("User: " + entry.getName() + ", Streak: " + entry.getStreak());
             }
+
 
             request.setAttribute("leaderboard", leaderboardWL);
             request.setAttribute("streakboard", streakList);
