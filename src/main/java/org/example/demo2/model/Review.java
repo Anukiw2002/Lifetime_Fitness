@@ -6,6 +6,7 @@ public class Review {
     private int rating;
     private String review;
     private Date createdAt;
+    private String name;
 
     public void setRating(int rating) {
         this.rating = rating;
@@ -29,6 +30,14 @@ public class Review {
 
     public Date getCreatedAt(){
         return createdAt;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
 

@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
 
 public class ReviewDAO {
 
@@ -57,6 +59,28 @@ public class ReviewDAO {
         return null;
     }
 
+    public List<Review> getAllReviews() {
+        List<Review> reviews = new ArrayList<>();
+        String sql = "SELECT r.rating, r.review, r.createdAt, CONCAT(u.full_name, ' ', u.username) AS name FROM reviews r INNER JOIN users u ON r.userId = u.id ORDER BY r.createdAt DESC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                Review review = new Review();
+                review.setRating(rs.getInt("rating"));
+                review.setReview(rs.getString("review"));
+                review.setCreatedAt(rs.getDate("createdAt"));
+                review.setName(rs.getString("name"));
+                reviews.add(review);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reviews;
+    }
+
     public boolean updateReview(int rating, String review, int userId ) {
         String sql = "UPDATE reviews SET rating = ? , review = ? , createdAt = CURRENT_TIMESTAMP WHERE userId = ?";
 
@@ -92,4 +116,24 @@ public class ReviewDAO {
             return false;
         }
     }
+
+    public boolean reviewExists(int userId) {
+        String sql = "SELECT COUNT(*) FROM reviews WHERE userId = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1); // Get the count from the first column
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

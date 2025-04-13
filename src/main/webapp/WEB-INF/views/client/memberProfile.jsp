@@ -75,6 +75,9 @@
             <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientEditProfile'">
                 Edit Profile
             </button>
+            <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/handleReview'">
+                Review
+            </button>
             <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientBookings'">
                 View Schedule
             </button>

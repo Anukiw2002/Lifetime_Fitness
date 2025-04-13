@@ -655,9 +655,22 @@
     box-shadow: var(--glow-shadow);
 }
 
-/* Additional styles specific to reviews */
+/* Reviews Carousel Styles */
 .reviews-container {
     padding: var(--spacing-3xl) 0;
+    background-color: var(--bg-darker);
+}
+
+.carousel-title {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+    color: var(--text-color);
+}
+
+.carousel-title u {
+    text-decoration-color: var(--primary-color);
+    text-underline-offset: 8px;
+    text-decoration-thickness: 4px;
 }
 
 .review-carousel {
@@ -677,18 +690,21 @@
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     padding: var(--spacing-xl);
-    height: 100%;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
     flex: 0 0 calc(33.333% - 1.33rem);
     gap: var(--spacing-md);
-    opacity: 1;
-    transition: opacity 0.3s ease;
+    opacity: 0.95;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
 }
 
 .review-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+    opacity: 1;
 }
 
 .review-header {
@@ -708,6 +724,7 @@
     font-size: var(--font-size-xl);
     color: white;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 .reviewer-info {
@@ -718,6 +735,7 @@
     font-weight: 600;
     font-size: var(--font-size-lg);
     margin-bottom: var(--spacing-xs);
+    color: var(--text-color);
 }
 
 .review-date {
@@ -729,6 +747,7 @@
     color: var(--accent-color);
     font-size: var(--font-size-lg);
     margin-bottom: var(--spacing-sm);
+    letter-spacing: 2px;
 }
 
 .review-content {
@@ -736,6 +755,8 @@
     font-size: var(--font-size-base);
     line-height: 1.6;
     flex: 1;
+    font-style: italic;
+    opacity: 0.9;
 }
 
 .review-controls {
@@ -758,11 +779,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .review-nav:hover:not(:disabled) {
     background: var(--primary-hover);
     transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .review-nav:disabled {
@@ -788,6 +812,25 @@
 .review-indicator.active {
     background: var(--primary-color);
     transform: scale(1.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .review-card {
+        flex: 0 0 calc(50% - 1rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .review-card {
+        flex: 0 0 calc(100% - 0.5rem);
+    }
+
+    .reviewer-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: var(--font-size-lg);
+    }
 }
 
 /* Responsive Design */

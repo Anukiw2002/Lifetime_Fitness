@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/review.css">
 </head>
 <body>
+<jsp:include page="../client/clientVerticalNavbar.jsp" />
 <div class="container">
   <div class="card review-form">
     <div class="card-header">
