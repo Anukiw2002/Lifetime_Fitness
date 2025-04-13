@@ -9,7 +9,7 @@ public class BlogModel {
     // Constructors
     public BlogModel() {}
 
-    public BlogModel(int id, String name, String description, String link) {
+    public BlogModel(int id, String name, String description, String content) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -45,7 +45,7 @@ public class BlogModel {
         return content;
     }
 
-    public void setLink(String link) {
+    public void setContent(String content) {
         this.content = content;
     }
 

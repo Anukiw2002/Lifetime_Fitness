@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Video</title>
+    <title>Update Video</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewVideos.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
@@ -15,15 +16,18 @@
 
     <div class="container">
         <div class="card">
-            <h2 class="text-center mb-4">Upload a Video</h2>
+            <h2 class="text-center mb-4">Update Video</h2>
 
             <!-- Display error message if any -->
             <c:if test="${not empty errorMessage}">
                 <div class="error-message">${errorMessage}</div>
             </c:if>
 
-            <!-- Form for uploading a video -->
-            <form action="${pageContext.request.contextPath}/UploadVideo" method="post" id="uploadVideoForm">
+            <!-- Form for updating a video -->
+            <form action="${pageContext.request.contextPath}/UpdateVideo" method="post" id="updateVideoForm">
+
+                <!-- Hidden field for Video ID -->
+                <input type="hidden" name="id" value="${video.id}" />
 
                 <!-- Video Name -->
                 <div class="form-group">
@@ -32,7 +36,7 @@
                            id="videoName"
                            name="videoName"
                            class="form-control"
-                           placeholder="Enter the video name"
+                           value="${video.name}"
                            required />
                 </div>
 
@@ -42,24 +46,23 @@
                     <textarea id="videoDescription"
                               name="videoDescription"
                               class="form-control"
-                              placeholder="Enter a short description"
-                              required></textarea>
+                              required>${video.description}</textarea>
                 </div>
 
                 <!-- Video URL -->
                 <div class="form-group">
-                    <label class="form-label" for="videoUrl">Video URL (e.g. YouTube, Vimeo):</label>
+                    <label class="form-label" for="videoUrl">Video URL:</label>
                     <input type="url"
                            id="videoUrl"
                            name="videoUrl"
                            class="form-control"
-                           placeholder="https://..."
+                           value="${video.url}"
                            required />
                 </div>
 
                 <!-- Submit Button -->
                 <div class="flex justify-center mt-4">
-                    <button type="submit" class="btn btn-primary">Upload Video</button>
+                    <button type="submit" class="btn btn-primary">Update Video</button>
                 </div>
             </form>
         </div>

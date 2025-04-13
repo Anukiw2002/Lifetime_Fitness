@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@WebServlet("/uploadVideo")
+@WebServlet("/UploadVideo")
 public class UploadVideoServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

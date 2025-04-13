@@ -11,7 +11,7 @@ import org.example.demo2.util.SessionUtils;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/getAllVideos")
+@WebServlet("/GetAllVideosClient")
 public class GetAllVideosClientServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,7 @@ public class GetAllVideosClientServlet extends HttpServlet {
             e.printStackTrace();
 
             // Set an error message to display on the JSP
-            request.setAttribute("erro  rMessage", "An error occurred while fetching videos.");
+            request.setAttribute("error  rMessage", "An error occurred while fetching videos.");
             request.getRequestDispatcher("/WEB-INF/views/client/viewVideos.jsp").forward(request, response);
         }
     }

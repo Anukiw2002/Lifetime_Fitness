@@ -5,42 +5,67 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import org.example.demo2.util.DBConnection;
 import org.example.demo2.util.SessionUtils;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-@WebServlet("/deleteVideo") // Servlet mapping for the video deletion
+@WebServlet("/DeleteVideo")
 public class DeleteVideoServlet extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
-        // Retrieve the video ID from the request
-        String videoId = request.getParameter("videoId");
 
-        if (videoId != null && !videoId.trim().isEmpty()) {
-            try {
-                // Mocking deletion logic (Replace this with actual database deletion logic)
-                System.out.println("Deleting Video with ID: " + videoId);
-                // Simulate successful deletion
-                request.setAttribute("message", "Video with ID " + videoId + " has been successfully deleted.");
-            } catch (Exception e) {
-                // Simulate an error during deletion
-                request.setAttribute("message", "Error occurred while deleting video with ID: " + videoId);
+        String idParam = request.getParameter("id");
+
+        if (idParam == null || idParam.isEmpty()) {
+            sendAlert(response, "Video ID is missing!", "GetAllVideos");
+            return;
+        }
+
+        int id;
+        try {
+            id = Integer.parseInt(idParam);
+        } catch (NumberFormatException e) {
+            sendAlert(response, "Invalid Video ID!", "GetAllVideos");
+            return;
+        }
+
+        try (Connection connection = DBConnection.getConnection()) {
+            String sql = "DELETE FROM videos WHERE id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, id);
+
+                int rowsDeleted = statement.executeUpdate();
+
+                if (rowsDeleted > 0) {
+                    sendAlert(response, "Video deleted successfully!", "GetAllVideos");
+                } else {
+                    sendAlert(response, "Video not found or could not be deleted!", "GetAllVideos");
+                }
             }
-        } else {
-            // No ID entered
-            request.setAttribute("message", "No Video ID provided. Please enter a valid ID.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            sendAlert(response, "Database error: " + e.getMessage(), "GetAllVideos");
         }
-
-        // Forward to the result page (e.g., deleteResult.jsp)
-        request.getRequestDispatcher("/WEB-INF/views/owner/deleteSuccess.jsp").forward(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("deleteVideo.jsp"); // Redirect to the delete form if accessed via GET
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response); // Handle deletion via GET or POST
+    }
+
+    private void sendAlert(HttpServletResponse response, String message, String redirectUrl) throws IOException {
+        response.setContentType("text/html");
+        response.getWriter().println("<script type='text/javascript'>");
+        response.getWriter().println("alert('" + message.replace("'", "\\'") + "');");
+        response.getWriter().println("window.location.href = '" + redirectUrl + "';");
+        response.getWriter().println("</script>");
     }
 }
