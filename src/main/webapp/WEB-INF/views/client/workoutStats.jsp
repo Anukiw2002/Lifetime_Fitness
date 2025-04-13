@@ -22,7 +22,7 @@
             <div class="stat-card">
                 <div class="stat-title">Workout Duration</div>
                 <div class="stat-value">
-                    <span id="durationValue">45</span>
+                    <span id="durationValue"> ${duration} </span>
                     <span class="stat-unit">minutes</span>
                 </div>
             </div>

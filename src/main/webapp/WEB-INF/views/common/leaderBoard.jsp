@@ -29,7 +29,9 @@
         <div class="category-tabs" data-aos="fade-up">
             <button class="tab-btn active" data-category="weight-loss">Weight Loss</button>
             <button class="tab-btn" data-category="streak">Streak</button>
+
             <button class="tab-btn" data-category="exercise-selection">Exercises</button>
+
         </div>
 
         <!-- Weight Loss Category -->

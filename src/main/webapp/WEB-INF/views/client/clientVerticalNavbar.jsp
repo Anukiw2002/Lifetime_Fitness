@@ -37,7 +37,7 @@
             </c:if>
         </a>
 
-        <a href="getAllVideosClient" class="nav-link">
+        <a href="GetAllVideosClient" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
         </a>
         <a href="GetAllBlogsClient" class="nav-link">
