@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,35 +78,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Upcoming Sessions</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="upcoming-session">
-                            <div class="flex justify-between items-center">
-                                <h3>Upper Body Workout</h3>
-                                <span class="text-muted">Today, 4:00 PM</span>
-                            </div>
-                            <p>Instructor: Alex Thompson</p>
-                        </div>
-                        <div class="upcoming-session">
-                            <div class="flex justify-between items-center">
-                                <h3>Leg Day</h3>
-                                <span class="text-muted">Tomorrow, 5:30 PM</span>
-                            </div>
-                            <p>Instructor: Sarah Wilson</p>
-                        </div>
-                        <div class="upcoming-session">
-                            <div class="flex justify-between items-center">
-                                <h3>Core Strength</h3>
-                                <span class="text-muted">Dec 18, 6:00 PM</span>
-                            </div>
-                            <p>Instructor: Mike Johnson</p>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Right Column -->
@@ -115,17 +87,19 @@
                         <h2>Current Plan</h2>
                     </div>
                     <div class="card-body">
-                        <h3>Premium Membership</h3>
-                        <p class="text-muted mb-4">Valid until: January 15, 2025</p>
-                        <div class="flex justify-between mb-4">
-                            <span>Sessions completed</span>
-                            <span>12/20</span>
-                        </div>
-                        <div class="progress mb-4" style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
-                            <div style="width: 60%; height: 100%; background: var(--primary-color); border-radius: 4px;"></div>
-                        </div>
-                        <button class="btn btn-primary w-full">View Plan Details</button>
+                        <h3>${membership[0].planName} Membership Plan</h3>
+                        <fmt:parseDate value="${membership[0].endDate}" pattern="yyyy-MM-dd" var="parsedDate" />
+                        <p class="text-muted mb-4">Valid until: <fmt:formatDate value="${parsedDate}" pattern="MMMM d, yyyy" /></p>
+                        <button class="btn btn-primary w-full">Change Package</button>
                     </div>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/bookSession'">
+                        Book Class
+                    </button>
+                    <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientBookings'">
+                        View Schedule
+                    </button>
                 </div>
             </div>
         </div>
