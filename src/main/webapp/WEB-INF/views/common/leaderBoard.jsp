@@ -119,11 +119,11 @@
 
         <!-- Dedication Category -->
         <div class="exercise-selection" id="exercise-selection" style="text-align:center; margin-bottom: 20px;">
-            <button class="tab-btn" data-exercise="pushups">Push-ups</button>
-            <button class="tab-btn" data-exercise="benchpress">Bench Press</button>
-            <button class="tab-btn" data-exercise="squats">Squats</button>
-            <button class="tab-btn" data-exercise="deadlifts">Deadlifts</button>
-            <button class="tab-btn" data-exercise="tricepdips">Tricep Dips</button>
+            <button type="submit" class="tab-btn" data-exercise="pushups">Push-ups</button>
+            <button type="submit" class="tab-btn" data-exercise="benchpress">Bench Press</button>
+            <button type="submit" class="tab-btn" data-exercise="squats">Squats</button>
+            <button type="submit" class="tab-btn" data-exercise="deadlifts">Deadlifts</button>
+            <button type="submit" class="tab-btn" data-exercise="tricepdips">Tricep Dips</button>
         </div>
 
 
