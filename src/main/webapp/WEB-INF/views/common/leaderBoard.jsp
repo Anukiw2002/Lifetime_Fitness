@@ -29,7 +29,7 @@
         <div class="category-tabs" data-aos="fade-up">
             <button class="tab-btn active" data-category="weight-loss">Weight Loss</button>
             <button class="tab-btn" data-category="streak">Streak</button>
-            <button class="tab-btn" data-category="dedication">Dedication</button>
+            <button class="tab-btn" data-category="exercise-selection">Exercises</button>
         </div>
 
         <!-- Weight Loss Category -->
@@ -118,46 +118,16 @@
 
 
         <!-- Dedication Category -->
-        <div class="leaderboard-category" id="dedication">
-            <div class="top-performers" data-aos="fade-up">
-                <!-- Second Place -->
-                <div class="top-performer second-place">
-                    <div class="medal silver">2</div>
-                    <div class="performer-avatar">
-                        <img src="/images/member8.jpg" alt="Second Place">
-                    </div>
-                    <h3>Emma Watson</h3>
-                    <p>20 sessions/month</p>
-                </div>
-
-                <!-- First Place -->
-                <div class="top-performer first-place">
-                    <div class="medal gold">1</div>
-                    <div class="performer-avatar">
-                        <img src="/images/member7.jpg" alt="First Place">
-                    </div>
-                    <h3>David Lee</h3>
-                    <p>25 sessions/month</p>
-                </div>
-
-                <!-- Third Place -->
-                <div class="top-performer third-place">
-                    <div class="medal bronze">3</div>
-                    <div class="performer-avatar">
-                        <img src="/images/member9.jpg" alt="Third Place">
-                    </div>
-                    <h3>Sophie Turner</h3>
-                    <p>18 sessions/month</p>
-                </div>
-            </div>
-
-            <div class="other-ranks dedication-ranks" data-aos="fade-up">
-                <!-- Other ranks will be populated by JavaScript -->
-            </div>
+        <div class="exercise-selection" id="exercise-selection" style="text-align:center; margin-bottom: 20px;">
+            <button class="tab-btn" data-exercise="pushups">Push-ups</button>
+            <button class="tab-btn" data-exercise="benchpress">Bench Press</button>
+            <button class="tab-btn" data-exercise="squats">Squats</button>
+            <button class="tab-btn" data-exercise="deadlifts">Deadlifts</button>
+            <button class="tab-btn" data-exercise="tricepdips">Tricep Dips</button>
         </div>
-    </div>
 
-    <!-- Motivational Quote Section -->
+
+        <!-- Motivational Quote Section -->
     <div class="motivation-section" data-aos="fade-up">
         <blockquote>
             "Success isn't always about greatness. It's about consistency. Consistent hard work leads to success. Greatness will come."
