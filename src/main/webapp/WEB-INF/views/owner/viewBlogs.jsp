@@ -20,7 +20,7 @@
 
         <div class="flex justify-between items-center mb-4">
             <h2>All Blogs</h2>
-            <form action="${pageContext.request.contextPath}/uploadBlog" method="get">
+            <form action="${pageContext.request.contextPath}/UploadBlog" method="get">
                 <button type="submit" class="btn btn-primary">Upload Blog</button>
             </form>
         </div>
@@ -50,17 +50,24 @@
                                 </form>
                             </td>
                             <td>
-                                <form action="${pageContext.request.contextPath}/updateBlog" method="get">
+                                <form action="${pageContext.request.contextPath}/UpdateBlog" method="get">
                                     <input type="hidden" name="id" value="${blog.id}" />
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </form>
                             </td>
                             <td>
-                                <form action="${pageContext.request.contextPath}/deleteBlog" method="post">
+                                <script>
+                                    function confirmDelete() {
+                                        return confirm("Are you sure you want to delete this blog? This action cannot be undone.");
+                                    }
+                                </script>
+
+                                <form action="${pageContext.request.contextPath}/DeleteBlog" method="post" onsubmit="return confirmDelete();">
                                     <input type="hidden" name="id" value="${blog.id}" />
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
+
                         </tr>
                     </c:forEach>
                     </tbody>
