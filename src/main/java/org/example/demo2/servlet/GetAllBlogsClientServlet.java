@@ -11,7 +11,7 @@ import org.example.demo2.util.SessionUtils;
 import java.io.IOException;
 import java.util.List;
 
-
+@WebServlet("/GetAllBlogsClient")
 public class GetAllBlogsClientServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

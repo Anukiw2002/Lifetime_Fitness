@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,14 +8,6 @@
     <title>Update Blog</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewBlogs.css" />
-
-    <!-- Additional specific styles -->
-    <style>
-
-    </style>
-
-    <!-- Include jQuery for easier DOM manipulation (optional) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div class="main-content">
@@ -24,9 +17,19 @@
         <div class="card">
             <h2 class="text-center mb-4">Update Blog</h2>
 
+            <!-- Show Error Message -->
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-danger">${errorMessage}</div>
+            </c:if>
+
+            <!-- Show Success Message -->
+            <c:if test="${not empty successMessage}">
+                <div class="alert alert-success">${successMessage}</div>
+            </c:if>
+
             <!-- Form for updating a blog -->
-            <form action="updateBlog" method="post" id="updateBlogForm">
-                <!-- Blog ID (hidden field) -->
+            <form action="${pageContext.request.contextPath}/UpdateBlog" method="post" id="updateBlogForm">
+                <!-- Blog ID (hidden) -->
                 <input type="hidden" name="id" value="${blog.id}" />
 
                 <!-- Blog Title -->
@@ -51,16 +54,15 @@
                               required>${blog.description}</textarea>
                 </div>
 
-                <!-- Blog Link -->
+                <!-- Blog Content -->
                 <div class="form-group">
-                    <label class="form-label" for="link">Link to the Blog:</label>
-                    <input type="url"
-                           id="link"
-                           name="link"
-                           class="form-control"
-                           value="${blog.link}"
-                           placeholder="https://example.com/blog"
-                           required />
+                    <label class="form-label" for="content">Blog Content:</label>
+                    <textarea id="content"
+                              name="content"
+                              class="form-control"
+                              placeholder="Enter the full blog content"
+                              rows="8"
+                              required>${blog.content}</textarea>
                 </div>
 
                 <!-- Submit Button -->
@@ -71,6 +73,6 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>
+

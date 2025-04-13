@@ -37,14 +37,12 @@
                         <tr>
                             <td>${video.name}</td>
                             <td>${video.description}</td>
+                            <td>
+                                <form action="${video.url}" method="get" target="_blank">
+                                    <button type="submit" class="btn btn-secondary">Watch Video</button>
+                                </form>
+                            </td>
                         </tr>
-
-                        <td>
-                            <form action="${video.url}" method="get" target="_blank">
-                                <button type="submit" class="btn btn-secondary">Watch Video</button>
-                            </form>
-                        </td>
-
                     </c:forEach>
                     </tbody>
                 </table>
