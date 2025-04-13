@@ -89,4 +89,54 @@ public class LeaderboardDAO {
         }
         return list;
     }
+
+    public int getUserByPhone(String phoneNumber) throws SQLException {
+        int userId = -1;
+        try (Connection con = DBConnection.getConnection();
+        PreparedStatement ps = con.prepareStatement("SELECT user_id FROM client_details WHERE phone_number = ?")){
+            ps.setString(1, phoneNumber);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                userId = rs.getInt("user_id");
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userId;
+    }
+
+    public String getFullNameByUserId(int userId) throws SQLException {
+        String fullName = null;
+        try(Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement("SELECT full_name FROM users WHERE id = ?")){
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+                fullName = rs.getString("full_name");
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return fullName;
+    }
+
+    public boolean insertIntoLeaderBoard(int userId, String fullName, String category, double amount){
+        boolean inserted = false;
+        String sql = "INSERT INTO leaderboard (user_id, full_name, category, amount) VALUES (?,?,?,?)";
+
+        try(Connection con = DBConnection.getConnection();
+        PreparedStatement ps = con.prepareStatement(sql)){
+            ps.setInt(1,userId);
+            ps.setString(2, fullName);
+            ps.setString(3, category);
+            ps.setDouble(4, amount);
+
+            inserted = ps.executeUpdate() > 0;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return inserted;
+
+    }
 }
