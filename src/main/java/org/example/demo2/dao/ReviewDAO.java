@@ -14,7 +14,7 @@ public class ReviewDAO {
         String sql = "INSERT INTO reviews (rating, review, userId) VALUES (?,?,?)";
 
         try(Connection con = DBConnection.getConnection();
-            PreparedStatement pstmt = con.prepareStatement(sql);) {
+            PreparedStatement pstmt = con.prepareStatement(sql)) {
 
             pstmt.setInt(1,rating);
             pstmt.setString(2,review);
@@ -55,5 +55,41 @@ public class ReviewDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean updateReview(int rating, String review, int userId ) {
+        String sql = "UPDATE reviews SET rating = ? , review = ? , createdAt = CURRENT_TIMESTAMP WHERE userId = ?";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+            pstmt.setInt(1, rating);
+            pstmt.setString(2,review);
+            pstmt.setInt(3, userId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected>0;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteReview(int userId){
+        String sql = "DELETE FROM reviews where userId = ?";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
+
+            pstmt.setInt(1,userId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected>0;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }
