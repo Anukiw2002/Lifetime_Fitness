@@ -16,7 +16,7 @@
         <div class="card">
             <h1 class="text-center mb-4">Leaderboard Details</h1>
 
-            <form id="leaderboard-form" class="form-group">
+            <form id="leaderboard-form" class="form-group" action="<%= request.getContextPath()%>/leaderBoardDetails" method="post">
                 <!-- Client Search Section -->
                 <div class="client-search mb-4">
                     <h2 class="mb-3">Search Client</h2>
@@ -62,17 +62,10 @@
                         Bench Press
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="category" value="Pull-Ups">
-                        Pull-Ups
-                    </label>
-                    <label class="radio-label">
                         <input type="radio" name="category" value="Tricep Dips">
                         Tricep Dips
                     </label>
-                    <label class="radio-label">
-                        <input type="radio" name="category" value="Overhead Press">
-                        Overhead Press
-                    </label>
+
                 </div>
 
                 <div class="form-group amount-input">
@@ -83,42 +76,37 @@
 
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <a href="InstructorLeaderBoard" class="btn btn-secondary">View LeaderBoard</a>
+                    <a href="leaderBoard" class="btn btn-secondary">View LeaderBoard</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Add this JavaScript code -->
+
 <script>
-    document.getElementById('clientSearch').addEventListener('input', function(e) {
-        const phone = e.target.value;
-        if (phone.length === 10) {
-            // Make AJAX call to search for client
-            fetch(`/searchClient?phone=${phone}`)
-                .then(response => response.json())
-                .then(client => {
-                    const clientInfo = document.getElementById('clientInfo');
-                    if (client) {
-                        // Show client details
-                        document.getElementById('clientName').textContent = `Name: ${client.name}`;
-                        document.getElementById('clientPhone').textContent = `Phone: ${client.phone}`;
-                        document.getElementById('clientId').value = client.id;
-                        clientInfo.style.display = 'block';
-                    } else {
-                        // No client found
-                        clientInfo.style.display = 'none';
-                        alert('No client found with this phone number');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error searching for client');
-                });
-        } else {
-            document.getElementById('clientInfo').style.display = 'none';
-        }
+    document.getElementById('leaderboard-form').addEventListener('submit', function(e) {
+        e.preventDefault(); // prevent default form submit
+
+        const formData = new FormData(this);
+
+        fetch('/leaderBoardDetails', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    // Optionally reload or reset form
+                } else {
+                    alert(data.message); // this shows "User does not exist."
+                }
+            })
+            .catch(err => {
+                console.error('AJAX Error:', err);
+                alert('An error occurred while submitting the form.');
+            });
     });
 </script>
 
