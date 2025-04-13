@@ -78,12 +78,10 @@
             <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/handleReview'">
                 Review
             </button>
-            <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientBookings'">
-                View Schedule
+            <button class="btn btn-secondary">
+                Complaints
             </button>
-            <button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/bookSession'">
-                Book Class
-            </button>
+
         </div>
     </div>
 </div>
