@@ -12,6 +12,8 @@ import org.example.demo2.model.WorkoutStats;
 import org.example.demo2.model.WorkoutSession;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @WebServlet("/WorkoutStats")
 public class WorkoutStatsServlet extends HttpServlet {
@@ -67,11 +69,15 @@ public class WorkoutStatsServlet extends HttpServlet {
         long minutes = (duration % (1000 * 60 * 60)) / (1000 * 60);
         long seconds = (duration % (1000 * 60)) / 1000;
 
+        // Get personal bests
+        List<Map<String, Object>> personalBests = dao.getPersonalBests(userId, workoutId, sessionId);
+
         // Set attributes for the view
         request.setAttribute("duration", String.format("%02d:%02d:%02d", hours, minutes, seconds));
         request.setAttribute("sessionDetails", sessionDetails);
         request.setAttribute("stats", stats);
         request.setAttribute("avgWeight", avgWeight);
+        request.setAttribute("personalBests", personalBests);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/client/workoutStats.jsp");
         dispatcher.forward(request, response);
