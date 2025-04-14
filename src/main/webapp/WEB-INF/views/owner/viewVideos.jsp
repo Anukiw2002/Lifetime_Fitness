@@ -20,7 +20,7 @@
     <!-- Header Section -->
     <div class="flex justify-between items-center mb-4">
       <h2>All Videos</h2>
-      <form action="${pageContext.request.contextPath}/uploadVideo" method="get">
+      <form action="${pageContext.request.contextPath}/UploadVideo" method="get">
         <button type="submit" class="btn btn-primary">Upload Video</button>
       </form>
     </div>
@@ -50,13 +50,19 @@
                 </form>
               </td>
               <td>
-                <form action="${pageContext.request.contextPath}/updateVideo" method="get">
+                <form action="${pageContext.request.contextPath}/UpdateVideo" method="get">
                   <input type="hidden" name="id" value="${video.id}" />
                   <button type="submit" class="btn btn-primary">Update</button>
                 </form>
               </td>
               <td>
-                <form action="${pageContext.request.contextPath}/deleteVideo" method="post">
+                <script>
+                  function confirmDelete() {
+                    return confirm("Are you sure you want to delete this blog? This action cannot be undone.");
+                  }
+                </script>
+
+                <form action="${pageContext.request.contextPath}/DeleteVideo" method="post" onsubmit="return confirmDelete();">
                   <input type="hidden" name="id" value="${video.id}" />
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form>

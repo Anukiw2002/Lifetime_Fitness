@@ -267,15 +267,42 @@
         </div>
     </section>
 
-<section class="reviews-container" id="reviews" data-aos="fade-up">
-    <div class="container">
-        <h1 class="carousel-title"><u>REVIEWS</u></h1>
 
-        <div class="grid grid-3">
+    <section class="reviews-container" id="reviews" data-aos="fade-up">
+        <div class="container">
+            <h1 class="carousel-title"><u>REVIEWS</u></h1>
 
+            <div class="review-carousel">
+                <div class="review-track">
+                    <c:forEach var="review" items="${reviews}" varStatus="status">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                        ${fn:substring(review.name, 0, 1)}
+                                </div>
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">${review.name}</div>
+                                    <div class="review-date">${review.createdAt}</div>
+                                </div>
+                            </div>
+                            <div class="review-rating">
+                                <c:forEach begin="1" end="${review.rating}">★</c:forEach>
+                            </div>
+                            <div class="review-content">"${review.review}"</div>
+                        </div>
+                    </c:forEach>
+                </div>
+                <div class="review-controls">
+                    <button class="review-nav prev" aria-label="Previous reviews">❮</button>
+                    <div class="review-indicators">
+                        <!-- Indicators will be added dynamically via JS -->
+                    </div>
+                    <button class="review-nav next" aria-label="Next reviews">❯</button>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+
 
     <!-- Transformations Section -->
     <section class="transformations-section" data-aos="fade-up">

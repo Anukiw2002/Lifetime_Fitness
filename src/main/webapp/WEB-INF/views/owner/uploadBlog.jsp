@@ -22,7 +22,7 @@
             </c:if>
 
             <!-- Form for uploading a blog -->
-            <form action="uploadBlog" method="post" id="uploadBlogForm">
+            <form action="UploadBlog" method="post" id="uploadBlogForm">
                 <!-- Blog Title -->
                 <div class="form-group">
                     <label class="form-label" for="name">Blog Title:</label>

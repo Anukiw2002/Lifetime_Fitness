@@ -12,14 +12,8 @@ import java.util.List;
 
 // Import your model and DAO classes
 import jakarta.servlet.http.HttpSession;
-import org.example.demo2.model.MembershipPlan;
-import org.example.demo2.model.Duration;
-import org.example.demo2.model.UniformPricing;
-import org.example.demo2.model.CategoryPricing;
-import org.example.demo2.dao.MembershipPlanDAO;
-import org.example.demo2.dao.DurationDAO;
-import org.example.demo2.dao.UniformPricingDAO;
-import org.example.demo2.dao.CategoryPricingDAO;
+import org.example.demo2.dao.*;
+import org.example.demo2.model.*;
 import org.example.demo2.util.DBConnection;
 import org.example.demo2.util.SessionUtils;
 
@@ -75,6 +69,11 @@ public class LandingPageServlet extends HttpServlet {
 
             // Store the data in request attribute
             request.setAttribute("membershipPlans", membershipPlans);
+
+            ReviewDAO reviewDAO = new ReviewDAO();
+            List<Review> reviews = reviewDAO.getAllReviews();
+            request.setAttribute("reviews", reviews);
+
 
         } catch (SQLException e) {
             // Log the error

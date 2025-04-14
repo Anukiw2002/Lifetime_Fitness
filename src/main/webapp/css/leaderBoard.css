@@ -38,6 +38,14 @@
     padding: 0 1rem;
 }
 
+.exercise-selection {
+    display: flex;
+    flex-direction: column; /* This stacks buttons vertically */
+    gap: 10px; /* Adds space between buttons */
+    margin-top: 10px;
+    align-items: flex-start; /* Align buttons to the start of the container */
+}
+
 .tab-btn {
     padding: 1rem 2rem;
     background: rgba(255, 255, 255, 0.05);

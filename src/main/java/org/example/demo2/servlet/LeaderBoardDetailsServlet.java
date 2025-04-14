@@ -6,8 +6,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.demo2.dao.LeaderboardDAO;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/leaderBoardDetails")
 public class LeaderBoardDetailsServlet extends HttpServlet { // Make sure to extend HttpServlet
@@ -21,24 +23,41 @@ public class LeaderBoardDetailsServlet extends HttpServlet { // Make sure to ext
 
     // Handles POST requests from the form submission
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
-            response.sendRedirect(request.getContextPath() + "/landingPage");
-            return;
-        }
-        // Retrieve form data
+    protected  void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String phoneNumber = request.getParameter("clientSearch");
         String category = request.getParameter("category");
         String amount = request.getParameter("amount");
 
-        // Perform some processing here, such as saving the data or querying for leaderboard details.
-        // You can add logic to handle leaderboard data based on the category and amount
+        LeaderboardDAO leaderboardDAO = new LeaderboardDAO();
 
-        // For now, just set a success message as a request attribute and forward back to the leaderboard page
-        request.setAttribute("message", "Category: " + category + ", Amount: " + amount + " has been processed.");
+        int userId = 0;
+        try {
+            userId = leaderboardDAO.getUserByPhone(phoneNumber);
+
+            if(userId == -1){
+                response.getWriter().write("{\"success\": false, \"message\": \"User does not exist.\"}");
+                return;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        String fullName = null;
+        if(userId != -1){
+            try {
+                fullName = leaderboardDAO.getFullNameByUserId(userId);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("Full Name: " + fullName);
+        }else {
+            request.setAttribute("errorMessage", "User does not exist.");
+            return;
+        }
+        boolean success = leaderboardDAO.insertIntoLeaderBoard(userId,fullName, category, Double.parseDouble(amount));
 
         // Forward back to JSP to display the message
         request.getRequestDispatcher("/WEB-INF/views/common/leaderBoardDetails.jsp").forward(request, response);
+
     }
+
 }
