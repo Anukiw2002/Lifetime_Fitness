@@ -21,7 +21,7 @@
         </div>
 
         <!-- Stats Overview -->
-        <div class="grid grid-4 gap-lg mb-4">
+        <div class="grid grid-3 gap-lg mb-3">
             <div class="stat-card">
                 <h3>Workout Streak</h3>
                 <div class="flex items-center justify-between">
@@ -40,13 +40,7 @@
                     <span class="text-2xl">${workoutCount}</span>
                 </div>
             </div>
-            <div class="stat-card">
-                <h3>Goals Met</h3>
-                <div class="flex items-center justify-between">
-                    <span class="text-2xl">3/5</span>
-                    <span class="text-success">60%</span>
-                </div>
-            </div>
+
         </div>
 
         <!-- Main Content Grid -->
@@ -132,24 +126,6 @@
                         </div>
                         <button class="btn btn-primary w-full">View Plan Details</button>
                     </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Recent Announcements</h2>
-                    </div>
-                    <div class="card-body">
-                        <c:forEach var="notifications" items="${notifications}">
-                            <div class="notifications">
-                                <div class="flex justify-between">
-                                    <h4>${notifications.title}</h4>
-                                    <span class="text-muted">${notifications.created_at}</span>
-                                </div>
-                                <p>${notifications.message}</p>
-                            </div>
-                        </c:forEach>
-                    </div>
-
                 </div>
             </div>
         </div>

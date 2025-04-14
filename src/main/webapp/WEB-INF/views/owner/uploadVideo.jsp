@@ -5,25 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Video</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/uploadVideo.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewVideos.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
-<jsp:include page="../common/verticalNavBar.jsp" />
-<div class="upload-container">
-    <h2>Upload a Video</h2>
-    <form action="${pageContext.request.contextPath}/uploadVideo" method="post" enctype="multipart/form-data">
-        <label for="videoName">Video Name:</label>
-        <input type="text" id="videoName" name="videoName" required />
+<div class="main-content">
+    <jsp:include page="../common/verticalNavBar.jsp" />
 
-        <label for="videoDescription">Description:</label>
-        <textarea id="videoDescription" name="videoDescription" rows="5" required></textarea>
+    <div class="container">
+        <div class="card">
+            <h2 class="text-center mb-4">Upload a Video</h2>
 
-        <label for="videoFile">Upload Video File:</label>
-        <input type="file" id="videoFile" name="videoFile" accept="video/*" required />
+            <!-- Display error message if any -->
+            <c:if test="${not empty errorMessage}">
+                <div class="error-message">${errorMessage}</div>
+            </c:if>
 
-        <button type="submit" class="submit-button">Upload Video</button>
-    </form>
+            <!-- Form for uploading a video -->
+            <form action="${pageContext.request.contextPath}/uploadVideo" method="post" id="uploadVideoForm">
+
+                <!-- Video Name -->
+                <div class="form-group">
+                    <label class="form-label" for="videoName">Video Name:</label>
+                    <input type="text"
+                           id="videoName"
+                           name="videoName"
+                           class="form-control"
+                           placeholder="Enter the video name"
+                           required />
+                </div>
+
+                <!-- Video Description -->
+                <div class="form-group">
+                    <label class="form-label" for="videoDescription">Video Description:</label>
+                    <textarea id="videoDescription"
+                              name="videoDescription"
+                              class="form-control"
+                              placeholder="Enter a short description"
+                              required></textarea>
+                </div>
+
+                <!-- Video URL -->
+                <div class="form-group">
+                    <label class="form-label" for="videoUrl">Video URL (e.g. YouTube, Vimeo):</label>
+                    <input type="url"
+                           id="videoUrl"
+                           name="videoUrl"
+                           class="form-control"
+                           placeholder="https://..."
+                           required />
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-center mt-4">
+                    <button type="submit" class="btn btn-primary">Upload Video</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

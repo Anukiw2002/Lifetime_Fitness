@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class DashboardDAO {
     public int getWorkoutCountById(Integer user_id){
         int count = 0;
@@ -33,7 +32,7 @@ public class DashboardDAO {
 
     public int getWorkoutSteakById(Integer user_id){
 
-        List<LocalDate> workoutDates = new ArrayList<>();
+        ArrayList<Object> workoutDates = new ArrayList<>();
 
 
         String query = "SELECT DISTINCT created_at FROM client_workouts WHERE user_id = ? ORDER BY created_at DESC";
@@ -55,7 +54,7 @@ public class DashboardDAO {
         LocalDate today = LocalDate.now();
 
         for(int i = 0; i< workoutDates.size(); i++){
-            LocalDate date = workoutDates.get(i);
+            LocalDate date = (LocalDate) workoutDates.get(i);
 
             if(i == 0){
                 if (date.equals(today) || date.equals(today.minusDays(1))) {
@@ -64,7 +63,7 @@ public class DashboardDAO {
                     break;
                 }
             } else {
-                LocalDate prevDate = workoutDates.get(i - 1);
+                LocalDate prevDate = (LocalDate) workoutDates.get(i - 1);
                 if (prevDate.minusDays(1).equals(date)) {
                     streak++;
                 } else {

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.DashboardDAO;
 import org.example.demo2.dao.NotificationsDAO;
 import org.example.demo2.dao.ReportDAO;
+import org.example.demo2.model.ClientMembership;
 import org.example.demo2.model.UserWeightData;
 import org.example.demo2.util.DBConnection;
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/clientDashboard")
 public class ClientDashboardServlet extends HttpServlet {

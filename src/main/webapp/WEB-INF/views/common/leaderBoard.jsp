@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,87 +28,94 @@
 
         <div class="category-tabs" data-aos="fade-up">
             <button class="tab-btn active" data-category="weight-loss">Weight Loss</button>
-            <button class="tab-btn" data-category="strength">Strength</button>
+            <button class="tab-btn" data-category="streak">Streak</button>
             <button class="tab-btn" data-category="dedication">Dedication</button>
         </div>
 
         <!-- Weight Loss Category -->
         <div class="leaderboard-category active" id="weight-loss">
             <div class="top-performers" data-aos="fade-up">
-                <!-- Second Place -->
-                <div class="top-performer second-place">
-                    <div class="medal silver">2</div>
-                    <div class="performer-avatar">
-                        <img src="/images/after1.png" alt="Second Place">
-                    </div>
-                    <h3>Sarah Williams</h3>
-                    <p>-15kg in 3 months</p>
-                </div>
+                <c:forEach var="entry" items="${leaderboard}" varStatus="status">
+                    <c:if test="${status.index < 3}">
+                        <div class="top-performer
+                    <c:choose>
+                        <c:when test='${status.index == 0}'>first-place</c:when>
+                        <c:when test='${status.index == 1}'>second-place</c:when>
+                        <c:when test='${status.index == 2}'>third-place</c:when>
+                    </c:choose>">
+                            <div class="medal
+                        <c:choose>
+                            <c:when test='${status.index == 0}'>gold</c:when>
+                            <c:when test='${status.index == 1}'>silver</c:when>
+                            <c:when test='${status.index == 2}'>bronze</c:when>
+                        </c:choose>">${status.index + 1}</div>
 
-                <!-- First Place -->
-                <div class="top-performer first-place">
-                    <div class="medal gold">1</div>
-                    <div class="performer-avatar">
-                        <img src="/images/Head Coach.png" alt="First Place">
-                    </div>
-                    <h3>John Anderson</h3>
-                    <p>-20kg in 4 months</p>
-                </div>
-
-                <!-- Third Place -->
-                <div class="top-performer third-place">
-                    <div class="medal bronze">3</div>
-                    <div class="performer-avatar">
-                        <img src="/images/coach4.png" alt="Third Place">
-                    </div>
-                    <h3>Emily Chen</h3>
-                    <p>-12kg in 2 months</p>
-                </div>
+                            <div class="performer-avatar">
+                                <!-- You can customize avatar logic here based on user or keep a default -->
+                                <img src="/images/default-user.png" alt="Top Performer">
+                            </div>
+                            <h3>${entry.name}</h3>
+                            <p>-${entry.weightLoss}kg</p>
+                        </div>
+                    </c:if>
+                </c:forEach>
             </div>
 
             <div class="other-ranks" data-aos="fade-up">
-                <!-- Other ranks will be populated by JavaScript -->
+                <c:forEach var="entry" items="${leaderboard}" varStatus="status">
+                    <c:if test="${status.index >= 3}">
+                        <div class="rank-entry">
+                            <span class="rank-number">${status.index + 1}</span>
+                            <span class="rank-name">${entry.name}</span>
+                            <span class="rank-score">-${entry.weightLoss}kg</span>
+                        </div>
+                    </c:if>
+                </c:forEach>
             </div>
         </div>
+
 
         <!-- Strength Category -->
-        <div class="leaderboard-category" id="strength">
+        <div class="leaderboard-category" id="streak">
             <div class="top-performers" data-aos="fade-up">
-                <!-- Second Place -->
-                <div class="top-performer second-place">
-                    <div class="medal silver">2</div>
-                    <div class="performer-avatar">
-                        <img src="/images/member5.jpg" alt="Second Place">
-                    </div>
-                    <h3>Mike Johnson</h3>
-                    <p>Deadlift: 200kg</p>
-                </div>
+                <c:forEach var="entry" items="${streakboard}" varStatus="status">
+                    <c:if test="${status.index < 3}">
+                        <div class="top-performer
+                <c:choose>
+                    <c:when test='${status.index == 0}'>first-place</c:when>
+                    <c:when test='${status.index == 1}'>second-place</c:when>
+                    <c:when test='${status.index == 2}'>third-place</c:when>
+                </c:choose>">
+                            <div class="medal
+                    <c:choose>
+                        <c:when test='${status.index == 0}'>gold</c:when>
+                        <c:when test='${status.index == 1}'>silver</c:when>
+                        <c:when test='${status.index == 2}'>bronze</c:when>
+                    </c:choose>">${status.index + 1}</div>
 
-                <!-- First Place -->
-                <div class="top-performer first-place">
-                    <div class="medal gold">1</div>
-                    <div class="performer-avatar">
-                        <img src="/images/member4.jpg" alt="First Place">
-                    </div>
-                    <h3>Chris Evans</h3>
-                    <p>Deadlift: 220kg</p>
-                </div>
-
-                <!-- Third Place -->
-                <div class="top-performer third-place">
-                    <div class="medal bronze">3</div>
-                    <div class="performer-avatar">
-                        <img src="/images/member6.jpg" alt="Third Place">
-                    </div>
-                    <h3>Tom Hardy</h3>
-                    <p>Deadlift: 180kg</p>
-                </div>
+                            <div class="performer-avatar">
+                                <img src="/images/default-user.png" alt="Top Performer">
+                            </div>
+                            <h3>${entry.name}</h3>
+                            <p>${entry.streak} days</p>
+                        </div>
+                    </c:if>
+                </c:forEach>
             </div>
 
             <div class="other-ranks" data-aos="fade-up">
-                <!-- Other ranks will be populated by JavaScript -->
+                <c:forEach var="entry" items="${streakboard}" varStatus="status">
+                    <c:if test="${status.index >= 3}">
+                        <div class="rank-entry">
+                            <span class="rank-number">${status.index + 1}</span>
+                            <span class="rank-name">${entry.name}</span>
+                            <span class="rank-score">${entry.streak} days</span>
+                        </div>
+                    </c:if>
+                </c:forEach>
             </div>
         </div>
+
 
         <!-- Dedication Category -->
         <div class="leaderboard-category" id="dedication">
