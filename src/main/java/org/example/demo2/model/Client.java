@@ -15,7 +15,6 @@ public class Client {
     private String name; // We'll keep this for convenience, retrieving from users table
     private String email;
     private String username;// We'll keep this for convenience, retrieving from users table
-    private byte[] profilePicture;
 
     // Constructors
     public Client() {}
@@ -53,8 +52,6 @@ public class Client {
     public void setUsername(String username) { this.username = username; }
     public String getGender() { return gender; }
     public void setGender(String gender) { this.gender = gender; }
-    public byte[] getProfilePicture() {return profilePicture; }
-    public void setProfilePicture() { this.profilePicture = profilePicture;}
 
     public int getAge(){
         if (dateOfBirth == null) return 0;
