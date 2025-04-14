@@ -118,8 +118,8 @@
     function finishWorkout() {
         // Implement workout completion logic
         console.log('Completing workout...');
-        // Redirect to workout history or dashboard
-        // window.location.href = 'workoutHistory.jsp';
+        // Redirect to the client workout view
+        window.location.href = 'http://localhost:8080/clientWorkoutView';
     }
 
     // Update stats with actual values from your backend
