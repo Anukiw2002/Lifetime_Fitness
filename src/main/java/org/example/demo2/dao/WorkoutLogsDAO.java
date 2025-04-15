@@ -287,11 +287,11 @@ public class WorkoutLogsDAO {
 
         // Find the maximum weight lifted for each exercise in the current session
         String currentSessionSql =
-                "SELECT e.exercise_name, uwl.exercise_id, MAX(uwl.weight) as session_max_weight, uwl.reps " +
+                "SELECT e.exercise_name, uwl.exercise_id, MAX(uwl.weight) as session_max_weight " +
                         "FROM user_workout_logs uwl " +
                         "JOIN exercises e ON uwl.exercise_id = e.exercise_id " +
                         "WHERE uwl.user_id = ? AND uwl.session_id = ? " +
-                        "GROUP BY e.exercise_name, uwl.exercise_id, uwl.reps " +
+                        "GROUP BY e.exercise_name, uwl.exercise_id " +
                         "ORDER BY uwl.exercise_id";
 
         // Find historical personal bests (before this session)
@@ -328,7 +328,6 @@ public class WorkoutLogsDAO {
                         int exerciseId = rs.getInt("exercise_id");
                         String exerciseName = rs.getString("exercise_name");
                         double sessionMaxWeight = rs.getDouble("session_max_weight");
-                        int reps = rs.getInt("reps");
 
                         // If exercise has no history, or current max is greater than historical max
                         // then it's a personal best
@@ -338,7 +337,6 @@ public class WorkoutLogsDAO {
                             Map<String, Object> pb = new HashMap<>();
                             pb.put("exerciseName", exerciseName);
                             pb.put("weight", sessionMaxWeight);
-                            pb.put("reps", reps);
                             pb.put("isFirstTime", !historicalMaxes.containsKey(exerciseId));
 
                             personalBests.add(pb);

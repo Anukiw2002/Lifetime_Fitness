@@ -58,6 +58,7 @@
         </div>
 
         <!-- Personal Bests Section -->
+        <!-- Personal Bests Section -->
         <div class="personal-bests">
             <h3>New Personal Bests <i data-lucide="trophy" class="inline-icon"></i></h3>
             <c:choose>
@@ -69,7 +70,6 @@
                                 <div class="stat-value">
                                     <span id="pbValue">${pb.weight}</span>
                                     <span class="stat-unit">kg</span>
-                                    <span class="stat-reps">(${pb.reps} reps)</span>
                                 </div>
                                 <c:if test="${pb.isFirstTime}">
                                     <div class="first-time-badge">First Time</div>
@@ -118,8 +118,8 @@
     function finishWorkout() {
         // Implement workout completion logic
         console.log('Completing workout...');
-        // Redirect to workout history or dashboard
-        // window.location.href = 'workoutHistory.jsp';
+        // Redirect to the client workout view
+        window.location.href = 'http://localhost:8080/clientWorkoutView';
     }
 
     // Update stats with actual values from your backend
