@@ -1,11 +1,9 @@
 package org.example.demo2.servlet;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import org.example.demo2.dao.ClientDAO;
 import org.example.demo2.dao.ReportDAO;
 import org.example.demo2.model.Client;
@@ -14,8 +12,14 @@ import org.example.demo2.util.DBConnection;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Base64;
 
 @WebServlet("/clientEditProfile")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024, // 1 MB
+        maxFileSize = 1024 * 1024 * 5,   // 5 MB
+        maxRequestSize = 1024 * 1024 * 10 // 10 MB
+)
 public class ClientEditProfileServlet extends HttpServlet {
     private ClientDAO clientDAO;
     private ReportDAO reportDAO;
@@ -78,14 +82,25 @@ public class ClientEditProfileServlet extends HttpServlet {
         String emergencyContactName = request.getParameter("emergencyContactName");
         String emergencyContactNumber = request.getParameter("emergencyContactNumber");
 
-        boolean success = clientDAO.updateClientDetails(userId, name, username, dateOfBirth, gender,
+        // Handle profile picture - use Part for file upload
+        byte[] profilePicture = null;
+        Part filePart = request.getPart("profilePicture");
+
+        if (filePart != null && filePart.getSize() > 0) {
+            try (java.io.InputStream fileContent = filePart.getInputStream()) {
+                profilePicture = fileContent.readAllBytes();
+            }
+        }
+
+        boolean success = clientDAO.updateClientDetailsWithProfilePicture(userId, name, username, dateOfBirth, gender,
                 emailAddress, phoneNumber, houseNo, streetName,
-                city, emergencyContactName, emergencyContactNumber);
+                city, emergencyContactName, emergencyContactNumber, profilePicture);
 
         if (success) {
             response.sendRedirect(request.getContextPath() + "/memberProfile");
         } else {
             request.setAttribute("errorMessage", "Failed to update profile. Please try again.");
+            request.getRequestDispatcher("/WEB-INF/views/client/editProfile.jsp").forward(request, response);
         }
     }
 }

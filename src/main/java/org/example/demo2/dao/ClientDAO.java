@@ -16,7 +16,7 @@ public class ClientDAO {
         try {
             connection = dbConnection.getConnection();
             String sql = "SELECT cd.id, cd.user_id, cd.phone_number, CONCAT(cd.house_no, ' ', cd.street_name, ', ', cd.city) AS address, cd.date_of_birth, " +
-                    "cd.emergency_contact_name, cd.emergency_contact_number, CONCAT(u.full_name, ' ', u.username) AS name, u.email " +
+                    "cd.emergency_contact_name, cd.emergency_contact_number, CONCAT(u.full_name, ' ', u.username) AS name, u.email, cd.profile_picture " +
                     "FROM client_details cd " +
                     "JOIN users u ON cd.user_id = u.id " +
                     "WHERE cd.phone_number = ?";
@@ -36,6 +36,12 @@ public class ClientDAO {
                     client.setEmergencyContactNumber(rs.getString("emergency_contact_number"));
                     client.setName(rs.getString("name"));
                     client.setEmail(rs.getString("email"));
+
+                    byte[] profilePicture = rs.getBytes("profile_picture");
+                    if (profilePicture != null) {
+                        client.setProfilePicture(profilePicture);
+                    }
+
                     return client;
                 }
                 return null;
@@ -52,7 +58,7 @@ public class ClientDAO {
         try {
             connection = dbConnection.getConnection();
             String sql = "SELECT cd.id, cd.user_id, cd.phone_number, CONCAT(cd.house_no, ', ', cd.street_name, ', ', cd.city) AS address, cd.house_no, cd.street_name, cd.city, cd.gender, cd.date_of_birth, " +
-                    "cd.emergency_contact_name, cd.emergency_contact_number, CONCAT(u.full_name, ' ', u.username) AS name, u.full_name, u.username, u.email " +
+                    "cd.emergency_contact_name, cd.emergency_contact_number, CONCAT(u.full_name, ' ', u.username) AS name, u.full_name, u.username, u.email, cd.profile_picture " +
                     "FROM client_details cd " +
                     "JOIN users u ON cd.user_id = u.id " +
                     "WHERE cd.user_id = ?";
@@ -78,6 +84,12 @@ public class ClientDAO {
                     client.setGender(rs.getString("gender"));
                     client.setFirstName(rs.getString("full_name"));
                     client.setUsername(rs.getString("username"));
+
+                    byte[] profilePicture = rs.getBytes("profile_picture");
+                    if (profilePicture != null) {
+                        client.setProfilePicture(profilePicture);
+                    }
+
                     return client;
                 }
                 return null;
@@ -135,5 +147,49 @@ public class ClientDAO {
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean updateProfilePicture(int userId, byte[] profilePicture) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = dbConnection.getConnection();
+
+            String sql = "UPDATE client_details SET profile_picture = ? WHERE user_id = ?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setBytes(1, profilePicture);
+            pstmt.setInt(2, userId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch(SQLException e) {
+            System.err.println("SQL Error: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean updateClientDetailsWithProfilePicture(int userId, String name, String username, String dateOfBirth, String gender,
+                                                         String emailAddress, String phoneNumber, String houseNo, String streetName,
+                                                         String city, String emergencyContactName, String emergencyContactNumber,
+                                                         byte[] profilePicture) {
+        boolean detailsUpdated = updateClientDetails(userId, name, username, dateOfBirth, gender, emailAddress, phoneNumber,
+                houseNo, streetName, city, emergencyContactName, emergencyContactNumber);
+
+        // If profile picture is provided, update it
+        if (profilePicture != null && profilePicture.length > 0) {
+            boolean pictureUpdated = updateProfilePicture(userId, profilePicture);
+            return detailsUpdated && pictureUpdated;
+        }
+
+        return detailsUpdated;
     }
 }

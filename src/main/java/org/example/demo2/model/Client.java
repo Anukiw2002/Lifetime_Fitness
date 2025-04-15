@@ -2,6 +2,7 @@ package org.example.demo2.model;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Base64;
 
 public class Client {
     private Long id;
@@ -19,6 +20,8 @@ public class Client {
     private String streetName;
     private String city;
     private String firstName;
+    private byte[] profilePicture;
+    private String profilePictureBase64;
 
     // Constructors
     public Client() {}
@@ -64,6 +67,17 @@ public class Client {
     public void setCity(String city) { this.city = city; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public String getFirstName() { return firstName; }
+
+    public byte[] getProfilePicture() { return profilePicture; }
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+        if (profilePicture != null) {
+            this.profilePictureBase64 = Base64.getEncoder().encodeToString(profilePicture);
+        }
+    }
+
+    public String getProfilePictureBase64() { return profilePictureBase64; }
+    public void setProfilePictureBase64(String profilePictureBase64) { this.profilePictureBase64 = profilePictureBase64; }
 
     public int getAge(){
         if (dateOfBirth == null) return 0;

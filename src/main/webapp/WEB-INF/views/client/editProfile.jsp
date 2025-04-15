@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -13,14 +15,21 @@
         <div class="card">
             <h1 class="text-center mb-4">Edit Profile</h1>
 
-            <div class="flex flex-col items-center mb-4">
-                <div class="profile-picture">
-                    <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Profile Picture">
+            <form action="clientEditProfile" method="post" enctype="multipart/form-data">
+                <div class="flex flex-col items-center mb-4">
+                    <div class="profile-picture">
+                        <c:choose>
+                            <c:when test="${empty client.profilePictureBase64}">
+                                <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Default Profile Picture">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="data:image/jpeg;base64,${client.profilePictureBase64}" alt="Profile Picture">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    <label for="profilePicture" class="btn btn-secondary">Change Picture</label>
+                    <input type="file" id="profilePicture" name="profilePicture" style="display: none;" accept="image/*" onchange="previewImage(this);">
                 </div>
-                <button type="button" class="btn btn-secondary">Change Picture</button>
-            </div>
-
-            <form action="clientEditProfile" method="post">
                 <div class="card mb-4">
                     <h2 class="mb-3">Personal Information</h2>
                     <div class="form-row">
@@ -101,6 +110,20 @@
         </div>
     </div>
 </div>
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
+            reader.onload = function(e) {
+                // Just update the preview image
+                document.querySelector('.profile-picture img').src = e.target.result;
+                // Don't store in hidden field anymore
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 </body>
 </html>
