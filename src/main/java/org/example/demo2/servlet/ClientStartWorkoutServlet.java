@@ -122,11 +122,6 @@ public class ClientStartWorkoutServlet extends HttpServlet {
         String currentExerciseIndex = request.getParameter("exerciseIndex");
         String action = request.getParameter("action");
 
-        // TODO: Save the current exercise data if needed
-        // String weight1 = request.getParameter("weight1");
-        // String reps1 = request.getParameter("reps1");
-        // ... save to database if required
-
         // Determine the next URL based on action
         if ("next".equals(action)) {
             // Navigate to next exercise
