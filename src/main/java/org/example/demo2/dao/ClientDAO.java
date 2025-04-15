@@ -51,8 +51,8 @@ public class ClientDAO {
         Connection connection = null;
         try {
             connection = dbConnection.getConnection();
-            String sql = "SELECT cd.id, cd.user_id, cd.phone_number, CONCAT(cd.house_no, ', ', cd.street_name, ', ', cd.city) AS address, cd.gender, cd.date_of_birth, " +
-                    "cd.emergency_contact_name, cd.emergency_contact_number, CONCAT(u.full_name, ' ', u.username) AS name, u.email " +
+            String sql = "SELECT cd.id, cd.user_id, cd.phone_number, CONCAT(cd.house_no, ', ', cd.street_name, ', ', cd.city) AS address, cd.house_no, cd.street_name, cd.city, cd.gender, cd.date_of_birth, " +
+                    "cd.emergency_contact_name, cd.emergency_contact_number, CONCAT(u.full_name, ' ', u.username) AS name, u.full_name, u.username, u.email " +
                     "FROM client_details cd " +
                     "JOIN users u ON cd.user_id = u.id " +
                     "WHERE cd.user_id = ?";
@@ -67,12 +67,17 @@ public class ClientDAO {
                     client.setUserId(rs.getLong("user_id"));
                     client.setPhoneNumber(rs.getString("phone_number"));
                     client.setAddress(rs.getString("address"));
+                    client.setHouseNo(rs.getString("house_no"));
+                    client.setStreetName(rs.getString("street_name"));
+                    client.setCity(rs.getString("city"));
                     client.setDateOfBirth(rs.getString("date_of_birth"));
                     client.setEmergencyContactName(rs.getString("emergency_contact_name"));
                     client.setEmergencyContactNumber(rs.getString("emergency_contact_number"));
                     client.setName(rs.getString("name"));
                     client.setEmail(rs.getString("email"));
                     client.setGender(rs.getString("gender"));
+                    client.setFirstName(rs.getString("full_name"));
+                    client.setUsername(rs.getString("username"));
                     return client;
                 }
                 return null;
@@ -80,6 +85,54 @@ public class ClientDAO {
         } finally {
             if (connection != null) {
                 connection.close();
+            }
+        }
+    }
+
+    public boolean updateClientDetails(int userId, String name, String username, String dateOfBirth, String gender, String emailAddress, String phoneNumber, String houseNo, String streetName, String city, String emergencyContactName, String emergencyContactNumber) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = dbConnection.getConnection();
+
+            String sqlUser = "UPDATE users SET full_name = ?, username = ?, email = ? WHERE id = ?";
+            pstmt = con.prepareStatement(sqlUser);
+            pstmt.setString(1, name);
+            pstmt.setString(2, username);
+            pstmt.setString(3, emailAddress);
+            pstmt.setInt(4, userId);
+            int userRowsAffected = pstmt.executeUpdate();
+            pstmt.close();
+
+
+            String sqlClient = "UPDATE client_details SET phone_number = ?, date_of_birth = CAST(? AS DATE), gender = ?, " +
+                    "house_no = ?, street_name = ?, city = ?, " +
+                    "emergency_contact_name = ?, emergency_contact_number = ? " +
+                    "WHERE user_id = ?";
+            pstmt = con.prepareStatement(sqlClient);
+            pstmt.setString(1, phoneNumber);
+            pstmt.setString(2, dateOfBirth);
+            pstmt.setString(3, gender);
+            pstmt.setString(4, houseNo);
+            pstmt.setString(5, streetName);
+            pstmt.setString(6, city);
+            pstmt.setString(7, emergencyContactName);
+            pstmt.setString(8, emergencyContactNumber);
+            pstmt.setInt(9, userId);
+            int clientRowsAffected = pstmt.executeUpdate();
+
+
+            return userRowsAffected > 0 && clientRowsAffected > 0;
+        } catch(SQLException e) {
+            System.err.println("SQL Error: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }

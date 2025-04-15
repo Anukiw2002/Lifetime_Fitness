@@ -15,6 +15,10 @@ public class Client {
     private String name; // We'll keep this for convenience, retrieving from users table
     private String email;
     private String username;// We'll keep this for convenience, retrieving from users table
+    private String houseNo;
+    private String streetName;
+    private String city;
+    private String firstName;
 
     // Constructors
     public Client() {}
@@ -52,6 +56,14 @@ public class Client {
     public void setUsername(String username) { this.username = username; }
     public String getGender() { return gender; }
     public void setGender(String gender) { this.gender = gender; }
+    public String getHouseNo() { return houseNo; }
+    public void setHouseNo(String houseNo) { this.houseNo = houseNo; }
+    public String getStreetName() { return streetName; }
+    public void setStreetName(String streetName) { this.streetName = streetName; }
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public String getFirstName() { return firstName; }
 
     public int getAge(){
         if (dateOfBirth == null) return 0;
