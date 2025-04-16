@@ -131,19 +131,19 @@
         <!-- Exercise Category -->
         <div class="leaderboard-category" id="exercise-selection">
             <div class="exercise-selection-buttons" style="text-align:center; margin-bottom: 20px;">
-                <form action="${pageContext.request.contextPath}/leaderBoard" method="POST" style="display:inline;">
+                <form action="${pageContext.request.contextPath}/leaderBoardExercise" method="POST" style="display:inline;">
                     <button type="submit" name="exercise" value="pushups" class="tab-btn">Push-ups</button>
                 </form>
-                <form action="${pageContext.request.contextPath}/leaderBoard" method="POST" style="display:inline;">
+                <form action="${pageContext.request.contextPath}/leaderBoardExercise" method="POST" style="display:inline;">
                     <button type="submit" name="exercise" value="Bench-press" class="tab-btn">Bench-press</button>
                 </form>
-                <form action="${pageContext.request.contextPath}/leaderBoard" method="POST" style="display:inline;">
+                <form action="${pageContext.request.contextPath}/leaderBoardExercise" method="POST" style="display:inline;">
                     <button type="submit" name="exercise" value="Squats" class="tab-btn">Squats</button>
                 </form>
-                <form action="${pageContext.request.contextPath}/leaderBoard" method="POST" style="display:inline;">
+                <form action="${pageContext.request.contextPath}/leaderBoardExercise" method="POST" style="display:inline;">
                     <button type="submit" name="exercise" value="Dead-lifts" class="tab-btn">Dead-lifts</button>
                 </form>
-                <form action="${pageContext.request.contextPath}/leaderBoard" method="POST" style="display:inline;">
+                <form action="${pageContext.request.contextPath}/leaderBoardExercise" method="POST" style="display:inline;">
                     <button type="submit" name="exercise" value="Tricep-Dips" class="tab-btn">Tricep-Dips</button>
                 </form>
             </div>

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/leaderBoardDetails")
-public class LeaderBoardDetailsServlet extends HttpServlet { // Make sure to extend HttpServlet
+public class LeaderBoardDetailsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
