@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.LeaderboardDAO;
 import org.example.demo2.model.LeaderBoard;
 
@@ -21,10 +22,12 @@ public class LeaderBoardServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
         LeaderboardDAO dao = new LeaderboardDAO();
+        int userId = (int) session.getAttribute("userId");
         try {
-            List<LeaderBoard> leaderboardWL = dao.getWeightLossLeaderboard();
-            List<LeaderBoard> streakList = dao.getStreakLeaderboard();
+            List<LeaderBoard> leaderboardWL = dao.getWeightLossLeaderboard(userId);
+            List<LeaderBoard> streakList = dao.getStreakLeaderboard(userId);
 
             // 🖨️ Print each user and their weight loss
             for (LeaderBoard entry : leaderboardWL) {
