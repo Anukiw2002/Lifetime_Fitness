@@ -29,7 +29,7 @@
         <a href="/owner/leaderboardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard details
         </a>
-        <a href="/owner/addInstructor" class="nav-link">
+        <a href="/addInstructor" class="nav-link">
             <i class="fas fa-users icon"></i>Add Instructor
         </a>
 
