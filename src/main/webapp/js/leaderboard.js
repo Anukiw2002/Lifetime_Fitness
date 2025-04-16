@@ -124,4 +124,29 @@ document.addEventListener('DOMContentLoaded', function() {
             medal.style.transform = 'translateX(-50%) rotate(0) scale(1)';
         });
     });
+
+    document.querySelectorAll('.tab-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const exerciseType = this.dataset.exercise;
+            sendExerciseTypeToBackend(exerciseType); // 👈 function call
+        });
+    });
+
+    function sendExerciseTypeToBackend(exerciseType) {
+        fetch('/leaderBoard', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'exercise_type=' + encodeURIComponent(exerciseType)
+        })
+            .then(response => response.text())
+            .then(data => {
+                // You can dynamically update the leaderboard content here if you want
+                console.log("Server response:", data);
+                // Optionally: document.getElementById("leaderboard-section").innerHTML = data;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
 });

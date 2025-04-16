@@ -9,6 +9,11 @@ public class LeaderBoardEntry {
         this.amount = amount;
     }
 
+    public LeaderBoardEntry() {
+        // default constructor
+    }
+
+
 
     public String getFull_name() {
         return full_name;

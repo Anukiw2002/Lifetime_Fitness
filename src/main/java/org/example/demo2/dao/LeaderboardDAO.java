@@ -141,7 +141,7 @@ public class LeaderboardDAO {
 
     }
 
-    public List<LeaderBoardEntry> getEntriesByExercise(String exerciseType){
+    public static List<LeaderBoardEntry> getEntriesByExercise(String exerciseType){
         List<LeaderBoardEntry> entries = new ArrayList<>();
         String sql = "SELECT full_name, amount FROM leaderboard WHERE category = ? ORDER BY amount DESC";
 
