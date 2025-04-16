@@ -74,7 +74,7 @@ public class InsertWorkoutLogsServlet extends HttpServlet {
                 }
 
                 // Insert logs with sessionId, passing sessionId to the DAO method
-                boolean setInserted = dao.insertWorkoutLogsWithSession(
+                boolean setInserted = dao.insertOrUpdateWorkoutLogsWithSession(
                         sessionId, userId, workoutId, exerciseId, set, weight, reps, userNotes
                 );
                 insertSuccess |= setInserted;
