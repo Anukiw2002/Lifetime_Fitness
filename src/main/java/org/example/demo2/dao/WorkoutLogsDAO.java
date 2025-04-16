@@ -351,4 +351,34 @@ public class WorkoutLogsDAO {
         return personalBests;
     }
 
+    public boolean insertOrUpdateWorkoutLogsWithSession(
+            int sessionId, int userId, int workoutId, int exerciseId,
+            int setNumber, Double weight, int reps, String notes
+    ) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+        String checkSql = "SELECT log_id FROM user_workout_logs WHERE session_id = ? AND exercise_id = ? AND set_number = ?";
+        PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+        checkStmt.setInt(1, sessionId);
+        checkStmt.setInt(2, exerciseId);
+        checkStmt.setInt(3, setNumber);
+        ResultSet rs = checkStmt.executeQuery();
+
+        if (rs.next()) {
+            // If entry exists, update it
+            String updateSql = "UPDATE user_workout_logs SET weight = ?, reps = ?, notes = ? WHERE session_id = ? AND exercise_id = ? AND set_number = ?";
+            PreparedStatement updateStmt = conn.prepareStatement(updateSql);
+            updateStmt.setObject(1, weight);
+            updateStmt.setInt(2, reps);
+            updateStmt.setString(3, notes);
+            updateStmt.setInt(4, sessionId);
+            updateStmt.setInt(5, exerciseId);
+            updateStmt.setInt(6, setNumber);
+            return updateStmt.executeUpdate() > 0;
+        } else {
+            // If not exists, insert
+            return insertWorkoutLogsWithSession(sessionId, userId, workoutId, exerciseId, setNumber, weight, reps, notes);
+        }
+    }
+
+
 }
