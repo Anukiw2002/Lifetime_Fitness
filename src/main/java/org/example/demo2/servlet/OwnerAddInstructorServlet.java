@@ -7,9 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.InstructorOnBoardingDAO;
-import org.example.demo2.dao.UserDAO;
 import org.example.demo2.model.User;
 import org.example.demo2.util.HashUtil;
+import org.example.demo2.util.InstructorEmailUtil;
 import org.example.demo2.util.SessionUtils;
 
 import java.io.IOException;
@@ -48,7 +48,14 @@ public class OwnerAddInstructorServlet extends HttpServlet {
             boolean success = instructorDAO.addInstructor(user);
 
             if (success) {
-                request.setAttribute("Success", "Instructor added successfully");
+                boolean emailSent = InstructorEmailUtil.sendCredentialsEmail(email, password);
+
+                if (emailSent) {
+                    request.setAttribute("message", "Instructor added successfully and credentials sent by email.");
+                } else {
+                    request.setAttribute("message", "Instructor added successfully but email failed to send.");
+                }
+
                 response.sendRedirect(request.getContextPath() + "/instructorList?success=true");
             } else {
                 request.setAttribute("error", "Failed to add instructor");
