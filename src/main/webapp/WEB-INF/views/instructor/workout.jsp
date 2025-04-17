@@ -28,13 +28,13 @@
         </div>
       </c:forEach>
     </div>
-      <!-- Add more workout rows as needed -->
-    </div>
-    <div class="navigation">
-      <button class="nav-btn">Prev</button>
-      <button class="nav-btn">Next</button>
-    </div>
+    <!-- Add more workout rows as needed -->
   </div>
+  <div class="navigation">
+    <button class="nav-btn">Prev</button>
+    <button class="nav-btn">Next</button>
+  </div>
+</div>
 </div>
 </body>
 </html>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -13,31 +14,43 @@
         <div class="card">
             <h1 class="text-center mb-4">Edit Profile</h1>
 
-            <div class="flex flex-col items-center mb-4">
-                <div class="profile-picture">
-                    <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Profile Picture">
+            <form action="clientEditProfile" method="post" enctype="multipart/form-data">
+                <div class="flex flex-col items-center mb-4">
+                    <div class="profile-picture">
+                        <c:choose>
+                            <c:when test="${empty client.profilePictureBase64}">
+                                <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Default Profile Picture">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="data:image/jpeg;base64,${client.profilePictureBase64}" alt="Profile Picture">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    <label for="profilePicture" class="btn btn-secondary">Change Picture</label>
+                    <input type="file" id="profilePicture" name="profilePicture" style="display: none;" accept="image/*" onchange="previewImage(this);">
                 </div>
-                <button class="btn btn-secondary">Change Picture</button>
-            </div>
-
-            <form>
                 <div class="card mb-4">
                     <h2 class="mb-3">Personal Information</h2>
-                    <div class="form-group">
-                        <label class="form-label" for="fullName">Full Name</label>
-                        <input type="text" id="fullName" class="form-control" value="${client.name}" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="name">First Name</label>
+                            <input type="text" id="name" name="name" class="form-control" value="${client.firstName}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="username">Username</label>
+                            <input type="text" id="username" name="username" class="form-control" value="${client.username}" required>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label" for="age">Age</label>
-                            <input type="number" id="age" class="form-control" value="25" required>
+                            <label class="form-label" for="dateOfBirth">Date of Birth</label>
+                            <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" value="${client.dateOfBirth}" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="gender">Gender</label>
-                            <select id="gender" class="form-control">
-                                <option value="male" selected>Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
+                            <select id="gender" name="gender" class="form-control" required>
+                                <option value="Male" ${client.gender == 'Male' ? 'selected' : ''}>Male</option>
+                                <option value="Female" ${client.gender == 'Female' ? 'selected' : ''}>Female</option>
                             </select>
                         </div>
                     </div>
@@ -45,47 +58,46 @@
 
                 <div class="card mb-4">
                     <h2 class="mb-3">Contact Information</h2>
-                    <div class="form-group">
-                        <label class="form-label" for="email">Email Address</label>
-                        <input type="email" id="email" class="form-control" value="${client.email}" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="phone">Phone Number</label>
-                        <input type="tel" id="phone" class="form-control" value="${client.phoneNumber}" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="address">Address</label>
-                        <textarea id="address" class="form-control">${client.address}</textarea>
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <h2 class="mb-3">Health Information</h2>
                     <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label" for="weight">Weight (kg)</label>
-                            <input type="number" id="weight" class="form-control" value="75" step="0.1">
+                            <label class="form-label" for="emailAddress">Email Address</label>
+                            <input type="email" id="emailAddress" name="emailAddress" class="form-control" value="${client.email}" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="height">Height (cm)</label>
-                            <input type="number" id="height" class="form-control" value="175">
+                            <label class="form-label" for="phoneNumber">Phone Number</label>
+                            <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control" value="${client.phoneNumber}" required>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="healthConditions">Health Conditions</label>
-                        <textarea id="healthConditions" class="form-control" placeholder="List any health conditions or injuries..."></textarea>
+                    <h3 class="mt-3 mb-2">Address</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="houseNo">House Number</label>
+                            <input type="text" id="houseNo" name="houseNo" class="form-control" value="${client.houseNo}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="streetName">Street Name</label>
+                            <input type="text" id="streetName" name="streetName" class="form-control" value="${client.streetName}" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="city">City</label>
+                            <input type="text" id="city" name="city" class="form-control" value="${client.city}" required>
+                        </div>
                     </div>
                 </div>
 
                 <div class="card mb-4">
                     <h2 class="mb-3">Emergency Contact</h2>
-                    <div class="form-group">
-                        <label class="form-label" for="emergencyName">Contact Name</label>
-                        <input type="text" id="emergencyName" class="form-control" value="${client.emergencyContactName}">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="emergencyPhone">Contact Phone</label>
-                        <input type="tel" id="emergencyPhone" class="form-control" value="${client.emergencyContactNumber}">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="emergencyContactName">Contact Name</label>
+                            <input type="text" id="emergencyContactName" name="emergencyContactName" class="form-control" value="${client.emergencyContactName}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="emergencyContactNumber">Contact Phone</label>
+                            <input type="tel" id="emergencyContactNumber" name="emergencyContactNumber" class="form-control" value="${client.emergencyContactNumber}">
+                        </div>
                     </div>
                 </div>
 
@@ -97,6 +109,20 @@
         </div>
     </div>
 </div>
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
+            reader.onload = function(e) {
+                // Just update the preview image
+                document.querySelector('.profile-picture img').src = e.target.result;
+                // Don't store in hidden field anymore
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 </body>
 </html>

@@ -14,7 +14,7 @@
   <div class="container">
     <h1 class="text-center mb-4">Client Sessions</h1>
 
-    <div class="grid grid-3">
+    <div class="grid grid-2">
       <!-- Upcoming Sessions-->
       <div class="card">
         <div class="card-header">
@@ -36,7 +36,6 @@
         </c:forEach>
       </div>
 
-
       <!-- Completed Sessions -->
       <div class="card">
         <div class="card-header">
@@ -48,20 +47,6 @@
           <div class="completed-session">Wednesday, 30 September</div>
           <div class="flex justify-center mt-3">
             <button class="btn btn-secondary">View All</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Your Package -->
-      <div class="card">
-        <div class="card-header">
-          <h2 class="mb-0">Your Package</h2>
-        </div>
-        <div class="card-body">
-          <div class="package-name">Platinum Membership - Gents - Annual</div>
-          <div class="flex flex-col gap-md">
-            <button class="btn btn-primary">Book Now</button>
-            <button class="btn btn-outline-custom">Change Package</button>
           </div>
         </div>
       </div>

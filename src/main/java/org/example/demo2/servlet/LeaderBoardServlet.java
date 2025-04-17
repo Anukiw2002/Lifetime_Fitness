@@ -9,7 +9,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.LeaderboardDAO;
 import org.example.demo2.model.LeaderBoard;
+<<<<<<< HEAD
 import org.example.demo2.model.LeaderBoardEntry;
+=======
+
+>>>>>>> 62bccbced0ba6b0793a3adb5698e62fb1326fa21
 import org.example.demo2.util.DBConnection;
 
 import java.io.IOException;
@@ -24,6 +28,7 @@ public class LeaderBoardServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
+<<<<<<< HEAD
 
         if(session == null || session.getAttribute("userId") == null){
             response.sendRedirect(request.getContextPath() + "/login");
@@ -36,19 +41,28 @@ public class LeaderBoardServlet extends HttpServlet {
         // Store role in session so it's available to the JSP
         session.setAttribute("role", userRole);
 
+=======
+>>>>>>> 62bccbced0ba6b0793a3adb5698e62fb1326fa21
         LeaderboardDAO dao = new LeaderboardDAO();
+        int userId = (int) session.getAttribute("userId");
         try {
-            List<LeaderBoard> leaderboardWL = dao.getWeightLossLeaderboard();
-            List<LeaderBoard> streakList = dao.getStreakLeaderboard();
+            List<LeaderBoard> leaderboardWL = dao.getWeightLossLeaderboard(userId);
+            List<LeaderBoard> streakList = dao.getStreakLeaderboard(userId);
 
             // 🖨️ Print each user and their weight loss
             for (LeaderBoard entry : leaderboardWL) {
                 System.out.println("User: " + entry.getName() + ", Weight Loss: " + entry.getWeightLoss());
+
             }
             for (LeaderBoard entry : streakList) {
                 System.out.println("User: " + entry.getName() + ", Streak: " + entry.getStreak());
             }
+<<<<<<< HEAD
             System.out.println("role: " + userRole);
+=======
+
+
+>>>>>>> 62bccbced0ba6b0793a3adb5698e62fb1326fa21
             request.setAttribute("leaderboard", leaderboardWL);
             request.setAttribute("streakboard", streakList);
             request.getRequestDispatcher("/WEB-INF/views/common/leaderBoard.jsp").forward(request, response);
@@ -58,6 +72,7 @@ public class LeaderBoardServlet extends HttpServlet {
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
+<<<<<<< HEAD
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
@@ -93,3 +108,6 @@ public class LeaderBoardServlet extends HttpServlet {
         }
     }
 }
+=======
+}
+>>>>>>> 62bccbced0ba6b0793a3adb5698e62fb1326fa21

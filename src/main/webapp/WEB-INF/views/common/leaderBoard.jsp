@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +39,9 @@
         <div class="category-tabs" data-aos="fade-up">
             <button class="tab-btn active" data-category="weight-loss">Weight Loss</button>
             <button class="tab-btn" data-category="streak">Streak</button>
+
             <button class="tab-btn" data-category="exercise-selection">Exercises</button>
+
         </div>
 
         <!-- Weight Loss Category -->
@@ -62,8 +63,14 @@
                         </c:choose>">${status.index + 1}</div>
 
                             <div class="performer-avatar">
-                                <!-- You can customize avatar logic here based on user or keep a default -->
-                                <img src="/images/default-user.png" alt="Top Performer">
+                                <c:choose>
+                                    <c:when test="${empty entry.profilePictureBase64}">
+                                        <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Top Performer">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="data:image/jpeg;base64,${entry.profilePictureBase64}" alt="Top Performer">
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <h3>${entry.name}</h3>
                             <p>-${entry.weightLoss}kg</p>
@@ -105,7 +112,14 @@
                     </c:choose>">${status.index + 1}</div>
 
                             <div class="performer-avatar">
-                                <img src="/images/default-user.png" alt="Top Performer">
+                                <c:choose>
+                                    <c:when test="${empty entry.profilePictureBase64}">
+                                        <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Top Performer">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="data:image/jpeg;base64,${entry.profilePictureBase64}" alt="Top Performer">
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <h3>${entry.name}</h3>
                             <p>${entry.streak} days</p>

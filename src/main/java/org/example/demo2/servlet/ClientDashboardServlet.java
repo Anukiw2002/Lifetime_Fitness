@@ -6,9 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.example.demo2.dao.DashboardDAO;
-import org.example.demo2.dao.NotificationsDAO;
-import org.example.demo2.dao.ReportDAO;
+import org.example.demo2.dao.*;
 import org.example.demo2.model.ClientMembership;
 import org.example.demo2.model.UserWeightData;
 import org.example.demo2.util.DBConnection;
@@ -23,6 +21,14 @@ import java.util.List;
 
 @WebServlet("/clientDashboard")
 public class ClientDashboardServlet extends HttpServlet {
+    private ClientMembershipDAO membershipDAO;
+
+    @Override
+    public void init() throws ServletException {
+        DBConnection dbConnection = new DBConnection();
+        membershipDAO = new ClientMembershipDAO(dbConnection);
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
@@ -47,6 +53,9 @@ public class ClientDashboardServlet extends HttpServlet {
             );
             preparedStatement.setInt(1, user_id);
             ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<ClientMembership> membership = membershipDAO.getClientMembership(user_id);
+            req.setAttribute("membership", membership);
 
             if (resultSet.next()) {
                 req.setAttribute("userName", resultSet.getString("name"));
