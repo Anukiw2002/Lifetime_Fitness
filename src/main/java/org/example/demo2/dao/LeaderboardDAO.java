@@ -13,7 +13,7 @@ import java.util.List;
 
 public class LeaderboardDAO {
 
-    public List<LeaderBoard> getWeightLossLeaderboard(int userId) throws SQLException {
+    public List<LeaderBoard> getWeightLossLeaderboard() throws SQLException {
         List<LeaderBoard> list = new ArrayList<>();
         String sql = "SELECT RANK() OVER (ORDER BY (ur.body_weight - ue.weight) DESC) AS rank, " +
                 "ur.name, ur.email, ur.body_weight, ue.weight, " +
@@ -48,7 +48,7 @@ public class LeaderboardDAO {
         return list;
     }
 
-    public List<LeaderBoard> getStreakLeaderboard(int userId) throws SQLException {
+    public List<LeaderBoard> getStreakLeaderboard() throws SQLException {
         List<LeaderBoard> list = new ArrayList<>();
         String sql =
                 "WITH ranked_dates AS ( " +
