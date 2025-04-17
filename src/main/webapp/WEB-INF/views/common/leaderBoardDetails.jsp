@@ -58,11 +58,11 @@
                         Deadlifts
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="category" value="Bench Press">
+                        <input type="radio" name="category" value="Bench-Press">
                         Bench Press
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="category" value="Tricep Dips">
+                        <input type="radio" name="category" value="Tricep-Dips">
                         Tricep Dips
                     </label>
 

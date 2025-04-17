@@ -1,6 +1,7 @@
 package org.example.demo2.dao;
 
 import org.example.demo2.model.LeaderBoard;
+import org.example.demo2.model.LeaderBoardEntry;
 import org.example.demo2.util.DBConnection;
 
 import java.sql.Connection;
@@ -153,5 +154,27 @@ public class LeaderboardDAO {
         }
         return inserted;
 
+    }
+
+    public  List<LeaderBoardEntry> getEntriesByExercise(String exerciseType){
+        List<LeaderBoardEntry> entries = new ArrayList<>();
+        String sql = "SELECT full_name, amount FROM leaderboard WHERE category = ? ORDER BY amount DESC";
+
+        try(Connection con = DBConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(sql)){
+            stmt.setString(1,exerciseType);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                LeaderBoardEntry entry = new LeaderBoardEntry();
+                entry.setFull_name(rs.getString("full_name"));
+                entry.setAmount(rs.getInt("amount"));
+                entries.add(entry);
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return entries;
     }
 }

@@ -128,12 +128,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.tab-btn').forEach(button => {
         button.addEventListener('click', function () {
             const exerciseType = this.dataset.exercise;
-            sendExerciseTypeToBackend(exerciseType); // function call
+            sendExerciseTypeToBackend(exerciseType); // 👈 function call
         });
     });
 
     function sendExerciseTypeToBackend(exerciseType) {
-        fetch('/leaderBoard', {
+        fetch('/leaderBoardExercise', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

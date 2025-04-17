@@ -23,7 +23,7 @@
         <a href="/dashboard" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
-        <a href="/owner/leaderboard" class="nav-link">
+        <a href="leaderBoard" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard
         </a>
         <a href="/owner/leaderboardDetails" class="nav-link">

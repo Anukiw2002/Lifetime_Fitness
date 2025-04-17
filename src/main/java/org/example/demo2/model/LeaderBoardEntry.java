@@ -1,31 +1,30 @@
 package org.example.demo2.model;
 
 public class LeaderBoardEntry {
-    private int rating;
-    private String name;
-    private String category;
-    private int maximumKg;
+    private String full_name;
+    private int amount;
 
-    public LeaderBoardEntry(int rating, String name, String category, int maximumKg) {
-        this.rating = rating;
-        this.name = name;
-        this.category = category;
-        this.maximumKg = maximumKg;
+    public LeaderBoardEntry( String full_name,  int amount) {
+        this.full_name = full_name;
+        this.amount = amount;
     }
 
-    public int getRating() {
-        return rating;
+    public LeaderBoardEntry() {
+        // default constructor
     }
+
+
 
     public String getName() {
-        return name;
+        return full_name;
     }
-
-    public String getCategory() {
-        return category;
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
-
-    public int getMaximumKg() {
-        return maximumKg;
+    public int getAmount() {
+        return amount;
+    }
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }
