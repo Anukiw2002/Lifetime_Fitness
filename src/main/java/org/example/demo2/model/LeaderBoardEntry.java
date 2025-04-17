@@ -15,7 +15,7 @@ public class LeaderBoardEntry {
 
 
 
-    public String getFull_name() {
+    public String getName() {
         return full_name;
     }
     public void setFull_name(String full_name) {

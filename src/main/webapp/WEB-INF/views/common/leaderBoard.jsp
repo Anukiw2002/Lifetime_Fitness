@@ -132,16 +132,16 @@
         <div class="leaderboard-category" id="exercise-selection">
             <div class="exercise-selection-buttons" style="text-align:center; margin-bottom: 20px;">
                 <form action="${pageContext.request.contextPath}/leaderBoardExercise" method="POST" style="display:inline;">
-                    <button type="submit" name="exercise" value="pushups" class="tab-btn">Push-ups</button>
+                    <button type="submit" name="exercise" value="Push-ups" class="tab-btn">Push-ups</button>
                 </form>
                 <form action="${pageContext.request.contextPath}/leaderBoardExercise" method="POST" style="display:inline;">
-                    <button type="submit" name="exercise" value="Bench-press" class="tab-btn">Bench-press</button>
+                    <button type="submit" name="exercise" value="Bench-Press" class="tab-btn">Bench-press</button>
                 </form>
                 <form action="${pageContext.request.contextPath}/leaderBoardExercise" method="POST" style="display:inline;">
                     <button type="submit" name="exercise" value="Squats" class="tab-btn">Squats</button>
                 </form>
                 <form action="${pageContext.request.contextPath}/leaderBoardExercise" method="POST" style="display:inline;">
-                    <button type="submit" name="exercise" value="Dead-lifts" class="tab-btn">Dead-lifts</button>
+                    <button type="submit" name="exercise" value="Deadlifts" class="tab-btn">Dead-lifts</button>
                 </form>
                 <form action="${pageContext.request.contextPath}/leaderBoardExercise" method="POST" style="display:inline;">
                     <button type="submit" name="exercise" value="Tricep-Dips" class="tab-btn">Tricep-Dips</button>
