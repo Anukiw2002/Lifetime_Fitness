@@ -1,5 +1,6 @@
 package org.example.demo2.servlet;
 
+import org.example.demo2.dao.InstructorOnBoardingDAO;
 import org.example.demo2.dao.UserDAOImpl;
 import org.example.demo2.dao.IUserDAO;
 import org.example.demo2.model.User;
@@ -74,7 +75,20 @@ public class LoginServlet extends HttpServlet {
                         response.sendRedirect(request.getContextPath() + "/dashboard");
                         break;
                     case "instructor":
-                        request.getRequestDispatcher("/instructorDashboard").forward(request, response);
+                        try {
+                            InstructorOnBoardingDAO instructorOnBoardingDAO = new InstructorOnBoardingDAO();
+                            String onboardingStatus = instructorOnBoardingDAO.getOnBoardingStatus(user.getUser_id());
+                            session.setAttribute("onboardingStatus", onboardingStatus);
+
+                            if ("in-progress".equals(onboardingStatus)) {
+                                response.sendRedirect(request.getContextPath() + "/selfOnBoarding/step1");
+                            } else {
+                                response.sendRedirect(request.getContextPath() + "/instructorDashboard");
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            sendAlert(response, "Error checking instructor status.");
+                        }
                         break;
                     default:
                         sendAlert(response, "Unknown user role.");
