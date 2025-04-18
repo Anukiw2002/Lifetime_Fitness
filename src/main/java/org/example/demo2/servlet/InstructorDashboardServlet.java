@@ -7,9 +7,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.ClientDashboardDAO;
+import org.example.demo2.dao.InstructorDashboardDAO;
 import org.example.demo2.dao.NotificationsDAO;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/instructorDashboard")
 public class InstructorDashboardServlet extends HttpServlet {
@@ -27,6 +29,15 @@ public class InstructorDashboardServlet extends HttpServlet {
 
         boolean hasUnread = NotificationsDAO.hasUnreadNotifications(user_id);
         request.setAttribute("hasUnread", hasUnread);
+        InstructorDashboardDAO dao = new InstructorDashboardDAO();
+        int count = 0;
+        try {
+            count = dao.getActiveMembers();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Count : " + count);
+        request.setAttribute("ActiveMembers", count);
     }
 
 
