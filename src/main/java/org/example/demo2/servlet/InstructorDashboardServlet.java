@@ -6,11 +6,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.demo2.dao.ClientDashboardDAO;
 import org.example.demo2.dao.NotificationsDAO;
 
 import java.io.IOException;
+
 @WebServlet("/instructorDashboard")
-public class UpcommingSessionsServlet extends HttpServlet {
+public class InstructorDashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
@@ -35,6 +37,10 @@ public class UpcommingSessionsServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
+
+        ClientDashboardDAO dao = new ClientDashboardDAO();
+
+
         // Forward the request to navbar.html
         request.getRequestDispatcher("/WEB-INF/views/instructor/upcomingSessions.jsp").forward(request, response);
     }
