@@ -75,4 +75,23 @@ public class InstructorOnBoardingDAO {
         }
         return status;
     }
+
+    public boolean resetPassword(String password, int userId) {
+        String sql="UPDATE users SET hashed_password = ? WHERE id = ?";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+            pstmt.setString(1,password);
+            pstmt.setInt(2, userId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected>0;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

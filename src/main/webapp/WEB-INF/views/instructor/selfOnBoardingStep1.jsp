@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Set New Password - Lifetime Fitness</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/firstLogInPage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/selfOnBordingStep1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
@@ -16,7 +16,7 @@
                 <p class="subtitle">Please set a new password to continue</p>
             </div>
 
-            <form id="passwordChangeForm" action="${pageContext.request.contextPath}/selfOnboarding/step1" method="post">
+            <form id="passwordChangeForm" action="${pageContext.request.contextPath}/selfOnBoarding/step1" method="post">
                 <div class="password-fields">
                     <div class="form-group">
                         <label for="newPassword">New Password</label>
@@ -128,8 +128,6 @@
 
             const newPassword = document.getElementById('newPassword').value;
 
-            // Here you would typically make an AJAX call to validate the current password
-            // For now, we'll just submit the form
             document.getElementById('passwordChangeForm').submit();
             return true;
         }
