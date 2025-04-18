@@ -1,6 +1,7 @@
 package org.example.demo2.dao;
 
 import org.example.demo2.model.Instructor;
+import org.example.demo2.model.Review;
 import org.example.demo2.model.User;
 import org.example.demo2.util.DBConnection;
 
@@ -8,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InstructorOnBoardingDAO {
     public boolean addInstructor(User user) {
@@ -250,5 +253,33 @@ public class InstructorOnBoardingDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public List<Instructor> getAllInstructors() {
+        List<Instructor> instructors = new ArrayList<>();
+        String sql = "SELECT u.full_name, u.username, u.email, i.* FROM users u JOIN instructors i ON u.id = i.userId";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                Instructor instructor = new Instructor();
+                instructor.setFirstName(rs.getString("full_name"));
+                instructor.setSurname(rs.getString("username"));
+                instructor.setEmail(rs.getString("email"));
+                instructor.setIsActive(rs.getBoolean("isActive"));
+
+                byte[] profilePicture = rs.getBytes("profilePicture");
+                if (profilePicture != null) {
+                    instructor.setProfilePicture(profilePicture);
+                }
+
+                instructors.add(instructor);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return instructors;
     }
 }

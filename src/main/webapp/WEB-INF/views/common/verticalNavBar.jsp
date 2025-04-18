@@ -29,10 +29,6 @@
         <a href="/owner/leaderboardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard details
         </a>
-        <a href="/addInstructor" class="nav-link">
-            <i class="fas fa-users icon"></i>Add Instructor
-        </a>
-
         <a href="/owner/ownerDetailedNotifications" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
