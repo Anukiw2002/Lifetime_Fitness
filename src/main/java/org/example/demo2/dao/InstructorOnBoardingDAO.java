@@ -1,7 +1,7 @@
 package org.example.demo2.dao;
 
+import org.example.demo2.model.Certificate;
 import org.example.demo2.model.Instructor;
-import org.example.demo2.model.Review;
 import org.example.demo2.model.User;
 import org.example.demo2.util.DBConnection;
 
@@ -258,6 +258,7 @@ public class InstructorOnBoardingDAO {
     public List<Instructor> getAllInstructors() {
         List<Instructor> instructors = new ArrayList<>();
         String sql = "SELECT u.full_name, u.username, u.email, i.* FROM users u JOIN instructors i ON u.id = i.userId";
+        String certSql = "SELECT certificationName, certificationProvider FROM instructor_certificates WHERE userId = ?";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql);
@@ -265,6 +266,9 @@ public class InstructorOnBoardingDAO {
 
             while (rs.next()) {
                 Instructor instructor = new Instructor();
+                int userId = rs.getInt("userId");
+
+                instructor.setUserId(userId);
                 instructor.setFirstName(rs.getString("full_name"));
                 instructor.setSurname(rs.getString("username"));
                 instructor.setEmail(rs.getString("email"));
@@ -275,6 +279,19 @@ public class InstructorOnBoardingDAO {
                     instructor.setProfilePicture(profilePicture);
                 }
 
+                try (PreparedStatement certStmt = con.prepareStatement(certSql)) {
+                    certStmt.setInt(1, userId);
+                    try (ResultSet certRs = certStmt.executeQuery()) {
+                        List<Certificate> certificates = new ArrayList<>();
+                        while (certRs.next()) {
+                            Certificate cert = new Certificate();
+                            cert.setCertificationName(certRs.getString("certificationName"));
+                            cert.setCertificationProvider(certRs.getString("certificationProvider"));
+                            certificates.add(cert);
+                        }
+                        instructor.setCertificates(certificates);
+                    }
+                }
                 instructors.add(instructor);
             }
         } catch (SQLException e) {
