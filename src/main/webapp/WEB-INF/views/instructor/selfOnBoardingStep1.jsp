@@ -6,10 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Set New Password - Lifetime Fitness</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/selfOnBordingStep1.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/selfOnboarding.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 <div class="container">
+    <div class="progress-steps">
+        <div class="step active">
+            <div class="step-number">1</div>
+            <span>Reset Password</span>
+        </div>
+        <div class="step-line2"></div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <span>Basic Information</span>
+        </div>
+        <div class="step-line2"></div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <span>Professional Bio</span>
+        </div>
+    </div>
     <div class="content-card">
             <div class="welcome-section">
                 <h1>Welcome to Lifetime Fitness</h1>
