@@ -215,4 +215,40 @@ public class InstructorOnBoardingDAO {
         return detailsUpdated;
     }
 
+    public boolean insertCertificates(int userId, String certificationName, String certificationProvider) {
+        String sql = "INSERT INTO instructor_Certificates (userId, certificationName, certificationProvider) VALUES (?,?,?)";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1,userId);
+            pstmt.setString(2,certificationName);
+            pstmt.setString(3,certificationProvider);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected >0;
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean changeStatus(int userId){
+        String sql = "UPDATE instructors SET isActive = 'TRUE', onboardingStatus = 'completed' WHERE userId = ?";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+            pstmt.setInt(1, userId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected>0;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
