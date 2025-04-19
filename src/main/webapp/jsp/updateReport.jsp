@@ -22,6 +22,11 @@
             if (reportDetails == null) {
         %>
         <p class="text-center">No report details available for update.</p>
+        <div class="flex justify-center mt-4">
+            <a href="<%= request.getContextPath() %>/dashboard" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
         <%
         } else {
         %>
@@ -73,7 +78,6 @@
                 <table id="trainingTable" class="report-table">
                     <thead>
                     <tr>
-
                         <th>Date</th>
                         <th>Weight</th>
                     </tr>
@@ -92,13 +96,17 @@
                     } else {
                     %>
                     <tr>
-                        <td colspan="6" class="text-center">No exercises found for this report.</td>
+                        <td><input type="date" name="exercise_date[]" value=""></td>
+                        <td><input type="number" name="weight[]" value=""></td>
                     </tr>
                     <%
                         }
                     %>
                     </tbody>
                 </table>
+                <button type="button" id="addRowButton" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Row
+                </button>
             </div>
 
             <!-- Submit Button -->
@@ -113,6 +121,9 @@
         %>
     </div>
 </div>
+
+<!-- Load scripts at the end of the body to ensure DOM is loaded -->
+<script src="<%= request.getContextPath() %>/js/report.js"></script>
 <script src="<%= request.getContextPath() %>/js/updateReport.js"></script>
 </body>
 </html>
