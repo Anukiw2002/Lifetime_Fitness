@@ -22,8 +22,6 @@ public class InstructorDashboardServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
-        // Forward the request to navbar.html
-        request.getRequestDispatcher("/WEB-INF/views/instructor/instructor-dashboard.jsp").forward(request, response);
 
         int user_id = (int)session.getAttribute("userId");
 
@@ -31,14 +29,23 @@ public class InstructorDashboardServlet extends HttpServlet {
         request.setAttribute("hasUnread", hasUnread);
         InstructorDashboardDAO dao = new InstructorDashboardDAO();
         int count = 0;
+        int countWorkout = 0;
         try {
             count = dao.getActiveMembers();
+            countWorkout = dao.getWorkouts();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         System.out.println("Count : " + count);
         request.setAttribute("ActiveMembers", count);
+        System.out.println("countWorkout : " + countWorkout);
+        request.setAttribute("countWorkout", countWorkout);
+
+
+        request.getRequestDispatcher("/WEB-INF/views/instructor/instructor-dashboard.jsp").forward(request, response);
+
     }
+
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

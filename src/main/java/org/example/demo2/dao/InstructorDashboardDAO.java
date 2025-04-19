@@ -22,4 +22,19 @@ public class InstructorDashboardDAO {
         }
         return count;
     }
+
+    public int getWorkouts() throws SQLException{
+        int count = -1;
+        String sql = "SELECT COUNT(*) AS count FROM client_workouts WHERE created_at = CURRENT_DATE";
+        try(Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()){
+                count = rs.getInt("count");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return count;
+    }
 }
