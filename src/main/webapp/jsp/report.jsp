@@ -61,6 +61,8 @@
             <div class="form-section">
                 <label>GOAL: <input type="text" name="goal"></label>
                 <label>Target weight(kg) : <input type="number" name="target_weight"></label>
+                <input type="hidden" name="userEmail" value="<%= session.getAttribute("userEmail") %>">
+
             </div>
 
             <!-- Exercises -->

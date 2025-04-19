@@ -106,18 +106,14 @@ public class SaveUpdatedReportServlet extends HttpServlet {
                 System.out.println("Updated rows in user_reports: " + rowsUpdated);
 
                 // Step 4: Update or insert exercises in `user_exercises`
-                String updateExerciseQuery = "UPDATE user_exercises SET reps = ?, sets = ?, exercise_date = ?, rest = ?, weight = ? " +
-                        "WHERE exercise_name = ? AND email = ?";
+                String updateExerciseQuery = "UPDATE user_exercises SET  exercise_date = ?, weight = ? " +
+                        "WHERE exercise_date = ? AND email = ?";
                 PreparedStatement exerciseStmt = conn.prepareStatement(updateExerciseQuery);
 
                 for (int i = 0; i < exerciseNames.length; i++) {
-                    exerciseStmt.setInt(1, parseInteger(reps[i], 0));
-                    exerciseStmt.setInt(2, parseInteger(sets[i], 0));
-                    exerciseStmt.setDate(3, parseDate(exerciseDates[i]));
-                    exerciseStmt.setString(4, rests[i]);
-                    exerciseStmt.setDouble(5, parseDouble(weights[i], 0.0));
-                    exerciseStmt.setString(6, exerciseNames[i]);
-                    exerciseStmt.setString(7, email);
+                    exerciseStmt.setDate(1, parseDate(exerciseDates[i]));
+                    exerciseStmt.setDouble(2, parseDouble(weights[i], 0.0));
+                    exerciseStmt.setString(3, email);
                     exerciseStmt.addBatch();
                 }
                 int[] exerciseUpdates = exerciseStmt.executeBatch();
