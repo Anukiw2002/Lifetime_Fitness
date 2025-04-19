@@ -53,4 +53,8 @@ public class InstructorDashboardDAO {
         }
         return count;
     }
+
+    public int getDayWorkouts() throws SQLException{
+        i
+    }
 }

@@ -44,8 +44,8 @@
                     <i class="fas fa-chart-line fa-lg" style="color: var(--warning-color)"></i>
                 </div>
                 <div>
-                    <h3>85%</h3>
-                    <p class="text-muted">Gym Capacity</p>
+                    <h3>${reportCount}</h3>
+                    <p class="text-muted">Total reports</p>
                 </div>
             </div>
         </div>

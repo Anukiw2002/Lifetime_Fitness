@@ -30,16 +30,17 @@ public class InstructorDashboardServlet extends HttpServlet {
         InstructorDashboardDAO dao = new InstructorDashboardDAO();
         int count = 0;
         int countWorkout = 0;
+        int reportCount = 0;
         try {
             count = dao.getActiveMembers();
             countWorkout = dao.getWorkouts();
+            reportCount = dao.getReports();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Count : " + count);
         request.setAttribute("ActiveMembers", count);
-        System.out.println("countWorkout : " + countWorkout);
         request.setAttribute("countWorkout", countWorkout);
+        request.setAttribute("reportCount", reportCount);
 
 
         request.getRequestDispatcher("/WEB-INF/views/instructor/instructor-dashboard.jsp").forward(request, response);
