@@ -233,24 +233,26 @@
             <h1 class="carousel-title"><u>OUR COACHES</u></h1>
             <div class="coaches-grid">
                 <c:forEach var="instructor" items="${instructors}">
-                <div class="coach-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="coach-image">
-                        <c:choose>
-                            <c:when test="${empty instructor.profilePictureBase64}">
-                                <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Default Profile Picture">
-                            </c:when>
-                            <c:otherwise>
-                                <img src="data:image/jpeg;base64,${instructor.profilePictureBase64}" alt="${instructor.firstName} ${instructor.surname}" >
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                    <div class="coach-info">
-                        <h3>${instructor.firstName} ${instructor.surname}</h3>
-                        <c:forEach var="cert" items="${instructor.certificates}">
-                            <p>${cert.certificationName} (${cert.certificationProvider})</p>
-                        </c:forEach>
-                    </div>
-                </div>
+                    <c:if test="${instructor.isActive}">
+                        <div class="coach-card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="coach-image">
+                                <c:choose>
+                                    <c:when test="${empty instructor.profilePictureBase64}">
+                                        <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Default Profile Picture">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="data:image/jpeg;base64,${instructor.profilePictureBase64}" alt="${instructor.firstName} ${instructor.surname}" >
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div class="coach-info">
+                                <h3>${instructor.firstName} ${instructor.surname}</h3>
+                                <c:forEach var="cert" items="${instructor.certificates}">
+                                    <p>${cert.certificationName} (${cert.certificationProvider})</p>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </c:if>
                 </c:forEach>
             </div>
         </div>
