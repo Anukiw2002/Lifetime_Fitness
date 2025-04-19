@@ -12,7 +12,7 @@ import org.example.demo2.util.DBConnection;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Base64;
+
 
 @WebServlet("/clientEditProfile")
 @MultipartConfig(

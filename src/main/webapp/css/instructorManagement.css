@@ -47,13 +47,9 @@
     color: white;
 }
 
-.instructor-status.on-leave {
+.instructor-status.inactive {
     background-color: var(--warning-color);
     color: var(--bg-dark);
-}
-
-.rating {
-    color: var(--accent-color);
 }
 
 .btn-icon {
