@@ -51,9 +51,16 @@
         </div>
 
         <div class="content-grid">
-            <div class="chart-section">
-                <h2>Gym Traffic Today</h2>
-                <canvas id="trafficChart"></canvas>
+            <!-- Store the data in a hidden div for JavaScript to access -->
+            <div id="workout-data"
+                 data-today="${todayCount}"
+                 data-yesterday="${yesterdayCount}"
+                 data-tomorrow="${tomorrowCount}"
+                 style="display: none;"></div>
+
+            <!-- Chart container with proper dimensions -->
+            <div style="height: 500px; width: 100%;">
+                <canvas id="workoutTrendChart"></canvas>
             </div>
 
             <div class="upcoming-sessions">
@@ -122,53 +129,7 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const ctx = document.getElementById('trafficChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['6AM', '8AM', '10AM', '12PM', '2PM', '4PM', '6PM', '8PM', '10PM'],
-                datasets: [{
-                    label: 'Number of Members',
-                    data: [15, 30, 45, 35, 25, 40, 50, 35, 20],
-                    borderColor: '#2563eb',
-                    tension: 0.4,
-                    fill: true,
-                    backgroundColor: 'rgba(37, 99, 235, 0.1)'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: '#f3f4f6'
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        grid: {
-                            color: 'rgba(55, 65, 81, 0.1)'
-                        },
-                        ticks: {
-                            color: '#f3f4f6'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            color: 'rgba(55, 65, 81, 0.1)'
-                        },
-                        ticks: {
-                            color: '#f3f4f6'
-                        }
-                    }
-                }
-            }
-        });
-    });
-</script>
+<script src="${pageContext.request.contextPath}/js/instructorDashboard.js"></script>
+
 </body>
 </html>

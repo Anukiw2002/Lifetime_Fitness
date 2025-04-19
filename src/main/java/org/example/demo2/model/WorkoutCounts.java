@@ -9,6 +9,7 @@ public class WorkoutCounts {
         this.today = today;
         this.yesterday = yesterday;
         this.tomorrow = tomorrow;
+
     }
     public int getToday(){
         return today;
