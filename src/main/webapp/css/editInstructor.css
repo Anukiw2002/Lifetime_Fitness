@@ -105,6 +105,18 @@
     color: var(--text-muted);
 }
 
+.certification-entry {
+    align-items: center;
+}
+
+.cert-remove-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+
 /* Mobile Adjustments */
 @media (max-width: 768px) {
     .grid-3 {

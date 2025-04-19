@@ -83,3 +83,7 @@
 .controls-wrapper {
     margin-bottom: var(--spacing-xl);
 }
+
+.col-span-3 {
+    grid-column: 1 / -1;
+}

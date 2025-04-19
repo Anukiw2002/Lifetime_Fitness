@@ -68,76 +68,77 @@
     // Search functionality
     document.getElementById('searchInput').addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
-        const instructorCards = document.querySelectorAll('.instructor-card');
-
-        instructorCards.forEach(card => {
-            const instructorName = card.querySelector('h3').textContent.toLowerCase();
-            if (instructorName.includes(searchTerm)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-
-        // Check if there are any visible cards
-        checkEmptyResults();
+        filterInstructors();
     });
 
     // Status filter functionality
     document.getElementById('statusFilter').addEventListener('change', function() {
-        const selectedStatus = this.value;
+        filterInstructors();
+    });
+
+    // Combined filter function
+    function filterInstructors() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const selectedStatus = document.getElementById('statusFilter').value;
         const instructorCards = document.querySelectorAll('.instructor-card');
+        let visibleCount = 0;
 
         instructorCards.forEach(card => {
+            const instructorName = card.querySelector('h3').textContent.toLowerCase();
             const statusDiv = card.querySelector('.instructor-status');
             const isActive = statusDiv.classList.contains('active');
 
-            if (selectedStatus === '') {
-                card.style.display = 'block';
-            } else if (selectedStatus === 'active' && isActive) {
-                card.style.display = 'block';
-            } else if (selectedStatus === 'inactive' && !isActive) {
-                card.style.display = 'block';
+            let showCard = true;
+
+            // Apply search filter
+            if (searchTerm && !instructorName.includes(searchTerm)) {
+                showCard = false;
+            }
+
+            // Apply status filter
+            if (selectedStatus) {
+                if (selectedStatus === 'active' && !isActive) {
+                    showCard = false;
+                } else if (selectedStatus === 'inactive' && isActive) {
+                    showCard = false;
+                }
+            }
+
+            // Show or hide card
+            if (showCard) {
+                card.style.display = '';
+                visibleCount++;
             } else {
                 card.style.display = 'none';
             }
         });
 
-        // Check if there are any visible cards
-        checkEmptyResults();
-    });
+        // Check if there are any visible cards and show/hide no results message
+        checkEmptyResults(visibleCount);
+    }
 
     // Check if there are any visible results
-    function checkEmptyResults() {
+    function checkEmptyResults(visibleCount) {
         const instructorGrid = document.getElementById('instructorGrid');
-        const visibleCards = instructorGrid.querySelectorAll('.instructor-card[style="display: block;"]');
 
-        if (visibleCards.length === 0 && instructorGrid.querySelectorAll('.instructor-card').length > 0) {
-            const allHidden = true;
-            Array.from(instructorGrid.querySelectorAll('.instructor-card')).forEach(card => {
-                if (card.style.display !== 'none') {
-                    allHidden = false;
-                }
-            });
+        // Remove existing no results message if it exists
+        const existingNoResults = document.getElementById('no-results');
+        if (existingNoResults) {
+            existingNoResults.remove();
+        }
 
-            if (allHidden) {
-                // No results message
-                if (!document.getElementById('no-results')) {
-                    const noResults = document.createElement('div');
-                    noResults.id = 'no-results';
-                    noResults.className = 'card text-center';
-                    noResults.style.gridColumn = '1 / -1';
-                    noResults.style.padding = 'var(--spacing-xl)';
-                    noResults.innerHTML = '<i class="fas fa-search" style="font-size: 3rem; margin-bottom: var(--spacing-lg); color: var(--text-muted);"></i><h3>No instructors found</h3><p>Try adjusting your search or filter criteria</p>';
-                    instructorGrid.appendChild(noResults);
-                }
-            }
-        } else {
-            // Remove no results message if exists
-            const noResults = document.getElementById('no-results');
-            if (noResults) {
-                noResults.remove();
-            }
+        // Show no results message if no visible cards
+        if (visibleCount === 0) {
+            const noResults = document.createElement('div');
+            noResults.id = 'no-results';
+            noResults.className = 'card text-center col-span-3';
+            noResults.style.padding = 'var(--spacing-xl)';
+            noResults.innerHTML = `
+                <i class="fas fa-search" style="font-size: 3rem; margin-bottom: var(--spacing-lg); color: var(--text-muted);"></i>
+                <h3>No instructors found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            `;
+            instructorGrid.appendChild(noResults);
         }
     }
 </script>

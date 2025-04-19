@@ -201,6 +201,25 @@ public class InstructorOnBoardingDAO {
         }
     }
 
+    public boolean updateCertificateDetails(String certificationName, String certificationProvider, int userId) {
+        String sql = "UPDATE instructor_certificates SET certificationName = ?, certificationProvider WHERE userId = ?";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql))
+        {
+            pstmt.setString(1, certificationName);
+            pstmt.setString(2,certificationProvider);
+            pstmt.setInt(3, userId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected>0;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean updateInstructorDetailsWithProfilePicture(int userId, String firstName, String surname, String dateOfBirth, String emergencyContactRelationship,
                                                          String email, String phoneNumber, String houseNumber, String streetName,
                                                          String city, String emergencyContactName, String emergencyContactNumber,
@@ -232,6 +251,22 @@ public class InstructorOnBoardingDAO {
             return rowsAffected >0;
         }
 
+        catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteCertificates(int userId) {
+        String sql = "DELETE FROM instructor_certificates WHERE userId = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+            int rowsAffected = pstmt.executeUpdate();
+            return true; // Return true even if no rows affected, as this is not an error
+        }
         catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -356,5 +391,35 @@ public class InstructorOnBoardingDAO {
             e.printStackTrace();
         }
         return instructors;
+    }
+
+    public boolean changeIsActiveStatus(int userId) {
+        String selectSql = "SELECT isActive FROM instructors WHERE userId = ?";
+        String updateSql = "UPDATE instructors SET isActive = ? WHERE userId = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement selectStmt = con.prepareStatement(selectSql)) {
+
+            selectStmt.setInt(1, userId);
+            try (ResultSet rs = selectStmt.executeQuery()) {
+                if (rs.next()) {
+                    boolean currentStatus = rs.getBoolean("isActive");
+                    boolean newStatus = !currentStatus;
+
+                    try (PreparedStatement updateStmt = con.prepareStatement(updateSql)) {
+                        updateStmt.setBoolean(1, newStatus);
+                        updateStmt.setInt(2, userId);
+                        int rowsAffected = updateStmt.executeUpdate();
+                        return rowsAffected > 0;
+                    }
+                } else {
+                    // No user found
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

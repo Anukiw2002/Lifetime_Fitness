@@ -112,7 +112,7 @@
         </div>
       </div>
       </c:forEach>
-      <a href="/editInstructor" class="btn btn-primary"> Edit Instructor </a>
+      <a href="/editInstructor?id=${instructor.userId}" class="btn btn-primary">Edit Instructor</a>
     </div>
   </div>
 </div>
