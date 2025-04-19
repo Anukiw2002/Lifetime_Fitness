@@ -11,6 +11,7 @@ public class ClientMembership {
     private LocalDate endDate;
     private String status;
     private int durationId;
+    private boolean is_cancelled;
 
 
     public int getMembershipId() {
@@ -76,6 +77,7 @@ public class ClientMembership {
     public void setDurationId(int durationId) {
         this.durationId = durationId;
     }
+
 
 
 }
