@@ -73,11 +73,8 @@
                 <table id="trainingTable" class="report-table">
                     <thead>
                     <tr>
-                        <th>Exercise Name</th>
-                        <th>Reps</th>
-                        <th>Sets</th>
-                        <th>Exercise Date</th>
-                        <th>Rest</th>
+
+                        <th>Date</th>
                         <th>Weight</th>
                     </tr>
                     </thead>
@@ -87,11 +84,7 @@
                             for (Map<String, Object> exercise : exercises) {
                     %>
                     <tr>
-                        <td><input type="text" name="exercise_name[]" value="<%= exercise.get("exercise_name") %>"></td>
-                        <td><input type="number" name="reps[]" value="<%= exercise.get("reps") %>"></td>
-                        <td><input type="number" name="sets[]" value="<%= exercise.get("sets") %>"></td>
                         <td><input type="date" name="exercise_date[]" value="<%= exercise.get("exercise_date") %>"></td>
-                        <td><input type="text" name="rest[]" value="<%= exercise.get("rest") %>"></td>
                         <td><input type="number" name="weight[]" value="<%= exercise.get("weight") %>"></td>
                     </tr>
                     <%
