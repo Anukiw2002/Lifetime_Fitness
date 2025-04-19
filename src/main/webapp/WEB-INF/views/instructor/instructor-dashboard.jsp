@@ -59,7 +59,7 @@
                  style="display: none;"></div>
 
             <!-- Chart container with proper dimensions -->
-            <div style="height: 500px; width: 100%;">
+            <div style="height: 520px; width: 100%;">
                 <canvas id="workoutTrendChart"></canvas>
             </div>
 
