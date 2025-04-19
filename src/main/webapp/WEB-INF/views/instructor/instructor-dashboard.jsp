@@ -5,165 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gym Management - Instructor Dashboard</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/instructorDashboard.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-    <style>
-        .dashboard-container {
-            padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .dashboard-header {
-            margin-bottom: 2.5rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .chart-section {
-            background-color: var(--card-bg);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 2.5rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .upcoming-sessions {
-            background-color: var(--card-bg);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            height: fit-content;
-        }
-
-        .session-card {
-            background-color: rgba(255, 255, 255, 0.05);
-            padding: 1.25rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s ease;
-        }
-
-        .session-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .session-card:last-child {
-            margin-bottom: 0;
-        }
-
-        .session-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .session-time {
-            background-color: var(--primary-color);
-            padding: 0.35rem 0.75rem;
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .activity-feed {
-            background-color: var(--card-bg);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .activity-list {
-            margin-top: 1rem;
-        }
-
-        .activity-item {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .stat-card {
-            background-color: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-        }
-
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 0.5rem;
-            background-color: rgba(37, 99, 235, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        h1, h2, h3, h4 {
-            margin: 0;
-            line-height: 1.4;
-        }
-
-        .text-muted {
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-            font-size: 0.875rem;
-        }
-
-        @media (max-width: 1024px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .dashboard-container {
-                padding: 1rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 <body>
 <jsp:include page="instructorVerticalNavbar.jsp" />
@@ -181,7 +26,7 @@
                     <i class="fas fa-users-line fa-lg" style="color: var(--primary-color)"></i>
                 </div>
                 <div>
-                    <h3>247</h3>
+                    <h3>${ActiveMembers}</h3>
                     <p class="text-muted">Active Members</p>
                 </div>
             </div>
@@ -190,7 +35,7 @@
                     <i class="fas fa-dumbbell fa-lg" style="color: var(--success-color)"></i>
                 </div>
                 <div>
-                    <h3>28</h3>
+                    <h3>${countWorkout}</h3>
                     <p class="text-muted">Today's Workouts</p>
                 </div>
             </div>
@@ -199,16 +44,23 @@
                     <i class="fas fa-chart-line fa-lg" style="color: var(--warning-color)"></i>
                 </div>
                 <div>
-                    <h3>85%</h3>
-                    <p class="text-muted">Gym Capacity</p>
+                    <h3>${reportCount}</h3>
+                    <p class="text-muted">Total reports</p>
                 </div>
             </div>
         </div>
 
         <div class="content-grid">
-            <div class="chart-section">
-                <h2>Gym Traffic Today</h2>
-                <canvas id="trafficChart"></canvas>
+            <!-- Store the data in a hidden div for JavaScript to access -->
+            <div id="workout-data"
+                 data-today="${todayCount}"
+                 data-yesterday="${yesterdayCount}"
+                 data-tomorrow="${tomorrowCount}"
+                 style="display: none;"></div>
+
+            <!-- Chart container with proper dimensions -->
+            <div style="height: 520px; width: 100%;">
+                <canvas id="workoutTrendChart"></canvas>
             </div>
 
             <div class="upcoming-sessions">
@@ -277,53 +129,7 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const ctx = document.getElementById('trafficChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['6AM', '8AM', '10AM', '12PM', '2PM', '4PM', '6PM', '8PM', '10PM'],
-                datasets: [{
-                    label: 'Number of Members',
-                    data: [15, 30, 45, 35, 25, 40, 50, 35, 20],
-                    borderColor: '#2563eb',
-                    tension: 0.4,
-                    fill: true,
-                    backgroundColor: 'rgba(37, 99, 235, 0.1)'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: '#f3f4f6'
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        grid: {
-                            color: 'rgba(55, 65, 81, 0.1)'
-                        },
-                        ticks: {
-                            color: '#f3f4f6'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            color: 'rgba(55, 65, 81, 0.1)'
-                        },
-                        ticks: {
-                            color: '#f3f4f6'
-                        }
-                    }
-                }
-            }
-        });
-    });
-</script>
+<script src="${pageContext.request.contextPath}/js/instructorDashboard.js"></script>
+
 </body>
 </html>
