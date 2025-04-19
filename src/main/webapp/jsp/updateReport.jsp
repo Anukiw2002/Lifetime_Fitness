@@ -68,7 +68,7 @@
             </div>
 
             <!-- Exercises Table -->
-            <h3 class="section-title">Resistance Training Exercises</h3>
+            <h3 class="section-title">Track Weight</h3>
             <div class="table-section">
                 <table id="trainingTable" class="report-table">
                     <thead>
