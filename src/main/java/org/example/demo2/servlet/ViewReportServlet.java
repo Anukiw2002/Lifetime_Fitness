@@ -73,7 +73,7 @@ public class ViewReportServlet extends HttpServlet {
                 // Set the report details as a request attribute
                 request.setAttribute("reportDetails", reportDetails);
 
-                String exerciseQuery = "SELECT exercise_name, reps, sets, exercise_date, rest, weight FROM user_exercises WHERE email = ?";
+                String exerciseQuery = "SELECT  exercise_date, weight FROM user_exercises WHERE email = ?";
                 PreparedStatement exerciseStmt = con.prepareStatement(exerciseQuery);
                 exerciseStmt.setString(1, email);
 
@@ -82,11 +82,7 @@ public class ViewReportServlet extends HttpServlet {
 
                 while (exerciseRs.next()) {
                     Map<String, Object> exercise = new HashMap<>();
-                    exercise.put("exercise_name", exerciseRs.getString("exercise_name"));
-                    exercise.put("reps", exerciseRs.getInt("reps"));
-                    exercise.put("sets", exerciseRs.getInt("sets"));
                     exercise.put("exercise_date", exerciseRs.getDate("exercise_date"));
-                    exercise.put("rest", exerciseRs.getString("rest"));
                     exercise.put("weight", exerciseRs.getDouble("weight"));
                     exercises.add(exercise);
                 }
