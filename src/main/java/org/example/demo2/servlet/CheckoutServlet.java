@@ -19,7 +19,7 @@ public class CheckoutServlet extends HttpServlet {
         request.setAttribute("planId", planId);
         request.setAttribute("durationId", durationId);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("checkout.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/client/checkout.jsp");
         dispatcher.forward(request, response);
     }
 }

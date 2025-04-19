@@ -45,7 +45,7 @@ public class PaymentServicesDAO {
     private static RedirectUrls getRedirectURLs() {
         RedirectUrls redirectUrls = new RedirectUrls();
         redirectUrls.setCancelUrl("http://localhost:8080/PaypalTest/cancel.html");
-        redirectUrls.setReturnUrl("http://localhost:8080/PaypalTest/review_payment");
+        redirectUrls.setReturnUrl("http://localhost:8080/WEB-INF/views/client/reviewPayment.jsp");
 
         return redirectUrls;
     }
@@ -97,5 +97,22 @@ public class PaymentServicesDAO {
         }
 
         return approvalLink;
+    }
+
+    public Payment getPaymentDetails(String paymentId) throws PayPalRESTException {
+        APIContext apiContext = new APIContext(CLIENT_ID, CLIENT_SECRET, MODE);
+        return Payment.get(apiContext, paymentId);
+    }
+
+
+    public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException {
+        PaymentExecution paymentExecution = new PaymentExecution();
+        paymentExecution.setPayerId(payerId);
+
+        Payment payment = new Payment();
+        payment.setId(paymentId);
+
+        APIContext apiContext = new APIContext(CLIENT_ID, CLIENT_SECRET, MODE);
+        return payment.execute(apiContext, paymentExecution);
     }
 }
