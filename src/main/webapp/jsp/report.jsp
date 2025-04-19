@@ -49,9 +49,9 @@
             <!-- Measurements -->
             <h3 class="section-title">Body Measurements</h3>
             <div class="form-section">
-                <label>Waist circumference: <input type="number" name="waist_circumference"></label>
-                <label>Body weight: <input type="number" name="body_weight"></label>
-                <label>Height: <input type="number" name="height"></label>
+                <label>Waist circumference(cm): <input type="number" name="waist_circumference"></label>
+                <label>Body weight(kg): <input type="number" name="body_weight"></label>
+                <label>Height(cm): <input type="number" name="height"></label>
                 <label>Fat %: <input type="number" name="fat"></label>
                 <label>Basal Metabolic Rate: <input type="number" name="bmr"></label>
             </div>
@@ -60,30 +60,24 @@
             <h3 class="section-title">Program Goal</h3>
             <div class="form-section">
                 <label>GOAL: <input type="text" name="goal"></label>
-                <label>Target weight : <input type="number" name="target_weight"></label>
+                <label>Target weight(kg) : <input type="number" name="target_weight"></label>
             </div>
 
             <!-- Exercises -->
-            <h3 class="section-title">Resistance Training Exercises</h3>
+            <h3 class="section-title">Track Weight</h3>
             <div class="table-container">
                 <table id="trainingTable" class="report-table">
                     <thead>
                     <tr>
-                        <th>Exercise Name</th>
-                        <th>Reps</th>
-                        <th>Sets</th>
+
                         <th>Date</th>
-                        <th>Rest</th>
                         <th>Weight</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td><input type="text" name="exercise_1" placeholder="Enter Exercise"></td>
-                        <td><input type="number" name="reps_1" placeholder="Reps"></td>
-                        <td><input type="number" name="sets_1" placeholder="Sets"></td>
+
                         <td><input type="date" name="date_1"></td>
-                        <td><input type="text" name="rest_1" placeholder="Rest"></td>
                         <td><input type="number" name="weight_1" placeholder="Weight (kg)"></td>
                     </tr>
                     </tbody>
