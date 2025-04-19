@@ -56,7 +56,7 @@ public class OwnerAddInstructorServlet extends HttpServlet {
                     request.setAttribute("message", "Instructor added successfully but email failed to send.");
                 }
 
-                response.sendRedirect(request.getContextPath() + "/instructorList?success=true");
+                response.sendRedirect(request.getContextPath() + "/instructorManagement");
             } else {
                 request.setAttribute("error", "Failed to add instructor");
                 request.getRequestDispatcher("/WEB-INF/views/owner/addInstructor.jsp").forward(request, response);

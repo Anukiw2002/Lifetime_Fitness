@@ -24,7 +24,7 @@
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
         <a href="leaderBoard" class="nav-link">
-            <i class="fas fa-chart-line icon"></i>Leaderboard
+            <i class="fas fa-trophy icon"></i>Leaderboard
         </a>
         <a href="/leaderBoardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard Details
