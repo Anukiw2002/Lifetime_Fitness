@@ -74,6 +74,10 @@ public class LandingPageServlet extends HttpServlet {
             List<Review> reviews = reviewDAO.getAllReviews();
             request.setAttribute("reviews", reviews);
 
+            InstructorOnBoardingDAO instructorOnBoardingDAO = new InstructorOnBoardingDAO();
+            List<Instructor> instructors = instructorOnBoardingDAO.getAllInstructors();
+            request.setAttribute("instructors", instructors);
+
 
         } catch (SQLException e) {
             // Log the error

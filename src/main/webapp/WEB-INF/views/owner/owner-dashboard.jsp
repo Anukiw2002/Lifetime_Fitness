@@ -29,7 +29,7 @@
                 <i class="fas fa-dumbbell"></i>
                 Member Management
             </a>
-            <a href="manageInstructors.jsp" class="action-btn">
+            <a href="/instructorManagement" class="action-btn">
                 <i class="fas fa-users"></i>
                 Manage Instructors
             </a>
