@@ -1,123 +1,136 @@
-document.getElementById('addRowButton').addEventListener('click', function() {
-    // Get the table body
-    var tableBody = document.querySelector('#trainingTable tbody');
-    var rowCount = tableBody.querySelectorAll('tr').length + 1; // Ensure unique index based on the number of rows
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOM loaded - debugging form validation");
 
-    // Create a new row
-    var newRow = document.createElement('tr');
+    // Debug all fields
+    function debugFormFields() {
+        console.log("Checking form fields existence:");
+        const fieldsToCheck = [
+            'waist_circumference', 'body_weight', 'height', 'fat', 'bmr',
+            'max_heart_rate', 'bpm_65', 'bpm_75', 'bpm_85', 'weight_1'
+        ];
 
-    // Create new cells with input fields using template literals
-    newRow.innerHTML = `
-        <td><input type="text" name="exercise_${rowCount}" placeholder="Enter Exercise"></td>
-        <td><input type="number" name="reps_${rowCount}" placeholder="Reps"></td>
-        <td><input type="number" name="sets_${rowCount}" placeholder="Sets"></td>
-        <td><input type="date" name="date_${rowCount}"></td>
-        <td><input type="text" name="rest_${rowCount}" placeholder="Rest"></td>
-        <td><input type="number" name="weight_${rowCount}" placeholder="Weight (kg)" min="0" max="250"></td>
-    `;
-
-    // Append the new row to the table body
-    tableBody.appendChild(newRow);
-});
-
-document.getElementById('userReportForm').addEventListener('submit', function(event) {
-    // Prevent default form submission to show alert first
-    event.preventDefault();
-
-    // Validate form fields
-    if (!validateForm()) {
-        return; // Prevent form submission if validation fails
+        fieldsToCheck.forEach(field => {
+            const el = document.querySelector(`input[name="${field}"]`);
+            console.log(`${field}: ${el ? "exists" : "MISSING"}`);
+        });
     }
 
-    // Optionally show an alert here before submitting
-    alert('Form is being submitted. Redirecting to the list form.');
+    // Run debug on load
+    debugFormFields();
 
-    // Delay the form submission for a brief moment
-    setTimeout(() => {
-        this.submit(); // Proceed with the form submission after the alert
-    }, 1000); // 1 second delay (adjust as needed)
+    // ✅ Add Row Button Logic
+    const addRowBtn = document.getElementById('addRowButton');
+    if (addRowBtn) {
+        addRowBtn.addEventListener('click', function () {
+            // Get the table body
+            const tableBody = document.querySelector('#trainingTable tbody');
+            const rowCount = tableBody.querySelectorAll('tr').length + 1;
+
+            // Create a new row
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="date" name="date_${rowCount}"></td>
+                <td><input type="number" name="weight_${rowCount}" placeholder="Weight (kg)" min="0" max="250"></td>
+            `;
+            tableBody.appendChild(newRow);
+        });
+    }
+
+    // ✅ Form Submission Logic
+    const reportForm = document.getElementById('userReportForm');
+    if (reportForm) {
+        reportForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            alert('Form is being submitted. Redirecting to the list form.');
+            setTimeout(() => {
+                reportForm.submit();
+            }, 1000);
+        });
+    }
+
+    // ✅ Alert Message from Server (if any)
+    const messageElement = document.getElementById('message');
+    const message = messageElement ? messageElement.innerText.trim() : "";
+    if (message !== "") {
+        alert(message);
+        window.location.href = "/first.jsp"; // Change this to your actual redirect page
+    }
 });
 
+// ✅ Validation Logic
 function validateForm() {
     let isValid = true;
 
-    // Get the age input and check its value
+    // Validate age
     const age = document.querySelector('input[name="age"]');
-    if (age.value < 0 || age.value > 70) {
+    if (age && age.value && (parseInt(age.value) < 0 || parseInt(age.value) > 70)) {
         alert('Age must be between 0 and 70.');
         isValid = false;
     }
 
-    // Validate weight and other numeric fields (e.g., waist circumference, body weight, fat percentage, etc.)
-    const numberFields = [
-        'waist_circumference',
-        'body_weight',
-        'height',
-        'fat',
-        'bmr',
-        'max_heart_rate',
-        'bpm_65',
-        'bpm_75',
-        'bpm_85',
-        'reps_1',
-        'sets_1',
-        'weight_1'
-    ];
+    // Only validate fields that actually exist in the form
+    // These checks match what's in your HTML
+    try {
+        // Check negative values for measurements
+        const measurementFields = [
+            'waist_circumference', 'body_weight', 'height', 'fat', 'bmr'
+        ];
 
-    numberFields.forEach(function(field) {
-        const fieldValue = document.querySelector(`input[name="${field}"]`).value;
-
-        // Check for negative values
-        if (fieldValue < 0) {
-            alert(`${field.replace('_', ' ')} cannot be negative.`);
-            isValid = false;
+        for (const field of measurementFields) {
+            const input = document.querySelector(`input[name="${field}"]`);
+            if (input && input.value !== "") {
+                const value = parseFloat(input.value);
+                if (value < 0) {
+                    alert(`${field.replace(/_/g, ' ')} cannot be negative.`);
+                    isValid = false;
+                }
+            }
         }
-    });
 
-    // Validate weight field specifically (it cannot be over 250)
-    const weightFields = document.querySelectorAll('input[name^="weight_"]');
-    weightFields.forEach(function(inputField) {
-        const weightValue = inputField.value;
-        if (weightValue < 0 || weightValue > 250) {
-            alert('Weight must be between 0 and 250 kg.');
-            isValid = false;
+        // Check weight fields separately
+        const weightFields = document.querySelectorAll('input[name^="weight_"]');
+        for (const inputField of weightFields) {
+            if (inputField && inputField.value !== "") {
+                const value = parseFloat(inputField.value);
+                if (value < 0 || value > 250) {
+                    alert('Weight must be between 0 and 250 kg.');
+                    isValid = false;
+                }
+            }
         }
-    });
 
-    // Validate max_heart_rate and BPM values (reasonable heart rate range 30-220)
-    const maxHeartRate = document.querySelector('input[name="max_heart_rate"]');
-    const bpm65 = document.querySelector('input[name="bpm_65"]');
-    const bpm75 = document.querySelector('input[name="bpm_75"]');
-    const bpm85 = document.querySelector('input[name="bpm_85"]');
-
-    [maxHeartRate, bpm65, bpm75, bpm85].forEach(function(inputField) {
-        const bpmValue = inputField.value;
-        if (bpmValue < 30 || bpmValue > 220) {
-            alert(`${inputField.name.replace('_', ' ')} must be between 30 and 220 BPM.`);
-            isValid = false;
+        // Check heart rate fields separately
+        const heartRateFields = ['max_heart_rate', 'bpm_65', 'bpm_75', 'bpm_85'];
+        for (const field of heartRateFields) {
+            const input = document.querySelector(`input[name="${field}"]`);
+            if (input && input.value !== "") {
+                const value = parseFloat(input.value);
+                if (value < 30 || value > 220) {
+                    alert(`${field.replace(/_/g, ' ')} must be between 30 and 220 BPM.`);
+                    isValid = false;
+                }
+            }
         }
-    });
 
-    // Validate height (reasonable range 30 cm - 300 cm)
-    const height = document.querySelector('input[name="height"]');
-    const heightValue = height.value;
-    if (heightValue < 30 || heightValue > 300) {
-        alert('Height must be between 30 cm and 300 cm.');
-        isValid = false;
+        // Check height specifically
+        const height = document.querySelector('input[name="height"]');
+        if (height && height.value !== "") {
+            const value = parseFloat(height.value);
+            if (value < 30 || value > 300) {
+                alert('Height must be between 30 cm and 300 cm.');
+                isValid = false;
+            }
+        }
+    } catch (error) {
+        console.error("Validation error:", error);
+        // Don't prevent form submission on validation error
+        return true;
     }
 
     return isValid;
 }
-
-document.addEventListener("DOMContentLoaded", function() {
-    // Check if a message is available from the server
-    const messageElement = document.getElementById('message');
-    const message = messageElement ? messageElement.innerText : "";
-
-    // If a message is present, show an alert
-    if (message && message.trim() !== "") {
-        alert(message);
-        // Redirect after alert
-        window.location.href = "/first.jsp"; // Change this URL to where you want to redirect
-    }
-});

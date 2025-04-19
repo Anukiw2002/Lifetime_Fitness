@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @WebServlet("/saveUpdatedReport")
@@ -22,31 +23,33 @@ public class SaveUpdatedReportServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        // Prepare a JSON object to send the response
         JSONObject jsonResponse = new JSONObject();
         String email = request.getParameter("email");
+
         if (email == null || email.isEmpty()) {
             System.out.println("Email is missing in the request.");
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email parameter is required.");
+            jsonResponse.put("status", "error");
+            jsonResponse.put("message", "Email parameter is required.");
+            sendJsonResponse(response, jsonResponse);
             return;
         }
+
         System.out.println("Email being used for update: " + email);
 
-        // Step 1: Retrieve updated report details with validation
+        // Retrieve updated report details
         String name = request.getParameter("name");
         int age = parseInteger(request.getParameter("age"), 0);
         String programNo = request.getParameter("program_no");
         String startingDate = request.getParameter("starting_date");
         String expireDate = request.getParameter("expire_date");
-        String frequency = request.getParameter("frequency");
-        int timesPerWeek = parseInteger(request.getParameter("times_per_week"), 0);
+
         int maxHeartRate = parseInteger(request.getParameter("max_heart_rate"), 0);
         int bpm65 = parseInteger(request.getParameter("bpm_65"), 0);
         int bpm75 = parseInteger(request.getParameter("bpm_75"), 0);
@@ -56,76 +59,102 @@ public class SaveUpdatedReportServlet extends HttpServlet {
         double height = parseDouble(request.getParameter("height"), 0.0);
         double fatPercentage = parseDouble(request.getParameter("fat_percentage"), 0.0);
         double bmr = parseDouble(request.getParameter("bmr"), 0.0);
+        double targetWeight = parseDouble(request.getParameter("target_weight"), 0.0);
         String goal = request.getParameter("goal");
+        String warmUp = request.getParameter("warm_up");
+        String flexibility = request.getParameter("flexibility");
         String cardio = request.getParameter("cardio");
         String remarks = request.getParameter("remarks");
 
-        // Step 2: Retrieve updated exercise details with validation
-        String[] exerciseNames = request.getParameterValues("exercise_name[]");
-        String[] reps = request.getParameterValues("reps[]");
-        String[] sets = request.getParameterValues("sets[]");
+        // Get exercise data
         String[] exerciseDates = request.getParameterValues("exercise_date[]");
-        String[] rests = request.getParameterValues("rest[]");
         String[] weights = request.getParameterValues("weight[]");
-
-        System.out.println("Email being used for update: " + email);
-
 
         try (Connection conn = DBConnection.getConnection()) {
             conn.setAutoCommit(false); // Start transaction
 
             try {
-                // Step 3: Update the report details in `user_reports`
-                String updateReportQuery = "UPDATE user_reports SET name = ?, age = ?, program_no = ?, starting_date = ?, expire_date = ?, " +
-                        "frequency = ?, times_per_week = ?, max_heart_rate = ?, bpm_65 = ?, bpm_75 = ?, bpm_85 = ?, " +
-                        "waist_circumference = ?, body_weight = ?, height = ?, fat_percentage = ?, bmr = ?, goal = ?, " +
-                        " cardio = ?, remarks = ? WHERE email = ?";
-                PreparedStatement reportStmt = conn.prepareStatement(updateReportQuery);
-                reportStmt.setString(1, name);
-                reportStmt.setInt(2, age);
-                reportStmt.setString(3, programNo);
-                reportStmt.setDate(4, parseDate(startingDate));
-                reportStmt.setDate(5, parseDate(expireDate));
-                reportStmt.setString(6, frequency);
-                reportStmt.setInt(7, timesPerWeek);
-                reportStmt.setInt(8, maxHeartRate);
-                reportStmt.setInt(9, bpm65);
-                reportStmt.setInt(10, bpm75);
-                reportStmt.setInt(11, bpm85);
-                reportStmt.setDouble(12, waistCircumference);
-                reportStmt.setDouble(13, bodyWeight);
-                reportStmt.setDouble(14, height);
-                reportStmt.setDouble(15, fatPercentage);
-                reportStmt.setDouble(16, bmr);
-                reportStmt.setString(17, goal);
-                reportStmt.setString(18, cardio);
-                reportStmt.setString(19, remarks);
-                reportStmt.setString(20, email);
-
-                int rowsUpdated = reportStmt.executeUpdate();
-                System.out.println("Updated rows in user_reports: " + rowsUpdated);
-
-                // Step 4: Update or insert exercises in `user_exercises`
-                String updateExerciseQuery = "UPDATE user_exercises SET reps = ?, sets = ?, exercise_date = ?, rest = ?, weight = ? " +
-                        "WHERE exercise_name = ? AND email = ?";
-                PreparedStatement exerciseStmt = conn.prepareStatement(updateExerciseQuery);
-
-                for (int i = 0; i < exerciseNames.length; i++) {
-                    exerciseStmt.setInt(1, parseInteger(reps[i], 0));
-                    exerciseStmt.setInt(2, parseInteger(sets[i], 0));
-                    exerciseStmt.setDate(3, parseDate(exerciseDates[i]));
-                    exerciseStmt.setString(4, rests[i]);
-                    exerciseStmt.setDouble(5, parseDouble(weights[i], 0.0));
-                    exerciseStmt.setString(6, exerciseNames[i]);
-                    exerciseStmt.setString(7, email);
-                    exerciseStmt.addBatch();
+                // First, get the report_id for this user
+                int reportId = 0;
+                String getReportIdQuery = "SELECT id FROM user_reports WHERE email = ?";
+                try (PreparedStatement idStmt = conn.prepareStatement(getReportIdQuery)) {
+                    idStmt.setString(1, email);
+                    try (ResultSet rs = idStmt.executeQuery()) {
+                        if (rs.next()) {
+                            reportId = rs.getInt("id");
+                            System.out.println("Found report_id: " + reportId);
+                        } else {
+                            throw new SQLException("No report found for email: " + email);
+                        }
+                    }
                 }
-                int[] exerciseUpdates = exerciseStmt.executeBatch();
-                System.out.println("Updated rows in user_exercises: " + exerciseUpdates.length);
+
+                // Update the report details
+                String updateReportQuery = "UPDATE user_reports SET name = ?, age = ?, program_no = ?, " +
+                        "starting_date = ?, expire_date = ?, max_heart_rate = ?, bpm_65 = ?, " +
+                        "bpm_75 = ?, bpm_85 = ?, waist_circumference = ?, body_weight = ?, " +
+                        "height = ?, fat_percentage = ?, bmr = ?, goal = ?, warm_up = ?, " +
+                        "flexibility = ?, cardio = ?, remarks = ?, target_weight = ? WHERE email = ?";
+
+                try (PreparedStatement reportStmt = conn.prepareStatement(updateReportQuery)) {
+                    reportStmt.setString(1, name);
+                    reportStmt.setInt(2, age);
+                    reportStmt.setString(3, programNo);
+                    reportStmt.setDate(4, parseDate(startingDate));
+                    reportStmt.setDate(5, parseDate(expireDate));
+                    reportStmt.setInt(6, maxHeartRate);
+                    reportStmt.setInt(7, bpm65);
+                    reportStmt.setInt(8, bpm75);
+                    reportStmt.setInt(9, bpm85);
+                    reportStmt.setDouble(10, waistCircumference);
+                    reportStmt.setDouble(11, bodyWeight);
+                    reportStmt.setDouble(12, height);
+                    reportStmt.setDouble(13, fatPercentage);
+                    reportStmt.setDouble(14, bmr);
+                    reportStmt.setString(15, goal);
+                    reportStmt.setString(16, warmUp);
+                    reportStmt.setString(17, flexibility);
+                    reportStmt.setString(18, cardio);
+                    reportStmt.setString(19, remarks);
+                    reportStmt.setDouble(20, targetWeight);
+                    reportStmt.setString(21, email);
+
+                    int rowsUpdated = reportStmt.executeUpdate();
+                    System.out.println("Updated rows in user_reports: " + rowsUpdated);
+                }
+
+                // Handle exercise data
+                if (exerciseDates != null && weights != null && exerciseDates.length > 0) {
+                    // Delete existing exercises for this report
+                    String deleteExercisesQuery = "DELETE FROM user_exercises WHERE email = ?";
+                    try (PreparedStatement deleteStmt = conn.prepareStatement(deleteExercisesQuery)) {
+                        deleteStmt.setString(1, email);
+                        deleteStmt.executeUpdate();
+                    }
+
+                    // Insert new exercise entries with report_id
+                    String insertExerciseQuery = "INSERT INTO user_exercises (email, exercise_date, weight, report_id) VALUES (?, ?, ?, ?)";
+                    try (PreparedStatement insertStmt = conn.prepareStatement(insertExerciseQuery)) {
+                        for (int i = 0; i < exerciseDates.length; i++) {
+                            // Skip empty entries
+                            if (exerciseDates[i] == null || exerciseDates[i].trim().isEmpty()) {
+                                continue;
+                            }
+
+                            insertStmt.setString(1, email);
+                            insertStmt.setDate(2, parseDate(exerciseDates[i]));
+                            insertStmt.setDouble(3, parseDouble(weights[i], 0.0));
+                            insertStmt.setInt(4, reportId);  // Set the report_id
+                            insertStmt.addBatch();
+                        }
+                        int[] insertResults = insertStmt.executeBatch();
+                        System.out.println("Inserted exercise entries: " + insertResults.length);
+                    }
+                }
 
                 conn.commit(); // Commit transaction
 
-                // Prepare success JSON response
+                // Success response
                 jsonResponse.put("status", "success");
                 jsonResponse.put("message", "Report updated successfully!");
                 jsonResponse.put("redirectUrl", request.getContextPath() + "/viewReport?email=" + email);
@@ -134,15 +163,19 @@ public class SaveUpdatedReportServlet extends HttpServlet {
                 conn.rollback(); // Rollback transaction on error
                 e.printStackTrace();
                 jsonResponse.put("status", "error");
-                jsonResponse.put("message", "An error occurred while updating the report.");
+                jsonResponse.put("message", "Database error: " + e.getMessage());
             }
         } catch (SQLException e) {
             e.printStackTrace();
             jsonResponse.put("status", "error");
-            jsonResponse.put("message", "Database connection error.");
+            jsonResponse.put("message", "Database connection error: " + e.getMessage());
         }
 
         // Send JSON response
+        sendJsonResponse(response, jsonResponse);
+    }
+
+    private void sendJsonResponse(HttpServletResponse response, JSONObject jsonResponse) throws IOException {
         try (PrintWriter out = response.getWriter()) {
             out.write(jsonResponse.toString());
         }
@@ -171,6 +204,7 @@ public class SaveUpdatedReportServlet extends HttpServlet {
         try {
             return value != null && !value.trim().isEmpty() ? Date.valueOf(value) : null;
         } catch (IllegalArgumentException e) {
+            System.out.println("Invalid date format: " + value);
             return null;
         }
     }

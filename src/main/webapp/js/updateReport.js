@@ -1,33 +1,49 @@
-document.getElementById('updateForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevents the form from submitting the normal way
-    fetch('/saveUpdatedReport', {
-        method: 'POST',
-        body: new FormData(this)
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                alert("Report updated successfully!");
-            } else {
-                alert("Failed to update report: " + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("An error occurred while updating the report.");
+document.addEventListener('DOMContentLoaded', function () {
+    // Get the form element after the DOM is fully loaded
+    const form = document.getElementById('updateReportForm');
+
+    if (!form) {
+        console.warn("Form with ID 'updateReportForm' not found.");
+        return; // Exit early if form doesn't exist
+    }
+
+    // Add event listener for the addRowButton
+    const addRowButton = document.getElementById('addRowButton');
+    if (addRowButton) {
+        addRowButton.addEventListener('click', function() {
+            const tableBody = document.querySelector('#trainingTable tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="date" name="exercise_date[]" value=""></td>
+                <td><input type="number" name="weight[]" value=""></td>
+            `;
+            tableBody.appendChild(newRow);
         });
+    }
+
+    // Add event listener for form submission
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevents the form from submitting the normal way
+        saveReport(); // Call the saveReport function
+    });
 });
 
-// Save Report
+// Save Report function
 function saveReport() {
     // Get the form element
     const formElement = document.getElementById('updateReportForm');
+    if (!formElement) {
+        console.error("Form element not found.");
+        return;
+    }
+
     const formData = new FormData(formElement); // Collect all form data
+    const formAction = formElement.action; // Get the correct action URL from the form
 
     // Send the POST request using fetch
-    fetch(`${window.location.origin}/saveUpdatedReport`, {
+    fetch(formAction, {
         method: 'POST',
-        body: new URLSearchParams(formData), // Convert FormData to URL-encoded format
+        body: formData, // Use FormData directly for proper multipart/form-data submission
     })
         .then(response => {
             if (!response.ok) {

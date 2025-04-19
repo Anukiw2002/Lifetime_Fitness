@@ -58,22 +58,17 @@ public class ReportDAO {
         return -1;
     }
 
-    public void insertExercises(Connection conn, int reportId, List<String> names, List<Integer> reps, List<Integer> sets,
-                                List<String> dates, List<String> rests, List<Double> weights, String email) throws SQLException {
+    public void insertExercises(Connection conn, int reportId, List<String> dates, List<Double> weights, String email) throws SQLException {
 
-        String query = "INSERT INTO user_exercises  (report_id, exercise_name, reps, sets, exercise_date, rest, weight, email) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO user_exercises  (report_id, exercise_date, weight, email) "
+                + "VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            for (int i = 0; i < names.size(); i++) {
+            for (int i = 0; i < dates.size(); i++) {
                 pstmt.setInt(1, reportId);
-                pstmt.setString(2, names.get(i));
-                pstmt.setInt(3, reps.get(i));
-                pstmt.setInt(4, sets.get(i));
-                pstmt.setDate(5, dates.get(i).isEmpty() ? null : Date.valueOf(dates.get(i)));
-                pstmt.setString(6, rests.get(i));
-                pstmt.setDouble(7, weights.get(i));
-                pstmt.setString(8, email);
+                pstmt.setDate(2, dates.get(i).isEmpty() ? null : Date.valueOf(dates.get(i)));
+                pstmt.setDouble(3, weights.get(i));
+                pstmt.setString(4, email);
                 pstmt.addBatch();
             }
             pstmt.executeBatch();
