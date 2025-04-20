@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.*;
+import org.example.demo2.model.BookSession;
 import org.example.demo2.model.ClientMembership;
 import org.example.demo2.model.UserWeightData;
 import org.example.demo2.util.DBConnection;
@@ -56,6 +57,10 @@ public class ClientDashboardServlet extends HttpServlet {
 
             List<ClientMembership> membership = membershipDAO.getClientMembership(user_id);
             req.setAttribute("membership", membership);
+
+            BookSessionDAO bookSessionDAO = new BookSessionDAO();
+            BookSession booking = bookSessionDAO.getTodayBookingForClient(user_id);
+            req.setAttribute("booking", booking);
 
             if (resultSet.next()) {
                 req.setAttribute("userName", resultSet.getString("name"));
