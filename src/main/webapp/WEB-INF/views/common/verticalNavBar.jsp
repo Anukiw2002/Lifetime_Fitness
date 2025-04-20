@@ -26,8 +26,10 @@
         <a href="leaderBoard" class="nav-link">
             <i class="fas fa-trophy icon"></i>Leaderboard
         </a>
-        <a href="/owner/leaderboardDetails" class="nav-link">
-            <i class="fas fa-circle-info icon"></i>Leaderboard details
+
+        <a href="/leaderBoardDetails" class="nav-link">
+            <i class="fas fa-users icon"></i>Leaderboard details
+
         </a>
         <a href="/owner/ownerDetailedNotifications" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications

@@ -27,79 +27,28 @@ document.addEventListener('DOMContentLoaded', function() {
         if (selectedCategory && selectedButton) {
             selectedCategory.classList.add('active');
             selectedButton.classList.add('active');
-
-            // Populate ranks for the selected category
-            const ranksContainer = selectedCategory.querySelector('.other-ranks');
-            switch(categoryId) {
-                case 'weight-loss':
-                    populateRanks(weightLossData, ranksContainer);
-                    break;
-                case 'strength':
-                    populateRanks(strengthData, ranksContainer);
-                    break;
-                case 'dedication':
-                    populateRanks(dedicationData, ranksContainer);
-                    break;
-            }
         }
     }
 
     tabButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             const categoryId = e.target.getAttribute('data-category');
-            showCategory(categoryId);
+            if (categoryId) {
+                showCategory(categoryId);
+            }
         });
     });
 
-    // Populate other ranks with dummy data for each category
-    const weightLossData = [
-        { name: "Michael Scott", score: "-10kg in 2 months", avatar: "/images/coach4.png" },
-        { name: "Lisa Taylor", score: "-9kg in 2 months", avatar: "/images/coach4.png" },
-        { name: "David Kim", score: "-8kg in 1.5 months", avatar: "/images/coach4.png" },
-        { name: "Jessica Brown", score: "-7kg in 1.5 months", avatar: "/images/coach4.png" },
-        { name: "Robert Chen", score: "-6kg in 1 month", avatar: "/images/coach4.png" }
-    ];
-
-    const strengthData = [
-        { name: "James Wilson", score: "Deadlift: 170kg", avatar: "/images/member10.jpg" },
-        { name: "Steve Rogers", score: "Deadlift: 165kg", avatar: "/images/member11.jpg" },
-        { name: "Bruce Wayne", score: "Deadlift: 160kg", avatar: "/images/member12.jpg" },
-        { name: "Thor Odinson", score: "Deadlift: 155kg", avatar: "/images/member13.jpg" },
-        { name: "Peter Parker", score: "Deadlift: 150kg", avatar: "/images/member14.jpg" }
-    ];
-
-    const dedicationData = [
-        { name: "Natasha Chen", score: "16 sessions/month", avatar: "/images/member15.jpg" },
-        { name: "Wanda Maximoff", score: "15 sessions/month", avatar: "/images/member16.jpg" },
-        { name: "Carol Danvers", score: "14 sessions/month", avatar: "/images/member17.jpg" },
-        { name: "Scott Lang", score: "13 sessions/month", avatar: "/images/member18.jpg" },
-        { name: "Tony Stark", score: "12 sessions/month", avatar: "/images/member19.jpg" }
-    ];
-
-    function populateRanks(data, container) {
-        if (!container) return;
-
-        container.innerHTML = ''; // Clear existing content
-
-        data.forEach((person, index) => {
-            const rankItem = document.createElement('div');
-            rankItem.className = 'rank-item';
-            rankItem.innerHTML = `
-                <span class="rank-number">${index + 4}</span>
-                <div class="rank-avatar">
-                    <img src="${person.avatar}" alt="${person.name}">
-                </div>
-                <div class="rank-info">
-                    <div class="rank-name">${person.name}</div>
-                    <div class="rank-score">${person.score}</div>
-                </div>
-            `;
-            container.appendChild(rankItem);
-        });
+    // Show initial category if there's a default one, or the first one
+    const defaultCategory = document.querySelector('.leaderboard-category');
+    if (defaultCategory) {
+        const defaultCategoryId = defaultCategory.id;
+        if (defaultCategoryId) {
+            showCategory(defaultCategoryId);
+        } else {
+            defaultCategory.classList.add('active');
+        }
     }
-
-    // Show initial category (weight-loss)
-    showCategory('weight-loss');
 
     // Add hover effect to top performers
     const topPerformers = document.querySelectorAll('.top-performer');
@@ -125,28 +74,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    document.querySelectorAll('.tab-btn').forEach(button => {
-        button.addEventListener('click', function () {
+    // Exercise selection buttons
+    const exerciseButtons = document.querySelectorAll('[data-exercise]');
+    exerciseButtons.forEach(button => {
+        button.addEventListener('click', function() {
             const exerciseType = this.dataset.exercise;
-            sendExerciseTypeToBackend(exerciseType); // function call
+            if (exerciseType) {
+                sendExerciseTypeToBackend(exerciseType);
+            }
         });
     });
 
     function sendExerciseTypeToBackend(exerciseType) {
-        fetch('/leaderBoard', {
+        fetch('/leaderBoardExercise', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: 'exercise_type=' + encodeURIComponent(exerciseType)
+            body: 'exercise=' + encodeURIComponent(exerciseType)
         })
-            .then(response => response.text())
-            .then(data => {
-                // You can dynamically update the leaderboard content here if you want
-                console.log("Server response:", data);
-                // Optionally: document.getElementById("leaderboard-section").innerHTML = data;
+            .then(response => {
+                if (response.ok) {
+                    // Success - you could reload the page to show new data
+                    window.location.reload();
+                    // Alternatively, you could update the DOM directly with the new data
+                    // if the server returns the data in the response
+                } else {
+                    console.error('Error sending exercise type to server');
+                }
             })
             .catch(error => console.error('Error:', error));
     }
-
 });
