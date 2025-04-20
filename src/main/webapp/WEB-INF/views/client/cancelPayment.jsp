@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment Cancelled</title>
+</head>
+<body>
+<h2>Payment Cancelled</h2>
+<p>You have cancelled the payment.</p>
+</body>
+</html>
