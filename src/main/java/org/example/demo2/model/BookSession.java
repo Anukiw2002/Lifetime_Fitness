@@ -11,6 +11,7 @@ public class BookSession {
     private int userId;
     private String fname;
     private String lname;
+    private String phoneNumber;
 
     //Constructor which is needed to retreive the sessions of a client
     public BookSession(Date date, Time timeSlot){
@@ -72,5 +73,13 @@ public class BookSession {
 
     public void setLname(String lname){
         this.lname = lname;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
