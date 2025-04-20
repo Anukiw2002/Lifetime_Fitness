@@ -95,6 +95,12 @@ tr:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.date-header {
+    background: var(--bg-dark);
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
 /* Responsive design for filters */
 @media (max-width: 1200px) {
     .filters {

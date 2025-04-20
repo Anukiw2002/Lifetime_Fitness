@@ -211,6 +211,43 @@ public class BookSessionDAO {
         return sessionList;
     }
 
+    public List<BookSession> getTodayBookedSessions() {
+        List<BookSession> sessionList = new ArrayList<>();
+        String sql = "SELECT b.date, b.timeSlot, b.status, u.full_name AS fname, u.username AS lname, cd.phone_number " +
+                "FROM bookings b " +
+                "INNER JOIN users u ON u.id = b.userId " +
+                "LEFT JOIN client_details cd ON b.userId = cd.user_id " +
+                "WHERE b.date = CURRENT_DATE AND b.timeSlot >= CURRENT_TIME AND b.status='booked' " +
+                "ORDER BY b.date, b.timeSlot ASC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                while (rs.next()) {
+                    // Get the values from ResultSet first
+                    Date date = rs.getDate("date");
+                    Time timeSlot = rs.getTime("timeSlot");
+
+                    // Create the object with constructor
+                    BookSession b = new BookSession(date, timeSlot);
+
+                    b.setFname(rs.getString("fname"));
+                    b.setLname(rs.getString("lname"));
+                    b.setPhoneNumber(rs.getString("phone_number"));
+
+                    // Add the object to the list
+                    sessionList.add(b);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sessionList;
+    }
+
     public boolean cancelSession(int bookingId){
         String sql = "UPDATE bookings SET status = 'cancelled' WHERE bookingId = ? ";
 

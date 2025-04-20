@@ -8,21 +8,22 @@ import java.io.IOException;
 public class SessionUtils {
 
     // Method to check if the user is authorized
-    public static boolean isUserAuthorized(HttpServletRequest request, HttpServletResponse response, String requiredRole) throws IOException {
-        HttpSession session = request.getSession(false);  // Use 'false' to avoid creating a new session
+    // Accepts any number of allowed roles
+    public static boolean isUserAuthorized(HttpServletRequest request, HttpServletResponse response, String... allowedRoles) throws IOException {
+        HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return false;
         }
 
         String userRole = (String) session.getAttribute("userRole");
-        if (requiredRole.equals(userRole)) {
-            return true; // Authorized user, proceed with the page
-        } else {
-            // Unauthorized user, redirect to access denied page
-            response.sendRedirect(request.getContextPath() + "/jsp/accessDenied.jsp");
-            return false;
+        for (String role : allowedRoles) {
+            if (role.equals(userRole)) {
+                return true;
+            }
         }
+        response.sendRedirect(request.getContextPath() + "/jsp/accessDenied.jsp");
+        return false;
     }
+
 }

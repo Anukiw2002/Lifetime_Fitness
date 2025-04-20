@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -138,31 +139,31 @@
                         <h2><i class="fas fa-calendar-alt"></i> Upcoming Sessions</h2>
                     </div>
                     <div class="card-body">
-                        <div class="session-card">
-                            <div class="session-header">
-                                <h3>HIIT Training</h3>
-                                <span class="session-time">9:00 AM</span>
-                            </div>
-                            <p class="text-muted">Client: John Doe</p>
-                            <p class="text-muted">Phone: +94 77 123 4567</p>
-                        </div>
-                        <div class="session-card">
-                            <div class="session-header">
-                                <h3>Strength Training</h3>
-                                <span class="session-time">10:30 AM</span>
-                            </div>
-                            <p class="text-muted">Client: Jane Smith</p>
-                            <p class="text-muted">Phone: +94 77 987 6543</p>
-                        </div>
-                        <div class="session-card">
-                            <div class="session-header">
-                                <h3>Cardio Session</h3>
-                                <span class="session-time">2:00 PM</span>
-                            </div>
-                            <p class="text-muted">Client: Mike Johnson</p>
-                            <p class="text-muted">Phone: +94 77 456 7890</p>
+                        <c:if test="${empty bookings}">
+                            <p class="text-muted">No upcoming sessions for the day.</p>
+                        </c:if>
+
+                        <c:forEach var="booking" items="${bookings}" varStatus="status">
+                            <c:if test="${status.index < 5}">
+                                <div class="session-card">
+                                    <div class="session-header">
+                                        <h3>${booking.fname} ${booking.lname}</h3>
+                                        <span class="session-time">
+                                        <fmt:formatDate value="${booking.timeSlot}" pattern="hh:mm a" />
+                                        </span>
+                                    </div>
+                                    <p class="text-muted">Phone: ${booking.phoneNumber}</p>
+                                </div>
+                            </c:if>
+                        </c:forEach>
+
+                        <div class="view-all-container">
+                            <a href="${pageContext.request.contextPath}/viewBookings" class="btn btn-primary">
+                                <i class="fas fa-list"></i> View All Sessions
+                            </a>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
