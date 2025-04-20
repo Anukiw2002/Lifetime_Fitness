@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.demo2.dao.UserDAO;
 import org.example.demo2.model.User;
-import org.example.demo2.util.HashUtil;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,8 +22,6 @@ public class ResetPasswordServlet extends HttpServlet {
 
         // Debugging
         System.out.println("Received resetCode: " + resetCode);
-        System.out.println("Received newPassword: " + newPassword);
-        System.out.println("Received confirmPassword: " + confirmPassword);
 
         // Validate inputs
         if (resetCode == null || resetCode.isEmpty() ||
@@ -57,24 +54,20 @@ public class ResetPasswordServlet extends HttpServlet {
                 return;
             }
 
-            // Hash the new password and update the user
-            String hashedPassword = HashUtil.hashPassword(newPassword);
-            userDAO.updatePassword(user.getEmail(), hashedPassword);
-
-            // Clear the reset token
-            userDAO.setResetToken(user.getEmail(), null, null);
+            // Pass the plain password to updatePassword method
+            // The method will handle the hashing internally
+            userDAO.updatePassword(user.getEmail(), newPassword);
 
             System.out.println("Password reset successful for user: " + user.getEmail());
 
             // Redirect to login page
-            response.sendRedirect(request.getContextPath() + "testView?page=login");
+            response.sendRedirect(request.getContextPath() + "/testView?page=login");
 
         } catch (SQLException e) {
             System.err.println("Error occurred during password reset:");
             e.printStackTrace();
             request.setAttribute("message", "An error occurred while resetting your password. Please try again.");
-            response.sendRedirect(request.getContextPath() + "testView?page=login");
-
+            request.getRequestDispatcher("/WEB-INF/views/client/resetPasswordForm.jsp").forward(request, response);
         }
     }
 }

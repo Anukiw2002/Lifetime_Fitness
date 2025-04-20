@@ -15,10 +15,6 @@
     <h2>Receipt Details</h2>
     <table>
         <tr>
-            <td><strong>Merchant:</strong></td>
-            <td>Company ABC Ltd.</td>
-        </tr>
-        <tr>
             <td><strong>Payer:</strong></td>
             <td>${payer.firstName} ${payer.lastName}</td>
         </tr>

@@ -22,11 +22,6 @@ public class ForgotPasswordServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
-            response.sendRedirect(request.getContextPath() + "/landingPage");
-            return;
-        }
         String email = request.getParameter("email");
 
         // Validate email input
@@ -54,7 +49,7 @@ public class ForgotPasswordServlet extends HttpServlet {
                         .toString()
                         .replace(request.getServletPath(), "/resetPassword?token=" + token);
 
-                String emailBody = "<p>Hi " + user.getFullName() + ",</p>"
+                String emailBody = "Hi " + user.getFullName() + ",</p>"
                         + "<p>Your password reset code is: <strong>" + token + "</strong></p>"
                         + "<p>This code will expire in 1 hour.</p>"
                         + "<p>If you did not request this, please ignore this email.</p>";
