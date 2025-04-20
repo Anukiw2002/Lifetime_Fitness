@@ -12,6 +12,7 @@ public class BookSession {
     private String fname;
     private String lname;
     private String phoneNumber;
+    private String displayDateLabel;
 
     //Constructor which is needed to retreive the sessions of a client
     public BookSession(Date date, Time timeSlot){
@@ -81,5 +82,13 @@ public class BookSession {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getDisplayDateLabel() {
+        return displayDateLabel;
+    }
+
+    public void setDisplayDateLabel(String displayDateLabel) {
+        this.displayDateLabel = displayDateLabel;
     }
 }

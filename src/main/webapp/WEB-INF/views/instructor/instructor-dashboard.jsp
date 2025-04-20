@@ -158,7 +158,7 @@
                         </c:forEach>
 
                         <div class="view-all-container">
-                            <a href="${pageContext.request.contextPath}/instructor/allSessions" class="btn btn-primary">
+                            <a href="${pageContext.request.contextPath}/viewBookings" class="btn btn-primary">
                                 <i class="fas fa-list"></i> View All Sessions
                             </a>
                         </div>
