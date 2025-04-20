@@ -158,7 +158,7 @@ public class LeaderboardDAO {
 
     public  List<LeaderBoardEntry> getEntriesByExercise(String exerciseType){
         List<LeaderBoardEntry> entries = new ArrayList<>();
-        String sql = "SELECT full_name, amount FROM leaderboard WHERE category = ? ORDER BY amount DESC";
+        String sql = "SELECT l.user_id, l.full_name, l.amount, cd.profile_picture FROM leaderboard l LEFT JOIN client_details cd ON l.user_id = cd.user_id WHERE category = ? ORDER BY amount DESC";
 
         try(Connection con = DBConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql)){
@@ -169,6 +169,12 @@ public class LeaderboardDAO {
                 LeaderBoardEntry entry = new LeaderBoardEntry();
                 entry.setFull_name(rs.getString("full_name"));
                 entry.setAmount(rs.getInt("amount"));
+
+                byte[] profilePicture = rs.getBytes("profile_picture");
+                if (profilePicture != null) {
+                    entry.setProfilePicture(profilePicture);
+                }
+
                 entries.add(entry);
 
             }
