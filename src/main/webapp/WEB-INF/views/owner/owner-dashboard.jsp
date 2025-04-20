@@ -41,7 +41,9 @@
 
         <div class="dashboard-grid">
             <div class="stat-card">
-
+                <div class="stat-value">
+                    <c:out value="${count}" />
+                </div>
                 <div class="stat-label">Active Members</div>
             </div>
             <div class="stat-card">
