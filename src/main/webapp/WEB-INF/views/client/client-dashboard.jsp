@@ -110,7 +110,9 @@
                         <h3>${membership[0].planName} Membership Plan</h3>
                         <fmt:parseDate value="${membership[0].endDate}" pattern="yyyy-MM-dd" var="parsedDate" />
                         <p class="text-muted mb-4">Valid until: <fmt:formatDate value="${parsedDate}" pattern="MMMM d, yyyy" /></p>
-                        <button class="btn btn-primary w-full">Change Package</button>
+                        <button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/Plans'">
+                            <i class="fas fa-plus"></i> Change Package
+                        </button>
                     </div>
                 </div>
                 <div class="action-buttons">

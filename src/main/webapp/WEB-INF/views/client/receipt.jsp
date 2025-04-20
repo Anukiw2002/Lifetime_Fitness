@@ -9,6 +9,9 @@
 </head>
 <body>
 <div class="container">
+    <div class="logo-container">
+        <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
+    </div>
     <h1>Payment Successful 💪</h1>
     <p>Thank you for purchasing the workout plan!</p>
 

@@ -56,7 +56,7 @@ h1::after {
 
 h2 {
     margin-top: 2rem;
-    color: var(--primary-color);
+    color: var(--text-color);
     font-size: 1.5rem;
 }
 
