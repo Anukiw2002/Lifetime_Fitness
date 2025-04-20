@@ -3,7 +3,10 @@ package org.example.demo2.servlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import org.example.demo2.dao.InstructorOnBoardingDAO;
 import org.example.demo2.model.Instructor;
 import org.example.demo2.util.SessionUtils;
@@ -11,41 +14,51 @@ import org.example.demo2.util.SessionUtils;
 import java.io.IOException;
 import java.io.InputStream;
 
-@WebServlet("/instructorEditProfile")
+@WebServlet("/editInstructor")
 @MultipartConfig
-public class InstructorEditProfileServlet extends HttpServlet {
-    @Override
+public class OwnerEditInstructorServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
+        if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
+            response.sendRedirect("landingPage");
             return;
         }
+        // Check if an instructor ID was provided
+        String instructorIdParam = request.getParameter("id");
 
-        HttpSession session = request.getSession(false);
-        int userId = (int) session.getAttribute("userId");
-        request.setAttribute("userId", userId);
+        if (instructorIdParam != null && !instructorIdParam.isEmpty()) {
+            try {
+                int instructorId = Integer.parseInt(instructorIdParam);
+                InstructorOnBoardingDAO instructorOnBoardingDAO = new InstructorOnBoardingDAO();
+                Instructor instructor = instructorOnBoardingDAO.getInstructorById(instructorId);
 
-        try {
-            InstructorOnBoardingDAO instructorOnBoardingDAO = new InstructorOnBoardingDAO();
-            Instructor instructor = instructorOnBoardingDAO.getInstructorById(userId);
+                if (instructor == null) {
+                    // Instructor not found, redirect to the instructor management page
+                    response.sendRedirect("viewInstructor");
+                    return;
+                }
 
-            request.setAttribute("instructor", instructor);
-            request.getRequestDispatcher("/WEB-INF/views/instructor/instructorEditProfile.jsp").forward(request, response);
-
-        } catch (NumberFormatException e) {
-            response.sendRedirect("instructorEditProfile");
+                request.setAttribute("instructor", instructor);
+                request.getRequestDispatcher("/WEB-INF/views/owner/editInstructor.jsp").forward(request, response);
+            } catch (NumberFormatException e) {
+                // Invalid ID format, redirect to instructor management
+                response.sendRedirect("viewInstructor");
+                return;
+            }
+        } else {
+            // No ID provided, redirect to instructor management
+            response.sendRedirect("viewInstructor");
+            return;
         }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
+        if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
             response.sendRedirect("landingPage");
             return;
         }
 
-        HttpSession session = request.getSession(false);
-        int userId = (int) session.getAttribute("userId");
-        request.setAttribute("userId", userId);
-
+        // Get form data
+        int userId = Integer.parseInt(request.getParameter("userId"));
         String firstName = request.getParameter("firstName");
         String surname = request.getParameter("surname");
         String email = request.getParameter("email");
@@ -95,6 +108,8 @@ public class InstructorEditProfileServlet extends HttpServlet {
                 }
             }
         }
-        response.sendRedirect("instructorProfile");
+
+        // Redirect to the instructor view page
+        response.sendRedirect("viewInstructor?id=" + userId);
     }
 }
