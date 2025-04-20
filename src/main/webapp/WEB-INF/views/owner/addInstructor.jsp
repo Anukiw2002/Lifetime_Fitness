@@ -17,25 +17,25 @@
             </div>
 
             <div class="card-body">
-                <form action="#" method="POST" id="instructorForm">
-                    <div class="form-group">
-                        <label class="form-label" for="fullName">Full Name*</label>
-                        <input type="text" id="fullName" name="fullName" class="form-control" required>
-                    </div>
-
+                <form action="addInstructor" method="POST" id="instructorForm">
                     <div class="grid grid-2">
                         <div class="form-group">
-                            <label class="form-label" for="email">Email*</label>
-                            <input type="email" id="email" name="email" class="form-control" required>
+                            <label class="form-label" for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="phone">Phone Number*</label>
-                            <input type="tel" id="phone" name="phone" class="form-control" required>
+                            <label class="form-label" for="surname">Surname</label>
+                            <input type="text" id="surname" name="lastName" class="form-control" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="tempPassword">Temporary Password*</label>
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="tempPassword">Temporary Password</label>
                         <div class="password-field">
                             <input type="text" id="tempPassword" name="tempPassword" class="form-control" required readonly>
                             <button type="button" class="btn btn-secondary generate-btn" onclick="generatePassword()">Generate</button>
@@ -48,12 +48,8 @@
                     <div class="credentials-box" id="credentialsBox" style="display: none;">
                         <div class="credentials-header">
                             <h3>Login Credentials</h3>
-                            <button type="button" class="btn btn-primary" onclick="copyCredentials()">
-                                Copy Credentials
-                            </button>
                         </div>
                         <div class="credentials-content">
-                            <p><strong>Website:</strong> lifetimefitness.lk/login</p>
                             <p><strong>Email:</strong> <span id="credEmail"></span></p>
                             <p><strong>Password:</strong> <span id="credPassword"></span></p>
                         </div>
@@ -67,8 +63,6 @@
             </div>
         </div>
     </div>
-
-    <div class="toast" id="toast">Credentials copied to clipboard!</div>
 </div>
 
 

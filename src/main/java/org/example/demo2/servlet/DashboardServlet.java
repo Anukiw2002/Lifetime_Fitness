@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.demo2.dao.InstructorDashboardDAO;
 import org.example.demo2.util.DBConnection;
 import org.example.demo2.util.SessionUtils;
 import org.json.JSONObject;
@@ -76,6 +77,9 @@ public class DashboardServlet extends HttpServlet {
         }
 
         // If it's NOT an AJAX request, process JSP forwarding
+        InstructorDashboardDAO dao = new InstructorDashboardDAO();
+        int count = 0;
+
         int membershipPlanCount = 0;
         int instructors = 0;
         try (Connection conn = DBConnection.getConnection()) {
@@ -88,6 +92,7 @@ public class DashboardServlet extends HttpServlet {
                 PreparedStatement stmt2 = conn.prepareStatement(query2);
                 ResultSet rs1 = stmt1.executeQuery();
                 ResultSet rs2 = stmt2.executeQuery();
+                count = dao.getActiveMembers();
 
                 if (rs1.next()) {
                     membershipPlanCount = rs1.getInt("count");
@@ -101,6 +106,7 @@ public class DashboardServlet extends HttpServlet {
                 System.out.println("membershipPlanCount: " + membershipPlanCount);
                 request.setAttribute("membershipPlanCount", membershipPlanCount);
                 request.setAttribute("instructors", instructors);
+                request.setAttribute("count", count);
             }
         } catch (Exception e) {
             e.printStackTrace();

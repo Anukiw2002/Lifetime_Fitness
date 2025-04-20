@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,7 @@
     <title>Workout Summary Stats</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/workoutStats.css">
+
 </head>
 <body>
 <jsp:include page="../client/clientVerticalNavbar.jsp" />
@@ -56,25 +58,30 @@
         </div>
 
         <!-- Personal Bests Section -->
+        <!-- Personal Bests Section -->
         <div class="personal-bests">
             <h3>New Personal Bests <i data-lucide="trophy" class="inline-icon"></i></h3>
-            <div class="pb-grid">
-                <div class="pb-card">
-                    <div class="pb-exercise">Bench Press</div>
-                    <div class="stat-value">
-                        <span id="benchPbValue">85</span>
-                        <span class="stat-unit">kg</span>
+            <c:choose>
+                <c:when test="${not empty personalBests}">
+                    <div class="pb-grid">
+                        <c:forEach var="pb" items="${personalBests}">
+                            <div class="pb-card">
+                                <div class="pb-exercise">${pb.exerciseName}</div>
+                                <div class="stat-value">
+                                    <span id="pbValue">${pb.weight}</span>
+                                    <span class="stat-unit">kg</span>
+                                </div>
+                                <c:if test="${pb.isFirstTime}">
+                                    <div class="first-time-badge">First Time</div>
+                                </c:if>
+                            </div>
+                        </c:forEach>
                     </div>
-                </div>
-                <div class="pb-card">
-                    <div class="pb-exercise">Squat</div>
-                    <div class="stat-value">
-                        <span id="squatPbValue">120</span>
-                        <span class="stat-unit">kg</span>
-                    </div>
-                </div>
-                <!-- Add more PB cards as needed -->
-            </div>
+                </c:when>
+                <c:otherwise>
+                    <p class="text-muted">No new personal bests in this workout. Keep pushing!</p>
+                </c:otherwise>
+            </c:choose>
         </div>
 
         <!-- Workout Summary -->
@@ -111,8 +118,8 @@
     function finishWorkout() {
         // Implement workout completion logic
         console.log('Completing workout...');
-        // Redirect to workout history or dashboard
-        // window.location.href = 'workoutHistory.jsp';
+        // Redirect to the client workout view
+        window.location.href = 'http://localhost:8080/clientWorkoutView';
     }
 
     // Update stats with actual values from your backend

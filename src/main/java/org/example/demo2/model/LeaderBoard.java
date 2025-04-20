@@ -1,4 +1,5 @@
 package org.example.demo2.model;
+import java.util.Base64;
 
 public class LeaderBoard {
     private String name;
@@ -8,6 +9,8 @@ public class LeaderBoard {
     private double weightLoss;
     private int rank;
     private int streak;
+    private byte[] profilePicture;
+    private String profilePictureBase64;
 
     public String getName(){return name;}
     public void setName(String name){this.name = name;}
@@ -29,5 +32,16 @@ public class LeaderBoard {
 
     public int getStreak(){return streak;}
     public void setStreak(int streak){this.streak = streak;}
+
+    public byte[] getProfilePicture() { return profilePicture; }
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+        if (profilePicture != null) {
+            this.profilePictureBase64 = Base64.getEncoder().encodeToString(profilePicture);
+        }
+    }
+
+    public String getProfilePictureBase64() { return profilePictureBase64; }
+    public void setProfilePictureBase64(String profilePictureBase64) { this.profilePictureBase64 = profilePictureBase64; }
 }
 

@@ -1,6 +1,7 @@
 package org.example.demo2.dao;
 
 import org.example.demo2.model.LeaderBoard;
+import org.example.demo2.model.LeaderBoardEntry;
 import org.example.demo2.util.DBConnection;
 
 import java.sql.Connection;
@@ -16,11 +17,13 @@ public class LeaderboardDAO {
         List<LeaderBoard> list = new ArrayList<>();
         String sql = "SELECT RANK() OVER (ORDER BY (ur.body_weight - ue.weight) DESC) AS rank, " +
                 "ur.name, ur.email, ur.body_weight, ue.weight, " +
-                "(ur.body_weight - ue.weight) AS weight_loss " +
+                "(ur.body_weight - ue.weight) AS weight_loss, cd.profile_picture " +
                 "FROM user_reports ur " +
                 "JOIN (SELECT email, weight FROM user_exercises WHERE (email, exercise_date) IN " +
                 "(SELECT email, MAX(exercise_date) FROM user_exercises GROUP BY email)) ue " +
                 "ON ur.email = ue.email " +
+                "JOIN users u ON ur.email = u.email " +
+                "JOIN client_details cd ON u.id = cd.user_id " +
                 "ORDER BY rank";
 
         try (Connection con = DBConnection.getConnection();
@@ -34,6 +37,11 @@ public class LeaderboardDAO {
                 user.setCurrentWeight(rs.getDouble("weight"));
                 user.setWeightLoss(rs.getDouble("weight_loss"));
                 user.setRank(rs.getInt("rank"));
+
+                byte[] profilePicture = rs.getBytes("profile_picture");
+                if (profilePicture != null) {
+                    user.setProfilePicture(profilePicture);
+                }
                 list.add(user);
             }
         }
@@ -57,7 +65,7 @@ public class LeaderboardDAO {
                         "streaks AS ( " +
                         "    SELECT user_id, COUNT(*) AS streak " +
                         "    FROM grouped_dates " +
-                        "    WHERE workout_date >= CURRENT_DATE - INTERVAL '7 days' " + // optional filter
+                        "    WHERE workout_date >= CURRENT_DATE - INTERVAL '7 days' " +
                         "    GROUP BY user_id, grp " +
                         "), " +
                         "latest_streaks AS ( " +
@@ -67,10 +75,12 @@ public class LeaderboardDAO {
                         "), " +
                         "final_result AS ( " +
                         "    SELECT u.full_name, COALESCE(ls.current_streak, 0) AS streak, " +
-                        "           RANK() OVER (ORDER BY COALESCE(ls.current_streak, 0) DESC) AS rank " +
+                        "           RANK() OVER (ORDER BY COALESCE(ls.current_streak, 0) DESC) AS rank, " +
+                        "           cd.profile_picture " +
                         "    FROM users u " +
                         "    LEFT JOIN latest_streaks ls ON u.id = ls.user_id " +
-                        "    WHERE u.id IN (SELECT DISTINCT user_id FROM client_workouts) " + // Only users in client_workouts
+                        "    LEFT JOIN client_details cd ON u.id = cd.user_id " +
+                        "    WHERE u.id IN (SELECT DISTINCT user_id FROM client_workouts) " +
                         ") " +
                         "SELECT * FROM final_result ORDER BY rank LIMIT 10";
 
@@ -84,9 +94,87 @@ public class LeaderboardDAO {
                 user.setName(rs.getString("full_name"));
                 user.setStreak(rs.getInt("streak"));
                 user.setRank(rs.getInt("rank"));
+
+                byte[] profilePicture = rs.getBytes("profile_picture");
+                if (profilePicture != null) {
+                    user.setProfilePicture(profilePicture);
+                }
+
                 list.add(user);
             }
         }
         return list;
+    }
+
+    public int getUserByPhone(String phoneNumber) throws SQLException {
+        int userId = -1;
+        try (Connection con = DBConnection.getConnection();
+        PreparedStatement ps = con.prepareStatement("SELECT user_id FROM client_details WHERE phone_number = ?")){
+            ps.setString(1, phoneNumber);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                userId = rs.getInt("user_id");
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userId;
+    }
+
+    public String getFullNameByUserId(int userId) throws SQLException {
+        String fullName = null;
+        try(Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement("SELECT full_name FROM users WHERE id = ?")){
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+                fullName = rs.getString("full_name");
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return fullName;
+    }
+
+    public boolean insertIntoLeaderBoard(int userId, String fullName, String category, double amount){
+        boolean inserted = false;
+        String sql = "INSERT INTO leaderboard (user_id, full_name, category, amount) VALUES (?,?,?,?)";
+
+        try(Connection con = DBConnection.getConnection();
+        PreparedStatement ps = con.prepareStatement(sql)){
+            ps.setInt(1,userId);
+            ps.setString(2, fullName);
+            ps.setString(3, category);
+            ps.setDouble(4, amount);
+
+            inserted = ps.executeUpdate() > 0;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return inserted;
+
+    }
+
+    public  List<LeaderBoardEntry> getEntriesByExercise(String exerciseType){
+        List<LeaderBoardEntry> entries = new ArrayList<>();
+        String sql = "SELECT full_name, amount FROM leaderboard WHERE category = ? ORDER BY amount DESC";
+
+        try(Connection con = DBConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(sql)){
+            stmt.setString(1,exerciseType);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                LeaderBoardEntry entry = new LeaderBoardEntry();
+                entry.setFull_name(rs.getString("full_name"));
+                entry.setAmount(rs.getInt("amount"));
+                entries.add(entry);
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return entries;
     }
 }

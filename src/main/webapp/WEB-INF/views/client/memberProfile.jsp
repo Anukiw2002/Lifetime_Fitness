@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,12 +14,17 @@
     <div class="container">
         <div class="card mb-4">
             <div class="card-body text-center">
-                <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg"
-                     alt="Profile Picture"
-                     class="profile-image">
+                <c:choose>
+                    <c:when test="${empty client.profilePictureBase64}">
+                        <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Default Profile Picture" class="profile-image">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="data:image/jpeg;base64,${client.profilePictureBase64}" alt="Profile Picture" class="profile-image">
+                    </c:otherwise>
+                </c:choose>
                 <h1 class="mb-2">${client.name}</h1>
                 <div class="text-muted mb-3">
-                    <h2 class="mb-1">${membership[0].planName} Membership Plan</h2>
+                    <h3 class="mb-1">${membership[0].planName} Membership Plan</h3>
                     <p>Expiration Date: ${membership[0].endDate}</p>
                 </div>
             </div>
@@ -75,12 +81,13 @@
             <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientEditProfile'">
                 Edit Profile
             </button>
-            <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientBookings'">
-                View Schedule
+            <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/handleReview'">
+                Review
             </button>
-            <button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/bookSession'">
-                Book Class
+            <button class="btn btn-secondary">
+                Complaints
             </button>
+
         </div>
     </div>
 </div>

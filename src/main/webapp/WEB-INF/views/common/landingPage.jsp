@@ -227,55 +227,73 @@
         </div>
     </section>
 
-<!-- Our Coaches Section -->
     <!-- Our Coaches Section -->
     <section class="coaches-section" data-aos="fade-up">
         <div class="container">
             <h1 class="carousel-title"><u>OUR COACHES</u></h1>
             <div class="coaches-grid">
-                <div class="coach-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="coach-image">
-                        <img src="/images/Head Coach.png" alt="Head Coach">
-                    </div>
-                    <div class="coach-info">
-                        <h3>
-                            Maduranga Perera</h3>
-                        <p>Founder, Head Coach</p>
-                    </div>
-                </div>
+                <c:forEach var="instructor" items="${instructors}">
+                    <c:if test="${instructor.isActive}">
+                        <div class="coach-card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="coach-image">
+                                <c:choose>
+                                    <c:when test="${empty instructor.profilePictureBase64}">
+                                        <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Default Profile Picture">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="data:image/jpeg;base64,${instructor.profilePictureBase64}" alt="${instructor.firstName} ${instructor.surname}" >
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div class="coach-info">
+                                <h3>${instructor.firstName} ${instructor.surname}</h3>
+                                <c:forEach var="cert" items="${instructor.certificates}">
+                                    <p>${cert.certificationName} (${cert.certificationProvider})</p>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </c:if>
+                </c:forEach>
+            </div>
+        </div>
+    </section>
 
-                <div class="coach-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="coach-image">
-                        <img src="/images/coach4.png" alt="Fitness Trainer">
-                    </div>
-                    <div class="coach-info">
-                        <h3>Avishka Senevirathana</h3>
-                        <p>Instructor</p>
-                    </div>
-                </div>
 
-                <div class="coach-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="coach-image">
-                        <img src="/images/kavindu.png" alt="Strength Coach">
+    <section class="reviews-container" id="reviews" data-aos="fade-up">
+        <div class="container">
+            <h1 class="carousel-title"><u>REVIEWS</u></h1>
+
+            <div class="review-carousel">
+                <div class="review-track">
+                    <c:forEach var="review" items="${reviews}" varStatus="status">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                        ${fn:substring(review.name, 0, 1)}
+                                </div>
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">${review.name}</div>
+                                    <div class="review-date">${review.createdAt}</div>
+                                </div>
+                            </div>
+                            <div class="review-rating">
+                                <c:forEach begin="1" end="${review.rating}">★</c:forEach>
+                            </div>
+                            <div class="review-content">"${review.review}"</div>
+                        </div>
+                    </c:forEach>
+                </div>
+                <div class="review-controls">
+                    <button class="review-nav prev" aria-label="Previous reviews">❮</button>
+                    <div class="review-indicators">
+                        <!-- Indicators will be added dynamically via JS -->
                     </div>
-                    <div class="coach-info">
-                        <h3>Kavindu Pathiratne</h3>
-                        <p>Instructor</p>
-                    </div>
+                    <button class="review-nav next" aria-label="Next reviews">❯</button>
                 </div>
             </div>
         </div>
     </section>
 
-<section class="reviews-container" id="reviews" data-aos="fade-up">
-    <div class="container">
-        <h1 class="carousel-title"><u>REVIEWS</u></h1>
-
-        <div class="grid grid-3">
-
-        </div>
-    </div>
-</section>
 
     <!-- Transformations Section -->
     <section class="transformations-section" data-aos="fade-up">

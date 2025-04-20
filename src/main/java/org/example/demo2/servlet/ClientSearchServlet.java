@@ -56,7 +56,7 @@ public class ClientSearchServlet extends HttpServlet {
             }
         } else {
             // First time visiting the page or no phone number entered
-            request.getRequestDispatcher("/WEB-INF/views/instructor/instructor-search.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/instructor/client-search.jsp").forward(request, response);
         }
     }
 }

@@ -87,6 +87,11 @@
 <jsp:include page="../common/verticalNavBar.jsp" />
 <div class="main-content">
     <div class="container">
+        <div class="flex justify-end items-center mb-4">
+            <button class="btn btn-primary" onclick="location.href='/booking/constraints'">
+                <i class="fas fa-calendar-xmark"></i> Booking Constraints
+            </button>
+        </div>
         <!-- Filter section -->
         <div class="card mb-4">
             <div class="card-body">

@@ -24,7 +24,20 @@
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-md);
-    transition: var(--transition);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.instructor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.instructor-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 .instructor-image {
@@ -47,13 +60,9 @@
     color: white;
 }
 
-.instructor-status.on-leave {
+.instructor-status.inactive {
     background-color: var(--warning-color);
     color: var(--bg-dark);
-}
-
-.rating {
-    color: var(--accent-color);
 }
 
 .btn-icon {
@@ -73,4 +82,8 @@
 
 .controls-wrapper {
     margin-bottom: var(--spacing-xl);
+}
+
+.col-span-3 {
+    grid-column: 1 / -1;
 }

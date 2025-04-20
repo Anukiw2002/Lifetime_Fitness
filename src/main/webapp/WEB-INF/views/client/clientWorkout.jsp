@@ -128,10 +128,6 @@
                                     <i class="far fa-calendar-alt"></i>
                                     <fmt:formatDate value="${workout.createdAtDate}" pattern="MMM dd, yyyy"/>
                                 </div>
-                                <div class="flex items-center gap-sm text-muted mt-2">
-                                    <i class="fas fa-user-tie"></i>
-                                    <span>Instructor ID: ${workout.instructorId}</span>
-                                </div>
                                 <div class="mt-3">
                                     <a href="${pageContext.request.contextPath}/client/ViewExercises?page=clientWorkoutDetails&workoutId=${workout.workoutId}"
                                        class="btn btn-primary btn-sm">

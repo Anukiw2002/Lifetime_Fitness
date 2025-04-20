@@ -8,9 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class WorkoutLogsDAO {
 
@@ -283,5 +281,104 @@ public class WorkoutLogsDAO {
             e.printStackTrace();
         }
     }
+
+    public List<Map<String, Object>> getPersonalBests(int userId, int workoutId, int sessionId) {
+        List<Map<String, Object>> personalBests = new ArrayList<>();
+
+        // Find the maximum weight lifted for each exercise in the current session
+        String currentSessionSql =
+                "SELECT e.exercise_name, uwl.exercise_id, MAX(uwl.weight) as session_max_weight " +
+                        "FROM user_workout_logs uwl " +
+                        "JOIN exercises e ON uwl.exercise_id = e.exercise_id " +
+                        "WHERE uwl.user_id = ? AND uwl.session_id = ? " +
+                        "GROUP BY e.exercise_name, uwl.exercise_id " +
+                        "ORDER BY uwl.exercise_id";
+
+        // Find historical personal bests (before this session)
+        String historicalSql =
+                "SELECT exercise_id, MAX(weight) as historical_max " +
+                        "FROM user_workout_logs " +
+                        "WHERE user_id = ? AND session_id != ? " +
+                        "GROUP BY exercise_id";
+
+        try (Connection con = DBConnection.getConnection()) {
+            Map<Integer, Double> historicalMaxes = new HashMap<>();
+
+            // First, get historical maxes
+            try (PreparedStatement pstmt = con.prepareStatement(historicalSql)) {
+                pstmt.setInt(1, userId);
+                pstmt.setInt(2, sessionId);
+
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int exerciseId = rs.getInt("exercise_id");
+                        double maxWeight = rs.getDouble("historical_max");
+                        historicalMaxes.put(exerciseId, maxWeight);
+                    }
+                }
+            }
+
+            // Then get current session maxes and compare
+            try (PreparedStatement pstmt = con.prepareStatement(currentSessionSql)) {
+                pstmt.setInt(1, userId);
+                pstmt.setInt(2, sessionId);
+
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int exerciseId = rs.getInt("exercise_id");
+                        String exerciseName = rs.getString("exercise_name");
+                        double sessionMaxWeight = rs.getDouble("session_max_weight");
+
+                        // If exercise has no history, or current max is greater than historical max
+                        // then it's a personal best
+                        if (!historicalMaxes.containsKey(exerciseId) ||
+                                sessionMaxWeight > historicalMaxes.get(exerciseId)) {
+
+                            Map<String, Object> pb = new HashMap<>();
+                            pb.put("exerciseName", exerciseName);
+                            pb.put("weight", sessionMaxWeight);
+                            pb.put("isFirstTime", !historicalMaxes.containsKey(exerciseId));
+
+                            personalBests.add(pb);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return personalBests;
+    }
+
+    public boolean insertOrUpdateWorkoutLogsWithSession(
+            int sessionId, int userId, int workoutId, int exerciseId,
+            int setNumber, Double weight, int reps, String notes
+    ) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+        String checkSql = "SELECT log_id FROM user_workout_logs WHERE session_id = ? AND exercise_id = ? AND set_number = ?";
+        PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+        checkStmt.setInt(1, sessionId);
+        checkStmt.setInt(2, exerciseId);
+        checkStmt.setInt(3, setNumber);
+        ResultSet rs = checkStmt.executeQuery();
+
+        if (rs.next()) {
+            // If entry exists, update it
+            String updateSql = "UPDATE user_workout_logs SET weight = ?, reps = ?, notes = ? WHERE session_id = ? AND exercise_id = ? AND set_number = ?";
+            PreparedStatement updateStmt = conn.prepareStatement(updateSql);
+            updateStmt.setObject(1, weight);
+            updateStmt.setInt(2, reps);
+            updateStmt.setString(3, notes);
+            updateStmt.setInt(4, sessionId);
+            updateStmt.setInt(5, exerciseId);
+            updateStmt.setInt(6, setNumber);
+            return updateStmt.executeUpdate() > 0;
+        } else {
+            // If not exists, insert
+            return insertWorkoutLogsWithSession(sessionId, userId, workoutId, exerciseId, setNumber, weight, reps, notes);
+        }
+    }
+
 
 }

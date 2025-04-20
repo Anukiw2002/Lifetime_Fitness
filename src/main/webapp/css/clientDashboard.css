@@ -1,3 +1,21 @@
+/* Welcome Section with Date Badge */
+.welcome-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.date-badge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
 .stat-card {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
@@ -5,23 +23,45 @@
     padding: 1.5rem;
     border-radius: 8px;
     transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .stat-card:hover {
     transform: translateY(-5px);
 }
 
-.upcoming-session {
-    padding: 1rem;
-    border-left: 4px solid var(--primary-color);
-    margin-bottom: 1rem;
+.stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 1.2rem;
+    color: white;
 }
 
-.announcement {
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    background: rgba(255, 255, 255, 0.05);
-    margin-bottom: 1rem;
+/* Card headers with icons */
+.card-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0;
+}
+
+/* Action buttons layout */
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn i {
+    margin-right: 0.5rem;
 }
 
 .weight-trend {
@@ -33,4 +73,11 @@
     align-items: center;
     justify-content: center;
     color: var(--text-muted);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
 }

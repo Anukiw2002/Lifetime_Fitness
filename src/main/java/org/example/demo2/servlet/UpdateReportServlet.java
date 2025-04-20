@@ -79,11 +79,7 @@ public class UpdateReportServlet extends HttpServlet {
 
             while (exerciseRs.next()) {
                 Map<String, Object> exercise = new HashMap<>();
-                exercise.put("exercise_name", exerciseRs.getString("exercise_name"));
-                exercise.put("reps", exerciseRs.getInt("reps"));
-                exercise.put("sets", exerciseRs.getInt("sets"));
                 exercise.put("exercise_date", exerciseRs.getDate("exercise_date"));
-                exercise.put("rest", exerciseRs.getString("rest"));
                 exercise.put("weight", exerciseRs.getDouble("weight"));
                 exercises.add(exercise);
             }

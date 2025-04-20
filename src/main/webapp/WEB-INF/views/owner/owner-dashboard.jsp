@@ -26,22 +26,24 @@
                 Membership Plans
             </a>
             <a href="/clientMemberships" class="action-btn">
-                <i class="fas fa-dumbbell"></i>
+                <i class="fas fa-users"></i>
                 Member Management
             </a>
-            <a href="manageInstructors.jsp" class="action-btn">
-                <i class="fas fa-users"></i>
+            <a href="/instructorManagement" class="action-btn">
+                <i class="fas fa-user"></i>
                 Manage Instructors
             </a>
             <a href="reports.jsp" class="action-btn">
-                <i class="fas fa-chart-line"></i>
+                <i class="fas fa-file-alt"></i>
                 View Reports
             </a>
         </div>
 
         <div class="dashboard-grid">
             <div class="stat-card">
-
+                <div class="stat-value">
+                    <c:out value="${count}" />
+                </div>
                 <div class="stat-label">Active Members</div>
             </div>
             <div class="stat-card">
