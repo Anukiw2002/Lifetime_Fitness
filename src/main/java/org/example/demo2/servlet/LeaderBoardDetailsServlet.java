@@ -5,7 +5,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.LeaderboardDAO;
 
 import java.io.IOException;
@@ -16,48 +15,57 @@ public class LeaderBoardDetailsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         // Forward the request to leaderBoardDetails.jsp
         request.getRequestDispatcher("/WEB-INF/views/common/leaderBoardDetails.jsp").forward(request, response);
     }
 
     // Handles POST requests from the form submission
     @Override
-    protected  void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String phoneNumber = request.getParameter("clientSearch");
         String category = request.getParameter("category");
         String amount = request.getParameter("amount");
 
-        LeaderboardDAO leaderboardDAO = new LeaderboardDAO();
+        // Validate inputs
+        if (phoneNumber == null || phoneNumber.isEmpty() ||
+                category == null || category.isEmpty() ||
+                amount == null || amount.isEmpty()) {
 
-        int userId = 0;
-        try {
-            userId = leaderboardDAO.getUserByPhone(phoneNumber);
-
-            if(userId == -1){
-                response.getWriter().write("{\"success\": false, \"message\": \"User does not exist.\"}");
-                return;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        String fullName = null;
-        if(userId != -1){
-            try {
-                fullName = leaderboardDAO.getFullNameByUserId(userId);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println("Full Name: " + fullName);
-        }else {
-            request.setAttribute("errorMessage", "User does not exist.");
+            request.setAttribute("errorMessage", "All fields are required");
+            request.getRequestDispatcher("/WEB-INF/views/common/leaderBoardDetails.jsp").forward(request, response);
             return;
         }
-        boolean success = leaderboardDAO.insertIntoLeaderBoard(userId,fullName, category, Double.parseDouble(amount));
+
+        LeaderboardDAO leaderboardDAO = new LeaderboardDAO();
+
+        try {
+            int userId = leaderboardDAO.getUserByPhone(phoneNumber);
+
+            if (userId == -1) {
+                request.setAttribute("errorMessage", "User does not exist.");
+                request.getRequestDispatcher("/WEB-INF/views/common/leaderBoardDetails.jsp").forward(request, response);
+                return;
+            }
+
+            String fullName = leaderboardDAO.getFullNameByUserId(userId);
+
+            // Insert into leaderboard
+            boolean success = leaderboardDAO.insertIntoLeaderBoard(userId, fullName, category, Double.parseDouble(amount));
+
+            if (success) {
+                request.setAttribute("successMessage", "Leaderboard entry added successfully!");
+            } else {
+                request.setAttribute("errorMessage", "Failed to add leaderboard entry.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Database error: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Invalid amount value.");
+        }
 
         // Forward back to JSP to display the message
         request.getRequestDispatcher("/WEB-INF/views/common/leaderBoardDetails.jsp").forward(request, response);
-
     }
-
 }

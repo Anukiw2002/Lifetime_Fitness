@@ -29,6 +29,59 @@
     margin-top: var(--spacing-xl);
 }
 
+.client-card {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.client-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+}
+
+.client-card p {
+    margin: 5px 0;
+}
+
+#clientSearch {
+    font-size: 16px;
+    padding: 8px 12px;
+}
+
+.input-group {
+    display: flex;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+}
+.client-card {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 10px;
+    color: #000; /* Add this line to make text black */
+}
+
+.client-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+    color: #000; /* Ensure heading is also black */
+}
+
+.client-card p {
+    margin: 5px 0;
+    color: #000; /* Ensure paragraph text is black */
+}
+
 @media (max-width: 768px) {
     .btn-group {
         flex-direction: column;
