@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.text.ParseException; // Required for handling ParseException
+import java.text.ParseException;
 import java.util.Date;
 
 public class UserDAO implements IUserDAO {
@@ -139,10 +139,6 @@ public class UserDAO implements IUserDAO {
         }
     }
 
-
-
-
-
     @Override
     public User getUserByEmail(String email) throws SQLException {
         String sql = "SELECT * FROM users WHERE email = ?";
@@ -223,7 +219,6 @@ public class UserDAO implements IUserDAO {
         }
     }
 
-
     @Override
     public boolean verifyPassword(String plainPassword, String hashedPassword) {
         return BCrypt.checkpw(plainPassword, hashedPassword);
@@ -240,7 +235,8 @@ public class UserDAO implements IUserDAO {
             stmt.setString(1, hashedPassword);
             stmt.setString(2, email);
 
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+            System.out.println("updatePassword: Password updated for email '" + email + "'. Rows affected: " + rowsAffected);
 
         } catch (SQLException e) {
             System.err.println("updatePassword: Error updating password for email '" + email + "'");
@@ -251,7 +247,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User getUserByResetToken(String token) throws SQLException {
-        String sql = "SELECT id, full_name, username, email, hashed_password,reset_token, token_expiry, role FROM users WHERE reset_token = ?";
+        String sql = "SELECT id, full_name, username, email, hashed_password, reset_token, token_expiry, role FROM users WHERE reset_token = ? AND token_expiry > NOW()";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -274,6 +270,7 @@ public class UserDAO implements IUserDAO {
                             rs.getString("role")
                     );
                 }
+                System.out.println("No user found with valid token: " + token);
                 return null;
             }
 
@@ -284,8 +281,6 @@ public class UserDAO implements IUserDAO {
         }
     }
 
-
-    // Corrected setResetToken method with Timestamp expiry
     @Override
     public void setResetToken(String email, String token, Timestamp expiry) throws SQLException {
         String sql = "UPDATE users SET reset_token = ?, token_expiry = ? WHERE email = ?";
@@ -293,11 +288,17 @@ public class UserDAO implements IUserDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, token);
-            stmt.setTimestamp(2, expiry);
+            if (token == null) {
+                stmt.setNull(1, java.sql.Types.VARCHAR);
+                stmt.setNull(2, java.sql.Types.TIMESTAMP);
+            } else {
+                stmt.setString(1, token);
+                stmt.setTimestamp(2, expiry);
+            }
             stmt.setString(3, email);
 
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+            System.out.println("setResetToken: Token set for email '" + email + "'. Rows affected: " + rowsAffected);
 
         } catch (SQLException e) {
             System.err.println("setResetToken: Error setting reset token for email '" + email + "'");
@@ -305,7 +306,4 @@ public class UserDAO implements IUserDAO {
             throw e;
         }
     }
-
-    // Overloaded setResetToken method for String expiryString
-
 }
