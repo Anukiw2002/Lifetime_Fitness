@@ -16,6 +16,7 @@
         return value == 1 ? durationType.substring(0, durationType.length() - 1) : durationType;
     }
 %>
+
 <div class="container">
     <!-- Logo -->
     <div class="logo-container">
@@ -59,6 +60,8 @@
                     <div class="price-options">
                         <c:forEach var="duration" items="${plan.durations}">
                             <c:choose>
+
+
                                 <c:when test="${plan.pricingType eq 'uniform'}">
                                     <div class="price-row">
                                         <span class="label">Solo -
@@ -79,10 +82,8 @@
                                                 <fmt:formatNumber value="${duration.uniformPricing[0].price}" type="number" pattern="#,##,###"/>
                                             </span>
                                             <form action="${pageContext.request.contextPath}/Checkout" method="get" style="display:inline;">
-                                                <input type="hidden" name="product" value="${plan.planName}" />
+                                                <input type="hidden" name="product" value="${plan.planName} - Solo - ${duration.durationValue} ${duration.durationType}" />
                                                 <input type="hidden" name="subtotal" value="${duration.uniformPricing[0].price}" />
-                                                <input type="hidden" name="shipping" value="10" />
-                                                <input type="hidden" name="tax" value="10" />
                                                 <c:set var="total" value="${duration.uniformPricing[0].price + 20}" />
                                                 <input type="hidden" name="total" value="${total}" />
                                                 <button type="submit" class="select-btn">Select</button>
@@ -91,27 +92,30 @@
                                     </div>
                                 </c:when>
 
+
                                 <c:when test="${plan.pricingType eq 'category'}">
                                     <c:forEach var="pricing" items="${duration.categoryPricing}">
                                         <div class="price-row">
-                                            <span class="label">
-                                                <c:choose>
-                                                    <c:when test="${pricing.category eq 'Gents'}">Gents - Annual</c:when>
-                                                    <c:when test="${pricing.category eq 'Ladies'}">Ladies - Annual</c:when>
-                                                    <c:when test="${pricing.category eq 'Couple'}">Couple - Annual</c:when>
-                                                    <c:otherwise>${pricing.category}</c:otherwise>
-                                                </c:choose>
+                                            <span class="label">${pricing.category} - ${duration.durationValue}
+                                                <%
+                                                    Object durationObj = pageContext.getAttribute("duration");
+                                                    if (durationObj != null) {
+                                                        java.lang.reflect.Method getDurationValueMethod = durationObj.getClass().getMethod("getDurationValue");
+                                                        java.lang.reflect.Method getDurationTypeMethod = durationObj.getClass().getMethod("getDurationType");
+                                                        int durationValue = (Integer) getDurationValueMethod.invoke(durationObj);
+                                                        String durationType = (String) getDurationTypeMethod.invoke(durationObj);
+                                                        out.print(" " + formatDurationType(durationValue, durationType));
+                                                    }
+                                                %>
                                             </span>
                                             <div class="price-select">
                                                 <span class="price">Rs.
                                                     <fmt:formatNumber value="${pricing.price}" type="number" pattern="#,##,###"/>
                                                 </span>
                                                 <form action="${pageContext.request.contextPath}/Checkout" method="get" style="display:inline;">
-                                                    <input type="hidden" name="product" value="${plan.planName} - ${pricing.category}" />
+                                                    <input type="hidden" name="product" value="${plan.planName} - ${pricing.category} - ${duration.durationValue} ${duration.durationType}" />
                                                     <input type="hidden" name="subtotal" value="${pricing.price}" />
-                                                    <input type="hidden" name="shipping" value="10" />
-                                                    <input type="hidden" name="tax" value="10" />
-                                                    <c:set var="totalCat" value="${pricing.price + 20}" />
+                                                    <c:set var="totalCat" value="${pricing.price}" />
                                                     <input type="hidden" name="total" value="${totalCat}" />
                                                     <button type="submit" class="select-btn">Select</button>
                                                 </form>
