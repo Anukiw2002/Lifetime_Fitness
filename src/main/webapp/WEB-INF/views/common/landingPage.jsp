@@ -160,6 +160,7 @@
             <h1 class="text-center"><u>MEMBER PRICING</u></h1>
             <div class="pricing-grid">
                 <c:forEach var="plan" items="${membershipPlans}" varStatus="status">
+                    <c:if test="${plan.status == 'ACTIVE'}">
                     <c:if test="${!fn:containsIgnoreCase(plan.planName, 'day pass')}">
                         <div class="plan-card ${plan.status == 'INACTIVE' ? 'inactive-plan' : ''}">
                             <div class="pricing-card" data-aos="fade-up" data-aos-delay="${status.index * 100 + 100}"
@@ -210,6 +211,7 @@
                                 </div>
                             </div>
                         </div>
+                    </c:if>
                     </c:if>
                 </c:forEach>
             </div>

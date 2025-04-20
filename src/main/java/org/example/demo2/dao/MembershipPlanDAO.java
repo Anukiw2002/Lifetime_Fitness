@@ -87,6 +87,7 @@ public class MembershipPlanDAO {
                     plan.setEndTime(rs.getTime("end_time").toLocalTime());
                     plan.setPricingType(rs.getString("pricing_type"));
                     plan.setColour(rs.getString("colour"));
+                    plan.setStatus(rs.getString("status"));
                     plans.add(plan);
                 }
             }
