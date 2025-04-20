@@ -26,7 +26,7 @@
         <a href="leaderBoard" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard
         </a>
-        <a href="/owner/leaderboardDetails" class="nav-link">
+        <a href="/leaderBoardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard details
         </a>
         <a href="/owner/ownerDetailedNotifications" class="nav-link">
