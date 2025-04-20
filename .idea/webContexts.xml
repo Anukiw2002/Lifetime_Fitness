@@ -10,6 +10,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common/verticalNavBar.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/common" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor/createAndUpdateWorkout.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor/edit-workout.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor/instructor-dashboard.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor/selfOnBoarding2.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor/selfOnboarding.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/instructor" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner/addMembershipPlan.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/owner" />

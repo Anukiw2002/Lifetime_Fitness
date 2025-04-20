@@ -6,15 +6,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.example.demo2.dao.ClientDashboardDAO;
-import org.example.demo2.dao.InstructorDashboardDAO;
-import org.example.demo2.dao.InstructorOnBoardingDAO;
-import org.example.demo2.dao.NotificationsDAO;
+import org.example.demo2.dao.*;
+import org.example.demo2.model.BookSession;
 import org.example.demo2.model.Instructor;
 import org.example.demo2.model.WorkoutCounts;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/instructorDashboard")
 public class InstructorDashboardServlet extends HttpServlet {
@@ -33,6 +32,11 @@ public class InstructorDashboardServlet extends HttpServlet {
         Instructor instructor = instructorOnBoardingDAO.getInstructorById(user_id);
 
         request.setAttribute("instructor", instructor);
+
+        BookSessionDAO bookSessionDAO = new BookSessionDAO();
+        List<BookSession> bookings =  bookSessionDAO.getTodayBookedSessions();
+
+        request.setAttribute("bookings", bookings);
 
         boolean hasUnread = NotificationsDAO.hasUnreadNotifications(user_id);
         request.setAttribute("hasUnread", hasUnread);

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,8 +18,13 @@
 
         for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
-            var date = row.cells[1].textContent.toLowerCase(); // DATE column
-            var status = row.cells[3].textContent.trim().toLowerCase(); // STATUS column
+            // Only filter booking rows, not date header rows
+            if (row.classList.contains("date-header")) {
+                row.style.display = "";
+                continue;
+            }
+            var date = row.getAttribute("data-date").toLowerCase();
+            var status = row.cells[3].textContent.trim().toLowerCase();
 
             var showRow = true;
 
@@ -32,7 +38,6 @@
                         showRow = false;
                     }
                 } else if (timeFrameFilter === "week") {
-                    // Get start and end of current week
                     var startOfWeek = new Date(currentDate);
                     startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
                     var endOfWeek = new Date(startOfWeek);
@@ -52,8 +57,6 @@
             // Apply status filter
             if (statusFilter !== "") {
                 if (statusFilter === "upcoming") {
-                    // For "upcoming", show all booked sessions
-                    // This assumes that "booked" or any status that isn't "rescheduled" or "cancelled" is upcoming
                     if (status === "rescheduled" || status === "cancelled") {
                         showRow = false;
                     }
@@ -62,16 +65,37 @@
                 }
             }
 
-            // Show or hide row based on filters
             if (showRow) {
                 row.style.display = "";
             } else {
                 row.style.display = "none";
             }
         }
+
+        // Hide date headers if all their bookings are hidden
+        var tableBody = table.getElementsByTagName("tbody")[0];
+        var trs = tableBody.getElementsByTagName("tr");
+        var lastDateHeader = null;
+        var anyBookingVisible = false;
+        for (var i = 0; i < trs.length; i++) {
+            var tr = trs[i];
+            if (tr.classList.contains("date-header")) {
+                if (lastDateHeader && !anyBookingVisible) {
+                    lastDateHeader.style.display = "none";
+                }
+                lastDateHeader = tr;
+                anyBookingVisible = false;
+            } else {
+                if (tr.style.display !== "none") {
+                    anyBookingVisible = true;
+                }
+            }
+        }
+        if (lastDateHeader && !anyBookingVisible) {
+            lastDateHeader.style.display = "none";
+        }
     }
 
-    // Reset all filters
     function resetFilters() {
         document.getElementById("timeFrameFilter").selectedIndex = 0;
         document.getElementById("statusFilter").selectedIndex = 0;
@@ -84,14 +108,23 @@
     }
 </script>
 <body>
-<jsp:include page="../common/verticalNavBar.jsp" />
+<c:choose>
+    <c:when test="${sessionScope.userRole == 'instructor'}">
+        <jsp:include page="../instructor/instructorVerticalNavbar.jsp" />
+    </c:when>
+    <c:when test="${sessionScope.userRole == 'owner'}">
+        <jsp:include page="../common/verticalNavBar.jsp" />
+    </c:when>
+</c:choose>
 <div class="main-content">
     <div class="container">
-        <div class="flex justify-end items-center mb-4">
-            <button class="btn btn-primary" onclick="location.href='/booking/constraints'">
-                <i class="fas fa-calendar-xmark"></i> Booking Constraints
-            </button>
-        </div>
+        <c:if test="${sessionScope.userRole == 'owner'}">
+            <div class="flex justify-end items-center mb-4">
+                <button class="btn btn-primary" onclick="location.href='/booking/constraints'">
+                    <i class="fas fa-calendar-xmark"></i> Booking Constraints
+                </button>
+            </div>
+        </c:if>
         <!-- Filter section -->
         <div class="card mb-4">
             <div class="card-body">
@@ -133,18 +166,30 @@
                         <thead>
                         <tr>
                             <th>Client</th>
-                            <th>DATE</th>
                             <th>Time</th>
                             <th>STATUS</th>
                         </tr>
                         </thead>
                         <tbody>
+                        <c:set var="lastDate" value="" />
                         <c:forEach var="booking" items="${allSessions}">
-                            <tr>
+                            <c:if test="${lastDate != booking.date}">
+                                <tr class="date-header">
+                                    <td colspan="4">
+                                            ${booking.displayDateLabel}
+                                    </td>
+                                </tr>
+
+                                <c:set var="lastDate" value="${booking.date}" />
+                            </c:if>
+                            <tr data-date="${booking.date}">
                                 <td>${booking.fname} ${booking.lname}</td>
-                                <td>${booking.date}</td>
-                                <td>${booking.timeSlot}</td>
-                                <td><span class="status-badge ${booking.status}">${booking.status}</span></td>
+                                <td>
+                                <fmt:formatDate value="${booking.timeSlot}" pattern="hh:mm a" />
+                                </td>
+                                <td>
+                                    <span class="status-badge ${booking.status}">${booking.status}</span>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
