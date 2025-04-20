@@ -271,7 +271,14 @@
                         <div class="review-card">
                             <div class="review-header">
                                 <div class="reviewer-avatar">
-                                        ${fn:substring(review.name, 0, 1)}
+                                    <c:choose>
+                                        <c:when test="${empty review.profilePictureBase64}">
+                                            ${fn:substring(review.name, 0, 1)}
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="data:image/jpeg;base64,${review.profilePictureBase64}" alt="${review.name}">
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="reviewer-info">
                                     <div class="reviewer-name">${review.name}</div>

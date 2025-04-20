@@ -726,6 +726,22 @@
     text-transform: uppercase;
 }
 
+.reviewer-avatar img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.reviewer-avatar img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    border-color: var(--accent-color);
+}
+
 .reviewer-info {
     flex: 1;
 }
@@ -823,6 +839,11 @@
 @media (max-width: 768px) {
     .review-card {
         flex: 0 0 calc(100% - 0.5rem);
+    }
+
+    .reviewer-avatar img {
+        width: 50px;
+        height: 50px;
     }
 
     .reviewer-avatar {
