@@ -23,8 +23,8 @@ import org.example.demo2.dao.CategoryPricingDAO;
 import org.example.demo2.util.DBConnection;
 import org.example.demo2.util.SessionUtils;
 
-@WebServlet("//signup/step4")
-public class ViewPricingServlet extends HttpServlet {
+@WebServlet("/Plans")
+public class PlansServlet extends HttpServlet {
     private MembershipPlanDAO membershipPlanDAO;
     private DurationDAO durationDAO;
     private UniformPricingDAO uniformPricingDAO;
@@ -87,6 +87,6 @@ public class ViewPricingServlet extends HttpServlet {
         }
 
         // Forward to JSP
-        request.getRequestDispatcher("/WEB-INF/views/client/signUp4.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/client/plans.jsp").forward(request, response);
     }
 }
