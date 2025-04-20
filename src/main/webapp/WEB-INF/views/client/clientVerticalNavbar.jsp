@@ -25,7 +25,7 @@
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
         <a href="leaderBoard" class="nav-link">
-            <i class="fas fa-chart-line icon"></i>Leaderboard
+            <i class="fas fa-trophy icon"></i>Leaderboard
         </a>
         <a href="${pageContext.request.contextPath}/clientWorkoutView" class="nav-link">
             <i class="fas fa-dumbbell icon"></i>Workouts
@@ -52,9 +52,6 @@
     </div>
 
     <div class="bottom-links">
-        <a href="/clientEditProfile" class="nav-link">
-            <i class="fas fa-cog icon"></i>Settings
-        </a>
         <a href="logout" class="nav-link">
             <i class="fas fa-sign-out-alt icon"></i>Log out
         </a>

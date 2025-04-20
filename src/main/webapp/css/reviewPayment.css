@@ -1,0 +1,117 @@
+:root {
+    --primary-color: #0052CC;
+    --primary-hover: #0747A6;
+    --bg-color: #333;
+    --text-color: #fff;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --border-radius: 6px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --transition: all 0.2s ease-in-out;
+    --text-muted: #bbb;
+}
+
+body {
+    background: linear-gradient(45deg, #2a2a2a, #333);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.logo {
+    width: 160px;
+    height: auto;
+}
+
+h1 {
+    text-align: center;
+    font-size: 1.875rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    color: var(--text-color);
+    position: relative;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: -0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+form {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-color);
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table td {
+    padding: 0.75rem;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1rem;
+}
+
+table td:first-child {
+    font-weight: 500;
+    color: var(--text-muted);
+    width: 40%;
+}
+
+input[type="submit"] {
+    padding: 0.75rem 2rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--transition);
+    margin-top: 1rem;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    form {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .logo {
+        width: 120px;
+    }
+}

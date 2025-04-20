@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,10 +25,10 @@
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
         <a href="leaderBoard" class="nav-link">
-            <i class="fas fa-chart-line icon"></i>Leaderboard
+            <i class="fas fa-trophy icon"></i>Leaderboard
         </a>
         <a href="/leaderBoardDetails" class="nav-link">
-            <i class="fas fa-users icon"></i>Leaderboard Details
+            <i class="fas fa-circle-info icon"></i>Leaderboard Details
         </a>
         <a href="viewNotification" class="nav-link notification-wrapper">
             <i class="fas fa-bell icon"></i>Notifications
@@ -50,9 +51,6 @@
     </div>
 
     <div class="bottom-links">
-        <a href="/InstructorEditProfile" class="nav-link">
-            <i class="fas fa-cog icon"></i>Settings
-        </a>
         <a href="/landingPage" class="nav-link">
             <i class="fas fa-sign-out-alt icon"></i>Log out
         </a>

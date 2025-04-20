@@ -8,7 +8,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.ClientDashboardDAO;
 import org.example.demo2.dao.InstructorDashboardDAO;
+import org.example.demo2.dao.InstructorOnBoardingDAO;
 import org.example.demo2.dao.NotificationsDAO;
+import org.example.demo2.model.Instructor;
 import org.example.demo2.model.WorkoutCounts;
 
 import java.io.IOException;
@@ -25,6 +27,12 @@ public class InstructorDashboardServlet extends HttpServlet {
         }
 
         int user_id = (int)session.getAttribute("userId");
+        request.setAttribute("userId", user_id);
+
+        InstructorOnBoardingDAO instructorOnBoardingDAO = new InstructorOnBoardingDAO();
+        Instructor instructor = instructorOnBoardingDAO.getInstructorById(user_id);
+
+        request.setAttribute("instructor", instructor);
 
         boolean hasUnread = NotificationsDAO.hasUnreadNotifications(user_id);
         request.setAttribute("hasUnread", hasUnread);

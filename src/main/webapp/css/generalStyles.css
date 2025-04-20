@@ -487,3 +487,16 @@ input[type="number"]::-webkit-inner-spin-button {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* Column span for grid layouts */
+.col-span-2 {
+    grid-column: span 2;
+}
+
+.col-span-3 {
+    grid-column: 1 / -1;
+}
+
+.col-span-4 {
+    grid-column: span 4;
+}

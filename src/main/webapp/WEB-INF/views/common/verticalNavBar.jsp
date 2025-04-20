@@ -24,16 +24,18 @@
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
         <a href="leaderBoard" class="nav-link">
-            <i class="fas fa-users icon"></i>Leaderboard
+            <i class="fas fa-trophy icon"></i>Leaderboard
         </a>
+
         <a href="/leaderBoardDetails" class="nav-link">
             <i class="fas fa-users icon"></i>Leaderboard details
+
         </a>
         <a href="/owner/ownerDetailedNotifications" class="nav-link">
             <i class="fas fa-bell icon"></i>Notifications
         </a>
         <a href="/first" class="nav-link">
-            <i class="fas fa-file-alt icon"></i>Reports
+            <i class="fas fa-file-waveform icon"></i>Reports
         </a>
         <a href="/GetAllVideos" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
@@ -41,11 +43,8 @@
         <a href="/GetAllBlogs" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
-        <a href="/booking/constraints" class="nav-link">
-            <i class="fas fa-credit-card icon"></i>Booking Constraints
-        </a>
         <a href="/viewBookings" class="nav-link">
-            <i class="fas fa-credit-card icon"></i>Bookings
+            <i class="fas fa-calendar-days icon"></i>Bookings
         </a>
     </div>
 
