@@ -44,22 +44,18 @@ public class PaymentServicesDAO {
 
     private static RedirectUrls getRedirectURLs() {
         RedirectUrls redirectUrls = new RedirectUrls();
+
+        // Redirect to servlet instead of JSP
         redirectUrls.setCancelUrl("http://localhost:8080/PaypalTest/cancel.html");
-        redirectUrls.setReturnUrl("http://localhost:8080/WEB-INF/views/client/reviewPayment.jsp");
+        redirectUrls.setReturnUrl("http://localhost:8080/ReviewPayment"); // <-- changed
 
         return redirectUrls;
     }
 
     private static List<Transaction> getTransactionInformation(OrderDetails orderDetail) {
-        Details details = new Details();
-        details.setShipping(String.format("%.2f", orderDetail.getShipping()));
-        details.setSubtotal(String.format("%.2f", orderDetail.getSubtotal()));
-        details.setTax(String.format("%.2f", orderDetail.getTax()));
-
         Amount amount = new Amount();
         amount.setCurrency("USD");
         amount.setTotal(String.format("%.2f", orderDetail.getTotal()));
-        amount.setDetails(details);
 
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
@@ -72,7 +68,6 @@ public class PaymentServicesDAO {
         item.setCurrency("USD");
         item.setName(orderDetail.getProductName());
         item.setPrice(String.format("%.2f", orderDetail.getSubtotal()));
-        item.setTax(String.format("%.2f", orderDetail.getTax()));
         item.setQuantity("1");
 
         items.add(item);
@@ -86,24 +81,18 @@ public class PaymentServicesDAO {
     }
 
     private static String getApprovalLink(Payment approvedPayment) {
-        List<Links> links = approvedPayment.getLinks();
-        String approvalLink = null;
-
-        for (Links link : links) {
+        for (Links link : approvedPayment.getLinks()) {
             if (link.getRel().equalsIgnoreCase("approval_url")) {
-                approvalLink = link.getHref();
-                break;
+                return link.getHref();
             }
         }
-
-        return approvalLink;
+        return null;
     }
 
     public Payment getPaymentDetails(String paymentId) throws PayPalRESTException {
         APIContext apiContext = new APIContext(CLIENT_ID, CLIENT_SECRET, MODE);
         return Payment.get(apiContext, paymentId);
     }
-
 
     public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException {
         PaymentExecution paymentExecution = new PaymentExecution();

@@ -5,14 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Review Payment</title>
-    <style>
-
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reviewPayment.css">
 </head>
 <body>
 <div align="center">
+    <div class="logo-container">
+        <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
+    </div>
     <h1>Please Review Before Paying</h1>
-    <form action="execute_payment" method="post">
+    <form action="ExecutePayment" method="post">
         <input type="hidden" name="paymentId" value="${param.paymentId}" />
         <input type="hidden" name="PayerID" value="${param.PayerID}" />
 
@@ -45,32 +46,6 @@
             <tr>
                 <td>Email:</td>
                 <td>${payer.email}</td>
-            </tr>
-
-            <tr><td colspan="2"><br/><strong>Shipping Address:</strong></td></tr>
-            <tr>
-                <td>Recipient Name:</td>
-                <td>${shippingAddress.recipientName}</td>
-            </tr>
-            <tr>
-                <td>Line 1:</td>
-                <td>${shippingAddress.line1}</td>
-            </tr>
-            <tr>
-                <td>City:</td>
-                <td>${shippingAddress.city}</td>
-            </tr>
-            <tr>
-                <td>State:</td>
-                <td>${shippingAddress.state}</td>
-            </tr>
-            <tr>
-                <td>Country Code:</td>
-                <td>${shippingAddress.countryCode}</td>
-            </tr>
-            <tr>
-                <td>Postal Code:</td>
-                <td>${shippingAddress.postalCode}</td>
             </tr>
 
             <tr>

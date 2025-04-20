@@ -1,6 +1,5 @@
 /**
  * ReviewPaymentServlet class - show review payment page.
- * @author Nam Ha Minh
  * @source https://codeJava.net
  */
 package org.example.demo2.servlet;
@@ -37,20 +36,22 @@ public class ReviewPaymentServlet extends HttpServlet {
         try {
             payment = paymentServices.getPaymentDetails(paymentId);
         } catch (PayPalRESTException e) {
-            throw new RuntimeException(e);
+            throw new ServletException("Error retrieving payment details from PayPal", e);
         }
 
         PayerInfo payerInfo = payment.getPayer().getPayerInfo();
         Transaction transaction = payment.getTransactions().get(0);
         ShippingAddress shippingAddress = transaction.getItemList().getShippingAddress();
 
+        // Set all necessary attributes
         request.setAttribute("payer", payerInfo);
         request.setAttribute("transaction", transaction);
         request.setAttribute("shippingAddress", shippingAddress);
+        request.setAttribute("paymentId", paymentId);
+        request.setAttribute("PayerID", payerId);
 
-        // Forward to review JSP (make sure this file exists in WebContent)
-        String url = "reviewPayment.jsp?paymentId=" + paymentId + "&PayerID=" + payerId;
-        request.getRequestDispatcher(url).forward(request, response);
-
+        // Forward to JSP (make sure the JSP is in /WEB-INF/views/client/)
+        request.getRequestDispatcher("/WEB-INF/views/client/reviewPayment.jsp")
+                .forward(request, response);
     }
 }

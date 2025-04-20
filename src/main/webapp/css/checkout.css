@@ -91,7 +91,9 @@ input[type="text"]:focus {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-input[type="submit"] {
+input[type="submit"],
+input[type="button"],
+button {
     padding: 0.75rem 2rem;
     background-color: var(--primary-color);
     color: white;
@@ -108,11 +110,14 @@ input[type="submit"] {
     width: auto;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button:hover {
     background-color: var(--primary-hover);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 
 /* Progress Steps (if you want to include them) */
 .progress-steps {

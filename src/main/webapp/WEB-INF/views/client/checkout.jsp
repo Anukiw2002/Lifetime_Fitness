@@ -3,13 +3,17 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Check Out</title>
+    <title>Checkout</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/checkout.css">
-
 </head>
 <body>
 <div align="center">
-    <h1>Check Out</h1>
+
+    <div class="logo-container">
+        <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
+    </div>
+
+    <h1>Checkout</h1>
     <br/>
     <form action="AuthorizePayment" method="post">
         <table>
@@ -28,12 +32,14 @@
             <tr>
                 <td>Total Amount:</td>
                 <td>
-                    <input type="text" name="total" value="<%= request.getParameter("total") != null ? request.getParameter("total") : "120" %>" />
+                    <input type="text" name="total" value="<%= request.getParameter("subtotal") != null ? request.getParameter("subtotal") : "100" %>" />
                 </td>
             </tr>
             <tr>
+            <tr>
                 <td colspan="2" align="center">
                     <input type="submit" value="Checkout" />
+                    <input type="button" value="Cancel" onclick="window.location.href='${pageContext.request.contextPath}/PlanPrices'" style="margin-left: 1rem;" />
                 </td>
             </tr>
         </table>

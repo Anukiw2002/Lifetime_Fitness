@@ -29,33 +29,36 @@ public class AuthorizePaymentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 1. Read payment details from form parameters
         String product = request.getParameter("product");
-        String subtotal = request.getParameter("subtotal");
-        String shipping = request.getParameter("shipping");
-        String tax = request.getParameter("tax");
-        String total = request.getParameter("total");
+        String subtotalStr = request.getParameter("subtotal");
 
-        // 2. Parse strings to float and create OrderDetails object
-        OrderDetails orderDetail = new OrderDetails(
-                product,
-                Float.parseFloat(subtotal),
-                Float.parseFloat(shipping),
-                Float.parseFloat(tax),
-                Float.parseFloat(total)
-        );
-
-        // 3. Attempt to authorize payment and redirect to PayPal approval link
         try {
+            if (product == null || subtotalStr == null) {
+                throw new IllegalArgumentException("Missing required payment parameters.");
+            }
+
+            float subtotal = Float.parseFloat(subtotalStr.trim());
+
+            // Pass subtotal as both subtotal and total (since no tax/shipping)
+            OrderDetails orderDetail = new OrderDetails(product, subtotal, subtotal);
+
             PaymentServicesDAO paymentServices = new PaymentServicesDAO();
             String approvalLink = PaymentServicesDAO.authorizePayment(orderDetail);
+            response.sendRedirect(approvalLink);
 
-            response.sendRedirect(approvalLink); // Redirect to PayPal
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Invalid input: " + e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/views/client/error.jsp").forward(request, response);
 
         } catch (PayPalRESTException ex) {
             ex.printStackTrace();
             request.setAttribute("errorMessage", "Error: " + ex.getMessage());
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/client/error.jsp").forward(request, response);
         }
     }
+
 }
+
+
+

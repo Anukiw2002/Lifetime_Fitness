@@ -17,7 +17,7 @@ import java.io.IOException;
 import com.paypal.base.rest.PayPalRESTException;
 import org.example.demo2.dao.PaymentServicesDAO;
 
-@WebServlet("/execute_payment")
+@WebServlet("/ExecutePayment")
 public class ExecutePaymentServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -41,12 +41,12 @@ public class ExecutePaymentServlet extends HttpServlet {
             request.setAttribute("payer", payerInfo);
             request.setAttribute("transaction", transaction);
 
-            request.getRequestDispatcher("receipt.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/client/receipt.jsp").forward(request, response);
 
         } catch (PayPalRESTException ex) {
             ex.printStackTrace();
             request.setAttribute("errorMessage", "Error during payment execution: " + ex.getMessage());
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/client/error.jsp").forward(request, response);
         }
     }
 }
