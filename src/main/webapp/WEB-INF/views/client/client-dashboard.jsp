@@ -107,14 +107,6 @@
                         <h2><i class="fas fa-calendar-day"></i> Today's Session</h2>
                     </div>
                     <div class="card-body">
-<<<<<<< HEAD
-                        <h3>${membership[0].planName} Membership Plan</h3>
-                        <fmt:parseDate value="${membership[0].endDate}" pattern="yyyy-MM-dd" var="parsedDate" />
-                        <p class="text-muted mb-4">Valid until: <fmt:formatDate value="${parsedDate}" pattern="MMMM d, yyyy" /></p>
-                        <button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/Plans'">
-                            <i class="fas fa-plus"></i> Change Package
-                        </button>
-=======
                         <c:if test="${booking != null}">
                             <div class="session-info">
                                 <div class="session-time">
@@ -129,7 +121,6 @@
                                 <p>No booked sessions for today</p>
                             </div>
                         </c:if>
->>>>>>> 3a3b5649e3bd178f107d284d66d28d869a90014e
                     </div>
                 </div>
                 <div class="action-buttons">

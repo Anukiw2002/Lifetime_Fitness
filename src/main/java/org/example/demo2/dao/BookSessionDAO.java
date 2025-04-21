@@ -341,38 +341,58 @@ public class BookSessionDAO {
         return booking;
     }
 
-    public String getSessionAvailabilityLabel(Date date, Time timeSlot) {
-        String sql = "SELECT COUNT(*) FROM bookings WHERE date = ? AND timeSlot = ? AND status IN ('booked', 'rescheduled')";
-        String label = "Available";
-
-        BookingConstraintsDAO constraintsDAO = new BookingConstraintsDAO();
-        BookingConstraints constraints = constraintsDAO.getLatestConstraints();
-
-        int maxBookings = constraints.getMaxBookingsPerSlot();
-
+    public boolean isSlotBlocked(Date date, Time timeSlot) {
+        String sql = "SELECT COUNT(*) FROM blocked_dates WHERE block_date = ? AND "
+                + "(is_full_day = true OR (start_time <= ? AND end_time >= ?))";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
 
+            pstmt.setDate(1, date);
+            if(timeSlot != null) {
+                pstmt.setTime(2, timeSlot);
+                pstmt.setTime(3, timeSlot);
+            } else {
+                pstmt.setTime(2, Time.valueOf(LocalTime.MAX));
+                pstmt.setTime(3, Time.valueOf(LocalTime.MIN));
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public String getSessionAvailabilityLabel(Date date, Time timeSlot) {
+        // Check for blocked first
+        if (isSlotBlocked(date, timeSlot)) {
+            return "Blocked";
+        }
+
+        // Existing availability logic
+        String sql = "SELECT COUNT(*) FROM bookings WHERE date = ? AND timeSlot = ? AND status IN ('booked', 'rescheduled')";
+        BookingConstraints constraints = new BookingConstraintsDAO().getLatestConstraints();
+        int maxBookings = constraints != null ? constraints.getMaxBookingsPerSlot() : 5; // default
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setDate(1, date);
             pstmt.setTime(2, timeSlot);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     int count = rs.getInt(1);
-
-                    if (count >= maxBookings) {
-                        label = "Fully Booked";
-                    } else if (count >=  maxBookings * 0.85) {
-                        label = "Almost Full";
-                    } else if (count >= maxBookings * 0.75) {
-                        label = "Filling Fast";
-                    }
+                    if (count >= maxBookings) return "Fully Booked";
+                    if (count >= maxBookings * 0.85) return "Almost Full";
+                    if (count >= maxBookings * 0.75) return "Filling Fast";
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return label;
+        return "Available";
     }
 
     public boolean hasUserBookedSlot(int userId, Date date, Time timeSlot) {

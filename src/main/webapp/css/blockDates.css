@@ -1,0 +1,103 @@
+.blocked-date-card {
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-md);
+    transition: var(--transition);
+}
+
+.blocked-date-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.blocked-date-header {
+    background-color: rgba(211, 47, 47, 0.15);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.blocked-date-body {
+    padding: var(--spacing-md);
+}
+
+.date-label {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.date-value {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+}
+
+.badge {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-fullday {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.badge-partial {
+    background-color: var(--warning-color);
+    color: var(--bg-darker);
+}
+
+.time-row {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+}
+
+.time-block {
+    flex: 1;
+}
+
+.reason-section {
+    border-top: 1px solid var(--border-color);
+    padding-top: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    font-size: var(--font-size-lg);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.delete-btn:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-3xl) var(--spacing-md);
+    color: var(--text-muted);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}

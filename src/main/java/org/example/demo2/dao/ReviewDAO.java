@@ -61,7 +61,7 @@ public class ReviewDAO {
 
     public List<Review> getAllReviews() {
         List<Review> reviews = new ArrayList<>();
-        String sql = "SELECT r.rating, r.review, r.createdAt, CONCAT(u.full_name, ' ', u.username) AS name FROM reviews r INNER JOIN users u ON r.userId = u.id ORDER BY r.createdAt DESC";
+        String sql = "SELECT r.rating, r.review, r.createdAt, CONCAT(u.full_name, ' ', u.username) AS name, cd.profile_picture FROM reviews r INNER JOIN users u ON r.userId = u.id LEFT JOIN client_details cd ON u.id = cd.user_id ORDER BY r.createdAt DESC";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql);
@@ -73,6 +73,12 @@ public class ReviewDAO {
                 review.setReview(rs.getString("review"));
                 review.setCreatedAt(rs.getDate("createdAt"));
                 review.setName(rs.getString("name"));
+
+                byte[] profilePicture = rs.getBytes("profile_picture");
+                if (profilePicture != null) {
+                    review.setProfilePicture(profilePicture);
+                }
+
                 reviews.add(review);
             }
         } catch (SQLException e) {

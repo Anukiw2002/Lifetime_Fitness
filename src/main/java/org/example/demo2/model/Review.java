@@ -1,5 +1,6 @@
 package org.example.demo2.model;
 
+import java.util.Base64;
 import java.util.Date;
 
 public class Review {
@@ -7,6 +8,8 @@ public class Review {
     private String review;
     private Date createdAt;
     private String name;
+    private byte[] profilePicture;
+    private String profilePictureBase64;
 
     public void setRating(int rating) {
         this.rating = rating;
@@ -39,6 +42,17 @@ public class Review {
     public String getName() {
         return name;
     }
+
+    public byte[] getProfilePicture() { return profilePicture; }
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+        if (profilePicture != null) {
+            this.profilePictureBase64 = Base64.getEncoder().encodeToString(profilePicture);
+        }
+    }
+
+    public String getProfilePictureBase64() { return profilePictureBase64; }
+    public void setProfilePictureBase64(String profilePictureBase64) { this.profilePictureBase64 = profilePictureBase64; }
 
 
 }

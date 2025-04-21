@@ -160,6 +160,7 @@
             <h1 class="text-center"><u>MEMBER PRICING</u></h1>
             <div class="pricing-grid">
                 <c:forEach var="plan" items="${membershipPlans}" varStatus="status">
+                    <c:if test="${plan.status == 'ACTIVE'}">
                     <c:if test="${!fn:containsIgnoreCase(plan.planName, 'day pass')}">
                         <div class="plan-card ${plan.status == 'INACTIVE' ? 'inactive-plan' : ''}">
                             <div class="pricing-card" data-aos="fade-up" data-aos-delay="${status.index * 100 + 100}"
@@ -210,6 +211,7 @@
                                 </div>
                             </div>
                         </div>
+                    </c:if>
                     </c:if>
                 </c:forEach>
             </div>
@@ -269,7 +271,14 @@
                         <div class="review-card">
                             <div class="review-header">
                                 <div class="reviewer-avatar">
-                                        ${fn:substring(review.name, 0, 1)}
+                                    <c:choose>
+                                        <c:when test="${empty review.profilePictureBase64}">
+                                            ${fn:substring(review.name, 0, 1)}
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="data:image/jpeg;base64,${review.profilePictureBase64}" alt="${review.name}">
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="reviewer-info">
                                     <div class="reviewer-name">${review.name}</div>

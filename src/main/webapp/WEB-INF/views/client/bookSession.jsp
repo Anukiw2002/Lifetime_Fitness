@@ -11,7 +11,6 @@
 
   <script>
     // Function to handle date click and fetch available time slots via AJAX
-    // Function to handle date click and fetch available time slots via AJAX
     function selectDate(selectedDate) {
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "bookSession", true);
@@ -96,6 +95,10 @@
             timeSlot.classList.add('availability-fully-booked');
           } else if (availability === "Already Booked") {
             timeSlot.classList.add('availability-already-booked');
+          } else if (availability === "Blocked") {
+            timeSlot.classList.add('availability-blocked');
+            timeSlot.style.cursor = 'not-allowed';
+            timeSlot.removeAttribute('onclick');
           }
 
           if (onclickAttr) {
