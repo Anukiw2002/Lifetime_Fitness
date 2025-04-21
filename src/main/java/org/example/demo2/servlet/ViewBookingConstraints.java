@@ -18,8 +18,9 @@ public class ViewBookingConstraints extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
+
         // Get current constraints from the database
         BookingConstraintsDAO dao = new BookingConstraintsDAO();
         BookingConstraints constraints = dao.getLatestConstraints();

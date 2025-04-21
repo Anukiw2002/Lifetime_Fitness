@@ -87,6 +87,11 @@ public class BookSessionServlet extends HttpServlet {
                     java.sql.Date sqlDate = java.sql.Date.valueOf(selected);
                     java.sql.Time sqlTime = java.sql.Time.valueOf(currentSlot);
 
+                    if (bookSessionDAO.getSessionAvailabilityLabel(sqlDate, sqlTime).equals("Blocked")) {
+                        currentSlot = currentSlot.plusHours(1);
+                        continue;
+                    }
+
                     // Get availability status
                     String availabilityStatus = bookSessionDAO.getSessionAvailabilityLabel(sqlDate, sqlTime);
 
