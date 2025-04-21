@@ -55,6 +55,14 @@ public class BlockDateServlet extends HttpServlet {
                 throw new IllegalArgumentException("Reason is required");
             }
 
+            LocalDate today = LocalDate.now();
+            if (blockDate.equals(today) && !isFullDay) {
+                LocalTime now = LocalTime.now();
+                if (startTime.isBefore(now)) {
+                    throw new IllegalArgumentException("Start time must be after the current time for today.");
+                }
+            }
+
             boolean success = dao.addBlockedDates(blockDate, startTime, endTime, isFullDay, reason);
 
             if (success) {

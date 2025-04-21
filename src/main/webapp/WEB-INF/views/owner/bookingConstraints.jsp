@@ -26,6 +26,12 @@
                 <!-- Separate form for blocking dates -->
                 <div class="card blocked-dates-section">
                     <h3>Block Time Slots</h3>
+                    <c:if test="${not empty blockDateError}">
+                        <div class="alert alert-danger">
+                                ${blockDateError}
+                        </div>
+                    </c:if>
+
                     <form action="${pageContext.request.contextPath}/booking/blockDate" method="POST" id="blockDateForm">
                         <div class="form-group">
                             <label class="form-label">Date</label>
@@ -241,6 +247,109 @@
             setInitialTimeUnits();
         }
     });
+
+    //To block past dates in the calendar
+    document.addEventListener('DOMContentLoaded', function() {
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var dd = String(today.getDate()).padStart(2, '0');
+        var minDate = yyyy + '-' + mm + '-' + dd;
+        document.querySelector('input[name="blockDate"]').setAttribute('min', minDate);
+    });
+
+    //If today is selected make sure that the end time is after start time
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.querySelector('input[name="blockDate"]');
+        const startTimeInput = document.getElementById('startTime');
+        const endTimeInput = document.getElementById('endTime');
+
+        function pad(n) { return n < 10 ? '0' + n : n; }
+
+        function setTimeLimitsForToday() {
+            const now = new Date();
+            const minTime = pad(now.getHours()) + ':' + pad(now.getMinutes());
+            startTimeInput.min = minTime;
+            endTimeInput.min = minTime;
+        }
+
+        function resetTimeLimits() {
+            startTimeInput.min = '00:00';
+            endTimeInput.min = '00:00';
+        }
+
+        dateInput.addEventListener('change', function() {
+            const selectedDate = new Date(this.value);
+            const today = new Date();
+            today.setHours(0,0,0,0);
+
+            if (selectedDate.getTime() === today.getTime()) {
+                setTimeLimitsForToday();
+            } else {
+                resetTimeLimits();
+            }
+        });
+
+        // On page load, if today is already selected
+        if (dateInput.value) {
+            const selectedDate = new Date(dateInput.value);
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            if (selectedDate.getTime() === today.getTime()) {
+                setTimeLimitsForToday();
+            }
+        }
+    });
+
+    document.getElementById('blockDateForm').addEventListener('submit', function(e) {
+        const isFullDay = document.getElementById('isFullDay').checked;
+        const dateInput = document.querySelector('input[name="blockDate"]');
+        const startTimeInput = document.getElementById('startTime');
+        const endTimeInput = document.getElementById('endTime');
+        const reasonInput = document.querySelector('input[name="reason"]');
+
+        // Clear previous error if any
+        let errorMsg = '';
+
+        // Validate required fields
+        if (!dateInput.value) {
+            errorMsg = 'Date is required.';
+        } else if (!isFullDay) {
+            if (!startTimeInput.value || !endTimeInput.value) {
+                errorMsg = 'Start and end time are required unless blocking full day.';
+            } else if (startTimeInput.value >= endTimeInput.value) {
+                errorMsg = 'End time must be after start time.';
+            } else {
+                // If today, check if start time is in the past
+                const today = new Date();
+                const selectedDate = new Date(dateInput.value);
+                if (selectedDate.toDateString() === today.toDateString()) {
+                    const now = today.getHours() + ':' + String(today.getMinutes()).padStart(2, '0');
+                    if (startTimeInput.value < now) {
+                        errorMsg = 'Start time must be after the current time for today.';
+                    }
+                }
+            }
+        }
+        if (!reasonInput.value.trim()) {
+            errorMsg = 'Reason is required.';
+        }
+
+        if (errorMsg) {
+            e.preventDefault();
+            // Show error above the form
+            let alertDiv = document.querySelector('.block-date-error');
+            if (!alertDiv) {
+                alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-danger block-date-error';
+                this.parentNode.insertBefore(alertDiv, this);
+            }
+            alertDiv.textContent = errorMsg;
+            return false;
+        }
+    });
+
+
 </script>
 </body>
 </html>
