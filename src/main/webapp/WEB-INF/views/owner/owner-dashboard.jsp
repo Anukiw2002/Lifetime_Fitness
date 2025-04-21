@@ -59,7 +59,7 @@
                 <div class="stat-label">Instructors</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">Rs.125K</div>
+                <div class="stat-value">${revenue}</div>
                 <div class="stat-label">Monthly Revenue</div>
             </div>
         </div>
@@ -78,39 +78,6 @@
             </div>
         </div>
 
-        <div class="recent-activity">
-            <h3>Recent Activity</h3>
-            <div class="activity-item">
-                <div class="activity-icon icon-new-member">
-                    <i class="fas fa-user-plus"></i>
-                </div>
-                <div>
-                    <strong>New Member Joined</strong>
-                    <p>John Doe enrolled in Platinum Plan</p>
-                    <small class="text-muted">2 hours ago</small>
-                </div>
-            </div>
-            <div class="activity-item">
-                <div class="activity-icon icon-workout">
-                    <i class="fas fa-dumbbell"></i>
-                </div>
-                <div>
-                    <strong>New Workout Added</strong>
-                    <p>Instructor Mike added a new workout routine</p>
-                    <small class="text-muted">5 hours ago</small>
-                </div>
-            </div>
-            <div class="activity-item">
-                <div class="activity-icon icon-plan">
-                    <i class="fas fa-clipboard-list"></i>
-                </div>
-                <div>
-                    <strong>Plan Updated</strong>
-                    <p>Gold Membership plan was modified</p>
-                    <small class="text-muted">1 day ago</small>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
