@@ -46,6 +46,10 @@
               <div class="action-buttons">
                 <form action="<%= request.getContextPath() %>/viewReport" method="get">
                   <input type="hidden" name="email" value="${email}">
+                  <button type="submit" class="btn btn-secondary">medical</button>
+                </form>
+                <form action="<%= request.getContextPath() %>/viewReport" method="get">
+                  <input type="hidden" name="email" value="${email}">
                   <button type="submit" class="btn btn-secondary">View</button>
                 </form>
                 <form action="<%= request.getContextPath() %>/updateReport" method="get">
