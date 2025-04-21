@@ -40,7 +40,8 @@ public class MedicalHistoryServlet extends HttpServlet {
 
         MedicalHistoryDAO dao = new MedicalHistoryDAO();
         if (dao.insertMedicalHistory(medicalHistory)){
-            response.sendRedirect("");
+            response.sendRedirect(request.getContextPath() + "/signup/step4");
+
         }
     }
 
