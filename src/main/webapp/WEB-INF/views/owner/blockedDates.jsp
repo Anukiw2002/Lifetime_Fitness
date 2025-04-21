@@ -60,7 +60,7 @@
                       </c:choose>
                     </div>
                     <form action="${pageContext.request.contextPath}/booking/deleteBlockedDate" method="POST" onsubmit="return confirm('Are you sure you want to delete this blocked date?');">
-                      <input type="hidden" name="blockDateId" value="${date.blockId}">
+                      <input type="hidden" name="blockId" value="${date.blockId}">
                       <button type="submit" class="delete-btn" title="Delete this blocked date">
                         <i class="fas fa-trash-alt"></i>
                       </button>

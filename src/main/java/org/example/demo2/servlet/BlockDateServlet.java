@@ -66,7 +66,7 @@ public class BlockDateServlet extends HttpServlet {
             boolean success = dao.addBlockedDates(blockDate, startTime, endTime, isFullDay, reason);
 
             if (success) {
-                response.sendRedirect(request.getContextPath() + "/booking/constraints?status=blockSuccess");
+                response.sendRedirect(request.getContextPath() + "/booking/viewBlockedDate");
             } else {
                 response.sendRedirect(request.getContextPath() + "/booking/constraints?error=blockFailed");
             }

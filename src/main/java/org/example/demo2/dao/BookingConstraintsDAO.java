@@ -140,4 +140,21 @@ public class BookingConstraintsDAO {
         }
         return allBlockedDates;
     }
+
+    public boolean deleteBlockedDate(int blockId){
+        String sql = "DELETE FROM blocked_dates where block_id = ?";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
+
+            pstmt.setInt(1,blockId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected>0;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
