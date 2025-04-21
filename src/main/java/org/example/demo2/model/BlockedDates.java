@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class BlockedDates {
+    private int blockId;
     private LocalDate blockDate;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -48,5 +49,13 @@ public class BlockedDates {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public int getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(int blockId) {
+        this.blockId = blockId;
     }
 }

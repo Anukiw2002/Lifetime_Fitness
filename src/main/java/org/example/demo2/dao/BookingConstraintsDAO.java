@@ -1,11 +1,15 @@
 package org.example.demo2.dao;
 
+import org.example.demo2.model.BlockedDates;
 import org.example.demo2.model.BookingConstraints;
+import org.example.demo2.model.Review;
 import org.example.demo2.util.DBConnection;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookingConstraintsDAO {
 
@@ -99,5 +103,41 @@ public class BookingConstraintsDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public List<BlockedDates> viewAllBlockedDates(){
+        List<BlockedDates> allBlockedDates = new ArrayList<>();
+        String sql = "SELECT * FROM blocked_dates";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                BlockedDates blockedDates = new BlockedDates();
+
+                blockedDates.setBlockId(rs.getInt("block_id"));
+                blockedDates.setBlockDate(rs.getDate("block_date").toLocalDate());
+                blockedDates.setFullDay(rs.getBoolean("is_full_day"));
+                blockedDates.setReason(rs.getString("reason"));
+
+                // Handle potentially null time values
+                Time startTime = rs.getTime("start_time");
+                Time endTime = rs.getTime("end_time");
+
+                if (startTime != null) {
+                    blockedDates.setStartTime(startTime.toLocalTime());
+                }
+
+                if (endTime != null) {
+                    blockedDates.setEndTime(endTime.toLocalTime());
+                }
+
+                allBlockedDates.add(blockedDates);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allBlockedDates;
     }
 }

@@ -12,6 +12,11 @@
 <jsp:include page="../common/verticalNavBar.jsp" />
 <div class="main-content">
     <div class="container">
+        <div class="flex justify-end items-center mb-4">
+            <button class="btn btn-primary" onclick="location.href='/booking/viewBlockedDate'">
+                <i class="fas fa-calendar-xmark"></i> Blocked Sessions
+            </button>
+        </div>
         <c:if test="${param.status eq 'updateSuccess'}">
             <div class="alert alert-success">
                 Booking constraints updated successfully!
