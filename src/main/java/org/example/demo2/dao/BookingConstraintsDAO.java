@@ -10,20 +10,14 @@ import java.time.LocalTime;
 public class BookingConstraintsDAO {
 
     // Inserting the constraints (fallback if no record exists)
-    public boolean insertConstraints(int cancelLimitMinutes, int rescheduleLimitMinutes, int minBookingGapMins,
-                                     int maxBookingAdvanceWeeks, boolean showBookingCount, int maxBookingsPerSlot) {
-        String sql = "INSERT INTO bookingConstraints (cancelLimitMinutes, rescheduleLimitMinutes, minBookingGapMins, " +
-                "maxBookingAdvanceWeeks, showBookingCount, maxBookingsPerSlot) VALUES (?, ?, ?, ?, ?, ?)";
+    public boolean insertConstraints(int maxBookingAdvanceWeeks, int maxBookingsPerSlot) {
+        String sql = "INSERT INTO bookingConstraints (maxBookingAdvanceWeeks, maxBookingsPerSlot) VALUES (?, ?)";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-            pstmt.setInt(1, cancelLimitMinutes);
-            pstmt.setInt(2, rescheduleLimitMinutes);
-            pstmt.setInt(3, minBookingGapMins);
-            pstmt.setInt(4, maxBookingAdvanceWeeks);
-            pstmt.setBoolean(5, showBookingCount);
-            pstmt.setInt(6, maxBookingsPerSlot);
+            pstmt.setInt(1, maxBookingAdvanceWeeks);
+            pstmt.setInt(2, maxBookingsPerSlot);
 
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
@@ -46,11 +40,7 @@ public class BookingConstraintsDAO {
             if (rs.next()) {
                 constraints = new BookingConstraints();
                 constraints.setConstraintId(rs.getInt("constraintId"));
-                constraints.setCancelLimitMinutes(rs.getInt("cancelLimitMinutes"));
-                constraints.setRescheduleLimitMinutes(rs.getInt("rescheduleLimitMinutes"));
-                constraints.setMinBookingGapMins(rs.getInt("minBookingGapMins"));
                 constraints.setMaxBookingAdvanceWeeks(rs.getInt("maxBookingAdvanceWeeks"));
-                constraints.setShowBookingCount(rs.getBoolean("showBookingCount"));
                 constraints.setMaxBookingsPerSlot(rs.getInt("maxBookingsPerSlot"));
             }
 
@@ -62,23 +52,15 @@ public class BookingConstraintsDAO {
     }
 
     // Update existing constraints
-    public boolean updateConstraints(int constraintId, int cancelLimitMinutes, int rescheduleLimitMinutes,
-                                     int minBookingGapMins, int maxBookingAdvanceWeeks,
-                                     boolean showBookingCount, int maxBookingsPerSlot) {
-        String sql = "UPDATE bookingConstraints SET cancelLimitMinutes = ?, rescheduleLimitMinutes = ?, " +
-                "minBookingGapMins = ?, maxBookingAdvanceWeeks = ?, showBookingCount = ?, " +
-                "maxBookingsPerSlot = ? WHERE constraintId = ?";
+    public boolean updateConstraints(int constraintId, int maxBookingAdvanceWeeks, int maxBookingsPerSlot) {
+        String sql = "UPDATE bookingConstraints SET maxBookingAdvanceWeeks = ?, maxBookingsPerSlot = ? WHERE constraintId = ?";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-            pstmt.setInt(1, cancelLimitMinutes);
-            pstmt.setInt(2, rescheduleLimitMinutes);
-            pstmt.setInt(3, minBookingGapMins);
-            pstmt.setInt(4, maxBookingAdvanceWeeks);
-            pstmt.setBoolean(5, showBookingCount);
-            pstmt.setInt(6, maxBookingsPerSlot);
-            pstmt.setInt(7, constraintId);
+            pstmt.setInt(1, maxBookingAdvanceWeeks);
+            pstmt.setInt(2, maxBookingsPerSlot);
+            pstmt.setInt(3, constraintId);
 
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;

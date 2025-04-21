@@ -23,111 +23,6 @@
                 <h2 class="text-center">Booking Settings</h2>
             </div>
             <div class="card-body">
-                <!-- Form for updating constraints -->
-                <form action="${pageContext.request.contextPath}/booking/updateConstraints" method="POST" id="constraintsForm">
-                    <c:if test="${constraints != null}">
-                        <input type="hidden" name="constraintId" value="${constraints.constraintId}">
-                    </c:if>
-
-                    <div class="settings-container">
-                        <div class="setting-row">
-                            <div class="setting-left">
-                                Allow members to cancel bookings
-                                <input type="number" name="cancelLimitValue" value="${constraints.cancelLimitMinutes > 0 ? constraints.cancelLimitMinutes : 0}"
-                                       min="0" class="form-control setting-input">
-                                <select name="cancelLimitUnit" class="form-control setting-input">
-                                    <option value="minutes" selected>Minutes</option>
-                                    <option value="hours">Hours</option>
-                                    <option value="days">Days</option>
-                                </select>
-                                before appointment time
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox" checked class="setting-toggle" id="cancelToggle">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="setting-row">
-                            <div class="setting-left">
-                                Allow members to reschedule bookings
-                                <input type="number" name="rescheduleLimitValue" value="${constraints.rescheduleLimitMinutes > 0 ? constraints.rescheduleLimitMinutes : 0}"
-                                       min="0" class="form-control setting-input">
-                                <select name="rescheduleLimitUnit" class="form-control setting-input">
-                                    <option value="minutes" selected>Minutes</option>
-                                    <option value="hours">Hours</option>
-                                    <option value="days">Days</option>
-                                </select>
-                                before appointment time
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox" checked class="setting-toggle" id="rescheduleToggle">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="setting-row">
-                            <div class="setting-left">
-                                Allow members to book up to
-                                <input type="number" name="minBookingGapValue" value="${constraints.minBookingGapMins > 0 ? constraints.minBookingGapMins : 0}"
-                                       min="1" class="form-control setting-input">
-                                <select name="minBookingGapUnit" class="form-control setting-input">
-                                    <option value="minutes" selected>minutes</option>
-                                    <option value="hours">hours</option>
-                                </select>
-                                prior to a session
-                            </div>
-                        </div>
-
-                        <div class="setting-row">
-                            <div class="setting-left">
-                                Allow bookings up to
-                                <input type="number" name="maxBookingAdvanceValue" value="${constraints.maxBookingAdvanceWeeks > 0 ? constraints.maxBookingAdvanceWeeks : 1}"
-                                       min="0" class="form-control setting-input">
-                                <select name="maxBookingAdvanceUnit" class="form-control setting-input">
-                                    <option value="weeks" selected>weeks</option>
-                                    <option value="months">months</option>
-                                </select>
-                                before the session begins
-                            </div>
-                        </div>
-
-                        <div class="setting-row">
-                            <div class="setting-left">
-                                Show number of bookings per slot on the schedule
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox" name="showBookingCount" class="setting-toggle"
-                                ${constraints.showBookingCount ? 'checked' : ''}>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="setting-row">
-                            <div class="setting-left">
-                                Maximum number of members per slot
-                                <input type="number" name="maxBookingsPerSlot" value="${constraints.maxBookingsPerSlot > 0 ? constraints.maxBookingsPerSlot : 50}"
-                                       min="1" class="form-control setting-input">
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox" checked class="setting-toggle" id="maxBookingsToggle">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <input type="hidden" id="cancelEnabled" name="cancelEnabled" value="true">
-                        <input type="hidden" id="rescheduleEnabled" name="rescheduleEnabled" value="true">
-                        <input type="hidden" id="maxBookingsEnabled" name="maxBookingsEnabled" value="true">
-                    </div>
-
-                    <div class="card-footer">
-                        <div class="flex justify-end gap-md">
-                            <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                        </div>
-                    </div>
-                </form>
-
                 <!-- Separate form for blocking dates -->
                 <div class="card blocked-dates-section">
                     <h3>Block Time Slots</h3>
@@ -166,6 +61,51 @@
                         </div>
                     </form>
                 </div>
+
+                <!-- Form for updating constraints -->
+                <div class="card blocked-dates-section">
+                <form action="${pageContext.request.contextPath}/booking/updateConstraints" method="POST" id="constraintsForm">
+                    <c:if test="${constraints != null}">
+                        <input type="hidden" name="constraintId" value="${constraints.constraintId}">
+                    </c:if>
+
+                    <div class="settings-container">
+
+                        <div class="setting-row">
+                            <div class="setting-left">
+                                Allow bookings up to
+                                <input type="number" name="maxBookingAdvanceValue" value="${constraints.maxBookingAdvanceWeeks > 0 ? constraints.maxBookingAdvanceWeeks : 1}"
+                                       min="0" class="form-control setting-input">
+                                <select name="maxBookingAdvanceUnit" class="form-control setting-input">
+                                    <option value="weeks" selected>weeks</option>
+                                    <option value="months">months</option>
+                                </select>
+                                before the session begins
+                            </div>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-left">
+                                Maximum number of members per slot
+                                <input type="number" name="maxBookingsPerSlot" value="${constraints.maxBookingsPerSlot > 0 ? constraints.maxBookingsPerSlot : 50}"
+                                       min="1" class="form-control setting-input">
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked class="setting-toggle" id="maxBookingsToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <input type="hidden" id="maxBookingsEnabled" name="maxBookingsEnabled" value="true">
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="flex justify-end gap-md">
+                            <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -194,29 +134,6 @@
 
     // Set appropriate time units for pre-filled values
     function setInitialTimeUnits() {
-        const cancelLimitMinutes = ${constraints.cancelLimitMinutes > 0 ? constraints.cancelLimitMinutes : 0};
-        if (cancelLimitMinutes > 0) {
-            const cancelTimeDisplay = displayTimeValue(cancelLimitMinutes);
-            document.querySelector('input[name="cancelLimitValue"]').value = cancelTimeDisplay.value;
-            document.querySelector('select[name="cancelLimitUnit"]').value = cancelTimeDisplay.unit;
-        }
-
-        const rescheduleLimitMinutes = ${constraints.rescheduleLimitMinutes > 0 ? constraints.rescheduleLimitMinutes : 0};
-        if (rescheduleLimitMinutes > 0) {
-            const rescheduleTimeDisplay = displayTimeValue(rescheduleLimitMinutes);
-            document.querySelector('input[name="rescheduleLimitValue"]').value = rescheduleTimeDisplay.value;
-            document.querySelector('select[name="rescheduleLimitUnit"]').value = rescheduleTimeDisplay.unit;
-        }
-
-        const minBookingGapMins = ${constraints.minBookingGapMins > 0 ? constraints.minBookingGapMins : 0};
-        if (minBookingGapMins > 0) {
-            const bookingGapDisplay = displayTimeValue(minBookingGapMins);
-            document.querySelector('input[name="minBookingGapValue"]').value = bookingGapDisplay.value;
-            if (bookingGapDisplay.unit === 'hours' || bookingGapDisplay.unit === 'minutes') {
-                document.querySelector('select[name="minBookingGapUnit"]').value = bookingGapDisplay.unit;
-            }
-        }
-
         const maxBookingAdvanceWeeks = ${constraints.maxBookingAdvanceWeeks > 0 ? constraints.maxBookingAdvanceWeeks : 1};
         if (maxBookingAdvanceWeeks > 0) {
             if (maxBookingAdvanceWeeks % 4 === 0) {
@@ -226,17 +143,6 @@
                 document.querySelector('input[name="maxBookingAdvanceValue"]').value = maxBookingAdvanceWeeks;
                 document.querySelector('select[name="maxBookingAdvanceUnit"]').value = 'weeks';
             }
-        }
-
-        // Set initial toggle states
-        if (cancelLimitMinutes <= 0) {
-            document.getElementById('cancelToggle').checked = false;
-            updateInputStates(document.querySelectorAll('input[name="cancelLimitValue"], select[name="cancelLimitUnit"]'), false);
-        }
-
-        if (rescheduleLimitMinutes <= 0) {
-            document.getElementById('rescheduleToggle').checked = false;
-            updateInputStates(document.querySelectorAll('input[name="rescheduleLimitValue"], select[name="rescheduleLimitUnit"]'), false);
         }
 
         if (${constraints.maxBookingsPerSlot <= 0}) {
@@ -256,11 +162,7 @@
             toggle.addEventListener('change', (e) => {
                 updateInputStates(inputs, e.target.checked);
 
-                if (toggle.id === 'cancelToggle') {
-                    document.getElementById('cancelEnabled').value = e.target.checked;
-                } else if (toggle.id === 'rescheduleToggle') {
-                    document.getElementById('rescheduleEnabled').value = e.target.checked;
-                } else if (toggle.id === 'maxBookingsToggle') {
+                if (toggle.id === 'maxBookingsToggle') {
                     document.getElementById('maxBookingsEnabled').value = e.target.checked;
                 }
             });
@@ -293,14 +195,6 @@
     // Form submission for constraints
     document.getElementById('constraintsForm').addEventListener('submit', function(e) {
         e.preventDefault();
-
-        if (!document.getElementById('cancelToggle').checked) {
-            document.querySelector('input[name="cancelLimitValue"]').value = '0';
-        }
-
-        if (!document.getElementById('rescheduleToggle').checked) {
-            document.querySelector('input[name="rescheduleLimitValue"]').value = '0';
-        }
 
         if (!document.getElementById('maxBookingsToggle').checked) {
             document.querySelector('input[name="maxBookingsPerSlot"]').value = '0';

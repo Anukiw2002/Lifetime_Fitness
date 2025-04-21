@@ -47,37 +47,12 @@ public class UpdateBookingConstraintsServlet extends HttpServlet {
             boolean isUpdate = (currentConstraints != null);
             int constraintId = isUpdate ? currentConstraints.getConstraintId() : 0;
 
-            // Parse values with appropriate error handling
-            int cancelLimitMinutes = 0;  // Default to 0 if disabled
-            if (!"false".equals(request.getParameter("cancelEnabled"))) {
-                cancelLimitMinutes = convertToMinutes(
-                        request.getParameter("cancelLimitValue"),
-                        request.getParameter("cancelLimitUnit")
-                );
-            }
-
-            int rescheduleLimitMinutes = 0;  // Default to 0 if disabled
-            if (!"false".equals(request.getParameter("rescheduleEnabled"))) {
-                rescheduleLimitMinutes = convertToMinutes(
-                        request.getParameter("rescheduleLimitValue"),
-                        request.getParameter("rescheduleLimitUnit")
-                );
-            }
-
-            int minBookingGapMins = convertToMinutes(
-                    request.getParameter("minBookingGapValue"),
-                    request.getParameter("minBookingGapUnit")
-            );
-
             // Parse weeks value (no conversion needed for this field)
             int maxBookingAdvanceWeeks = Integer.parseInt(request.getParameter("maxBookingAdvanceValue"));
             if ("months".equals(request.getParameter("maxBookingAdvanceUnit"))) {
                 // Convert months to weeks (approximate)
                 maxBookingAdvanceWeeks = maxBookingAdvanceWeeks * 4;
             }
-
-            // Parse boolean value
-            boolean showBookingCount = "on".equals(request.getParameter("showBookingCount"));
 
             // Parse max bookings per slot
             int maxBookingsPerSlot = 50;  // Default value if disabled
@@ -91,20 +66,12 @@ public class UpdateBookingConstraintsServlet extends HttpServlet {
             if (isUpdate) {
                 success = bookingConstraintDAO.updateConstraints(
                         constraintId,
-                        cancelLimitMinutes,
-                        rescheduleLimitMinutes,
-                        minBookingGapMins,
                         maxBookingAdvanceWeeks,
-                        showBookingCount,
                         maxBookingsPerSlot
                 );
             } else {
                 success = bookingConstraintDAO.insertConstraints(
-                        cancelLimitMinutes,
-                        rescheduleLimitMinutes,
-                        minBookingGapMins,
                         maxBookingAdvanceWeeks,
-                        showBookingCount,
                         maxBookingsPerSlot
                 );
             }
