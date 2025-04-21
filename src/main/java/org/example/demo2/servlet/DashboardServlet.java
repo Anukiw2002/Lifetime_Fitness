@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.InstructorDashboardDAO;
+import org.example.demo2.dao.OwnerDashboardDAO;
 import org.example.demo2.util.DBConnection;
 import org.example.demo2.util.SessionUtils;
 import org.json.JSONObject;
@@ -32,6 +33,11 @@ public class DashboardServlet extends HttpServlet {
         System.out.println("Entering doGet method");
         String requestedWith = request.getHeader("X-Requested-With");
         System.out.println("X-Requested-With: " + requestedWith);
+
+        //retrive amount of money for the month
+        OwnerDashboardDAO dao1 = new OwnerDashboardDAO();
+        int revenue = dao1.getAmount();
+        System.out.println("revenue" + revenue);
 
         // If it's an AJAX request, send JSON and return immediately
         if ("XMLHttpRequest".equals(requestedWith)) {
@@ -107,6 +113,7 @@ public class DashboardServlet extends HttpServlet {
                 request.setAttribute("membershipPlanCount", membershipPlanCount);
                 request.setAttribute("instructors", instructors);
                 request.setAttribute("count", count);
+                request.setAttribute("revenue", revenue);
             }
         } catch (Exception e) {
             e.printStackTrace();
