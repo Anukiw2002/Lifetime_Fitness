@@ -68,15 +68,11 @@
 
 
             <!-- Exercises Table -->
-            <h3 class="section-title">Resistance Training Exercises</h3>
+            <h3 class="section-title">Weight Log</h3>
             <table class="report-table">
                 <thead>
                 <tr>
-                    <th>Exercise Name</th>
-                    <th>Reps</th>
-                    <th>Sets</th>
-                    <th>Exercise Date</th>
-                    <th>Rest</th>
+                    <th>Date</th>
                     <th>Weight</th>
                 </tr>
                 </thead>
@@ -86,11 +82,7 @@
                         for (Map<String, Object> exercise : exercises) {
                 %>
                 <tr>
-                    <td><input type="text" value="<%= exercise.get("exercise_name") %>" readonly></td>
-                    <td><input type="number" value="<%= exercise.get("reps") %>" readonly></td>
-                    <td><input type="number" value="<%= exercise.get("sets") %>" readonly></td>
                     <td><input type="date" value="<%= exercise.get("exercise_date") %>" readonly></td>
-                    <td><input type="text" value="<%= exercise.get("rest") %>" readonly></td>
                     <td><input type="number" value="<%= exercise.get("weight") %>" readonly></td>
                 </tr>
                 <%

@@ -162,6 +162,37 @@ public class BookSessionDAO {
         return sessionList;
     }
 
+    public BookSession getTodayBookingForClient(int userId) {
+        String sql = "SELECT bookingId, date, timeSlot FROM bookings " +
+                "WHERE userId = ? AND status IN ('booked', 'rescheduled') " +
+                "AND date = CURRENT_DATE AND timeSlot > CURRENT_TIME " +
+                "ORDER BY timeSlot ASC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Date date = rs.getDate("date");
+                    Time timeSlot = rs.getTime("timeSlot");
+
+                    BookSession bookSession = new BookSession(date, timeSlot);
+                    bookSession.setDate(date);
+                    bookSession.setTimeSlot(timeSlot);
+                    return bookSession;
+                } else {
+                    return null;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public List<BookSession> getAllBookings() {
         List<BookSession> sessionList = new ArrayList<>();
         String sql = "SELECT b.date, b.timeSlot, b.status, u.full_name AS fname, u.username AS lname " +

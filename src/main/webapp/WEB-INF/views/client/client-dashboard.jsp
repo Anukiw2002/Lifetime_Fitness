@@ -104,13 +104,23 @@
             <div>
                 <div class="card mb-4">
                     <div class="card-header">
-                        <h2><i class="fas fa-id-card"></i> Current Plan</h2>
+                        <h2><i class="fas fa-calendar-day"></i> Today's Session</h2>
                     </div>
                     <div class="card-body">
-                        <h3>${membership[0].planName} Membership Plan</h3>
-                        <fmt:parseDate value="${membership[0].endDate}" pattern="yyyy-MM-dd" var="parsedDate" />
-                        <p class="text-muted mb-4">Valid until: <fmt:formatDate value="${parsedDate}" pattern="MMMM d, yyyy" /></p>
-                        <button class="btn btn-primary w-full">Change Package</button>
+                        <c:if test="${booking != null}">
+                            <div class="session-info">
+                                <div class="session-time">
+                                    <i class="fas fa-clock"></i>
+                                    <span><fmt:formatDate value="${booking.timeSlot}" pattern="h:mm a" /></span>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${booking == null}">
+                            <div class="no-session">
+                                <i class="fas fa-calendar-plus empty-calendar"></i>
+                                <p>No booked sessions for today</p>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
                 <div class="action-buttons">
@@ -120,6 +130,17 @@
                     <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientBookings'">
                         <i class="fas fa-calendar"></i> View Schedule
                     </button>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2><i class="fas fa-id-card"></i> Current Plan</h2>
+                    </div>
+                    <div class="card-body">
+                        <h3>${membership[0].planName} Membership Plan</h3>
+                        <fmt:parseDate value="${membership[0].endDate}" pattern="yyyy-MM-dd" var="parsedDate" />
+                        <p class="text-muted mb-4">Valid until: <fmt:formatDate value="${parsedDate}" pattern="MMMM d, yyyy" /></p>
+                        <button class="btn btn-primary w-full">Change Package</button>
+                    </div>
                 </div>
             </div>
         </div>
