@@ -46,7 +46,7 @@ public class PaymentServicesDAO {
         RedirectUrls redirectUrls = new RedirectUrls();
 
         redirectUrls.setCancelUrl("http://localhost:8080/CancelPayment");
-        redirectUrls.setReturnUrl("http://localhost:8080/YourAppName/ExecutePayment");
+        redirectUrls.setReturnUrl("http://localhost:8080/ReviewPayment");
 
         return redirectUrls;
     }

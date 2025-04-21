@@ -1,7 +1,3 @@
-/**
- * ReviewPaymentServlet class - show review payment page.
- * @source https://codeJava.net
- */
 package org.example.demo2.servlet;
 
 import com.paypal.api.payments.PayerInfo;
@@ -31,27 +27,35 @@ public class ReviewPaymentServlet extends HttpServlet {
         String paymentId = request.getParameter("paymentId");
         String payerId = request.getParameter("PayerID");
 
-        PaymentServicesDAO paymentServices = new PaymentServicesDAO();
-        Payment payment = null;
-        try {
-            payment = paymentServices.getPaymentDetails(paymentId);
-        } catch (PayPalRESTException e) {
-            throw new ServletException("Error retrieving payment details from PayPal", e);
+        if (paymentId == null || payerId == null) {
+            response.sendRedirect("error.jsp"); // Or a custom error page
+            return;
         }
 
-        PayerInfo payerInfo = payment.getPayer().getPayerInfo();
-        Transaction transaction = payment.getTransactions().get(0);
-        ShippingAddress shippingAddress = transaction.getItemList().getShippingAddress();
+        try {
+            PaymentServicesDAO paymentServices = new PaymentServicesDAO();
+            Payment payment = paymentServices.getPaymentDetails(paymentId);
 
-        // Set all necessary attributes
-        request.setAttribute("payer", payerInfo);
-        request.setAttribute("transaction", transaction);
-        request.setAttribute("shippingAddress", shippingAddress);
-        request.setAttribute("paymentId", paymentId);
-        request.setAttribute("PayerID", payerId);
+            if (payment != null) {
+                PayerInfo payerInfo = payment.getPayer().getPayerInfo();
+                Transaction transaction = payment.getTransactions().get(0);
+                ShippingAddress shippingAddress = transaction.getItemList().getShippingAddress();
 
-        // Forward to JSP (make sure the JSP is in /WEB-INF/views/client/)
-        request.getRequestDispatcher("/WEB-INF/views/client/reviewPayment.jsp")
-                .forward(request, response);
+                // Just set the data to view it in the reviewPayment.jsp page
+                request.setAttribute("payer", payerInfo);
+                request.setAttribute("transaction", transaction);
+                request.setAttribute("paymentId", paymentId);
+                request.setAttribute("PayerID", payerId);
+
+                // Go to review page
+                request.getRequestDispatcher("/WEB-INF/views/client/reviewPayment.jsp")
+                        .forward(request, response);
+            } else {
+                response.sendRedirect("error.jsp"); // Fallback if something goes wrong
+            }
+
+        } catch (PayPalRESTException e) {
+            throw new ServletException("Could not retrieve payment details from PayPal.", e);
+        }
     }
 }
