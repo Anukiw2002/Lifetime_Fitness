@@ -73,4 +73,5 @@ public class DashboardDAO {
         }
         return streak;
     }
+
 }
