@@ -13,6 +13,8 @@
         <img src="${pageContext.request.contextPath}/images/LogoWhite.png" alt="Lifetime Fitness" class="logo">
     </div>
     <h1>Please Review Before Paying</h1>
+
+    <!-- Pay Now Form -->
     <form action="ExecutePayment" method="post">
         <input type="hidden" name="paymentId" value="${param.paymentId}" />
         <input type="hidden" name="PayerID" value="${param.PayerID}" />
@@ -55,6 +57,15 @@
                 </td>
             </tr>
         </table>
+    </form>
+
+    <!-- Cancel Payment Form -->
+    <form action="CancelPayment" method="post">
+        <input type="hidden" name="paymentId" value="${param.paymentId}" />
+        <input type="hidden" name="PayerID" value="${param.PayerID}" />
+        <div style="margin-top: 10px;">
+            <input type="submit" value="Cancel Payment" />
+        </div>
     </form>
 </div>
 </body>
