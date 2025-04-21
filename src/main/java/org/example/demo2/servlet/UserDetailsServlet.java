@@ -42,7 +42,6 @@ public class UserDetailsServlet extends HttpServlet {
         request.setAttribute("payDate", "2024-12-01");
         request.setAttribute("startDate", "2024-01-01");
         request.setAttribute("endDate", "2024-12-31");
-
         // Forward request to JSP
         request.getRequestDispatcher("/WEB-INF/views/client/userDetails.jsp").forward(request, response);
     }

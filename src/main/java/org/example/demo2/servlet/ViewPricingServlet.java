@@ -45,9 +45,7 @@ public class ViewPricingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
-            return; // If not authorized, the redirection will be handled by the utility method
-        }
+
         try {
             // Fetch all membership plans
             List<MembershipPlan> membershipPlans = membershipPlanDAO.findAll();
