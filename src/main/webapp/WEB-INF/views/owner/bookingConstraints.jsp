@@ -23,9 +23,8 @@
                 <h2 class="text-center">Booking Settings</h2>
             </div>
             <div class="card-body">
-                <!-- Updated form action to use updateConstraints -->
-                <form id="constraintsForm" action="${pageContext.request.contextPath}/booking/updateConstraints" method="POST">
-                    <!-- Add hidden field for constraint ID if it exists -->
+                <!-- Form for updating constraints -->
+                <form action="${pageContext.request.contextPath}/booking/updateConstraints" method="POST" id="constraintsForm">
                     <c:if test="${constraints != null}">
                         <input type="hidden" name="constraintId" value="${constraints.constraintId}">
                     </c:if>
@@ -116,7 +115,6 @@
                             </label>
                         </div>
 
-                        <!-- Hidden fields to handle toggle states -->
                         <input type="hidden" id="cancelEnabled" name="cancelEnabled" value="true">
                         <input type="hidden" id="rescheduleEnabled" name="rescheduleEnabled" value="true">
                         <input type="hidden" id="maxBookingsEnabled" name="maxBookingsEnabled" value="true">
@@ -129,6 +127,45 @@
                         </div>
                     </div>
                 </form>
+
+                <!-- Separate form for blocking dates -->
+                <div class="card blocked-dates-section">
+                    <h3>Block Time Slots</h3>
+                    <form action="${pageContext.request.contextPath}/booking/blockDate" method="POST" id="blockDateForm">
+                        <div class="form-group">
+                            <label class="form-label">Date</label>
+                            <input type="date" name="blockDate" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="full-day-check">
+                                <input type="checkbox" name="isFullDay" id="isFullDay">
+                                <span>Block full day</span>
+                            </label>
+                        </div>
+
+                        <div class="time-fields" id="timeFields">
+                            <div class="form-group">
+                                <label class="form-label">Start Time</label>
+                                <input type="time" name="startTime" id="startTime" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">End Time</label>
+                                <input type="time" name="endTime" id="endTime" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Reason</label>
+                            <input type="text" name="reason" class="form-control" placeholder="Enter reason for blocking (e.g., Maintenance, Holiday)" required>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-secondary" onclick="resetBlockDateForm()">Clear</button>
+                            <button type="submit" class="btn btn-primary">Block Time Slot</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -138,19 +175,16 @@
     // Helper function to convert minutes to appropriate display units
     function displayTimeValue(minutes) {
         if (minutes % (24 * 60) === 0) {
-            // Convert to days
             return {
                 value: minutes / (24 * 60),
                 unit: 'days'
             };
         } else if (minutes % 60 === 0) {
-            // Convert to hours
             return {
                 value: minutes / 60,
                 unit: 'hours'
             };
         } else {
-            // Keep as minutes
             return {
                 value: minutes,
                 unit: 'minutes'
@@ -160,7 +194,6 @@
 
     // Set appropriate time units for pre-filled values
     function setInitialTimeUnits() {
-        // Handle cancel limit
         const cancelLimitMinutes = ${constraints.cancelLimitMinutes > 0 ? constraints.cancelLimitMinutes : 0};
         if (cancelLimitMinutes > 0) {
             const cancelTimeDisplay = displayTimeValue(cancelLimitMinutes);
@@ -168,7 +201,6 @@
             document.querySelector('select[name="cancelLimitUnit"]').value = cancelTimeDisplay.unit;
         }
 
-        // Handle reschedule limit
         const rescheduleLimitMinutes = ${constraints.rescheduleLimitMinutes > 0 ? constraints.rescheduleLimitMinutes : 0};
         if (rescheduleLimitMinutes > 0) {
             const rescheduleTimeDisplay = displayTimeValue(rescheduleLimitMinutes);
@@ -176,7 +208,6 @@
             document.querySelector('select[name="rescheduleLimitUnit"]').value = rescheduleTimeDisplay.unit;
         }
 
-        // Handle min booking gap
         const minBookingGapMins = ${constraints.minBookingGapMins > 0 ? constraints.minBookingGapMins : 0};
         if (minBookingGapMins > 0) {
             const bookingGapDisplay = displayTimeValue(minBookingGapMins);
@@ -186,7 +217,6 @@
             }
         }
 
-        // Handle max booking advance weeks (could convert between weeks and months)
         const maxBookingAdvanceWeeks = ${constraints.maxBookingAdvanceWeeks > 0 ? constraints.maxBookingAdvanceWeeks : 1};
         if (maxBookingAdvanceWeeks > 0) {
             if (maxBookingAdvanceWeeks % 4 === 0) {
@@ -198,7 +228,7 @@
             }
         }
 
-        // Set initial toggle states based on existing values
+        // Set initial toggle states
         if (cancelLimitMinutes <= 0) {
             document.getElementById('cancelToggle').checked = false;
             updateInputStates(document.querySelectorAll('input[name="cancelLimitValue"], select[name="cancelLimitUnit"]'), false);
@@ -215,20 +245,17 @@
         }
     }
 
-    // Handle toggle changes and disable/enable corresponding inputs
+    // Handle toggle changes
     function setupToggleHandlers() {
         document.querySelectorAll('.setting-toggle').forEach(toggle => {
             const row = toggle.closest('.setting-row');
             const inputs = row.querySelectorAll('.setting-input');
 
-            // Set initial state
             updateInputStates(inputs, toggle.checked);
 
-            // Add change event listener
             toggle.addEventListener('change', (e) => {
                 updateInputStates(inputs, e.target.checked);
 
-                // Update hidden field values for form submission
                 if (toggle.id === 'cancelToggle') {
                     document.getElementById('cancelEnabled').value = e.target.checked;
                 } else if (toggle.id === 'rescheduleToggle') {
@@ -240,16 +267,13 @@
         });
     }
 
-    // Update input states based on toggle
     function updateInputStates(inputs, enabled) {
         inputs.forEach(input => {
             input.disabled = !enabled;
-            // Reset values when disabled but don't show it visually
             if (!enabled && input.type === 'number') {
-                input.dataset.previousValue = input.value; // Store the previous value
+                input.dataset.previousValue = input.value;
                 input.value = input.getAttribute('min') || '0';
             } else if (enabled && input.dataset.previousValue) {
-                // Restore previous value if available
                 input.value = input.dataset.previousValue;
                 delete input.dataset.previousValue;
             }
@@ -266,11 +290,10 @@
         });
     });
 
-    // Form submission preparation and validation
+    // Form submission for constraints
     document.getElementById('constraintsForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent default submission to do our own validation
+        e.preventDefault();
 
-        // Set default values for disabled toggles before submission
         if (!document.getElementById('cancelToggle').checked) {
             document.querySelector('input[name="cancelLimitValue"]').value = '0';
         }
@@ -283,20 +306,16 @@
             document.querySelector('input[name="maxBookingsPerSlot"]').value = '0';
         }
 
-        // Re-enable all inputs to ensure they're included in form submission
         document.querySelectorAll('.setting-input').forEach(input => {
             input.disabled = false;
         });
 
-        // Now validate
         if (validateSettings()) {
-            this.submit(); // Submit only if validation passes
+            this.submit();
         }
     });
 
-    // Validate settings
     function validateSettings() {
-        // Validate only enabled constraints
         if (document.getElementById('maxBookingsToggle').checked) {
             const maxBookingsPerSlot = parseInt(document.querySelector('input[name="maxBookingsPerSlot"]').value);
             if (maxBookingsPerSlot <= 0) {
@@ -304,15 +323,26 @@
                 return false;
             }
         }
-
         return true;
     }
 
-    // Initialize the page when loaded
+    // Handle full day toggle for blocked dates
+    document.getElementById('isFullDay').addEventListener('change', function() {
+        const timeFields = document.getElementById('timeFields');
+        timeFields.style.display = this.checked ? 'none' : 'flex';
+
+        if (this.checked) {
+            document.getElementById('startTime').removeAttribute('required');
+            document.getElementById('endTime').removeAttribute('required');
+        } else {
+            document.getElementById('startTime').setAttribute('required', 'true');
+            document.getElementById('endTime').setAttribute('required', 'true');
+        }
+    });
+
+    // Initialize the page
     document.addEventListener('DOMContentLoaded', () => {
         setupToggleHandlers();
-
-        // Set the appropriate time units for pre-filled values
         if (${constraints != null}) {
             setInitialTimeUnits();
         }

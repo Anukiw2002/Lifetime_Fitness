@@ -77,3 +77,143 @@ select.setting-input {
     flex-direction: column;
     gap: var(--spacing-sm);
 }
+
+/* Block Time Slots Section Styling */
+.blocked-dates-section {
+    margin-top: var(--spacing-3xl);
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-2xl);
+    border: 1px solid var(--border-color);
+}
+
+.blocked-dates-section h3 {
+    color: var(--text-color);
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Time fields layout */
+.time-fields {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.time-fields .form-group {
+    flex: 1;
+}
+
+/* Full day checkbox styling */
+.full-day-check {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    color: var(--text-color);
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-lg);
+}
+
+.full-day-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+}
+
+/* Date and time inputs */
+.blocked-dates-section input[type="date"],
+.blocked-dates-section input[type="time"],
+.blocked-dates-section input[type="text"] {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    font-size: var(--font-size-base);
+    transition: var(--transition);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.blocked-dates-section input[type="date"]:focus,
+.blocked-dates-section input[type="time"]:focus,
+.blocked-dates-section input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.2);
+}
+
+/* Calendar icon and time icon styling */
+.blocked-dates-section input[type="date"]::-webkit-calendar-picker-indicator,
+.blocked-dates-section input[type="time"]::-webkit-calendar-picker-indicator {
+    background-color: var(--secondary-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xs);
+    cursor: pointer;
+}
+
+/* Form buttons container */
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+
+/* Blocked dates history/list styling (for future use) */
+.blocked-dates-list {
+    margin-top: var(--spacing-2xl);
+}
+
+.blocked-date-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.blocked-date-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.blocked-date-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.blocked-date-datetime {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.blocked-date-reason {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .time-fields {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .form-buttons {
+        flex-direction: column;
+    }
+
+    .form-buttons .btn {
+        width: 100%;
+    }
+}
