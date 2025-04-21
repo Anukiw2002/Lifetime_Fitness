@@ -45,12 +45,12 @@ public class PaymentServicesDAO {
     private static RedirectUrls getRedirectURLs() {
         RedirectUrls redirectUrls = new RedirectUrls();
 
-        // Redirect to servlet instead of JSP
-        redirectUrls.setCancelUrl("http://localhost:8080/PaypalTest/cancel.html");
-        redirectUrls.setReturnUrl("http://localhost:8080/ReviewPayment"); // <-- changed
+        redirectUrls.setCancelUrl("http://localhost:8080/CancelPayment");
+        redirectUrls.setReturnUrl("http://localhost:8080/ReviewPayment");
 
         return redirectUrls;
     }
+
 
     private static List<Transaction> getTransactionInformation(OrderDetails orderDetail) {
         Amount amount = new Amount();

@@ -9,15 +9,15 @@ import java.sql.SQLException;
 
 public class OrderDAO {
 
-    public void saveOrder(String orderId, String buyerName, String email, String planName, BigDecimal amount) throws SQLException {
-        String sql = "INSERT INTO orders (order_id, buyer_name, email, plan_name, amount) VALUES (?, ?, ?, ?, ?)";
+    public void saveOrder(String orderId, Integer userId, String buyerName, String planName, BigDecimal amount) throws SQLException {
+        String sql = "INSERT INTO orders (order_id, user_id, buyer_name, plan_name, amount) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, orderId);
-            stmt.setString(2, buyerName);
-            stmt.setString(3, email);
+            stmt.setInt(2, userId);
+            stmt.setString(3, buyerName);
             stmt.setString(4, planName);
             stmt.setBigDecimal(5, amount);
 
@@ -28,4 +28,6 @@ public class OrderDAO {
             throw e; // optional: rethrow if you want to handle it higher up
         }
     }
+
+
 }

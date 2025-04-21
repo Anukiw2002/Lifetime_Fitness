@@ -39,7 +39,7 @@
             <tr>
                 <td colspan="2" align="center">
                     <input type="submit" value="Checkout" />
-                    <input type="button" value="Cancel" onclick="window.location.href='${pageContext.request.contextPath}/PlanPrices'" style="margin-left: 1rem;" />
+                    <input type="button" value="Cancel" onclick="window.location.href='${pageContext.request.contextPath}/CancelPayment'" style="margin-left: 1rem;" />
                 </td>
             </tr>
         </table>
