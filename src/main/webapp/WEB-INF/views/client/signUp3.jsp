@@ -130,8 +130,7 @@
 
                 <div class="question">
                     <div class="question-content">
-                        <label>12. Do you have any other medical condition that hasn't been mentioned above ? If "Yes" please describe</label>
-                        <input type="text" class="form-input">
+                        <label>12. Do you have any other medical condition that hasn't been mentioned above ? </label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q12" value="yes"> Yes</label>
