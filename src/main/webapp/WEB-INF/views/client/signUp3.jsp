@@ -110,8 +110,7 @@
 
                 <div class="question">
                     <div class="question-content">
-                        <label>9. Do you smoke ? If "Yes" how many per day ? If an ex-smoker, when did you stop ?</label>
-                        <input type="text" class="form-input">
+                        <label>9. Do you smoke ? </label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q9" value="yes"> Yes</label>
