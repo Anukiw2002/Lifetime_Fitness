@@ -56,6 +56,8 @@ public class User {
 
 
     public int getUser_id() {return user_id;}
+
+    public void setUser_id(int user_id) {this.user_id = user_id;}
     // Getters and setters for all fields
     public String getFullName() {
         return fullName;

@@ -17,8 +17,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public void registerUser(User user) throws SQLException {
-        String sql = "INSERT INTO users (full_name, username, email, hashed_password, role) VALUES (?, ?, ?, ?, ?)";
-
+        String sql = "INSERT INTO users (full_name, username, email, hashed_password, role) VALUES (?, ?, ?, ?, ?) RETURNING id";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -28,15 +27,17 @@ public class UserDAO implements IUserDAO {
             stmt.setString(4, user.getHashedPassword());
             stmt.setString(5, user.getRole());
 
-            int rowsAffected = stmt.executeUpdate();
-            System.out.println("registerUser: User registered successfully. Rows affected: " + rowsAffected);
-
-        } catch (SQLException e) {
-            System.err.println("registerUser: Error inserting user with username '" + user.getUsername() + "'");
-            e.printStackTrace();
-            throw e;
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int generatedId = rs.getInt("id");
+                    user.setUser_id(generatedId);
+                } else {
+                    throw new SQLException("User registration failed, no ID obtained.");
+                }
+            }
         }
     }
+
 
     @Override
     public boolean validatePasswordResetToken(String token) throws SQLException {

@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.demo2.dao.IUserDAO;
 import org.example.demo2.dao.UserDAO;
+import org.example.demo2.dao.UserDAOImpl;
 import org.example.demo2.model.User;
 import org.example.demo2.util.HashUtil;
 
@@ -50,6 +52,7 @@ public class RegisterServlet extends HttpServlet {
             // Create the user with role set to "client"
             User user = new User(firstName, lastName, email, hashedPassword, "client");
             userDAO.registerUser(user);
+            session.setAttribute("userId", user.getUser_id());
 
             // Redirect to login page after successful registration
             sendAlert(response, "Registration successful. ", "/signup/step2");

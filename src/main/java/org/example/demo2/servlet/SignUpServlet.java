@@ -1,4 +1,4 @@
-package org.example.demo2.servlet;
+/*package org.example.demo2.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -69,4 +69,4 @@ public class SignUpServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/signup/step1");
         }
     }
-}
+}*/
