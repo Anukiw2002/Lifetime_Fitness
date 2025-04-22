@@ -27,10 +27,10 @@ public class MedicalHistoryDAO {
             ps.setString(1, history.getUserEmail());
             ps.setString(2, history.getMedicalCondition());
             ps.setString(3, history.getTakeMedication());
-            ps.setBoolean(4, history.isChestPain());
-            ps.setBoolean(5, history.isBackPain());
+            ps.setString(4, history.isChestPain());
+            ps.setString(5, history.isBackPain());
             ps.setString(6, history.getBoneJointProblem());
-            ps.setBoolean(7, history.isBloodPressure());
+            ps.setString(7, history.isBloodPressure());
             ps.setString(8, history.getDiabetes());
             ps.setString(9, history.getStressLevel());
             ps.setString(10, history.getSmoking());
