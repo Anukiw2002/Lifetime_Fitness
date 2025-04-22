@@ -36,7 +36,7 @@ public class MedicalHistory {
     }
 
     public  String getUserEmail() {return userEmail;}
-    public void setUserEmail(int userId) {this.userEmail = userEmail;}
+    public void setUserEmail(String userEmail) {this.userEmail = userEmail;}
 
     public String getMedicalCondition() {return medicalCondition;}
     public void setMedicalCondition(String medicalCondition) {this.medicalCondition = medicalCondition;}

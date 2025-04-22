@@ -45,4 +45,5 @@ public class MedicalHistoryServlet extends HttpServlet {
         }
     }
 
+
 }
