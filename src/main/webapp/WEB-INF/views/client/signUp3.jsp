@@ -45,7 +45,7 @@
 
                 <div class="question">
                     <div class="question-content">
-                        <label>2. Do you take any medication on a regular basis ? If "Yes" please describe</label>
+                        <label>2. Do you take any medication on a regular basis ?</label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q2" value="yes"> Yes</label>
@@ -75,8 +75,7 @@
 
                 <div class="question">
                     <div class="question-content">
-                        <label>5. Do you have any bone or joint problem that could be aggravated by exercise ? If "Yes" please describe</label>
-                        <input type="text" class="form-input">
+                        <label>5. Do you have any bone or joint problem that could be aggravated by exercise ?</label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q5" value="yes"> Yes</label>
