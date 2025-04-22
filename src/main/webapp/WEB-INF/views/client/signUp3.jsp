@@ -34,8 +34,7 @@
             <div class="question-group">
                 <div class="question">
                     <div class="question-content">
-                        <label>1. Have you had a significant medical condition, surgical operation or surgery ? If "Yes" please describe</label>
-                        <input type="text" class="form-input">
+                        <label>1. Have you had a significant medical condition, surgical operation or surgery ?</label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q1" value="yes"> Yes</label>
