@@ -12,7 +12,7 @@
 <body>
 
 <div class="main-content">
-    <jsp:include page="../common/verticalNavBar.jsp" />
+    <jsp:include page="../client/clientVerticalNavbar.jsp" />
 
     <div class="container">
         <!-- Blog Header -->
@@ -30,7 +30,7 @@
 
         <!-- Back Button -->
         <div class="mt-4">
-            <a href="${pageContext.request.contextPath}/GetAllBlogs" class="btn btn-primary">Back to Blogs</a>
+            <a href="${pageContext.request.contextPath}/GetAllBlogsClient" class="btn btn-primary">Back to Blogs</a>
         </div>
     </div>
 </div>

@@ -139,7 +139,6 @@
                         <h3>${membership[0].planName} Membership Plan</h3>
                         <fmt:parseDate value="${membership[0].endDate}" pattern="yyyy-MM-dd" var="parsedDate" />
                         <p class="text-muted mb-4">Valid until: <fmt:formatDate value="${parsedDate}" pattern="MMMM d, yyyy" /></p>
-                        <button class="btn btn-primary w-full">Change Package</button>
                     </div>
                 </div>
             </div>
