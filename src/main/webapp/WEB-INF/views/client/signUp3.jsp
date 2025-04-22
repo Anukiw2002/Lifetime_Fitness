@@ -46,7 +46,6 @@
                 <div class="question">
                     <div class="question-content">
                         <label>2. Do you take any medication on a regular basis ? If "Yes" please describe</label>
-                        <input type="text" class="form-input">
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q2" value="yes"> Yes</label>
