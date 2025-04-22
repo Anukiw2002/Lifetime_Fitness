@@ -18,6 +18,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import jakarta.servlet.annotation.WebServlet;
 
 @WebServlet("/dashboard")
@@ -37,7 +39,8 @@ public class DashboardServlet extends HttpServlet {
         //retrive amount of money for the month
         OwnerDashboardDAO dao1 = new OwnerDashboardDAO();
         int revenue = dao1.getAmount();
-        System.out.println("revenue" + revenue);
+        Map<String, Integer> revenueForFourMonths = dao1.getRevenueForFourMonths();
+        request.setAttribute("revenueForFourMonths", revenueForFourMonths);
 
         // If it's an AJAX request, send JSON and return immediately
         if ("XMLHttpRequest".equals(requestedWith)) {
