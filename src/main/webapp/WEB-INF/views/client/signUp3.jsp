@@ -104,7 +104,7 @@
 
                 <div class="question no-radio">
                     <label>8. How would you rate your own level of stress ? At work ? At home ?</label>
-                    <input type="text" class="form-input">
+                    <input type="text" class="form-input" name="q8">
                 </div>
 
                 <div class="question">
@@ -119,12 +119,12 @@
 
                 <div class="question no-radio">
                     <label>10. What is your current level of activity ?</label>
-                    <input type="text" class="form-input">
+                    <input type="text" class="form-input" name="q10">
                 </div>
 
                 <div class="question no-radio">
                     <label>11. What are the objectives of participating in structured exercises?</label>
-                    <input type="text" class="form-input">
+                    <input type="text" class="form-input" name="q11">
                 </div>
 
                 <div class="question">

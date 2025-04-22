@@ -1,4 +1,4 @@
-package org.example.demo2.servlet;
+/*package org.example.demo2.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,3 +13,4 @@ public class FetchMedicalDetailsServlet {
 
     }
 }
+*/
