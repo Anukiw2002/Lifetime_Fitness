@@ -95,8 +95,7 @@
 
                 <div class="question">
                     <div class="question-content">
-                        <label>7. Do you suffer from diabetes ? If "Yes" When did you check your sugar levels last and how much was it ?</label>
-                        <input type="text" class="form-input">
+                        <label>7. Do you suffer from diabetes ? </label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q7" value="yes"> Yes</label>
