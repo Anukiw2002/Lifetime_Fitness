@@ -5,6 +5,7 @@ import org.example.demo2.util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MedicalHistoryDAO {
@@ -27,10 +28,10 @@ public class MedicalHistoryDAO {
             ps.setString(1, history.getUserEmail());
             ps.setString(2, history.getMedicalCondition());
             ps.setString(3, history.getTakeMedication());
-            ps.setBoolean(4, history.isChestPain());
-            ps.setBoolean(5, history.isBackPain());
+            ps.setString(4, history.getChestPain());
+            ps.setString(5, history.getBackPain());
             ps.setString(6, history.getBoneJointProblem());
-            ps.setBoolean(7, history.isBloodPressure());
+            ps.setString(7, history.getBloodPressure());
             ps.setString(8, history.getDiabetes());
             ps.setString(9, history.getStressLevel());
             ps.setString(10, history.getSmoking());
@@ -44,6 +45,36 @@ public class MedicalHistoryDAO {
         }
         return false;
 
+    }
+
+    public MedicalHistory getMedicalHistory(String email){
+        String sql = "SELECT * FROM medical_history WHERE user_email = ?";
+        MedicalHistory medicalHistory = null;
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1,email);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                medicalHistory  = new MedicalHistory(
+                        rs.getString("user_email"),
+                        rs.getString("medical_condition"),
+                        rs.getString("takes_medication"),
+                        rs.getString("chest_pain"),
+                        rs.getString("back_pain"),
+                        rs.getString("bone_joint_problem"),
+                        rs.getString("blood_pressure"),
+                        rs.getString("diabetes"),
+                        rs.getString("stress_level"),
+                        rs.getString("smoking"),
+                        rs.getString("activity_level"),
+                        rs.getString("exercise_objectives"),
+                        rs.getString("other_conditions")
+                );
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return medicalHistory;
     }
 
 }

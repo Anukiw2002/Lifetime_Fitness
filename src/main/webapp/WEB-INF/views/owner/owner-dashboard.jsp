@@ -33,7 +33,7 @@
                 <i class="fas fa-user"></i>
                 Manage Instructors
             </a>
-            <a href="reports.jsp" class="action-btn">
+            <a href="/first" class="action-btn">
                 <i class="fas fa-file-alt"></i>
                 View Reports
             </a>

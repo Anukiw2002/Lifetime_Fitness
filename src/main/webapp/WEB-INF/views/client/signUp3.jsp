@@ -34,8 +34,7 @@
             <div class="question-group">
                 <div class="question">
                     <div class="question-content">
-                        <label>1. Have you had a significant medical condition, surgical operation or surgery ? If "Yes" please describe</label>
-                        <input type="text" class="form-input">
+                        <label>1. Have you had a significant medical condition, surgical operation or surgery ?</label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q1" value="yes"> Yes</label>
@@ -45,8 +44,7 @@
 
                 <div class="question">
                     <div class="question-content">
-                        <label>2. Do you take any medication on a regular basis ? If "Yes" please describe</label>
-                        <input type="text" class="form-input">
+                        <label>2. Do you take any medication on a regular basis ?</label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q2" value="yes"> Yes</label>
@@ -76,8 +74,7 @@
 
                 <div class="question">
                     <div class="question-content">
-                        <label>5. Do you have any bone or joint problem that could be aggravated by exercise ? If "Yes" please describe</label>
-                        <input type="text" class="form-input">
+                        <label>5. Do you have any bone or joint problem that could be aggravated by exercise ?</label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q5" value="yes"> Yes</label>
@@ -97,8 +94,7 @@
 
                 <div class="question">
                     <div class="question-content">
-                        <label>7. Do you suffer from diabetes ? If "Yes" When did you check your sugar levels last and how much was it ?</label>
-                        <input type="text" class="form-input">
+                        <label>7. Do you suffer from diabetes ? </label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q7" value="yes"> Yes</label>
@@ -108,13 +104,12 @@
 
                 <div class="question no-radio">
                     <label>8. How would you rate your own level of stress ? At work ? At home ?</label>
-                    <input type="text" class="form-input">
+                    <input type="text" class="form-input" name="q8">
                 </div>
 
                 <div class="question">
                     <div class="question-content">
-                        <label>9. Do you smoke ? If "Yes" how many per day ? If an ex-smoker, when did you stop ?</label>
-                        <input type="text" class="form-input">
+                        <label>9. Do you smoke ? </label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q9" value="yes"> Yes</label>
@@ -124,18 +119,17 @@
 
                 <div class="question no-radio">
                     <label>10. What is your current level of activity ?</label>
-                    <input type="text" class="form-input">
+                    <input type="text" class="form-input" name="q10">
                 </div>
 
                 <div class="question no-radio">
                     <label>11. What are the objectives of participating in structured exercises?</label>
-                    <input type="text" class="form-input">
+                    <input type="text" class="form-input" name="q11">
                 </div>
 
                 <div class="question">
                     <div class="question-content">
-                        <label>12. Do you have any other medical condition that hasn't been mentioned above ? If "Yes" please describe</label>
-                        <input type="text" class="form-input">
+                        <label>12. Do you have any other medical condition that hasn't been mentioned above ? </label>
                     </div>
                     <div class="radio-group">
                         <label><input type="radio" name="q12" value="yes"> Yes</label>

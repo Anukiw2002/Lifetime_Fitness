@@ -4,10 +4,10 @@ public class MedicalHistory {
     private String userEmail;
     private String medicalCondition;
     private String takeMedication;
-    private boolean chestPain;
-    private boolean backPain;
+    private String chestPain;
+    private String backPain;
     private String boneJointProblem;
-    private boolean bloodPressure;
+    private String bloodPressure;
     private String diabetes;
     private String stressLevel;
     private String smoking;
@@ -15,8 +15,8 @@ public class MedicalHistory {
     private String exerciseObjectives;
     private String otherConditions;
 
-    public MedicalHistory(String userEmail, String medicalCondition, String takeMedication, boolean chestPain,
-                          boolean backPain, String boneJointProblem, boolean bloodPressure,
+    public MedicalHistory(String userEmail, String medicalCondition, String takeMedication, String chestPain,
+                          String backPain, String boneJointProblem, String bloodPressure,
                           String diabetes, String stressLevel, String smoking,
                           String activityLevel, String exerciseObjectives, String otherConditions){
 
@@ -36,7 +36,7 @@ public class MedicalHistory {
     }
 
     public  String getUserEmail() {return userEmail;}
-    public void setUserEmail(int userId) {this.userEmail = userEmail;}
+    public void setUserEmail(String userEmail) {this.userEmail = userEmail;}
 
     public String getMedicalCondition() {return medicalCondition;}
     public void setMedicalCondition(String medicalCondition) {this.medicalCondition = medicalCondition;}
@@ -44,17 +44,17 @@ public class MedicalHistory {
     public String getTakeMedication() { return takeMedication; }
     public void setTakeMedication(String takesMedication) { this.takeMedication = takeMedication; }
 
-    public boolean isChestPain() { return chestPain; }
-    public void setChestPain(boolean chestPain) { this.chestPain = chestPain; }
+    public String getChestPain() { return chestPain; }
+    public void setChestPain(String chestPain) { this.chestPain = chestPain; }
 
-    public boolean isBackPain() { return backPain; }
-    public void setBackPain(boolean backPain) { this.backPain = backPain; }
+    public String getBackPain() { return backPain; }
+    public void setBackPain(String backPain) { this.backPain = backPain; }
 
     public String getBoneJointProblem() { return boneJointProblem; }
     public void setBoneJointProblem(String boneJointProblem) { this.boneJointProblem = boneJointProblem; }
 
-    public boolean isBloodPressure() { return bloodPressure; }
-    public void setBloodPressure(boolean bloodPressure) { this.bloodPressure = bloodPressure; }
+    public String getBloodPressure() { return bloodPressure; }
+    public void setBloodPressure(String bloodPressure) { this.bloodPressure = bloodPressure; }
 
     public String getDiabetes() { return diabetes; }
     public void setDiabetes(String diabetes) { this.diabetes = diabetes; }

@@ -44,6 +44,10 @@
             <td>${email}</td>
             <td>
               <div class="action-buttons">
+                <form action="<%= request.getContextPath() %>/viewDetails" method="get">
+                  <input type="hidden" name="email" value="${email}">
+                  <button type="submit" class="btn btn-secondary">Details</button>
+                </form>
                 <form action="<%= request.getContextPath() %>/viewReport" method="get">
                   <input type="hidden" name="email" value="${email}">
                   <button type="submit" class="btn btn-secondary">View</button>
