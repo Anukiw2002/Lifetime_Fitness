@@ -18,6 +18,7 @@
     <form action="ExecutePayment" method="post">
         <input type="hidden" name="paymentId" value="${param.paymentId}" />
         <input type="hidden" name="PayerID" value="${param.PayerID}" />
+        <input type="hidden" name="durationId" value="${durationId}" />
 
         <table>
             <tr>
