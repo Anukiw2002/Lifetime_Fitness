@@ -33,7 +33,7 @@
                 <i class="fas fa-user"></i>
                 Manage Instructors
             </a>
-            <a href="/first" class="action-btn">
+            <a href="/reportCategories" class="action-btn">
                 <i class="fas fa-file-alt"></i>
                 View Reports
             </a>
@@ -60,7 +60,7 @@
             </div>
             <div class="stat-card">
                 <div class="stat-value">${revenue}</div>
-                <div class="stat-label">Monthly Revenue</div>
+                <div class="stat-label">Monthly Revenue(Rs)</div>
             </div>
         </div>
 
@@ -128,40 +128,55 @@
             });
 
             // Revenue Growth Chart (You can create the second chart for revenue similarly)
-            new Chart(revenueCtx, {
-                type: 'line', // Line chart for revenue growth
-                data: {
-                    labels: data.months, // Use months from the JSON response
-                    datasets: [{
-                        label: 'Revenue Growth',
-                        data: data.revenue, // Assuming you have revenue data in your response
-                        borderColor: 'green',
-                        backgroundColor: 'rgba(0, 255, 0, 0.2)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Months'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Revenue'
-                            }
-                        }
-                    }
-                }
-            });
+
         })
         .catch(error => {
             console.error('Error:', error); // Handle any errors that occur during the fetch
         });
+    const revenueData = {
+        labels: [],
+        data: []
+    };
+
+    <c:forEach var="entry" items="${revenueForFourMonths}">
+    revenueData.labels.push("${entry.key}");
+    revenueData.data.push(${entry.value});
+    </c:forEach>
+
+    const revenueCtx = document.getElementById("revenueChart").getContext("2d");
+
+    new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+            labels: revenueData.labels,
+            datasets: [{
+                label: 'Revenue Growth',
+                data: revenueData.data,
+                borderColor: 'green',
+                backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                borderWidth: 2,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Revenue'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 </script>
 
 <script src="${pageContext.request.contextPath}/js/owner-dashboard.js"></script>
