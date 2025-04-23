@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -34,6 +35,29 @@ public class ReportCategoryDAO {
             e.printStackTrace();
         }
         return revenueByType;
+    }
+
+    public Map<String, Integer> getMembersCount(){
+        Map<String, Integer> userCount = new HashMap<>();
+        String SQL = "SELECT TO_CHAR(created_at, 'YYYY-MM') AS month, " +
+                "COUNT(*) AS count " +
+                "FROM users " +
+                "GROUP BY " +
+                "month " +
+                "ORDER BY month";
+
+        try(Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(SQL);
+        ResultSet rs = stmt.executeQuery()){
+            while(rs.next()){
+                String month = rs.getString("month");
+                int count = rs.getString("count");
+                userCount.put(month,count);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return userCount;
     }
 
 }
