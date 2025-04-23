@@ -64,6 +64,7 @@ public class UpdateReportServlet extends HttpServlet {
                 reportDetails.put("flexibility", reportRs.getString("flexibility"));
                 reportDetails.put("cardio", reportRs.getString("cardio"));
                 reportDetails.put("remarks", reportRs.getString("remarks"));
+                reportDetails.put("target_weight", reportRs.getDouble("target_weight"));
                 reportDetails.put("email", email);
 
             }
