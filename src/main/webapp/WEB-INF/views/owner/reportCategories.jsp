@@ -18,8 +18,12 @@
 <jsp:include page="../common/verticalNavBar.jsp" />
 <div class="main-content">
     <div class="container">
-        <h2>Membership Plans Consumed</h2>
+        <h2><u>Membership Plans Consumed</u></h2>
         <canvas id="revenueByTypeChart" width="400" height="200"></canvas>
+    </div>
+    <div class="container">
+        <h2><u>New Members Encountered (Month wise)</u></h2>
+        <canvas id="membersEncountered" width="400" height="200"></canvas>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -44,7 +48,8 @@
                 data: revenueByTypeData.data,
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
                 borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+                borderWidth: 1,
+                color: '#FFFFFF'
             }]
         },
         options: {
