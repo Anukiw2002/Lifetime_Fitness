@@ -58,11 +58,7 @@
                     </div>
                 </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-            </div>
+
         </div>
 
         <!-- Main Content Grid -->
