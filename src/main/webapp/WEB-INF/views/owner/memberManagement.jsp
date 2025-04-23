@@ -8,24 +8,6 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/generalStyles.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/memberManagement.css">
     <script>
-        function cancelMembership(id) {
-            if (confirm("Are you sure you want to cancel this membership?")) {
-                fetch('${pageContext.request.contextPath}/cancelMembership', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: 'id=' + id
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            location.reload();
-                        } else {
-                            alert('Error cancelling membership');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-        }
-
         // Searching Members by name - Fixed function
         function membershipSearch() {
             var input = document.getElementById("clientSearch").value.toLowerCase();
@@ -82,7 +64,14 @@
     </script>
 </head>
 <body>
-<jsp:include page="../common/verticalNavBar.jsp" />
+<c:choose>
+    <c:when test="${sessionScope.userRole == 'instructor'}">
+        <jsp:include page="../instructor/instructorVerticalNavbar.jsp" />
+    </c:when>
+    <c:when test="${sessionScope.userRole == 'owner'}">
+        <jsp:include page="../common/verticalNavBar.jsp" />
+    </c:when>
+</c:choose>
 <div class="main-content">
     <div class="container">
         <h1 class="text-center mb-4">Member Management</h1>
@@ -108,7 +97,6 @@
                         <option value="">All Statuses</option>
                         <option value="active">Active</option>
                         <option value="expired">Expired</option>
-                        <option value="cancelled">Cancelled</option>
                     </select>
                     <button class="btn btn-secondary" onclick="filterMemberships()">
                         <i class="fas fa-filter"></i> Apply
@@ -129,7 +117,7 @@
                     <th>Membership</th>
                     <th>Status</th>
                     <th>Renewal Date</th>
-                    <th>Actions</th>
+                    <th>More Details</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -146,13 +134,10 @@
                         <td>
                             <div class="flex">
                                 <button class="action-button edit" onClick="viewClientDetails(${membership.userId})">
-                                    <i class="fas fa-edit"></i>
+                                    <i class="fas fa-user"></i>
                                 </button>
-                                <button class="action-button suspend">
-                                    <i class="fas fa-pause"></i>
-                                </button>
-                                <button class="action-button cancel" onclick="cancelMembership(${membership.membershipId})">
-                                    <i class="fas fa-times"></i>
+                                <button class="action-button edit">
+                                    <i class="fas fa-file-medical"></i>
                                 </button>
                             </div>
                         </td>

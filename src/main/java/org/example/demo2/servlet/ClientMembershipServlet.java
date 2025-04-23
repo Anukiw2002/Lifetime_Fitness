@@ -29,8 +29,8 @@ public class ClientMembershipServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Add the authorization check at the beginning
-        if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+        if (!SessionUtils.isUserAuthorized(request, response, "owner", "instructor")) {
+            return;
         }
 
         try {

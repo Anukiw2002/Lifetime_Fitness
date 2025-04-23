@@ -5,13 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.ClientDAO;
-import org.example.demo2.dao.ReportDAO;
-import org.example.demo2.dao.ReviewDAO;
 import org.example.demo2.model.Client;
-import org.example.demo2.model.Report;
-import org.example.demo2.model.Review;
 import org.example.demo2.util.DBConnection;
 import org.example.demo2.util.SessionUtils;
 
