@@ -18,11 +18,11 @@
 <jsp:include page="../common/verticalNavBar.jsp" />
 <div class="main-content">
     <div class="container">
-        <h2><u>Membership Plans Consumed</u></h2>
+        <h2>Membership Plans Consumed</h2>
         <canvas id="revenueByTypeChart" width="400" height="200"></canvas>
     </div>
     <div class="container">
-        <h2><u>New Members Encountered</u> (Month wise)</h2>
+        <h2>New Members Encountered (Month wise)</h2>
         <canvas id="membersEncounteredChart" width="400" height="200"></canvas>
     </div>
 </div>
@@ -46,8 +46,8 @@
             datasets: [{
                 label: 'Revenue by Plan Type (Rs)',
                 data: revenueByTypeData.data,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                borderColor: 'blue',
                 borderWidth: 1,
                 color: '#FFFFFF'
             }]
@@ -95,12 +95,12 @@
     new Chart(ctx1, {
         type: 'line', // You can change to 'pie', 'line', etc.
         data: {
-            labels: revenueByTypeData.labels,
+            labels: membersEncountered.labels,
             datasets: [{
                 label: 'New Members Encountered (Rs)',
                 data: membersEncountered.data,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                borderColor: 'blue',
                 borderWidth: 1,
                 color: '#FFFFFF'
             }]
