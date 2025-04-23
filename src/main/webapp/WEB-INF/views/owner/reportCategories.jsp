@@ -22,8 +22,8 @@
         <canvas id="revenueByTypeChart" width="400" height="200"></canvas>
     </div>
     <div class="container">
-        <h2><u>New Members Encountered (Month wise)</u></h2>
-        <canvas id="membersEncountered" width="400" height="200"></canvas>
+        <h2><u>New Members Encountered</u> (Month wise)</h2>
+        <canvas id="membersEncounteredChart" width="400" height="200"></canvas>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -70,6 +70,59 @@
                     title: {
                         display: true,
                         text: 'Plan Type',
+                        color: '#FFFFFF'
+                    },
+                    ticks: {
+                        color: '#FFFFFF'
+                    }
+
+                }
+            }
+        }
+    });
+
+    const membersEncountered = {
+        labels:[],
+        data: []
+    };
+
+    <c:forEach var="entry" items="${userCount}">
+    membersEncountered.labels.push("${entry.key}");
+    membersEncountered.data.push(${entry.value});
+    </c:forEach>
+
+    const ctx1 = document.getElementById('membersEncounteredChart').getContext('2d');
+    new Chart(ctx1, {
+        type: 'line', // You can change to 'pie', 'line', etc.
+        data: {
+            labels: revenueByTypeData.labels,
+            datasets: [{
+                label: 'New Members Encountered (Rs)',
+                data: membersEncountered.data,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                color: '#FFFFFF'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Members (Rs)',
+                        color: '#FFFFFF'
+                    },
+                    ticks : {
+                        color : '#FFFFFF'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month',
                         color: '#FFFFFF'
                     },
                     ticks: {

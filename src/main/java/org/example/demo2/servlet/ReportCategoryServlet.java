@@ -23,6 +23,11 @@ public class ReportCategoryServlet extends HttpServlet {
         for (Map.Entry<String, Integer> entry : revenueByType.entrySet()) {
             System.out.println("Plan Type: " + entry.getKey() + " | Count: " + entry.getValue());
         }
+        Map<String, Integer> userCount = dao.getMembersCount();
+        for (Map.Entry<String, Integer> entry : userCount.entrySet()) {
+            System.out.println("Month: " + entry.getKey() + " | Count: " + entry.getValue());
+        }
+        req.setAttribute("userCount", userCount);
         req.setAttribute("revenueByType", revenueByType);
 
         req.getRequestDispatcher("/WEB-INF/views/owner/reportCategories.jsp").forward(req,resp);

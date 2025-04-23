@@ -51,7 +51,7 @@ public class ReportCategoryDAO {
         ResultSet rs = stmt.executeQuery()){
             while(rs.next()){
                 String month = rs.getString("month");
-                int count = rs.getString("count");
+                int count = rs.getInt("count");
                 userCount.put(month,count);
             }
         }catch (SQLException e){
