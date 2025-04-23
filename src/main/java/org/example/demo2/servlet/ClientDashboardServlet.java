@@ -19,15 +19,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/clientDashboard")
 public class ClientDashboardServlet extends HttpServlet {
     private ClientMembershipDAO membershipDAO;
+    private WorkoutExerciseDAO  workoutExerciseDAO;
 
     @Override
     public void init() throws ServletException {
         DBConnection dbConnection = new DBConnection();
         membershipDAO = new ClientMembershipDAO(dbConnection);
+        workoutExerciseDAO = new WorkoutExerciseDAO(dbConnection);
     }
 
     @Override
@@ -91,6 +94,9 @@ public class ClientDashboardServlet extends HttpServlet {
         req.setAttribute("currentDay", currentDay);
         req.setAttribute("currentMonth", currentMonth);
         req.setAttribute("currentYear", currentYear);
+
+        Map<String, Integer> weeklyWorkouts = workoutExerciseDAO.getNumberOfSessionsPerWeek(user_id);
+        req.setAttribute("weeklyWorkouts", weeklyWorkouts);
 
         // Forward the request to the JSP
         req.getRequestDispatcher("/WEB-INF/views/client/client-dashboard.jsp").forward(req, resp);

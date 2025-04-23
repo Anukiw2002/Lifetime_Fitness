@@ -98,6 +98,17 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2><i class="fas fa-chart-bar"></i> Weekly Workout Activity</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="workout-trend">
+                            <canvas id="workoutTrendChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Right Column -->
@@ -147,5 +158,13 @@
     </div>
 </div>
 <script src="${pageContext.request.contextPath}/js/clientDashboard.js"></script>
+<script>
+    // Pass the weekly workout data from the server to the client
+    const weeklyWorkoutData = {
+        <c:forEach var="entry" items="${weeklyWorkouts}" varStatus="status">
+        "${entry.key}": ${entry.value}${!status.last ? ',' : ''}
+        </c:forEach>
+    };
+</script>
 </body>
 </html>
