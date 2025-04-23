@@ -122,8 +122,8 @@ function validateForm() {
 
     // Validate age
     const age = document.querySelector('input[name="age"]');
-    if (age && age.value && (parseInt(age.value) < 0 || parseInt(age.value) > 70)) {
-        alert('Age must be between 0 and 70.');
+    if (age && age.value && (parseInt(age.value) < 9 || parseInt(age.value) > 70)) {
+        alert('Age must be between 9 and 70.');
         isValid = false;
     }
 
@@ -201,6 +201,49 @@ function validateForm() {
         // Don't prevent form submission on validation error
         return true;
     }
+
+    // Validate date constraints
+    const startingDateInput = document.querySelector('input[name="starting_date"]');
+    const expireDateInput = document.querySelector('input[name="expire_date"]');
+
+    if (startingDateInput && expireDateInput) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Remove time part for comparison
+        const startingDate = new Date(startingDateInput.value);
+        const expireDate = new Date(expireDateInput.value);
+
+        if (startingDate < today) {
+            alert('Starting date cannot be before today.');
+            isValid = false;
+        }
+
+        if (startingDate >= expireDate) {
+            alert('Starting date must be before the expire date.');
+            isValid = false;
+        }
+    }
+    const exerciseDates = document.querySelectorAll('input[name="exercise_date[]"]');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // normalize to midnight
+
+    const threeDaysAgo = new Date(today);
+    threeDaysAgo.setDate(today.getDate() - 3);
+
+    for (let i = 0; i < exerciseDates.length; i++) {
+        const dateInput = exerciseDates[i];
+        const dateValue = new Date(dateInput.value);
+        dateValue.setHours(0, 0, 0, 0);
+
+        if (dateValue > today) {
+            alert(`Exercise date in row ${i + 1} cannot be in the future.`);
+            isValid = false;
+        } else if (dateValue < threeDaysAgo) {
+            alert(`Exercise date in row ${i + 1} should be within the last 3 days (including today).`);
+            isValid = false;
+        }
+    }
+
+
 
     return isValid;
 }
