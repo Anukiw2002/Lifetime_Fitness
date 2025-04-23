@@ -62,12 +62,6 @@
                 <div class="stat-icon">
                     <i class="fas fa-chart-line"></i>
                 </div>
-                <div>
-                    <h3>Total Reports</h3>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl">${reportCount}</span>
-                    </div>
-                </div>
             </div>
         </div>
 
