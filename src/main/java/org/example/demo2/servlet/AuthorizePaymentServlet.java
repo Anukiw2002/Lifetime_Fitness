@@ -31,6 +31,19 @@ public class AuthorizePaymentServlet extends HttpServlet {
 
         String product = request.getParameter("product");
         String subtotalStr = request.getParameter("subtotal");
+        // AuthorizePaymentServlet.java
+
+        HttpSession session = request.getSession();
+
+
+        String durationIdStr = request.getParameter("durationId");
+        try {
+            int durationId = Integer.parseInt(durationIdStr); // ✅ Convert to Integer
+            session.setAttribute("durationId", durationId);
+        } catch (NumberFormatException e) {
+            // Handle invalid durationId
+        }
+
 
         try {
             if (product == null || subtotalStr == null) {

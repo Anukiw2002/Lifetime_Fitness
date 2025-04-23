@@ -30,11 +30,11 @@
             </tr>
             <tr>
                 <td>Subtotal:</td>
-                <td>${transaction.amount.details.subtotal} USD</td>
+                <td>${transaction.amount.details.subtotal} LKR</td>
             </tr>
             <tr>
                 <td><strong>Total:</strong></td>
-                <td><strong>${transaction.amount.total} USD</strong></td>
+                <td><strong>${transaction.amount.total} LKR</strong></td>
             </tr>
 
             <tr><td colspan="2"><br/><strong>Payer Information:</strong></td></tr>

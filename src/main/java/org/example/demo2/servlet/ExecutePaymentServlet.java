@@ -30,7 +30,12 @@ public class ExecutePaymentServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
-        Integer durationId = (Integer) session.getAttribute("durationId"); // 💡 get durationId from session
+
+        // ExecutePaymentServlet.java
+        Integer durationId = (Integer) session.getAttribute("durationId");
+        if (durationId == null) {
+            throw new ServletException("Missing duration ID in payment flow");
+        }
 
 
 
