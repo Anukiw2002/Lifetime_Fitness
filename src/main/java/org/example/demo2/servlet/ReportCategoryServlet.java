@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.demo2.dao.OwnerDashboardDAO;
 import org.example.demo2.dao.ReportCategoryDAO;
 import org.example.demo2.util.SessionUtils;
 
@@ -27,6 +28,13 @@ public class ReportCategoryServlet extends HttpServlet {
         for (Map.Entry<String, Integer> entry : userCount.entrySet()) {
             System.out.println("Month: " + entry.getKey() + " | Count: " + entry.getValue());
         }
+
+        OwnerDashboardDAO dao1 = new OwnerDashboardDAO();
+        Map<String, Integer> revenueForFourMonths = dao1.getRevenueForFourMonths();
+        for (Map.Entry<String, Integer> entry : revenueForFourMonths.entrySet()) {
+            System.out.println("Month: " + entry.getKey() + " | Count: " + entry.getValue());
+        }
+        req.setAttribute("revenueForFourMonths", revenueForFourMonths);
         req.setAttribute("userCount", userCount);
         req.setAttribute("revenueByType", revenueByType);
 

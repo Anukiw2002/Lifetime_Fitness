@@ -25,6 +25,10 @@
         <h2>New Members Encountered (Month wise)</h2>
         <canvas id="membersEncounteredChart" width="400" height="200"></canvas>
     </div>
+    <div class="container">
+        <h2>Revenue By Plan Type</h2>
+        <canvas id="revenueChart" width="400" height="200"></canvas>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -97,7 +101,7 @@
         data: {
             labels: membersEncountered.labels,
             datasets: [{
-                label: 'New Members Encountered (Rs)',
+                label: 'New Members Encountered',
                 data: membersEncountered.data,
                 backgroundColor: 'rgba(0, 0, 255, 0.2)',
                 borderColor: 'blue',
@@ -133,6 +137,59 @@
             }
         }
     });
+    const revenueEncountered = {
+        labels:[],
+        data: []
+    };
+
+    <c:forEach var="entry" items="${revenueForFourMonths}">
+    revenueEncountered.labels.push("${entry.key}");
+    revenueEncountered.data.push(${entry.value});
+    </c:forEach>
+
+    const ctx2 = document.getElementById('revenueChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'line', // You can change to 'pie', 'line', etc.
+        data: {
+            labels: revenueEncountered.labels,
+            datasets: [{
+                label: 'Revenue By Type',
+                data: revenueEncountered.data,
+                backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                borderColor: 'blue',
+                borderWidth: 1,
+                color: '#FFFFFF'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Members (Rs)',
+                        color: '#FFFFFF'
+                    },
+                    ticks : {
+                        color : '#FFFFFF'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month',
+                        color: '#FFFFFF'
+                    },
+                    ticks: {
+                        color: '#FFFFFF'
+                    }
+
+                }
+            }
+        }
+    });
+
 </script>
 </body>
 </html>
