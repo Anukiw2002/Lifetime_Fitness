@@ -145,7 +145,7 @@
                         <td>${membership.endDate}</td>
                         <td>
                             <div class="flex">
-                                <button class="action-button edit">
+                                <button class="action-button edit" onClick="viewClientDetails(${membership.userId})">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button class="action-button suspend">
@@ -163,5 +163,10 @@
         </div>
     </div>
 </div>
+<script>
+    function viewClientDetails(userId) {
+        window.location.href = "viewMember?id=" + userId;
+    }
+</script>
 </body>
 </html>
