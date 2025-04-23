@@ -192,4 +192,30 @@ public class ClientDAO {
 
         return detailsUpdated;
     }
+
+    public boolean insertClientDetails(int userId, String phoneNumber, String dateOfBirth , String emergencyContactName, String emergencyContactNumber, String houseNo, String streetName, String city, String gender) {
+        String sql = "INSERT INTO client_details (user_id, phone_number, date_of_birth, emergency_contact_name, emergency_contact_number, house_no, street_name, city, gender) VALUES (?,?,CAST(? AS DATE),?,?,?,?,?,?)";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1,userId);
+            pstmt.setString(2,phoneNumber);
+            pstmt.setString(3,dateOfBirth);
+            pstmt.setString(4,emergencyContactName);
+            pstmt.setString(5,emergencyContactNumber);
+            pstmt.setString(6,houseNo);
+            pstmt.setString(7,streetName);
+            pstmt.setString(8,city);
+            pstmt.setString(9,gender);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected >0;
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
