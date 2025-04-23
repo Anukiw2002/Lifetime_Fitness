@@ -35,7 +35,7 @@
         </div>
 
         <!-- Stats Overview -->
-        <div class="grid grid-3 gap-lg mb-3">
+        <div class="grid grid-2 gap-lg mb-2">
             <div class="stat-card">
                 <div class="stat-icon">
                     <i class="fas fa-users"></i>
@@ -58,7 +58,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- Main Content Grid -->
