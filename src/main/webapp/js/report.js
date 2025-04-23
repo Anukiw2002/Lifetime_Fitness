@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Run debug on load
     debugFormFields();
 
-    // ✅ Add Row Button Logic
+    //  Add Row Button Logic
     const addRowBtn = document.getElementById('addRowButton');
     if (addRowBtn) {
         addRowBtn.addEventListener('click', function () {
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // ✅ Form Submission Logic
+    //  Form Submission Logic
     const reportForm = document.getElementById('userReportForm');
     if (reportForm) {
         reportForm.addEventListener('submit', function(event) {
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // ✅ Alert Message from Server (if any)
+    //  Alert Message from Server (if any)
     const messageElement = document.getElementById('message');
     const message = messageElement ? messageElement.innerText.trim() : "";
     if (message !== "") {
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// ✅ Validation Logic
+//  Validation Logic
 function validateForm() {
     let isValid = true;
 
@@ -87,6 +87,10 @@ function validateForm() {
                 const value = parseFloat(input.value);
                 if (value < 0) {
                     alert(`${field.replace(/_/g, ' ')} cannot be negative.`);
+                    isValid = false;
+                }
+                if (field == 'waist_circumference' && value > 200){
+                    alert('waist circumference must not exceed 200.');
                     isValid = false;
                 }
             }

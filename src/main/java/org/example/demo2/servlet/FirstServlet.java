@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import org.example.demo2.util.DBConnection; // Your database connection utility
 
 @WebServlet("/first")
-public class first extends HttpServlet {
+public class FirstServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
