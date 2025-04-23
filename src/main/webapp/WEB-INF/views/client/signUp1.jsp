@@ -14,8 +14,8 @@
         <h2 class="signup-heading">Sign Up</h2>
         <form action="${pageContext.request.contextPath}/signup" method="post">
             <div class="signup-form-group">
-                <input type="text" name="firstName" placeholder="Enter your first name" class="signup-input" required>
-                <input type="text" name="lastName" placeholder="Enter your last name" class="signup-input" required>
+                <input type="text" name="firstName" pattern="[A-Za-z .'-]+" placeholder="Enter your first name" class="signup-input" required>
+                <input type="text" name="lastName" pattern="[A-Za-z .'-]+" placeholder="Enter your last name" class="signup-input" required>
                 <input type="email" name="email" placeholder="Enter your email" class="signup-input" required>
                 <div class="input-wrapper password-wrapper">
                     <input type="password" name="password" id="password"

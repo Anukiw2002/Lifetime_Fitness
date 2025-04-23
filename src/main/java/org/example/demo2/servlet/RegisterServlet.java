@@ -69,8 +69,8 @@ public class RegisterServlet extends HttpServlet {
 
     // Helper method to validate inputs
     private boolean isInvalidInput(String firstName, String lastName, String email, String password, String confirmPassword) {
-        return firstName == null || firstName.isEmpty()
-                || lastName == null || lastName.isEmpty()
+        return firstName == null || firstName.isEmpty() || !firstName.matches("[A-Za-z .'-]+")
+                || lastName == null || lastName.isEmpty() || !lastName.matches("[A-Za-z .'-]+")
                 || email == null || email.isEmpty()
                 || password == null || password.isEmpty()
                 || confirmPassword == null || confirmPassword.isEmpty()
