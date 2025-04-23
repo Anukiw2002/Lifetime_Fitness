@@ -60,7 +60,7 @@
             </div>
             <div class="stat-card">
                 <div class="stat-value">${revenue}</div>
-                <div class="stat-label">Monthly Revenue</div>
+                <div class="stat-label">Monthly Revenue(Rs)</div>
             </div>
         </div>
 
