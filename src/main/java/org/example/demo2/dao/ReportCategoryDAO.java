@@ -12,7 +12,7 @@ import java.util.Map;
 public class ReportCategoryDAO {
     public Map<String, Integer> getPlanType(){
         Map<String, Integer> revenueByType = new LinkedHashMap<>();
-        String SQL = "SELECT SPLIT_PART(plan_name, ' - ', 1 ) AS plan_type " +
+        String SQL = "SELECT SPLIT_PART(plan_name, ' - ', 1 ) AS plan_type, " +
                 "COUNT(*) AS count " +
                 "FROM orders " +
                 "GROUP BY " +

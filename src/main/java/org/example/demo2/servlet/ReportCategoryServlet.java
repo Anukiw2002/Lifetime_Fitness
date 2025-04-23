@@ -20,6 +20,9 @@ public class ReportCategoryServlet extends HttpServlet {
         }
         ReportCategoryDAO dao = new ReportCategoryDAO();
         Map<String, Integer> revenueByType = dao.getPlanType();
+        for (Map.Entry<String, Integer> entry : revenueByType.entrySet()) {
+            System.out.println("Plan Type: " + entry.getKey() + " | Count: " + entry.getValue());
+        }
         req.setAttribute("revenueByType", revenueByType);
 
         req.getRequestDispatcher("/WEB-INF/views/owner/reportCategories.jsp").forward(req,resp);
