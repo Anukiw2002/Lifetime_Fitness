@@ -153,7 +153,7 @@
         data: {
             labels: revenueEncountered.labels,
             datasets: [{
-                label: 'Revenue By Type',
+                label: 'Revenue By Plan Type',
                 data: revenueEncountered.data,
                 backgroundColor: 'rgba(0, 0, 255, 0.2)',
                 borderColor: 'blue',
