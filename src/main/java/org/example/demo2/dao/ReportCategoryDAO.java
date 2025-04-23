@@ -15,6 +15,8 @@ public class ReportCategoryDAO {
         String SQL = "SELECT SPLIT_PART(plan_name, ' - ', 1 ) AS plan_type, " +
                 "COUNT(*) AS count " +
                 "FROM orders " +
+                "WHERE " +
+                "EXTRACT(YEAR FROM created_at) = EXTRACT(YEAR FROM CURRENT_DATE) " +
                 "GROUP BY " +
                 "plan_type " +
                 "ORDER BY " +
