@@ -6,15 +6,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.example.demo2.dao.MedicalHistoryDAO;
 import org.example.demo2.model.MedicalHistory;
 import org.example.demo2.util.DBConnection;
+import org.example.demo2.util.SessionUtils;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-@WebServlet("/MedicalHistory")
+@WebServlet("/signup/step3")
 public class MedicalHistoryServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -43,6 +45,10 @@ public class MedicalHistoryServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/signup/step4");
 
         }
+    }
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/WEB-INF/views/client/signUp3.jsp").forward(req, resp);
     }
 
 

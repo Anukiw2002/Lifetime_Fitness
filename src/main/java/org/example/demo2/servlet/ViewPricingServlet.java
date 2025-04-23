@@ -23,8 +23,8 @@ import org.example.demo2.dao.CategoryPricingDAO;
 import org.example.demo2.util.DBConnection;
 import org.example.demo2.util.SessionUtils;
 
-@WebServlet("//signup/step4")
-public class ViewPricingServlet extends HttpServlet {
+@WebServlet("/signup/step4")
+    public class ViewPricingServlet extends HttpServlet {
     private MembershipPlanDAO membershipPlanDAO;
     private DurationDAO durationDAO;
     private UniformPricingDAO uniformPricingDAO;
