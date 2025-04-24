@@ -5,7 +5,9 @@ import org.example.demo2.model.Exercise;
 import org.example.demo2.util.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WorkoutExerciseDAO {
     private final DBConnection dbConnection;
@@ -112,5 +114,35 @@ public class WorkoutExerciseDAO {
                 connection.close();
             }
         }
+    }
+
+    // Add this method to your DashboardDAO class
+    public Map<String, Integer> getNumberOfSessionsPerWeek(int userId) {
+        String sql = "SELECT DATE_TRUNC('week', started_at)::date AS week_start, COUNT(*) AS workout_count " +
+                "FROM workout_sessions " +
+                "WHERE user_id = ? AND started_at >= CURRENT_DATE - INTERVAL '8 weeks' " +
+                "GROUP BY week_start " +
+                "ORDER BY week_start";
+
+        Map<String, Integer> weeklyStats = new LinkedHashMap<>(); // LinkedHashMap to maintain insertion order
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    // Format the date as a string to avoid serialization issues
+                    String weekStart = rs.getDate("week_start").toString();
+                    int count = rs.getInt("workout_count");
+                    weeklyStats.put(weekStart, count);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return weeklyStats;
     }
 }
