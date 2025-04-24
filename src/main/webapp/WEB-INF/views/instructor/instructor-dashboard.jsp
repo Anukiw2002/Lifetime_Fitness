@@ -35,7 +35,7 @@
         </div>
 
         <!-- Stats Overview -->
-        <div class="grid grid-3 gap-lg mb-3">
+        <div class="grid grid-2 gap-lg mb-2">
             <div class="stat-card">
                 <div class="stat-icon">
                     <i class="fas fa-users"></i>
@@ -55,17 +55,6 @@
                     <h3>Today's Workouts</h3>
                     <div class="flex items-center justify-between">
                         <span class="text-2xl">${countWorkout}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <div>
-                    <h3>Total Reports</h3>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl">${reportCount}</span>
                     </div>
                 </div>
             </div>

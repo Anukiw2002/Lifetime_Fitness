@@ -33,34 +33,34 @@
             <!-- Frequency -->
             <h3 class="section-title">Training Frequency</h3>
             <div class="form-section">
-                <label>Frequency: <input type="text" name="frequency"></label>
-                <label>Times per week: <input type="number" name="times_per_week"></label>
+                <label>Frequency: <input type="text" name="frequency" required></label>
+                <label>Times per week: <input type="number" name="times_per_week" required></label>
             </div>
 
             <!-- Heart Rate -->
             <h3 class="section-title">Heart Rate Metrics</h3>
             <div class="form-section">
-                <label>Maximum heart rate: <input type="number" name="max_heart_rate"></label>
-                <label>65% Bpm: <input type="number" name="bpm_65"></label>
-                <label>75% Bpm: <input type="number" name="bpm_75"></label>
-                <label>85% Bpm: <input type="number" name="bpm_85"></label>
+                <label>Maximum heart rate: <input type="number" name="max_heart_rate" required></label>
+                <label>65% Bpm: <input type="number" name="bpm_65" required></label>
+                <label>75% Bpm: <input type="number" name="bpm_75" required></label>
+                <label>85% Bpm: <input type="number" name="bpm_85" required></label>
             </div>
 
             <!-- Measurements -->
             <h3 class="section-title">Body Measurements</h3>
             <div class="form-section">
-                <label>Waist circumference(cm): <input type="number" name="waist_circumference"></label>
-                <label>Body weight(kg): <input type="number" name="body_weight"></label>
-                <label>Height(cm): <input type="number" name="height"></label>
-                <label>Fat %: <input type="number" name="fat"></label>
-                <label>Basal Metabolic Rate: <input type="number" name="bmr"></label>
+                <label>Waist circumference(cm): <input type="number" name="waist_circumference" required></label>
+                <label>Body weight(kg): <input type="number" name="body_weight" required></label>
+                <label>Height(cm): <input type="number" name="height" required></label>
+                <label>Fat %: <input type="number" name="fat" required></label>
+                <label>Basal Metabolic Rate: <input type="number" name="bmr" required></label>
             </div>
 
             <!-- Goal -->
             <h3 class="section-title">Program Goal</h3>
             <div class="form-section">
-                <label>GOAL: <input type="text" name="goal"></label>
-                <label>Target weight(kg) : <input type="number" name="target_weight"></label>
+                <label>GOAL: <input type="text" name="goal" required></label>
+                <label>Target weight(kg) : <input type="number" name="target_weight" required></label>
                 <input type="hidden" name="userEmail" value="<%= session.getAttribute("userEmail") %>">
 
             </div>
@@ -79,8 +79,8 @@
                     <tbody>
                     <tr>
 
-                        <td><input type="date" name="date_1"></td>
-                        <td><input type="number" name="weight_1" placeholder="Weight (kg)"></td>
+                        <td><input type="date" name="exercise_date[]" required></td>
+                        <td><input type="number" step="0.1" name="weight[]" placeholder="Weight (kg)" required></td>
                     </tr>
                     </tbody>
                 </table>

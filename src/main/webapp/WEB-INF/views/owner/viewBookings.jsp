@@ -16,22 +16,30 @@
         var table = document.getElementById("bookingsTable");
         var rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
+        // Track which date headers have visible bookings
+        var dateHeadersWithVisibleBookings = {};
+        var currentDateHeader = null;
+
+        // First pass: Apply filters to booking rows and track visible bookings per date
         for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
-            // Only filter booking rows, not date header rows
+
+            // Process date headers
             if (row.classList.contains("date-header")) {
-                row.style.display = "";
+                currentDateHeader = row;
                 continue;
             }
-            var date = row.getAttribute("data-date").toLowerCase();
-            var status = row.cells[3].textContent.trim().toLowerCase();
+
+            // Process booking rows
+            var dateStr = row.getAttribute("data-date");
+            var status = row.cells[2].textContent.trim().toLowerCase(); // Adjust the index to match your table structure
 
             var showRow = true;
 
             // Apply timeframe filter
             if (timeFrameFilter !== "") {
                 var currentDate = new Date();
-                var bookingDate = new Date(date);
+                var bookingDate = new Date(dateStr); // Make sure date format is parseable
 
                 if (timeFrameFilter === "today") {
                     if (bookingDate.toDateString() !== currentDate.toDateString()) {
@@ -65,34 +73,21 @@
                 }
             }
 
-            if (showRow) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
+            // Update row visibility
+            row.style.display = showRow ? "" : "none";
+
+            // Track which date headers have visible bookings
+            if (showRow && currentDateHeader) {
+                dateHeadersWithVisibleBookings[currentDateHeader.rowIndex] = true;
             }
         }
 
-        // Hide date headers if all their bookings are hidden
-        var tableBody = table.getElementsByTagName("tbody")[0];
-        var trs = tableBody.getElementsByTagName("tr");
-        var lastDateHeader = null;
-        var anyBookingVisible = false;
-        for (var i = 0; i < trs.length; i++) {
-            var tr = trs[i];
-            if (tr.classList.contains("date-header")) {
-                if (lastDateHeader && !anyBookingVisible) {
-                    lastDateHeader.style.display = "none";
-                }
-                lastDateHeader = tr;
-                anyBookingVisible = false;
-            } else {
-                if (tr.style.display !== "none") {
-                    anyBookingVisible = true;
-                }
+        // Second pass: Update date header visibility
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            if (row.classList.contains("date-header")) {
+                row.style.display = dateHeadersWithVisibleBookings[row.rowIndex] ? "" : "none";
             }
-        }
-        if (lastDateHeader && !anyBookingVisible) {
-            lastDateHeader.style.display = "none";
         }
     }
 

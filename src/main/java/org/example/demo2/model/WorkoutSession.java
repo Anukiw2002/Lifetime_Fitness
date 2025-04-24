@@ -1,5 +1,6 @@
 package org.example.demo2.model;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class WorkoutSession {
@@ -8,6 +9,9 @@ public class WorkoutSession {
     private Date started_at;  // Renamed to match the database column
     private Date ended_at;    // Renamed to match the database column
     private String notes;
+    private int workout_id;
+    private Time duration;
+    private String workoutName;
 
     // Constructor with all required parameters
     public WorkoutSession(int sessionId, int userId, Date startedAt, Date endedAt, String notes) {
@@ -17,6 +21,8 @@ public class WorkoutSession {
         this.ended_at = endedAt;
         this.notes = notes;
     }
+
+    public WorkoutSession(){}
 
     // Getters and Setters
     public int getSession_Id() {
@@ -57,5 +63,29 @@ public class WorkoutSession {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public int getWorkout_id() {
+        return workout_id;
+    }
+
+    public void setWorkout_id(int workout_id) {
+        this.workout_id = workout_id;
+    }
+
+    public Time getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Time duration) {
+        this.duration = duration;
+    }
+
+    public String getWorkoutName() {
+        return workoutName;
+    }
+
+    public void setWorkoutName(String workoutName) {
+        this.workoutName = workoutName;
     }
 }

@@ -152,7 +152,7 @@
             datasets: [{
                 label: 'Revenue Growth',
                 data: revenueData.data,
-                borderColor: 'green',
+                borderColor: 'blue',
                 backgroundColor: 'rgba(0, 255, 0, 0.2)',
                 borderWidth: 2,
                 tension: 0.4

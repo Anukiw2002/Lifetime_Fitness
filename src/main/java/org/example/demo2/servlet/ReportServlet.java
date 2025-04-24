@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.example.demo2.util.DBConnection; // Assuming this is your connection utility class
+import org.example.demo2.util.DBConnection; // Assuming this is connection utility class
 import org.example.demo2.util.SessionUtils;
 import org.example.demo2.dao.ReportDAO;
 
@@ -63,10 +63,14 @@ public class ReportServlet extends HttpServlet {
         List<Double> weights = new ArrayList<>();
 
         if (exerciseDatesArray != null) {
-            for (int i = 0; i < exerciseDatesArray.length; i++) {;
+            System.out.println("length " + exerciseDatesArray.length);
+            for (int i = 0; i < exerciseDatesArray.length; i++) {
                 exerciseDates.add(exerciseDatesArray[i]);
                 weights.add(Double.parseDouble(weightsArray[i]));
+
             }
+            System.out.println("exerciseDates size: " + exerciseDates.size());
+            System.out.println("weights size: " + weights.size());
         }
 
         // Database operation

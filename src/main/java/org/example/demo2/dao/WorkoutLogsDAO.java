@@ -380,5 +380,30 @@ public class WorkoutLogsDAO {
         }
     }
 
+    public List<WorkoutSession> getCompletedSessions(int userId) {
+        List<WorkoutSession> workoutSessions = new ArrayList<>();
+        String sql = "SELECT ws.started_at, ws.ended_at, ws.workout_id, ws.ended_at-ws.started_at AS duration, cw.workout_name FROM workout_sessions ws INNER JOIN client_workouts cw ON ws.workout_id= cw.workout_id WHERE ws.user_id =? AND ws.started_at IS NOT NULL AND ws.ended_at IS NOT NULL ORDER BY started_at DESC";
 
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    WorkoutSession workoutSession = new WorkoutSession();
+                    workoutSession.setStarted_at(rs.getDate("started_at"));
+                    workoutSession.setEnded_at(rs.getDate("ended_at"));
+                    workoutSession.setWorkout_id(rs.getInt("workout_id"));
+                    workoutSession.setDuration(rs.getTime("duration"));
+                    workoutSession.setWorkoutName(rs.getString("workout_name"));
+
+                    workoutSessions.add(workoutSession);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return workoutSessions;
+    }
 }
