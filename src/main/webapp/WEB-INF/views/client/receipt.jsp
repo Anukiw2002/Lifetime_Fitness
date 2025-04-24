@@ -38,6 +38,11 @@
             <td><strong>Total:</strong></td>
             <td><strong>${transaction.amount.total} USD</strong></td>
         </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="button" value="Go to the Dashboard" onclick="window.location.href='${pageContext.request.contextPath}/clientDashboard'" style="margin-left: 1rem;" />
+            </td>
+        </tr>
     </table>
 </div>
 </body>

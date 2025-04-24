@@ -32,6 +32,14 @@ public class ReviewPaymentServlet extends HttpServlet {
             return;
         }
 
+        String durationIdParam = request.getParameter("durationId");
+
+        if (durationIdParam != null) {
+            int durationId = Integer.parseInt(durationIdParam);
+            request.setAttribute("durationId", durationId); // For reviewPayment.jsp
+        }
+
+
         try {
             PaymentServicesDAO paymentServices = new PaymentServicesDAO();
             Payment payment = paymentServices.getPaymentDetails(paymentId);

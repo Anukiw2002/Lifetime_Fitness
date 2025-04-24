@@ -10,6 +10,18 @@
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewBlogs.css" />
+
+    <style>
+        .search-input {
+            padding: 8px 12px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,7 +34,16 @@
             <h2>All Blogs</h2>
         </div>
 
-        <!-- Blog Content Section -->
+        <!-- 🔍 Search Bar -->
+        <input
+                type="text"
+                id="searchInput"
+                placeholder="Search blogs by name..."
+                class="search-input"
+        />
+        <!--<button id="searchBtn" class="btn btn-primary" style="padding: 8px 16px;">Search</button>-->
+
+        <!-- 📄 Blog Content Section -->
         <div class="card">
             <c:if test="${not empty blogs}">
                 <table class="blog-table">
@@ -57,5 +78,20 @@
     </div>
 </div>
 
+<!-- 🔧 JavaScript to filter blogs by name -->
+<script>
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll(".blog-table tbody tr");
+
+        rows.forEach(row => {
+            const blogName = row.cells[0].textContent.toLowerCase();
+            row.style.display = blogName.includes(filter) ? "" : "none";
+        });
+    });
+</script>
+
 </body>
 </html>
+
+

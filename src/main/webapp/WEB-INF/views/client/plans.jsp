@@ -69,6 +69,7 @@
                                                 <input type="hidden" name="subtotal" value="${duration.uniformPricing[0].price}" />
                                                 <c:set var="total" value="${duration.uniformPricing[0].price + 20}" />
                                                 <input type="hidden" name="total" value="${total}" />
+                                                <input type="hidden" name="durationId" value="${duration.durationId}" />
                                                 <button type="submit" class="select-btn">Select</button>
                                             </form>
                                         </div>
@@ -100,6 +101,7 @@
                                                     <input type="hidden" name="subtotal" value="${pricing.price}" />
                                                     <c:set var="totalCat" value="${pricing.price}" />
                                                     <input type="hidden" name="total" value="${totalCat}" />
+                                                    <input type="hidden" name="durationId" value="${duration.durationId}" />
                                                     <button type="submit" class="select-btn">Select</button>
                                                 </form>
                                             </div>

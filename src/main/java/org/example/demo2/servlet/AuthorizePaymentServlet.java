@@ -16,6 +16,7 @@ import org.example.demo2.dao.PaymentServicesDAO;
 import org.example.demo2.model.OrderDetails;
 
 import com.paypal.base.rest.PayPalRESTException;
+import org.example.demo2.util.SessionUtils;
 
 @WebServlet("/AuthorizePayment")
 public class AuthorizePaymentServlet extends HttpServlet {
@@ -29,8 +30,26 @@ public class AuthorizePaymentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // Authorization check
+        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
+            return; // The utility handles the redirection
+        }
+
         String product = request.getParameter("product");
         String subtotalStr = request.getParameter("subtotal");
+        // AuthorizePaymentServlet.java
+
+        HttpSession session = request.getSession();
+
+
+        String durationIdStr = request.getParameter("durationId");
+        try {
+            int durationId = Integer.parseInt(durationIdStr); // ✅ Convert to Integer
+            session.setAttribute("durationId", durationId);
+        } catch (NumberFormatException e) {
+            // Handle invalid durationId
+        }
+
 
         try {
             if (product == null || subtotalStr == null) {
