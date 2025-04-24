@@ -79,8 +79,8 @@
                     <tbody>
                     <tr>
 
-                        <td><input type="date" name="date_1"></td>
-                        <td><input type="number" name="weight_1" placeholder="Weight (kg)"></td>
+                        <td><input type="date" name="exercise_date[]" required></td>
+                        <td><input type="number" step="0.1" name="weight[]" placeholder="Weight (kg)" required></td>
                     </tr>
                     </tbody>
                 </table>

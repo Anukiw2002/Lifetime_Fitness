@@ -1,5 +1,6 @@
 package org.example.demo2.servlet;
 
+import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,6 +19,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +88,19 @@ public class ClientDashboardServlet extends HttpServlet {
         DashboardDAO dashboardDAO = new DashboardDAO();
         int workoutCount = dashboardDAO.getWorkoutCountById(user_id);
         int streak = dashboardDAO.getWorkoutSteakById(user_id);
+        UserWeightData data = reportDAO.getWeightByEmail(email);
+
+// create list of entries with date & weight for chart
+        List<Map<String, Object>> weightEntries = new ArrayList<>();
+        for (int i = 0; i < data.getAllWeights().size(); i++) {
+            Map<String, Object> entry = new HashMap<>();
+            entry.put("date", data.getWeightDates().get(i).toString());
+            entry.put("weight", data.getAllWeights().get(i));
+            weightEntries.add(entry);
+        }
+
+        String weightEntriesJson = new Gson().toJson(weightEntries);
+        req.setAttribute("weightEntriesJson", weightEntriesJson);
 
         req.setAttribute("beginningWeight", weightData.getBeginningWeight());
         req.setAttribute("currentWeight", weightData.getCurrentWeight());

@@ -63,10 +63,14 @@ public class ReportServlet extends HttpServlet {
         List<Double> weights = new ArrayList<>();
 
         if (exerciseDatesArray != null) {
-            for (int i = 0; i < exerciseDatesArray.length; i++) {;
+            System.out.println("length " + exerciseDatesArray.length);
+            for (int i = 0; i < exerciseDatesArray.length; i++) {
                 exerciseDates.add(exerciseDatesArray[i]);
                 weights.add(Double.parseDouble(weightsArray[i]));
+
             }
+            System.out.println("exerciseDates size: " + exerciseDates.size());
+            System.out.println("weights size: " + weights.size());
         }
 
         // Database operation

@@ -165,6 +165,7 @@
         "${entry.key}": ${entry.value}${!status.last ? ',' : ''}
         </c:forEach>
     };
+    const weightEntries = JSON.parse('${weightEntriesJson}');
 </script>
 </body>
 </html>

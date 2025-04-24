@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String URL = "jdbc:postgresql://localhost:5432/DB24";
-
+    // Update with Railway PostgreSQL connection details
+    private static final String URL = "jdbc:postgresql://shuttle.proxy.rlwy.net:12024/railway";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "Admin";
+    private static final String PASSWORD = "zetNnHzGDoSIcaAzhVINNoCzsrJlyNGk"; // Use your actual password
 
     static {
         try {

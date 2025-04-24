@@ -5,6 +5,7 @@ import org.example.demo2.model.Report;
 import org.example.demo2.util.DBConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class ReportDAO {
         UserWeightData data = new UserWeightData();
 
         String reportQuery = "SELECT body_weight, target_weight FROM user_reports WHERE email = ? ";
-        String exerciseQuery = "SELECT weight FROM user_exercises WHERE email=? ";
+        String exerciseQuery = "SELECT weight, exercise_date FROM user_exercises WHERE email=? ORDER BY exercise_date";
 
         try(Connection conn = DBConnection.getConnection()){
             try(PreparedStatement reportStmt = conn.prepareStatement(reportQuery)){
@@ -91,13 +92,25 @@ public class ReportDAO {
                 }
             }
 
-            try(PreparedStatement exerciseStmt = conn.prepareStatement(exerciseQuery)){
+            List<Double> allWeights = new ArrayList<>();
+            List<LocalDate> weightDates = new ArrayList<>();
+
+            try (PreparedStatement exerciseStmt = conn.prepareStatement(exerciseQuery)) {
                 exerciseStmt.setString(1, email);
                 ResultSet rs = exerciseStmt.executeQuery();
-                if (rs.next()){
-                    data.setCurrentWeight(rs.getDouble("weight"));
+                while (rs.next()) {
+                    allWeights.add(rs.getDouble("weight"));
+                    weightDates.add(rs.getDate("exercise_date").toLocalDate());
+
                 }
             }
+
+            if (!allWeights.isEmpty()) {
+                data.setCurrentWeight(allWeights.get(allWeights.size() - 1)); // Latest inserted
+            }
+            data.setAllWeights(allWeights);
+            data.setWeightDates(weightDates);
+
         }catch(SQLException e){
             e.printStackTrace();
         }
