@@ -8,6 +8,7 @@ public class WorkoutSession {
     private Date started_at;  // Renamed to match the database column
     private Date ended_at;    // Renamed to match the database column
     private String notes;
+    private int workout_id;
 
     // Constructor with all required parameters
     public WorkoutSession(int sessionId, int userId, Date startedAt, Date endedAt, String notes) {
@@ -17,6 +18,8 @@ public class WorkoutSession {
         this.ended_at = endedAt;
         this.notes = notes;
     }
+
+    public WorkoutSession(){}
 
     // Getters and Setters
     public int getSession_Id() {
@@ -57,5 +60,13 @@ public class WorkoutSession {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public int getWorkout_id() {
+        return workout_id;
+    }
+
+    public void setWorkout_id(int workout_id) {
+        this.workout_id = workout_id;
     }
 }

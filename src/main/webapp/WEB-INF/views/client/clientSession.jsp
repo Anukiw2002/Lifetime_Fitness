@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -42,12 +43,11 @@
           <h2 class="mb-0">Completed Sessions</h2>
         </div>
         <div class="card-body">
-          <div class="completed-session">Saturday, 2 October</div>
-          <div class="completed-session">Friday, 1 October</div>
-          <div class="completed-session">Wednesday, 30 September</div>
-          <div class="flex justify-center mt-3">
-            <button class="btn btn-secondary">View All</button>
-          </div>
+          <c:forEach var="session" items="${workoutSessions}">
+            <div class="completed-session">
+              <fmt:formatDate value="${session.started_at}" pattern="MMMM d, yyyy" />
+            </div>
+          </c:forEach>
         </div>
       </div>
     </div>

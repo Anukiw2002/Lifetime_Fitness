@@ -380,5 +380,28 @@ public class WorkoutLogsDAO {
         }
     }
 
+    public List<WorkoutSession> getCompletedSessions(int userId) {
+        List<WorkoutSession> workoutSessions = new ArrayList<>();
+        String sql = "SELECT started_at, ended_at, workout_id FROM workout_sessions WHERE user_id = ? AND started_at IS NOT NULL AND ended_at IS NOT NULL";
 
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    WorkoutSession workoutSession = new WorkoutSession();
+                    workoutSession.setStarted_at(rs.getDate("started_at"));
+                    workoutSession.setEnded_at(rs.getDate("ended_at"));
+                    workoutSession.setWorkout_id(rs.getInt("workout_id"));
+
+                    workoutSessions.add(workoutSession);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return workoutSessions;
+    }
 }

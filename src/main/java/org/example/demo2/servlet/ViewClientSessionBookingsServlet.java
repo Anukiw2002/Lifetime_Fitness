@@ -6,11 +6,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.demo2.dao.WorkoutLogsDAO;
 import org.example.demo2.model.BookSession;
 import org.example.demo2.dao.BookSessionDAO;
+import org.example.demo2.model.WorkoutSession;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -58,6 +59,11 @@ public class ViewClientSessionBookingsServlet extends HttpServlet {
         }
 
         request.setAttribute("formattedSessions", formattedSessions);
+
+        WorkoutLogsDAO workoutLogsDAO = new WorkoutLogsDAO();
+        List<WorkoutSession> workoutSessions = workoutLogsDAO.getCompletedSessions(userId);
+        request.setAttribute("workoutSessions", workoutSessions);
+
         request.getRequestDispatcher("/WEB-INF/views/client/clientSession.jsp").forward(request, response);
     }
 }
