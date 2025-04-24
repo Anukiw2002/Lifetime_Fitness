@@ -147,5 +147,8 @@
     </div>
 </div>
 <script src="${pageContext.request.contextPath}/js/clientDashboard.js"></script>
+<script>
+    const weightEntries = JSON.parse('${weightEntriesJson}');
+</script>
 </body>
 </html>
