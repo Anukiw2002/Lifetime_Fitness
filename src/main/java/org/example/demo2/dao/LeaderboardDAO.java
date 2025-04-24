@@ -24,6 +24,7 @@ public class LeaderboardDAO {
                 "ON ur.email = ue.email " +
                 "JOIN users u ON ur.email = u.email " +
                 "JOIN client_details cd ON u.id = cd.user_id " +
+                "WHERE (ur.body_weight - ue.body_weight) > 0 " +
                 "ORDER BY rank";
 
         try (Connection con = DBConnection.getConnection();
