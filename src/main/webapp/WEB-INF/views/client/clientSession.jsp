@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,20 +22,27 @@
         <div class="card-header">
           <h2 class="mb-0">Upcoming Sessions</h2>
         </div>
-        <c:forEach var="formattedSession" items="${formattedSessions}">
-          <div class="card mb-4">
-            <div class="card-body">
-              <div class="session-date">${formattedSession.formattedDate}</div>
-              <div class="session-time">${formattedSession.startTime} - ${formattedSession.endTime}</div>
-              <div class="flex gap-md justify-center mt-3">
-                <button class="btn btn-danger" onclick="showDeleteModal('${formattedSession.bookingId}', '${formattedSession.formattedDate} ${formattedSession.startTime}')">
-                  Cancel
-                </button>
-                <a href="rescheduleSession?bookingId=${formattedSession.bookingId}" class="btn btn-secondary" style="text-decoration: none;">Reschedule</a>
+        <div id="upcomingSessionsContainer">
+          <c:forEach var="formattedSession" items="${formattedSessions}" varStatus="status">
+            <div class="card mb-4 ${status.index >= 10 ? 'hidden-session' : ''}">
+              <div class="card-body">
+                <div class="session-date">${formattedSession.formattedDate}</div>
+                <div class="session-time">${formattedSession.startTime} - ${formattedSession.endTime}</div>
+                <div class="flex gap-md justify-center mt-3">
+                  <button class="btn btn-danger" onclick="showDeleteModal('${formattedSession.bookingId}', '${formattedSession.formattedDate} ${formattedSession.startTime}')">
+                    Cancel
+                  </button>
+                  <a href="rescheduleSession?bookingId=${formattedSession.bookingId}" class="btn btn-secondary" style="text-decoration: none;">Reschedule</a>
+                </div>
               </div>
             </div>
-          </div>
-        </c:forEach>
+          </c:forEach>
+          <c:if test="${fn:length(formattedSessions) > 10}">
+            <div class="text-center mt-3">
+              <button id="viewMoreUpcoming" class="btn btn-outline-custom">View More</button>
+            </div>
+          </c:if>
+        </div>
       </div>
 
       <!-- Completed Sessions -->
@@ -42,11 +51,21 @@
           <h2 class="mb-0">Completed Sessions</h2>
         </div>
         <div class="card-body">
-          <div class="completed-session">Saturday, 2 October</div>
-          <div class="completed-session">Friday, 1 October</div>
-          <div class="completed-session">Wednesday, 30 September</div>
-          <div class="flex justify-center mt-3">
-            <button class="btn btn-secondary">View All</button>
+          <div id="completedSessionsContainer">
+            <c:forEach var="session" items="${workoutSessions}" varStatus="status">
+              <div class="completed-session ${status.index >= 10 ? 'hidden-session' : ''}">
+                <div class="completed-date">
+                  <fmt:formatDate value="${session.started_at}" pattern="MMMM d, yyyy" />
+                </div>
+                <div class="workout-name">${session.workoutName}</div>
+                <div class="workout-duration">Duration: ${session.duration} minutes</div>
+              </div>
+            </c:forEach>
+            <c:if test="${fn:length(workoutSessions) > 10}">
+              <div class="text-center mt-3">
+                <button id="viewMoreCompleted" class="btn btn-outline-custom">View More</button>
+              </div>
+            </c:if>
           </div>
         </div>
       </div>
@@ -96,6 +115,32 @@
       hideDeleteModal();
     }
   }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // View more upcoming sessions
+    const viewMoreUpcomingBtn = document.getElementById('viewMoreUpcoming');
+    if (viewMoreUpcomingBtn) {
+      viewMoreUpcomingBtn.addEventListener('click', function() {
+        const hiddenUpcomingSessions = document.querySelectorAll('#upcomingSessionsContainer .hidden-session');
+        hiddenUpcomingSessions.forEach(session => {
+          session.classList.remove('hidden-session');
+        });
+        viewMoreUpcomingBtn.style.display = 'none';
+      });
+    }
+
+    // View more completed sessions
+    const viewMoreCompletedBtn = document.getElementById('viewMoreCompleted');
+    if (viewMoreCompletedBtn) {
+      viewMoreCompletedBtn.addEventListener('click', function() {
+        const hiddenCompletedSessions = document.querySelectorAll('#completedSessionsContainer .hidden-session');
+        hiddenCompletedSessions.forEach(session => {
+          session.classList.remove('hidden-session');
+        });
+        viewMoreCompletedBtn.style.display = 'none';
+      });
+    }
+  });
 </script>
 </body>
 </html>

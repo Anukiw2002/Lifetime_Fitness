@@ -36,8 +36,8 @@
                 <span class="notification-dot"></span>  <!-- Red dot for unread notifications -->
             </c:if>
         </a>
-        <a href="/instructorMemberManagement" class="nav-link">
-            <i class="fas fa-file-alt icon"></i>Members
+        <a href="clientMemberships" class="nav-link">
+            <i class="fas fa-users icon"></i>Members
         </a>
         <a href="/InstructorViewVideos" class="nav-link">
             <i class="fas fa-video icon"></i>Videos

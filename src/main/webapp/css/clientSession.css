@@ -57,3 +57,59 @@
     transform: translateY(-1px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
+
+/* Add these styles to your clientSession.css file */
+.completed-session {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-sm);
+    transition: var(--transition);
+}
+
+.completed-session:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.completed-session:last-child {
+    border-bottom: none;
+}
+
+.completed-date {
+    font-size: var(--font-size-lg);
+    color: var(--text-color);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+}
+
+.workout-name {
+    color: white;
+    font-weight: 500;
+    margin-bottom: var(--spacing-xs);
+}
+
+.workout-duration {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.hidden-session {
+    display: none;
+}
+
+.btn-outline-custom {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.btn-outline-custom:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
