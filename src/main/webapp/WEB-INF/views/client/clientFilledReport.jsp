@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/report.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Normal screen styles */
         .print-button {
             background-color: #4CAF50;
             color: white;
