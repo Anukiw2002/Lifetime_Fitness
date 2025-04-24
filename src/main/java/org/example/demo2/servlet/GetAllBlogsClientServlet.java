@@ -18,24 +18,19 @@ public class GetAllBlogsClientServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        // Authorization check
+        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
+            return; // The utility handles the redirection
+        }
+
         try {
-            // Fetch all blogs using the BlogController
             List<BlogModel> allBlogs = BlogController.getAllBlogs();
-
-            // Log the retrieved blogs for debugging purposes
             System.out.println("Retrieved Blogs for Client: " + allBlogs);
-
-            // Set the blogs as a request attribute to be accessible in the JSP
             request.setAttribute("blogs", allBlogs);
-
-            // Forward the request to the JSP page for display
             request.getRequestDispatcher("/WEB-INF/views/client/viewBlogs.jsp").forward(request, response);
         } catch (Exception e) {
-            // Log any errors
             System.err.println("Error while fetching blogs for the client:");
             e.printStackTrace();
-
-            // Set an error message to display on the JSP
             request.setAttribute("errorMessage", "An error occurred while fetching blogs.");
             request.getRequestDispatcher("/WEB-INF/views/client/viewBlogs.jsp").forward(request, response);
         }
@@ -44,7 +39,11 @@ public class GetAllBlogsClientServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // For this servlet, forward POST requests to doGet
-        doGet(request, response);
+        // Authorization check
+        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
+            return; // The utility handles the redirection
+        }
+
+        doGet(request, response); // forward to doGet
     }
 }
