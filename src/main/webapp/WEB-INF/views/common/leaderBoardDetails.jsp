@@ -10,7 +10,14 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/leaderBoardDetails.css">
 </head>
 <body>
-<jsp:include page="../instructor/instructorVerticalNavbar.jsp" />
+<c:choose>
+    <c:when test="${sessionScope.role == 'instructor'}">
+        <jsp:include page="../instructor/instructorVerticalNavbar.jsp" />
+    </c:when>
+    <c:when test="${sessionScope.role == 'owner'}">
+        <jsp:include page="../common/verticalNavBar.jsp" />
+    </c:when>
+</c:choose>
 <div class="main-content">
     <div class="container">
         <div class="card">
