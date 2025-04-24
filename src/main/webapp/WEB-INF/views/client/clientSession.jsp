@@ -45,7 +45,11 @@
         <div class="card-body">
           <c:forEach var="session" items="${workoutSessions}">
             <div class="completed-session">
-              <fmt:formatDate value="${session.started_at}" pattern="MMMM d, yyyy" />
+              <div class="completed-date">
+                <fmt:formatDate value="${session.started_at}" pattern="MMMM d, yyyy" />
+              </div>
+              <div class="workout-name">${session.workoutName}</div>
+              <div class="workout-duration">Duration: ${session.duration} minutes</div>
             </div>
           </c:forEach>
         </div>
