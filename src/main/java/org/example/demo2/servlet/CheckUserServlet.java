@@ -29,13 +29,13 @@ public class CheckUserServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         if (email == null || email.trim().isEmpty()) {
-            System.out.println("Email is missing in the request."); // Debugging log
+            System.out.println("Email is missing in the request.");
             out.write("{\"status\":\"error\", \"message\":\"Email is required.\"}");
             return;
         }
 
         try (Connection con = DBConnection.getConnection()) {
-            System.out.println("Connected to database."); // Debugging log
+            System.out.println("Connected to database.");
 
             String userQuery = "SELECT email FROM users WHERE email = ?";
             try (PreparedStatement userStmt = con.prepareStatement(userQuery)) {
@@ -44,7 +44,7 @@ public class CheckUserServlet extends HttpServlet {
 
                 ResultSet userRs = userStmt.executeQuery();
                 if (userRs.next()) {
-                    System.out.println("Email found in users table: " + email); // Debugging log
+                    System.out.println("Email found in users table: " + email);
 
                     String checkApprovedQuery = "SELECT email FROM approved_emails WHERE email = ?";
                     try (PreparedStatement approvedStmt = con.prepareStatement(checkApprovedQuery)) {
@@ -52,7 +52,7 @@ public class CheckUserServlet extends HttpServlet {
                         ResultSet approvedRs = approvedStmt.executeQuery();
 
                         if (approvedRs.next()) {
-                            System.out.println("Email already in approved_emails: " + email); // Debugging log
+                            System.out.println("Email already in approved_emails: " + email);
                             out.write("{\"status\":\"already_approved\", \"message\":\"Report is already added for this email. Please try editing it.\"}");
                         } else {
                             String insertQuery = "INSERT INTO approved_emails (email) VALUES (?)";
@@ -63,17 +63,17 @@ public class CheckUserServlet extends HttpServlet {
 
 
                             session.setAttribute("userEmail", email);
-                            System.out.println("Email added to approved_emails and session: " + email); // Debugging log
+                            System.out.println("Email added to approved_emails and session: " + email);
                             out.write("{\"status\":\"not_approved\", \"message\":\"Email is verified successfully!\", \"redirectUrl\":\"/processReport1\"}");
                         }
                     }
                 } else {
-                    System.out.println("Email not found in users table: " + email); // Debugging log
+                    System.out.println("Email not found in users table: " + email);
                     out.write("{\"status\":\"not_in_users\", \"message\":\"This email is not registered in the system.\"}");
                 }
             }
         } catch (Exception e) {
-            System.err.println("Database error: " + e.getMessage()); // Debugging log
+            System.err.println("Database error: " + e.getMessage());
             e.printStackTrace();
             out.write("{\"status\":\"error\", \"message\":\"An unexpected error occurred.\"}");
         }

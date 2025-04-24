@@ -18,8 +18,8 @@
             <!-- Basic Information -->
             <h3 class="section-title">Basic Information</h3>
             <div class="form-section">
-                <label>Name: <input type="text" name="name" required></label>
-                <label>Age: <input type="number" name="age" required></label>
+                <label>Name: <input type="text" name="name" required value="${name}"></label>
+                <label>Age: <input type="number" name="age" required value="${age}"></label>
                 <label>Program No: <input type="text" name="program_no" required></label>
             </div>
 
