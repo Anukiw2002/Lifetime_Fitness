@@ -16,6 +16,8 @@
     <h1>Checkout</h1>
     <br/>
     <form action="AuthorizePayment" method="post">
+        <input type="hidden" name="durationId" value="${param.durationId}" />
+
         <table>
             <tr>
                 <td>Product/Service:</td>
@@ -43,6 +45,8 @@
                 </td>
             </tr>
         </table>
+        <p>Duration ID: <%= request.getParameter("durationId") %></p>
+
     </form>
 </div>
 </body>

@@ -84,12 +84,8 @@ public class ClientMembershipDAO {
     public List<ClientMembership> getClientMembership(int userId) throws SQLException {
         List<ClientMembership> membership = new ArrayList<>();
 
-        String sql = "SELECT mp.plan_name, cm.start_date, d.duration_value, d.duration_type " +
-                "FROM client_membership cm " +
-                "JOIN users u ON u.id = cm.user_id " +
-                "JOIN durations d ON cm.duration_id = d.duration_id " +
-                "JOIN membership_plans mp ON d.plan_id = mp.plan_id " +
-                "WHERE cm.user_id = ?";
+        String sql = "SELECT mp.plan_name, cm.start_date, d.duration_value, d.duration_type FROM client_membership cm JOIN users u ON u.id = cm.user_id JOIN durations d ON cm.duration_id = d.duration_id JOIN membership_plans mp ON d.plan_id = mp.plan_id WHERE cm.user_id = ? ORDER BY cm.time DESC LIMIT 1 ";
+
 
 
         try (Connection connection = dbConnection.getConnection();

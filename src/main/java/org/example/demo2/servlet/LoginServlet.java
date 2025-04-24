@@ -3,7 +3,9 @@ package org.example.demo2.servlet;
 import org.example.demo2.dao.InstructorOnBoardingDAO;
 import org.example.demo2.dao.UserDAOImpl;
 import org.example.demo2.dao.IUserDAO;
+import org.example.demo2.dao.ClientMembershipDAO;
 import org.example.demo2.model.User;
+import org.example.demo2.model.ClientMembership;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,23 +13,33 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.text.StringEscapeUtils;
+import org.example.demo2.util.DBConnection;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+    private ClientMembershipDAO membershipDAO;
+
+    @Override
+    public void init() throws ServletException {
+        DBConnection dbConnection = new DBConnection();
+        membershipDAO = new ClientMembershipDAO(dbConnection);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve parameters from the request
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        // Email regex for basic validation
         String emailRegex = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";
 
-        // Server-side validation
         if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
             sendAlert(response, "Email and password are required.");
             return;
@@ -47,7 +59,6 @@ public class LoginServlet extends HttpServlet {
         User user = null;
 
         try {
-            // Attempt to retrieve the user from the database
             user = userDAO.getUserByEmail(email);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,25 +66,43 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        // Check if user exists and password is correct
         if (user != null) {
             boolean passwordMatch = userDAO.verifyPassword(password, user.getHashedPassword());
             if (passwordMatch) {
-                // Create a session and redirect based on the user's role
                 HttpSession session = request.getSession();
                 session.setAttribute("userRole", user.getRole());
                 session.setAttribute("userId", user.getUser_id());
                 session.setAttribute("email", user.getEmail());
-                session.setMaxInactiveInterval(30*60);;
+                session.setMaxInactiveInterval(30 * 60);
 
-                // Role-based redirection
                 switch (user.getRole()) {
                     case "client":
-                        response.sendRedirect(request.getContextPath() + "/clientDashboard");
+                        try {
+                            List<ClientMembership> membership = membershipDAO.getClientMembership(user.getUser_id());
+                            request.setAttribute("membership", membership);
+
+                            if (membership != null && !membership.isEmpty()) {
+                                ClientMembership latestMembership = membership.get(0);
+                                LocalDate currentDate = LocalDate.now();
+                                if (latestMembership.getEndDate().isBefore(currentDate)) {
+                                    response.sendRedirect(request.getContextPath() + "/expired");
+                                } else {
+                                    response.sendRedirect(request.getContextPath() + "/clientDashboard");
+                                }
+                            } else {
+                                response.sendRedirect(request.getContextPath() + "/expired");
+                            }
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            sendAlert(response, "Error retrieving membership data.");
+                        }
                         break;
+
                     case "owner":
                         response.sendRedirect(request.getContextPath() + "/dashboard");
                         break;
+
                     case "instructor":
                         try {
                             InstructorOnBoardingDAO instructorOnBoardingDAO = new InstructorOnBoardingDAO();
@@ -90,6 +119,7 @@ public class LoginServlet extends HttpServlet {
                             sendAlert(response, "Error checking instructor status.");
                         }
                         break;
+
                     default:
                         sendAlert(response, "Unknown user role.");
                         break;
@@ -103,7 +133,6 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    // Helper function to send a JavaScript alert
     private void sendAlert(HttpServletResponse response, String message) throws IOException {
         response.setContentType("text/html");
         String sanitizedMessage = StringEscapeUtils.escapeJson(message);
