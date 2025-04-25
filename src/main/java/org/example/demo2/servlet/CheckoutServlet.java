@@ -18,6 +18,8 @@ public class CheckoutServlet extends HttpServlet {
         // You can fetch plan/duration data from DB here and set attributes
         request.setAttribute("planId", planId);
         request.setAttribute("durationId", durationId);
+        System.out.println("the kjfw" + durationId);
+        System.out.println("the booooo yaaaaa" + planId);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/client/checkout.jsp");
         dispatcher.forward(request, response);
