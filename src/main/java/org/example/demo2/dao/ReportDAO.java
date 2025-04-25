@@ -142,4 +142,63 @@ public class ReportDAO {
         return report;
     }
 
+    public int getAge(Integer userId) {
+        int age = 0;
+        String SQL = "SELECT EXTRACT(YEAR FROM AGE(CURRENT_DATE, date_of_birth)) AS age FROM client_details WHERE user_id = ?";
+        try (
+                Connection conn = DBConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(SQL);
+        ) {
+            stmt.setInt(1, userId); // Set the user ID as parameter
+            try (ResultSet rs = stmt.executeQuery()) { // ResultSet in try-with-resources
+                if (rs.next()) {
+                    age = rs.getInt("age");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log any exceptions
+        }
+        return age;
+    }
+
+    public int getUseridByEmail(String Email){
+        int userId = 0;
+        String SQL = "SELECT id FROM users WHERE email = ?";
+        try (
+                Connection conn = DBConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(SQL);
+        ) {
+            stmt.setString(1, Email); // Set the user ID as parameter
+            try (ResultSet rs = stmt.executeQuery()) { // ResultSet in try-with-resources
+                if (rs.next()) {
+                    userId = rs.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log any exceptions
+        }
+        return userId;
+
+    }
+
+    public String getName(String Email){
+        String full_name = null;
+        String SQL = "SELECT full_name FROM users WHERE email = ?";
+        try (
+                Connection conn = DBConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(SQL);
+        ) {
+            stmt.setString(1, Email); // Set the user ID as parameter
+            try (ResultSet rs = stmt.executeQuery()) { // ResultSet in try-with-resources
+                if (rs.next()) {
+                    full_name = rs.getString("full_name");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log any exceptions
+        }
+        return full_name;
+
+    }
+
 }

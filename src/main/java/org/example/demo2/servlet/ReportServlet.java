@@ -1,5 +1,6 @@
 package org.example.demo2.servlet;
 
+import jakarta.mail.Session;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,7 +24,15 @@ public class ReportServlet extends HttpServlet {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
             return; // If not authorized, the redirection will be handled by the utility method
         }
-        // Forward to the form page
+        HttpSession session = request.getSession(false);
+        String email =(String) session.getAttribute("userEmail");
+        ReportDAO dao = new ReportDAO();
+        int userId = dao.getUseridByEmail(email);
+        int age = dao.getAge(userId);
+        String name = dao.getName(email);
+
+        request.setAttribute("age", age);
+        request.setAttribute("name", name);
         request.getRequestDispatcher("/jsp/report.jsp").forward(request, response);
     }
 
