@@ -62,6 +62,21 @@
       document.getElementById('rescheduleModal').style.display = 'none';
     }
 
+    // Show success modal after reschedule
+    function showRescheduleSuccessModal() {
+      document.getElementById('rescheduleSuccessModal').style.display = 'block';
+    }
+
+    // Modify the window.onclick handler to include the new modal
+    window.onclick = function(event) {
+      if (event.target == document.getElementById('rescheduleModal')) {
+        hideRescheduleModal();
+      }
+      if (event.target == document.getElementById('rescheduleSuccessModal')) {
+        document.getElementById('rescheduleSuccessModal').style.display = 'none';
+      }
+    }
+
     // Load today's slots when the page loads
     window.onload = function() {
       // Get today's date in yyyy-MM-dd format
@@ -143,6 +158,20 @@
           timeSlotsContainer.innerHTML = `<p class="text-muted">${noSlotsMessage}</p>`;
         }
       }
+    }
+
+    function confirmReschedule() {
+      // Hide the confirmation modal first
+      hideRescheduleModal();
+
+      // Show the success modal
+      showRescheduleSuccessModal();
+
+      // Set a timeout to allow the user to see the success message
+      // before redirecting through form submission
+      setTimeout(function() {
+        document.getElementById('rescheduleForm').submit();
+      }, 3500);
     }
 
     // Function to show alert when user tries to select a slot they already booked
@@ -283,9 +312,24 @@
         </div>
         <div class="flex justify-end gap-md">
           <button class="btn btn-secondary" onclick="hideRescheduleModal()">Cancel</button>
-          <button type="button" class="btn btn-primary" onclick="document.getElementById('rescheduleForm').submit();">
+          <button type="button" class="btn btn-primary" onclick="confirmReschedule();">
             Confirm Reschedule
           </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="rescheduleSuccessModal" class="modal">
+      <div class="card-modal">
+        <div class="card-modal-header">
+          <h3 style="color: var(--success-color);"><i class="fas fa-check-circle"></i> Session Rescheduled</h3>
+        </div>
+        <div class="card-modal-body">
+          <p>Your session has been successfully rescheduled!</p>
+          <p class="text-muted">Your calendar has been updated with the new time.</p>
+        </div>
+        <div class="flex justify-center mt-3">
+          <button class="btn btn-success" onclick="window.location.href='clientBookings'">View My Sessions</button>
         </div>
       </div>
     </div>
