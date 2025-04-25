@@ -90,6 +90,23 @@
     </div>
   </form>
 </div>
+
+<!-- Success Confirmation Modal -->
+<div id="successModal" class="modal">
+  <div class="card-modal">
+    <div class="card-modal-header">
+      <h3 style="color: var(--success-color);"><i class="fas fa-check-circle"></i> Booking Confirmed</h3>
+    </div>
+    <div class="card-modal-body">
+      <p>Your session has been successfully booked!</p>
+      <p class="text-muted">Thank you for scheduling with us.</p>
+    </div>
+    <div class="flex justify-center mt-3">
+      <button class="btn btn-success" onclick="redirectToConfirmation()">Okay</button>
+    </div>
+  </div>
+</div>
+
 <script>
   function toggleCustomOptions() {
     const frequency = document.getElementById('frequency').value;
@@ -129,6 +146,39 @@
       }
     }
   }
+
+  // Show success modal after form submission
+  function showSuccessModal() {
+    const successModal = document.getElementById('successModal');
+    successModal.style.display = 'block';
+  }
+
+  // Redirect to confirmation page
+  function redirectToConfirmation() {
+    window.location.href = '/bookSessionConfirmation';
+  }
+
+  // Update your existing window.onclick function
+  window.onclick = function(event) {
+    const successModal = document.getElementById('successModal');
+    if (event.target == successModal) {
+      successModal.style.display = 'none';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+        showSuccessModal(); // Show the success modal
+
+        setTimeout(() => {
+           form.submit();
+        }, 3000);
+      });
+    }
+  });
 
   // Initialize date picker with proper restrictions when the page loads
   window.onload = function() {
