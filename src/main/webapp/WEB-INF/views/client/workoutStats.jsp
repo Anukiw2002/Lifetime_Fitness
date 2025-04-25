@@ -84,17 +84,8 @@
             </c:choose>
         </div>
 
-        <!-- Workout Summary -->
-        <div class="workout-summary">
-            <h3>Overall Performance</h3>
-            <p class="text-muted">You've made progress in strength and endurance!</p>
-        </div>
-
         <!-- Action Buttons -->
         <div class="action-buttons">
-            <button class="btn btn-secondary" onclick="shareWorkout()">
-                Share Workout
-            </button>
             <button class="btn btn-primary" onclick="finishWorkout()">
                 Complete Workout
             </button>
@@ -106,12 +97,6 @@
     // Function to format numbers with commas
     function formatNumber(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    // Function to share workout (placeholder)
-    function shareWorkout() {
-        // Implement sharing functionality
-        console.log('Sharing workout...');
     }
 
     // Function to finish workout (placeholder)

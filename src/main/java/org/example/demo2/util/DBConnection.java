@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
+
     // Update with Railway PostgreSQL connection details
     private static final String URL = "jdbc:postgresql://localhost:5432/backup4";
     private static final String USER = "postgres";

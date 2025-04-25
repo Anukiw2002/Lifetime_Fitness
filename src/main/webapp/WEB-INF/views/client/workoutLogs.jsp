@@ -74,7 +74,8 @@
 
                 <c:choose>
                     <c:when test="${isLastExercise}">
-                        <button type="submit" name="action" value="finish" class="btn btn-success">
+                        <!-- Modal trigger button for finish -->
+                        <button type="button" class="btn btn-success" onclick="showFinishWorkoutModal()">
                             <i class="fas fa-check"></i> Finish Workout
                         </button>
                     </c:when>
@@ -89,11 +90,26 @@
     </div>
 </div>
 
-<script>
-    // Track progress
-    const currentExercise = ${exerciseIndex} + 1;
-    const totalExercises = ${totalExercises};
+<!-- Finish Workout Confirmation Modal -->
+<div id="finishWorkoutModal" class="modal">
+    <div class="card-modal">
+        <div class="card-modal-header">
+            <h3 style="color: var(--success-color);"><i class="fas fa-check"></i> Confirm Finish</h3>
+        </div>
+        <div class="card-modal-body">
+            <p>Are you sure you want to finish this workout?</p>
+            <p class="text-muted">You will not be able to edit this workout after finishing.</p>
+        </div>
+        <div class="flex justify-end gap-md">
+            <button class="btn btn-secondary" onclick="hideFinishWorkoutModal()">Cancel</button>
+            <button type="button" class="btn btn-success" onclick="confirmFinishWorkout();">
+                Yes, Finish
+            </button>
+        </div>
+    </div>
+</div>
 
+<script>
     // Add input validation for numbers
     document.querySelectorAll('input[type="number"]').forEach(input => {
         input.addEventListener('input', function() {
@@ -101,13 +117,39 @@
         });
     });
 
-    // Show completion confirmation
-    document.querySelector('button[value="finish"]')?.addEventListener('click', function(e) {
-        const confirmed = confirm('Are you sure you want to finish this workout?');
-        if (!confirmed) {
-            e.preventDefault();
+    // Modal logic for Finish Workout (matches rescheduleBooking.jsp style)
+    function showFinishWorkoutModal() {
+        document.getElementById('finishWorkoutModal').style.display = 'block';
+    }
+
+    function hideFinishWorkoutModal() {
+        document.getElementById('finishWorkoutModal').style.display = 'none';
+    }
+
+    function confirmFinishWorkout() {
+        hideFinishWorkoutModal();
+        // Set action and submit the form
+        const form = document.getElementById('workoutLogForm');
+        // Create or set the action input
+        let actionInput = form.querySelector('input[name="action"]');
+        if (!actionInput) {
+            actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            form.appendChild(actionInput);
         }
-    });
+        actionInput.value = 'finish';
+        form.submit();
+    }
+
+    // Close modal when clicking outside (matches your modal logic)
+    window.onclick = function(event) {
+        const finishModal = document.getElementById('finishWorkoutModal');
+        if (event.target === finishModal) {
+            hideFinishWorkoutModal();
+        }
+        // If you have other modals, add similar checks here
+    }
 </script>
 </body>
 </html>
