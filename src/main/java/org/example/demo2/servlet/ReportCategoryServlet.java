@@ -28,12 +28,17 @@ public class ReportCategoryServlet extends HttpServlet {
         for (Map.Entry<String, Integer> entry : userCount.entrySet()) {
             System.out.println("Month: " + entry.getKey() + " | Count: " + entry.getValue());
         }
+        Map<String, Integer> planCount = dao.getPlanCount();
+        for (Map.Entry<String, Integer> entry : planCount.entrySet()){
+            System.out.println("Plan type : " + entry.getKey() + "| Count: " + entry.getValue());
+        }
 
         OwnerDashboardDAO dao1 = new OwnerDashboardDAO();
         Map<String, Integer> revenueForFourMonths = dao1.getRevenueForFourMonths();
         for (Map.Entry<String, Integer> entry : revenueForFourMonths.entrySet()) {
             System.out.println("Month: " + entry.getKey() + " | Count: " + entry.getValue());
         }
+        req.setAttribute("planCount", planCount);
         req.setAttribute("revenueForFourMonths", revenueForFourMonths);
         req.setAttribute("userCount", userCount);
         req.setAttribute("revenueByType", revenueByType);
