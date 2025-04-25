@@ -94,7 +94,7 @@
 <div id="finishWorkoutModal" class="modal">
     <div class="card-modal">
         <div class="card-modal-header">
-            <h3><i class="fas fa-check"></i> Confirm Finish</h3>
+            <h3 style="color: var(--success-color);"><i class="fas fa-check"></i> Confirm Finish</h3>
         </div>
         <div class="card-modal-body">
             <p>Are you sure you want to finish this workout?</p>
