@@ -60,4 +60,24 @@ public class ReportCategoryDAO {
         return userCount;
     }
 
+    public Map<String, Integer> getPlanCount(){
+        Map<String, Integer> plan_count = new HashMap<>();
+        String SQL = "SELECT plan_name, COUNT(*) AS total " +
+                "FROM orders " +
+                "GROUP BY plan_name";
+
+        try(Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(SQL);
+        ResultSet rs = stmt.executeQuery()){
+            while(rs.next()){
+                String plan_name = rs.getString("plan_name");
+                int total = rs.getInt("total");
+                plan_count.put(plan_name, total);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return plan_count;
+    }
+
 }
