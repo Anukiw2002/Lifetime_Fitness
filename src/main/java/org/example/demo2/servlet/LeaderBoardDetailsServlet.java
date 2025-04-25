@@ -18,7 +18,8 @@ public class LeaderBoardDetailsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         String userRole = (String)session.getAttribute("userRole");
-        session.setAttribute("role", userRole);
+        request.setAttribute("role", userRole);
+        System.out.println("role ;" + userRole);
         // Forward the request to leaderBoardDetails.jsp
         request.getRequestDispatcher("/WEB-INF/views/common/leaderBoardDetails.jsp").forward(request, response);
     }
