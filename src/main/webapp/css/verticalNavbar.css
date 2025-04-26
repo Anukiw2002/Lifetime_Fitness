@@ -83,6 +83,7 @@ body {
     display: flex;
     align-items: center;
     transition: var(--transition);
+    position: relative;
 }
 
 .nav-link:hover {
@@ -123,22 +124,36 @@ body {
     border-radius: var(--border-radius);
     border: 1px solid var(--border-color);
 }
+    .notification-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;  /* Keep content left-aligned */
+    }
 
-.notification-wrapper{
-    position: relative;
-}
+    .notification-dot {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        border-radius: 50%;
+        border: 2px solid white;
+        z-index: 2;
+        pointer-events: none;
+        /* 👇 This ensures it doesn't occupy layout space */
+        display: inline-block;
+    }
 
-.notification-dot{
-    position:absolute;
-    top:2px;
-    left:188px;
-    width: 10px;
-    height: 10px;
-    background-color: red;
-    border-radius: 50%;
-    border: 2px solid white;
-    z-index: 1;
-}
+    /* Add this to preserve the layout when link is clicked/active */
+    .nav-link:active, .nav-link:focus {
+        padding-right: 1.25rem;  /* Match the original padding */
+    }
+    .hidden {
+        visibility: hidden;
+        opacity: 0;
+    }
+
 
 .menu-icon div {
     width: 100%;

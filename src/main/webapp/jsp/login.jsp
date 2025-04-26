@@ -22,5 +22,10 @@
     </form>
     <a href="forgotPassword.jsp" class="forgot-password">Forgot Password?</a>
 </div>
+<%--<c:if test="${not empty alertMessage}">--%>
+<%--    <script>--%>
+<%--        alert("${alertMessage}");--%>
+<%--    </script>--%>
+<%--</c:if>--%>
 </body>
 </html>
