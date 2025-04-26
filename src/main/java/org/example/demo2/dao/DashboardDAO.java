@@ -43,7 +43,7 @@ public class DashboardDAO {
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()){
-                workoutDates.add(rs.getDate("workout_date").toLocalDate());
+                workoutDates.add(rs.getDate("created_at").toLocalDate());
             }
         }catch (SQLException e){
             e.printStackTrace();

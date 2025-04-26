@@ -32,9 +32,7 @@
         </a>
         <a href="viewNotification" class="nav-link notification-wrapper">
             <i class="fas fa-bell icon"></i>Notifications
-            <c:if test="${hasUnread}">
-                <span class="notification-dot"></span>  <!-- Red dot for unread notifications -->
-            </c:if>
+            <span class="notification-dot ${sessionScope.hasUnread ? '' : 'hidden'}"></span>
         </a>
 
         <a href="GetAllVideosClient" class="nav-link">

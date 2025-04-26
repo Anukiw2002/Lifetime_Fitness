@@ -50,7 +50,7 @@ public class ClientDashboardServlet extends HttpServlet {
         // Use NotificationsDAO to check for unread notifications
         boolean hasUnread = NotificationsDAO.hasUnreadNotifications(user_id);  // Call DAO method to check unread notifications
 
-        req.setAttribute("hasUnread", hasUnread);
+        session.setAttribute("hasUnread", hasUnread);
         // Pass the boolean value to the JSP
 
         // Fetch user information (name) - This is still directly done in the servlet for simplicity
