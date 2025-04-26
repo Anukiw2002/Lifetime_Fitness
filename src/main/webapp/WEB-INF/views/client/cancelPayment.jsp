@@ -17,8 +17,8 @@
   <h1>Payment Cancelled ❌</h1>
   <p>We're sorry, your payment process was cancelled. If this was a mistake, you can try again.</p>
 
-  <form action="${pageContext.request.contextPath}/Plan" method="get">
-    <input type="button" value="Back to Payment Plans" onclick="window.location.href='${pageContext.request.contextPath}/Plans'">
+  <form action="${pageContext.request.contextPath}/Plans" method="get">
+    <button type="submit" class="cancel-btn">Back to Payment Plans</button>
   </form>
 </div>
 </body>

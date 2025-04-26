@@ -1,35 +1,86 @@
-.blog-table {
-    width: 100%;
-    border-collapse: collapse;
+/* Container for all blog cards */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+/* Each blog card */
+.blog-card {
     background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
 }
 
-.blog-table th,
-.blog-table td {
+.blog-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Blog image section */
+.blog-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Blog content */
+.blog-content {
     padding: var(--spacing-md);
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px; /* Add space here */
+}
+
+.blog-actions {
+
+    display: flex;
+    gap: 6px; /* space between buttons */
+    flex-wrap: wrap; /* ensures buttons don't overflow on small screens */
+    margin-top: 12px;
+}
+.btn-secondary,.btn-danger,.btn-primary{
+    width: 105px;
+    height: 35px;
+    padding: 6px 10px;
+    font-size: 13px;
+}
+
+
+
+.btn-upload {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+.btn-upload:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.search-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px 15px;
+    font-size: 16px;
     border: 1px solid var(--border-color);
-    text-align: left;
+    border-radius: var(--border-radius);
+    outline: none;
+    margin-bottom: 20px;
 }
 
-.blog-table th {
-    background-color: var(--bg-dark);
-    color: var(--text-color);
-    font-weight: 600;
-}
-
-.blog-table tr:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-.no-blogs {
-    text-align: center;
-    color: var(--text-muted);
-    padding: var(--spacing-xl);
-}
-
-textarea.form-control {
-    min-height: 120px;
-    resize: vertical;
+.search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
