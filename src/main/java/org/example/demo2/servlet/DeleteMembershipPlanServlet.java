@@ -104,9 +104,16 @@ public class DeleteMembershipPlanServlet extends HttpServlet {
             System.err.println("Database error while deleting plan: " + e.getMessage());
             e.printStackTrace();
             jsonResponse.put("status", "error");
-            jsonResponse.put("message", "Database error: " + e.getMessage());
+
+            if ("23503".equals(e.getSQLState())) {  // Foreign key violation SQL state
+                jsonResponse.put("message", "Cannot delete plan: As there are members enrolled in it.");
+            } else {
+                jsonResponse.put("message", "Database operation failed");
+            }
+
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.err.println("Unexpected error while deleting plan: " + e.getMessage());
             e.printStackTrace();
             jsonResponse.put("status", "error");
