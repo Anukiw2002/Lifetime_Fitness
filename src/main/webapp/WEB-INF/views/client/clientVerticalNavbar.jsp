@@ -47,6 +47,9 @@
         <a href="${pageContext.request.contextPath}/clientViewReport" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Reports
         </a>
+        <a href="${pageContext.request.contextPath}/handleReview" class="nav-link">
+            <i class="fas fa-star icon"></i>Reviews
+        </a>
     </div>
 
     <div class="bottom-links">
