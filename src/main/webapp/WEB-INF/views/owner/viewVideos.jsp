@@ -25,6 +25,13 @@
       </form>
     </div>
 
+    <input
+            type="text"
+            id="searchInput"
+            placeholder="Search blogs by name..."
+            class="search-input"
+    />
+
     <!-- Videos Content Section -->
     <div class="card">
       <c:if test="${not empty videos}">
@@ -79,6 +86,18 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById("searchInput").addEventListener("input", function () {
+    const searchValue = this.value.toLowerCase();
+    const blogCards = document.querySelectorAll(".blog-card");
+
+    blogCards.forEach(card => {
+      const title = card.querySelector(".blog-title").textContent.toLowerCase();
+      card.style.display = title.includes(searchValue) ? "block" : "none";
+    });
+  });
+</script>
 
 </body>
 </html>

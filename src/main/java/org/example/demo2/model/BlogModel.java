@@ -5,10 +5,20 @@ public class BlogModel {
     private String name;
     private String description;
     private String content;
+    private byte[] image; // New image field
 
     // Constructors
     public BlogModel() {}
 
+    public BlogModel(int id, String name, String description, String content, byte[] image) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.content = content;
+        this.image = image;
+    }
+
+    // Existing constructor for cases without image
     public BlogModel(int id, String name, String description, String content) {
         this.id = id;
         this.name = name;
@@ -49,6 +59,14 @@ public class BlogModel {
         this.content = content;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "BlogModel{" +
@@ -56,6 +74,7 @@ public class BlogModel {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", content='" + content + '\'' +
+                ", image=" + (image != null ? "[image present]" : "null") +
                 '}';
     }
 }

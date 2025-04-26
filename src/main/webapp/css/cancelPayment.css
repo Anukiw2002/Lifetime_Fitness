@@ -80,11 +80,4 @@ button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Optional: red button for retry/cancel context */
-button.cancel-btn {
-    background-color: var(--danger-color);
-}
 
-button.cancel-btn:hover {
-    background-color: var(--danger-hover);
-}
