@@ -12,12 +12,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import org.example.demo2.util.DBConnection;
+import org.example.demo2.util.SessionUtils;
 
 @WebServlet("/ViewEachBlog")
 public class ViewEachBlogServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
+            return; // If not authorized, the redirection will be handled by the utility method
+        }
 
         String id = request.getParameter("id");
 
@@ -27,7 +31,7 @@ public class ViewEachBlogServlet extends HttpServlet {
         }
 
         try (Connection conn = DBConnection.getConnection()) {
-            String sql = "SELECT * FROM blogs WHERE id = ?";
+            String sql = "SELECT name, description, content FROM blogs WHERE id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, Integer.parseInt(id));
                 ResultSet rs = stmt.executeQuery();
