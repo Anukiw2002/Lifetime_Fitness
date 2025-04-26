@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,10 +12,10 @@
 </head>
 <body>
 <c:choose>
-    <c:when test="${sessionScope.role == 'instructor'}">
+    <c:when test="${requestScope.role == 'instructor'}">
         <jsp:include page="../instructor/instructorVerticalNavbar.jsp" />
     </c:when>
-    <c:when test="${sessionScope.role == 'owner'}">
+    <c:when test="${requestScope.role == 'owner'}">
         <jsp:include page="../common/verticalNavBar.jsp" />
     </c:when>
 </c:choose>

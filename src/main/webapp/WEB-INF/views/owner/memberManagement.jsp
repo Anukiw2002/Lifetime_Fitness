@@ -134,10 +134,7 @@
                         <td>
                             <div class="flex">
                                 <button class="action-button edit" onClick="viewClientDetails(${membership.userId})">
-                                    <i class="fas fa-user"></i>
-                                </button>
-                                <button class="action-button edit">
-                                    <i class="fas fa-file-medical"></i>
+                                    <i class="fas fa-ellipsis-vertical"></i>
                                 </button>
                             </div>
                         </td>
