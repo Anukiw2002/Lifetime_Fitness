@@ -30,10 +30,21 @@
 
         <!-- Back Button -->
         <div class="mt-4">
-            <a href="${pageContext.request.contextPath}/GetAllBlogs" class="btn btn-primary">Back to Blogs</a>
+            <a href="${pageContext.request.contextPath}/GetAllBlogs" class="btn btn-upload">Back to Blogs</a>
         </div>
     </div>
 </div>
+<script>
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll(".blog-table tbody tr");
+
+        rows.forEach(row => {
+            const blogName = row.cells[0].textContent.toLowerCase();
+            row.style.display = blogName.includes(filter) ? "" : "none";
+        });
+    });
+</script>
 
 </body>
 </html>

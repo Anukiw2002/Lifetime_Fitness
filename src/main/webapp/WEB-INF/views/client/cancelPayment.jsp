@@ -18,8 +18,8 @@
   <p>We're sorry, your payment process was cancelled. If this was a mistake, you can try again.</p>
 
   <form action="${pageContext.request.contextPath}/Plans" method="get">
-    <input type="button" value="Back to Payment Plans" onclick="window.location.href='${pageContext.request.contextPath}/Plans'">
-  </form
+    <button type="submit" class="cancel-btn">Back to Payment Plans</button>
+  </form>
 </div>
 </body>
 </html>

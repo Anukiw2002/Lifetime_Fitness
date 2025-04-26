@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,8 +22,8 @@
                 <div class="error-message">${errorMessage}</div>
             </c:if>
 
-            <!-- Form for uploading a blog -->
-            <form action="UploadBlog" method="post" id="uploadBlogForm">
+            <!-- Updated form with multipart for file upload -->
+            <form action="UploadBlog" method="post" enctype="multipart/form-data" id="uploadBlogForm">
                 <!-- Blog Title -->
                 <div class="form-group">
                     <label class="form-label" for="name">Blog Title:</label>
@@ -53,6 +54,17 @@
                               placeholder="Write your full blog content here..."
                               rows="10"
                               required></textarea>
+                </div>
+
+                <!-- Blog Image Upload -->
+                <div class="form-group">
+                    <label class="form-label" for="image">Upload Blog Image:</label>
+                    <input type="file"
+                           id="image"
+                           name="image"
+                           class="form-control"
+                           accept="image/*"
+                           required />
                 </div>
 
                 <!-- Submit Button -->
