@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DBConnection {
     // Update with Railway PostgreSQL connection details
-    private static final String URL = "jdbc:postgresql://shuttle.proxy.rlwy.net:12024/railway";
+    private static final String URL = "jdbc:postgresql://localhost:5432/backup5";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "zetNnHzGDoSIcaAzhVINNoCzsrJlyNGk";
+    private static final String PASSWORD = "Ishn@2002";
     // Use your actual password
 
     static {
