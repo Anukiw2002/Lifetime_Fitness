@@ -7,47 +7,43 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.demo2.model.BlogModel;
 import org.example.demo2.util.SessionUtils;
-import org.example.demo2.servlet.BlogController;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/InstructorViewBlogs")
-public class InstructorViewBlogs extends HttpServlet {
+@WebServlet("/GetAllBlogsInstructor")
+public class GetAllBlogsInstructorServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+
+        // Authorization check
+        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
+            return; // The utility handles the redirection
         }
 
         try {
-            // Fetch all blogs using BlogController
             List<BlogModel> allBlogs = BlogController.getAllBlogs();
-
-            // Debugging log
-            System.out.println("Retrieved Blogs: " + allBlogs);
-
-            // Set the blogs in request scope
+            System.out.println("Retrieved Blogs for Client: " + allBlogs);
             request.setAttribute("blogs", allBlogs);
-
-            // Forward to JSP
-            request.getRequestDispatcher("/WEB-INF/views/instructor/instructorViewBlogs.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/client/viewBlogs.jsp").forward(request, response);
         } catch (Exception e) {
-            System.err.println("Error while fetching blogs:");
+            System.err.println("Error while fetching blogs for the client:");
             e.printStackTrace();
-
             request.setAttribute("errorMessage", "An error occurred while fetching blogs.");
-            request.getRequestDispatcher("/WEB-INF/views/instructor/instructorViewBlogs.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/client/viewBlogs.jsp").forward(request, response);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
-            return;
+
+        // Authorization check
+        if (!SessionUtils.isUserAuthorized(request, response, "client")) {
+            return; // The utility handles the redirection
         }
-        doGet(request, response);
+
+        doGet(request, response); // forward to doGet
     }
 }

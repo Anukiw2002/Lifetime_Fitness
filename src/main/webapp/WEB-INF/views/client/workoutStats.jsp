@@ -24,8 +24,8 @@
             <div class="stat-card">
                 <div class="stat-title">Workout Duration</div>
                 <div class="stat-value">
-                    <span id="durationValue"> ${duration} </span>
-                    <span class="stat-unit">minutes</span>
+                    <span id="durationValue">${duration}</span>
+                    <span class="stat-unit">hh:mm:ss</span>
                 </div>
             </div>
 
