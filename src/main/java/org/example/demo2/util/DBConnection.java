@@ -5,9 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
+    private static final String URL = "jdbc:postgresql://localhost:5432/DB";
 
-    // Update with Railway PostgreSQL connection details
-    private static final String URL = "jdbc:postgresql://localhost:6000/NewDB25";
     private static final String USER = "postgres";
 
     private static final String PASSWORD = "zetNnHzGDoSIcaAzhVINNoCzsrJlyNGk";
