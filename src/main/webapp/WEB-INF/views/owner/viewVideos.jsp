@@ -8,7 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>View Videos</title>
 
-  <!-- Link to external CSS -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/generalStyles.css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/viewVideos.css" />
 </head>
@@ -16,84 +15,65 @@
 
 <div class="main-content">
   <jsp:include page="../common/verticalNavBar.jsp" />
+
   <div class="container">
-    <!-- Header Section -->
-    <div class="flex justify-between items-center mb-4">
+    <div class="top-bar">
       <h2>All Videos</h2>
+
       <form action="${pageContext.request.contextPath}/UploadVideo" method="get">
-        <button type="submit" class="btn btn-primary">Upload Video</button>
+        <button type="submit" class="btn btn-upload">Upload Video</button>
       </form>
     </div>
 
     <input
             type="text"
             id="searchInput"
-            placeholder="Search blogs by name..."
+            placeholder="Search videos by name..."
             class="search-input"
     />
 
-    <!-- Videos Content Section -->
-    <div class="card">
-      <c:if test="${not empty videos}">
-        <table class="video-table">
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Watch Video</th>
-            <th>Update</th>
-            <th>Delete</th>
-          </tr>
-          </thead>
-          <tbody>
-          <c:forEach var="video" items="${videos}">
-
-            <tr>
-              <td>${video.name}</td>
-              <td>${video.description}</td>
-              <td>
+    <c:if test="${not empty videos}">
+      <div class="video-grid">
+        <c:forEach var="video" items="${videos}">
+          <div class="video-card">
+            <div class="video-image">
+              <img src="${pageContext.request.contextPath}/image2?id=${video.id}" width="200" height="auto" />
+            </div>
+            <div class="video-content">
+              <h3>${video.name}</h3>
+              <p>${video.description}</p>
+              <div class="video-actions">
                 <form action="${video.url}" method="get" target="_blank">
                   <button type="submit" class="btn btn-secondary">Watch Video</button>
                 </form>
-              </td>
-              <td>
                 <form action="${pageContext.request.contextPath}/UpdateVideo" method="get">
                   <input type="hidden" name="id" value="${video.id}" />
                   <button type="submit" class="btn btn-primary">Update</button>
                 </form>
-              </td>
-              <td>
-                <script>
-                  function confirmDelete() {
-                    return confirm("Are you sure you want to delete this blog? This action cannot be undone.");
-                  }
-                </script>
-
-                <form action="${pageContext.request.contextPath}/DeleteVideo" method="post" onsubmit="return confirmDelete();">
+                <form action="${pageContext.request.contextPath}/DeleteVideo" method="post" onsubmit="return confirm('Are you sure you want to delete this video?');">
                   <input type="hidden" name="id" value="${video.id}" />
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
-              </td>
-            </tr>
-          </c:forEach>
-          </tbody>
-        </table>
-      </c:if>
+              </div>
+            </div>
+          </div>
+        </c:forEach>
+      </div>
+    </c:if>
 
-      <c:if test="${empty videos}">
-        <p class="no-videos">No videos uploaded yet.</p>
-      </c:if>
-    </div>
+    <c:if test="${empty videos}">
+      <p class="no-videos">No videos uploaded yet.</p>
+    </c:if>
   </div>
 </div>
 
 <script>
   document.getElementById("searchInput").addEventListener("input", function () {
     const searchValue = this.value.toLowerCase();
-    const blogCards = document.querySelectorAll(".blog-card");
+    const videoCards = document.querySelectorAll(".video-card");
 
-    blogCards.forEach(card => {
-      const title = card.querySelector(".blog-title").textContent.toLowerCase();
+    videoCards.forEach(card => {
+      const title = card.querySelector(".video-title").textContent.toLowerCase();
       card.style.display = title.includes(searchValue) ? "block" : "none";
     });
   });
@@ -101,5 +81,3 @@
 
 </body>
 </html>
-
-

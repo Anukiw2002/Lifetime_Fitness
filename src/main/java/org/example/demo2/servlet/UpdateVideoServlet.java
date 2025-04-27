@@ -45,7 +45,9 @@ public class UpdateVideoServlet extends HttpServlet {
                                 resultSet.getInt("id"),
                                 resultSet.getString("name"),
                                 resultSet.getString("description"),
-                                resultSet.getString("url")
+                                resultSet.getString("url"),
+                                resultSet.getString("image").getBytes()
+
                         );
                         request.setAttribute("video", video);
                         request.getRequestDispatcher("/WEB-INF/views/owner/updateVideo.jsp").forward(request, response);

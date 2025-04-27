@@ -23,7 +23,7 @@
             </c:if>
 
             <!-- Form for uploading a video -->
-            <form action="${pageContext.request.contextPath}/UploadVideo" method="post" id="uploadVideoForm">
+            <form action="${pageContext.request.contextPath}/UploadVideo" method="post" id="uploadVideoForm" enctype="multipart/form-data">
 
                 <!-- Video Name -->
                 <div class="form-group">
@@ -54,6 +54,17 @@
                            name="videoUrl"
                            class="form-control"
                            placeholder="https://..."
+                           required />
+                </div>
+
+                <!-- Video Image -->
+                <div class="form-group">
+                    <label class="form-label" for="videoImage">Upload Video Image:</label>
+                    <input type="file"
+                           id="videoImage"
+                           name="videoImage"
+                           class="form-control"
+                           accept="image/*"
                            required />
                 </div>
 
