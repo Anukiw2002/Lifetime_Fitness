@@ -1,22 +1,25 @@
 package org.example.demo2.servlet;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 import org.example.demo2.model.BlogModel;
+import org.example.demo2.servlet.BlogController;
 import org.example.demo2.util.DBConnection;
 import org.example.demo2.util.SessionUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @WebServlet("/UpdateBlog")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 10 * 1024 * 1024)
 public class UpdateBlogServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
@@ -50,7 +53,8 @@ public class UpdateBlogServlet extends HttpServlet {
                                 resultSet.getInt("id"),
                                 resultSet.getString("name"),
                                 resultSet.getString("description"),
-                                resultSet.getString("content") // updated here
+                                resultSet.getString("content"),
+                                resultSet.getBytes("image") // corrected: getBytes
                         );
                         request.setAttribute("blog", blog);
                         request.getRequestDispatcher("/WEB-INF/views/owner/updateBlog.jsp").forward(request, response);
@@ -73,10 +77,13 @@ public class UpdateBlogServlet extends HttpServlet {
             return;
         }
 
+        request.setCharacterEncoding("UTF-8");
+
         String idParam = request.getParameter("id");
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String content = request.getParameter("content");
+        Part imagePart = request.getPart("image"); // uploaded image part (can be empty)
 
         if (idParam == null || idParam.isEmpty() ||
                 name == null || name.isEmpty() ||
@@ -90,31 +97,33 @@ public class UpdateBlogServlet extends HttpServlet {
 
         int id = Integer.parseInt(idParam);
 
-        try (Connection connection = DBConnection.getConnection()) {
-            String sql = "UPDATE blogs SET name = ?, description = ?, content = ? WHERE id = ?";
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, name);
-                statement.setString(2, description);
-                statement.setString(3, content); // updated here
-                statement.setInt(4, id);
+        boolean success;
 
-                int rowsUpdated = statement.executeUpdate();
-
-                if (rowsUpdated > 0) {
-                    String successMessage = "Blog updated successfully!";
-                    response.setContentType("text/html");
-                    response.getWriter().println("<script type='text/javascript'>");
-                    response.getWriter().println("alert('" + successMessage + "');");
-                    response.getWriter().println("window.location.href = 'GetAllBlogs';");
-                    response.getWriter().println("</script>");
-                } else {
-                    request.setAttribute("errorMessage", "Failed to update the blog!");
-                    request.getRequestDispatcher("/WEB-INF/views/owner/updateBlog.jsp").forward(request, response);
+        try {
+            if (imagePart != null && imagePart.getSize() > 0) {
+                // New image uploaded
+                try (InputStream imageStream = imagePart.getInputStream()) {
+                    success = BlogController.updateBlogWithImage(id, name, description, content, imageStream);
                 }
+            } else {
+                // No new image uploaded
+                success = BlogController.updateBlog(id, name, description, content);
             }
-        } catch (SQLException e) {
+
+            if (success) {
+                String successMessage = "Blog updated successfully!";
+                response.setContentType("text/html");
+                response.getWriter().println("<script type='text/javascript'>");
+                response.getWriter().println("alert('" + successMessage + "');");
+                response.getWriter().println("window.location.href = 'GetAllBlogs';");
+                response.getWriter().println("</script>");
+            } else {
+                request.setAttribute("errorMessage", "Failed to update the blog!");
+                request.getRequestDispatcher("/WEB-INF/views/owner/updateBlog.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Database error: " + e.getMessage());
+            request.setAttribute("errorMessage", "Error: " + e.getMessage());
             request.getRequestDispatcher("/WEB-INF/views/owner/updateBlog.jsp").forward(request, response);
         }
     }

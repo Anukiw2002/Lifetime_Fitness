@@ -11,7 +11,7 @@ import org.example.demo2.util.SessionUtils;
 import java.io.IOException;
 import java.util.List;
 @WebServlet("/InstructorViewVideos")
-public class InstructorViewVideos extends HttpServlet {
+public class getAllVidoesInstructor extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override

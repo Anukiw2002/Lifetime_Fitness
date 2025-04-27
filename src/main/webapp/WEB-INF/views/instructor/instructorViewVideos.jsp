@@ -13,13 +13,20 @@
 <body>
 
 <div class="main-content">
-  <jsp:include page="instructorVerticalNavbar.jsp" />
+  <jsp:include page="../instructor/instructorVerticalNavbar.jsp" />
 
   <div class="container">
     <!-- Header Section -->
     <div class="flex justify-between items-center mb-4">
       <h2>All Videos</h2>
     </div>
+
+    <input
+            type="text"
+            id="searchInput"
+            placeholder="Search blogs by name..."
+            class="search-input"
+    />
 
     <!-- Video Content Section -->
     <div class="card">
@@ -29,6 +36,7 @@
           <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Watch Video</th>
           </tr>
           </thead>
           <tbody>
@@ -48,6 +56,19 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  document.getElementById("searchInput").addEventListener("input", function () {
+    const searchValue = this.value.toLowerCase();
+    const blogCards = document.querySelectorAll(".blog-card");
+
+    blogCards.forEach(card => {
+      const title = card.querySelector(".blog-title").textContent.toLowerCase();
+      card.style.display = title.includes(searchValue) ? "block" : "none";
+    });
+  });
+</script>
 
 </body>
 </html>
