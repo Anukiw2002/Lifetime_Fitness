@@ -24,7 +24,6 @@ public class ViewFullNotificationsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
             resp.sendRedirect(req.getContextPath() + "/landingPage");
             return;
         }
@@ -40,7 +39,7 @@ public class ViewFullNotificationsServlet extends HttpServlet {
             return;
         }
         if (userRole.equals("client")) {
-            userRole = "customer"; // Adjust the role to match the database
+            userRole = "customer";
         }
 
         try (Connection connection = DBConnection.getConnection();
