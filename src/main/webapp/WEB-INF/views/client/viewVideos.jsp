@@ -16,59 +16,47 @@
     <jsp:include page="../client/clientVerticalNavbar.jsp" />
 
     <div class="container">
-        <!-- Header Section -->
-        <div class="flex justify-between items-center mb-4">
-            <h2>All Videos</h2>
-        </div>
+        <h2>All Videos</h2>
 
         <input
                 type="text"
                 id="searchInput"
-                placeholder="Search blogs by name..."
+                placeholder="Search videos by name..."
                 class="search-input"
         />
 
-        <!-- Video Content Section -->
-        <div class="card">
-            <c:if test="${not empty videos}">
-                <table class="video-table">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Watch Video</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="video" items="${videos}">
-                        <tr>
-                            <td>${video.name}</td>
-                            <td>${video.description}</td>
-                            <td>
-                                <form action="${video.url}" method="get" target="_blank">
-                                    <button type="submit" class="btn btn-secondary">Watch Video</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </c:if>
+        <c:if test="${not empty videos}">
+            <div class="video-grid" id="videoGrid">
+                <c:forEach var="video" items="${videos}">
+                    <div class="video-card">
+                        <div class="video-image">
+                            <img src="${pageContext.request.contextPath}/image2?id=${video.id}" alt="Video Thumbnail" />
+                        </div>
+                        <div class="video-content">
+                            <h3 class="video-title">${video.name}</h3>
+                            <p>${video.description}</p>
+                            <form action="${video.url}" method="get" target="_blank">
+                                <button type="submit" class="btn btn-secondary">Watch</button>
+                            </form>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </c:if>
 
-            <c:if test="${empty videos}">
-                <p class="no-videos">No videos available at the moment.</p>
-            </c:if>
-        </div>
+        <c:if test="${empty videos}">
+            <p class="no-videos">No videos available at the moment.</p>
+        </c:if>
     </div>
 </div>
 
 <script>
     document.getElementById("searchInput").addEventListener("input", function () {
         const searchValue = this.value.toLowerCase();
-        const blogCards = document.querySelectorAll(".blog-card");
+        const videoCards = document.querySelectorAll(".video-card");
 
-        blogCards.forEach(card => {
-            const title = card.querySelector(".blog-title").textContent.toLowerCase();
+        videoCards.forEach(card => {
+            const title = card.querySelector(".video-title").textContent.toLowerCase();
             card.style.display = title.includes(searchValue) ? "block" : "none";
         });
     });

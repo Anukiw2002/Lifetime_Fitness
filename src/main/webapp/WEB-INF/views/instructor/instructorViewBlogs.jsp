@@ -12,7 +12,7 @@
 <body>
 
 <div class="main-content">
-    <jsp:include page="../client/clientVerticalNavbar.jsp" />
+    <jsp:include page="../instructor/instructorVerticalNavbar.jsp" />
 
     <div class="container">
         <h2>All Blogs</h2>

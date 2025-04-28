@@ -1,38 +1,84 @@
-.video-table {
-    width: 100%;
-    border-collapse: collapse;
+/* Container for all video cards */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+/* Each video card */
+.video-card {
     background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
 }
 
-.video-table th,
-.video-table td {
+.video-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Video image section */
+.video-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Video content */
+.video-content {
     padding: var(--spacing-md);
-    border: 1px solid var(--border-color);
-    text-align: left;
 }
 
-.video-table th {
-    background-color: var(--bg-dark);
-    color: var(--text-color);
-    font-weight: 600;
+/* Video title */
+.video-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
 }
 
-.video-table tr:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+/* Top bar with heading and upload button */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
 }
 
-.no-videos {
-    text-align: center;
-    color: var(--text-muted);
-    padding: var(--spacing-xl);
+/* Video actions (Watch, Update, Delete) */
+.video-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 12px;
 }
 
-textarea.form-control {
-    min-height: 120px;
-    resize: vertical;
+/* Common button styles */
+.btn-secondary, .btn-primary, .btn-danger {
+    width: 105px;
+    height: 35px;
+    padding: 6px 10px;
+    font-size: 13px;
 }
+
+/* Upload button */
+.btn-upload {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+.btn-upload:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Search input */
 .search-input {
     width: 100%;
     max-width: 400px;
@@ -47,4 +93,12 @@ textarea.form-control {
 .search-input:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Message when no videos */
+.no-videos {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-top: 20px;
+    text-align: center;
 }

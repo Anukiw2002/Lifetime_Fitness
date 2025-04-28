@@ -40,11 +40,11 @@
               <img src="${pageContext.request.contextPath}/image2?id=${video.id}" width="200" height="auto" />
             </div>
             <div class="video-content">
-              <h3>${video.name}</h3>
+              <h3 class="video-title">${video.name}</h3>
               <p>${video.description}</p>
               <div class="video-actions">
                 <form action="${video.url}" method="get" target="_blank">
-                  <button type="submit" class="btn btn-secondary">Watch Video</button>
+                  <button type="submit" class="btn btn-secondary">Watch</button>
                 </form>
                 <form action="${pageContext.request.contextPath}/UpdateVideo" method="get">
                   <input type="hidden" name="id" value="${video.id}" />
