@@ -385,8 +385,8 @@ public class BookSessionDAO {
                 if (rs.next()) {
                     int count = rs.getInt(1);
                     if (count >= maxBookings) return "Fully Booked";
-                    if (count >= maxBookings * 0.85) return "Almost Full";
-                    if (count >= maxBookings * 0.75) return "Filling Fast";
+                    if (count >= maxBookings * 0.8) return "Almost Full";
+                    if (count >= maxBookings * 0.7) return "Filling Fast";
                 }
             }
         } catch (SQLException e) {
