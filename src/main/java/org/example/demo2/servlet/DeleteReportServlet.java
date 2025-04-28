@@ -19,7 +19,6 @@ public class DeleteReportServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
@@ -31,10 +30,10 @@ public class DeleteReportServlet extends HttpServlet {
         }
 
         try (Connection conn = DBConnection.getConnection()) {
-            conn.setAutoCommit(false); // Start transaction
+            conn.setAutoCommit(false);
 
             try {
-                // Delete exercises associated with the report
+
                 String deleteExercisesQuery = "DELETE FROM user_exercises WHERE email = ?";
                 try (PreparedStatement exerciseStmt = conn.prepareStatement(deleteExercisesQuery)) {
                     exerciseStmt.setString(1, email);
@@ -42,7 +41,7 @@ public class DeleteReportServlet extends HttpServlet {
                     System.out.println("Deleted rows in user_exercises: " + exerciseRows);
                 }
 
-                // Delete the report itself
+
                 String deleteReportQuery = "DELETE FROM user_reports WHERE email = ?";
                 try (PreparedStatement reportStmt = conn.prepareStatement(deleteReportQuery)) {
                     reportStmt.setString(1, email);
@@ -50,7 +49,7 @@ public class DeleteReportServlet extends HttpServlet {
                     System.out.println("Deleted rows in user_reports: " + reportRows);
                 }
 
-                // Delete the email from the approved_emails table
+
                 String deleteEmailQuery = "DELETE FROM approved_emails WHERE email = ?";
                 try (PreparedStatement emailStmt = conn.prepareStatement(deleteEmailQuery)) {
                     emailStmt.setString(1, email);
@@ -58,10 +57,10 @@ public class DeleteReportServlet extends HttpServlet {
                     System.out.println("Deleted rows in approved_emails: " + emailRows);
                 }
 
-                conn.commit(); // Commit transaction
-                response.sendRedirect(request.getContextPath() + "/first"); // Redirect to the list of reports
+                conn.commit();
+                response.sendRedirect(request.getContextPath() + "/first");
             } catch (SQLException e) {
-                conn.rollback(); // Rollback transaction on error
+                conn.rollback();
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error deleting report and email.");
             }

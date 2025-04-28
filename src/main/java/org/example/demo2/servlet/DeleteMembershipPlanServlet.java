@@ -27,14 +27,13 @@ public class DeleteMembershipPlanServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         response.setContentType("application/json");
         Map<String, Object> jsonResponse = new HashMap<>();
         Connection connection = null;
 
         try {
-            // Parse the planId from request body
             Map<String, Object> requestData = objectMapper.readValue(request.getInputStream(), Map.class);
             Long planId = Long.valueOf(requestData.get("planId").toString());
 
@@ -42,11 +41,11 @@ public class DeleteMembershipPlanServlet extends HttpServlet {
                 throw new ServletException("Plan ID is required");
             }
 
-            System.out.println("Attempting to delete plan with ID: " + planId); // Debug log
+            System.out.println("Attempting to delete plan with ID: " + planId);
 
             DBConnection dbConnection = new DBConnection();
             connection = dbConnection.getConnection();
-            connection.setAutoCommit(false); // Start transaction
+            connection.setAutoCommit(false);
 
             try {
                 MembershipPlanDAO membershipPlanDAO = new MembershipPlanDAO(dbConnection);
@@ -54,40 +53,39 @@ public class DeleteMembershipPlanServlet extends HttpServlet {
                 CategoryPricingDAO categoryPricingDAO = new CategoryPricingDAO(dbConnection);
                 UniformPricingDAO uniformPricingDAO = new UniformPricingDAO(dbConnection);
 
-                // Check if plan exists
                 if (membershipPlanDAO.findById(planId) == null) {
                     throw new SQLException("Plan not found with ID: " + planId);
                 }
 
-                System.out.println("Fetching durations for plan: " + planId); // Debug log
+                System.out.println("Fetching durations for plan: " + planId);
                 List<Duration> durations = durationDAO.findByPlanId(planId);
-                System.out.println("Found " + durations.size() + " durations"); // Debug log
+                System.out.println("Found " + durations.size() + " durations");
 
-                // Delete in correct order
+
                 for (Duration duration : durations) {
                     Long durationId = duration.getDurationId();
-                    System.out.println("Processing duration: " + durationId); // Debug log
+                    System.out.println("Processing duration: " + durationId);
 
-                    // Delete category pricing records
+
                     categoryPricingDAO.deleteByDurationId(durationId);
-                    System.out.println("Deleted category pricing for duration: " + durationId); // Debug log
+                    System.out.println("Deleted category pricing for duration: " + durationId);
 
-                    // Delete uniform pricing records
+
                     uniformPricingDAO.deleteByDurationId(durationId);
-                    System.out.println("Deleted uniform pricing for duration: " + durationId); // Debug log
+                    System.out.println("Deleted uniform pricing for duration: " + durationId);
                 }
 
-                // Delete all durations
+
                 for (Duration duration : durations) {
                     durationDAO.delete(duration.getDurationId());
-                    System.out.println("Deleted duration: " + duration.getDurationId()); // Debug log
+                    System.out.println("Deleted duration: " + duration.getDurationId());
                 }
 
-                // Finally delete the plan
-                membershipPlanDAO.delete(planId);
-                System.out.println("Deleted plan: " + planId); // Debug log
 
-                connection.commit(); // Commit transaction
+                membershipPlanDAO.delete(planId);
+                System.out.println("Deleted plan: " + planId);
+
+                connection.commit();
 
                 jsonResponse.put("status", "success");
                 jsonResponse.put("message", "Plan deleted successfully");
@@ -105,7 +103,7 @@ public class DeleteMembershipPlanServlet extends HttpServlet {
             e.printStackTrace();
             jsonResponse.put("status", "error");
 
-            if ("23503".equals(e.getSQLState())) {  // Foreign key violation SQL state
+            if ("23503".equals(e.getSQLState())) {
                 jsonResponse.put("message", "Cannot delete plan: As there are members enrolled in it.");
             } else {
                 jsonResponse.put("message", "Database operation failed");
