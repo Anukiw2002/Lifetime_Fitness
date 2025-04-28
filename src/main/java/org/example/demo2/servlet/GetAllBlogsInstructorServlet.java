@@ -18,9 +18,9 @@ public class GetAllBlogsInstructorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // Authorization check
+
         if (!SessionUtils.isUserAuthorized(request, response, "client")) {
-            return; // The utility handles the redirection
+            return;
         }
 
         try {
@@ -39,11 +39,11 @@ public class GetAllBlogsInstructorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // Authorization check
+
         if (!SessionUtils.isUserAuthorized(request, response, "client")) {
-            return; // The utility handles the redirection
+            return;
         }
 
-        doGet(request, response); // forward to doGet
+        doGet(request, response);
     }
 }

@@ -15,7 +15,7 @@ public class LeaderboardDAO {
 
     public List<LeaderBoard> getWeightLossLeaderboard() throws SQLException {
         List<LeaderBoard> list = new ArrayList<>();
-        String sql = "SELECT RANK() OVER (ORDER BY (ur.body_weight - ue.weight) DESC) AS rank, " +
+        String sql = "SELECT DISTINCT RANK() OVER (ORDER BY (ur.body_weight - ue.weight) DESC) AS rank, " +
                 "ur.name, ur.email, ur.body_weight, ue.weight, " +
                 "(ur.body_weight - ue.weight) AS weight_loss, cd.profile_picture " +
                 "FROM user_reports ur " +
@@ -159,7 +159,7 @@ public class LeaderboardDAO {
 
     public  List<LeaderBoardEntry> getEntriesByExercise(String exerciseType){
         List<LeaderBoardEntry> entries = new ArrayList<>();
-        String sql = "SELECT l.user_id, l.full_name, l.amount, cd.profile_picture FROM leaderboard l LEFT JOIN client_details cd ON l.user_id = cd.user_id WHERE category = ? ORDER BY amount DESC";
+        String sql = "SELECT DISTINCT l.user_id, l.full_name, l.amount, cd.profile_picture FROM leaderboard l LEFT JOIN client_details cd ON l.user_id = cd.user_id WHERE category = ? ORDER BY amount DESC";
 
         try(Connection con = DBConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql)){

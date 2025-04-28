@@ -88,7 +88,7 @@
             <div>
                 <div class="card mb-4">
                     <div class="card-header">
-                        <h2><i class="fas fa-chart-line"></i> Progress Overview</h2>
+                        <h2><i class="fas fa-chart-line"></i>Weight Fluctuation</h2>
                     </div>
                     <div class="card-body">
                         <div id="weight-data"

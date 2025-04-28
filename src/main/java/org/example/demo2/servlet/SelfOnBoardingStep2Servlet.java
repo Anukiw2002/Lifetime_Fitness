@@ -12,9 +12,9 @@ import java.io.IOException;
 
 @WebServlet("/selfOnBoarding/step2")
 @MultipartConfig(
-        fileSizeThreshold = 1024 * 1024, // 1 MB
-        maxFileSize = 1024 * 1024 * 5,   // 5 MB
-        maxRequestSize = 1024 * 1024 * 10 // 10 MB
+        fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 10
 )
 public class SelfOnBoardingStep2Servlet extends HttpServlet {
 
@@ -44,7 +44,6 @@ public class SelfOnBoardingStep2Servlet extends HttpServlet {
 
         int userId = (int) session.getAttribute("userId");
 
-        // Get form parameters
         String firstName = request.getParameter("firstName");
         String surname = request.getParameter("surname");
         String dateOfBirth = request.getParameter("dateOfBirth");
@@ -58,7 +57,7 @@ public class SelfOnBoardingStep2Servlet extends HttpServlet {
         String emergencyContactNumber = request.getParameter("emergencyContactNumber");
         String emergencyContactRelationship = request.getParameter("emergencyContactRelationship");
 
-        // Handle profile picture - use Part for file upload
+
         byte[] profilePicture = null;
         Part filePart = request.getPart("profilePicture");
 

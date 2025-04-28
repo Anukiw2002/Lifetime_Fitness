@@ -26,26 +26,26 @@ public class ViewReportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
 
         String email = request.getParameter("email");
 
-        // Validate email parameter
+
         if (email == null || email.trim().isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email is required.");
             return;
         }
 
         try (Connection con = DBConnection.getConnection()) {
-            // Query to fetch report details for the given email
+
             String query = "SELECT * FROM user_reports WHERE email = ?";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setString(1, email);
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                // Map to store report details
+
                 Map<String, Object> reportDetails = new HashMap<>();
                 reportDetails.put("email", email); // Include email explicitly
                 reportDetails.put("name", rs.getString("name"));
@@ -70,7 +70,7 @@ public class ViewReportServlet extends HttpServlet {
                 reportDetails.put("remarks", rs.getString("remarks"));
                 reportDetails.put("target_weight", rs.getDouble("target_weight"));
 
-                // Set the report details as a request attribute
+
                 request.setAttribute("reportDetails", reportDetails);
 
                 String exerciseQuery = "SELECT  exercise_date, weight FROM user_exercises WHERE email = ?";
@@ -89,10 +89,10 @@ public class ViewReportServlet extends HttpServlet {
 
                 request.setAttribute("exercises", exercises);
 
-                // Forward the data to the JSP
+
                 request.getRequestDispatcher("/jsp/filledReport.jsp").forward(request, response);
             } else {
-                // If no report is found, show an error message
+
                 request.setAttribute("errorMessage", "No report found for the given email.");
                 request.getRequestDispatcher("/WEB-INF/views/owner/first.jsp").forward(request, response);
             }

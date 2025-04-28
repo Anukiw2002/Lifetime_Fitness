@@ -30,10 +30,12 @@
         <a href="${pageContext.request.contextPath}/clientWorkoutView" class="nav-link">
             <i class="fas fa-dumbbell icon"></i>Workouts
         </a>
-        <a href="viewNotification" class="nav-link notification-wrapper">
-            <i class="fas fa-bell icon"></i>Notifications
+        <div class="notification-container">
+            <a href="viewNotification" class="nav-link">
+                <i class="fas fa-bell icon"></i>Notifications
+            </a>
             <span class="notification-dot ${sessionScope.hasUnread ? '' : 'hidden'}"></span>
-        </a>
+        </div>
 
         <a href="GetAllVideosClient" class="nav-link">
             <i class="fas fa-video icon"></i>Videos
@@ -46,6 +48,9 @@
         </a>
         <a href="${pageContext.request.contextPath}/clientViewReport" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Reports
+        </a>
+        <a href="${pageContext.request.contextPath}/handleReview" class="nav-link">
+            <i class="fas fa-star icon"></i>Reviews
         </a>
     </div>
 

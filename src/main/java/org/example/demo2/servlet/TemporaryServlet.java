@@ -15,10 +15,10 @@ import java.util.List;
 public class TemporaryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve the page parameter from the URL
+
         String page = request.getParameter("page");
 
-        // Forward to the appropriate JSP view based on the parameter
+
         if ("login".equals(page)) {
             request.getRequestDispatcher("/WEB-INF/views/client/logIn.jsp").forward(request, response);
         } else if ("page1".equals(page)) {

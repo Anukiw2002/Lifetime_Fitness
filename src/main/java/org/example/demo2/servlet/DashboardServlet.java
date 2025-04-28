@@ -27,22 +27,22 @@ public class DashboardServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Check user authorization
+
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // Stop execution if unauthorized
+            return;
         }
 
         System.out.println("Entering doGet method");
         String requestedWith = request.getHeader("X-Requested-With");
         System.out.println("X-Requested-With: " + requestedWith);
 
-        //retrive amount of money for the month
+
         OwnerDashboardDAO dao1 = new OwnerDashboardDAO();
         int revenue = dao1.getAmount();
         Map<String, Integer> revenueForFourMonths = dao1.getRevenueForFourMonths();
         request.setAttribute("revenueForFourMonths", revenueForFourMonths);
 
-        // If it's an AJAX request, send JSON and return immediately
+
         if ("XMLHttpRequest".equals(requestedWith)) {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -70,22 +70,21 @@ public class DashboardServlet extends HttpServlet {
                 json.put("months", months);
                 json.put("userCounts", userCounts);
 
-                // Print to debug
+
                 System.out.println("Sending JSON to JS: " + json.toString());
 
-                // Send JSON response to frontend
+
                 PrintWriter out = response.getWriter();
                 out.write(json.toString());
                 out.flush();
                 out.close();
 
-                return; // 🔴 FIX: Stops execution to prevent forwarding
+                return;
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        // If it's NOT an AJAX request, process JSP forwarding
         InstructorDashboardDAO dao = new InstructorDashboardDAO();
         int count = 0;
 
@@ -122,7 +121,7 @@ public class DashboardServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        // Forward to JSP
+
         request.getRequestDispatcher("/WEB-INF/views/owner/owner-dashboard.jsp").forward(request, response);
     }
 }

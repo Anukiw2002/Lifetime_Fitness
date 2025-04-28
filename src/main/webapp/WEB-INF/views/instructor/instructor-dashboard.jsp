@@ -52,7 +52,8 @@
                     <i class="fas fa-dumbbell"></i>
                 </div>
                 <div>
-                    <h3>Today's Workouts</h3>
+                    <h3>Number of Sessions</h3>
+                    <p class="text-muted">Today</p>
                     <div class="flex items-center justify-between">
                         <span class="text-2xl">${countWorkout}</span>
                     </div>
@@ -79,43 +80,6 @@
                         <!-- Chart container -->
                         <div class="weight-trend">
                             <canvas id="workoutTrendChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h2><i class="fas fa-clock"></i> Recent Activity</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-plus"></i>
-                                </div>
-                                <div>
-                                    <h4>New Workout Created</h4>
-                                    <p class="text-muted">Upper Body Strength • Client: #1234 • 10 mins ago</p>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-user-check"></i>
-                                </div>
-                                <div>
-                                    <h4>Member Check-in</h4>
-                                    <p class="text-muted">Client: #5678 • 15 mins ago</p>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-clipboard-check"></i>
-                                </div>
-                                <div>
-                                    <h4>Workout Completed</h4>
-                                    <p class="text-muted">HIIT Training • Client: #9012 • 30 mins ago</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

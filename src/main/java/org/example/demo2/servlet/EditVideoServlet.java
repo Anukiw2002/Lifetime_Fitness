@@ -20,7 +20,7 @@ public class EditVideoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         int videoId = Integer.parseInt(request.getParameter("videoId"));
         String videoTitle = request.getParameter("videoTitle");

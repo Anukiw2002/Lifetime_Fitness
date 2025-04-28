@@ -22,7 +22,7 @@ public class ReportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         HttpSession session = request.getSession(false);
         String email =(String) session.getAttribute("userEmail");
@@ -38,7 +38,7 @@ public class ReportServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // General Report Info
+
         String name = request.getParameter("name");
         int age = Integer.parseInt(request.getParameter("age"));
         String programNo = request.getParameter("program_no");
@@ -82,24 +82,24 @@ public class ReportServlet extends HttpServlet {
             System.out.println("weights size: " + weights.size());
         }
 
-        // Database operation
+
         ReportDAO reportDAO = new ReportDAO();
 
         try (Connection conn = DBConnection.getConnection()) {
-            conn.setAutoCommit(false); // Start transaction
+            conn.setAutoCommit(false);
 
             try {
-                // Insert report info and get the generated report ID
+
                 int reportId = reportDAO.insertReport(conn, name, age, programNo, startingDate, expireDate, frequency,
                         timesPerWeek, maxHeartRate, bpm65, bpm75, bpm85, waistCircumference, bodyWeight, height,
                         fatPercentage, bmr, goal, warm_up, flexibility, cardio, remarks, userEmail, target_weight);
 
-                // Insert exercises if the report ID was successfully generated and exercises exist
+
                 if (reportId > 0 && !exerciseDates.isEmpty()) {
                     reportDAO.insertExercises(conn, reportId, exerciseDates, weights, userEmail);
                 }
 
-                // Commit transaction if everything is successful
+
                 conn.commit();
                 response.sendRedirect(request.getContextPath() + "/first");
 
@@ -115,7 +115,7 @@ public class ReportServlet extends HttpServlet {
 
     }
 
-    // Helper methods for parsing integer and double values
+
     private int parseInteger(String value) {
         return (value != null && !value.isEmpty()) ? Integer.parseInt(value) : 0;
     }

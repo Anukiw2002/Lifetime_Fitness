@@ -24,13 +24,13 @@ public class RescheduleBookingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        // If session is invalid or the user is not a client, redirect to the landing page
+
         if (session == null || !"client".equals(session.getAttribute("userRole"))) {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
 
-        // Get the bookingId from the request
+
         String bookingIdParam = request.getParameter("bookingId");
         if (bookingIdParam == null || bookingIdParam.isEmpty()) {
             response.sendRedirect(request.getContextPath() + "/clientBookings");
@@ -40,26 +40,22 @@ public class RescheduleBookingServlet extends HttpServlet {
         try {
             int bookingId = Integer.parseInt(bookingIdParam);
 
-            // Store bookingId in session for use in the form
             session.setAttribute("bookingId", bookingId);
 
-            // Retrieve userId from the session
             int userId = (int) session.getAttribute("userId");
             request.setAttribute("userId", userId);
 
-            // Get start and end times from the database and set them in the session
             BookSessionDAO bookSessionDAO = new BookSessionDAO();
             bookSessionDAO.getStartEndTime(userId, session);
 
-            // Get the original booking details
+
             BookSession originalBooking = bookSessionDAO.getBookingById(bookingId);
             if (originalBooking != null) {
-                // Store the original booking details in the session
+
                 session.setAttribute("originalDate", originalBooking.getDate());
                 session.setAttribute("originalTime", originalBooking.getTimeSlot());
             }
 
-            // Forward the request to rescheduleSession.jsp
             request.getRequestDispatcher("/WEB-INF/views/client/rescheduleBooking.jsp").forward(request, response);
 
         } catch (NumberFormatException e) {
@@ -76,10 +72,9 @@ public class RescheduleBookingServlet extends HttpServlet {
             return;
         }
 
-        // First check if this is an AJAX request for date selection
+
         String selectedDate = request.getParameter("selectedDate");
         if (selectedDate != null && !selectedDate.isEmpty()) {
-            // This is an AJAX request for time slots
             String startTimeStr = (String) session.getAttribute("startTime");
             String endTimeStr = (String) session.getAttribute("endTime");
             Date originalDate = (Date) session.getAttribute("originalDate");
@@ -92,14 +87,13 @@ public class RescheduleBookingServlet extends HttpServlet {
                     LocalTime end = LocalTime.parse(endTimeStr);
                     BookSessionDAO bookSessionDAO = new BookSessionDAO();
 
-                    // If the selected date is today, update start time to current time if it's later
                     LocalDate today = LocalDate.now();
                     LocalDate selected = LocalDate.parse(selectedDate);
 
                     if (selected.equals(today)) {
                         LocalTime now = LocalTime.now();
                         if (now.isAfter(start)) {
-                            // Round up to the next full hour
+
                             start = now.plusMinutes(59).withMinute(0).withSecond(0).withNano(0);
                             if (start.isAfter(end)) {
                                 response.getWriter().write("<p>No available slots for the rest of the day.</p>");
@@ -112,15 +106,12 @@ public class RescheduleBookingServlet extends HttpServlet {
                     LocalTime currentSlot = start;
 
                     while (!currentSlot.isAfter(end.minusHours(1))) {
-                        // Create 1-hour slot
                         LocalTime slotEnd = currentSlot.plusHours(1);
 
-                        // Ensure the slot does not go beyond the actual end time
                         if (slotEnd.isAfter(end)) {
                             slotEnd = end;
                         }
 
-                        // Check if this time slot is the same as the original booking
                         boolean isOriginalTimeSlot = false;
                         if (originalDate != null && originalTime != null) {
                             LocalDate originalLocalDate = originalDate.toLocalDate();
@@ -132,36 +123,31 @@ public class RescheduleBookingServlet extends HttpServlet {
                             }
                         }
 
-                        // Only display this slot if it's not the original time slot
                         if (!isOriginalTimeSlot) {
-                            // Format the time slot for display
+
                             String slotDisplay = currentSlot.format(DateTimeFormatter.ofPattern("h:mm a")) + " - "
                                     + slotEnd.format(DateTimeFormatter.ofPattern("h:mm a"));
 
-                            // Convert LocalTime to java.sql.Time for checking availability
                             java.sql.Date sqlDate = java.sql.Date.valueOf(selected);
                             java.sql.Time sqlTime = java.sql.Time.valueOf(currentSlot);
 
-                            // Get availability status
                             String availabilityStatus = bookSessionDAO.getSessionAvailabilityLabel(sqlDate, sqlTime);
 
-                            // Check if the user has already booked this slot (other than the current booking being rescheduled)
+
                             boolean userHasBooked = bookSessionDAO.hasUserBookedSlot(userId, sqlDate, sqlTime);
 
-                            // Set status for already booked slots by this user
                             String displayStatus = availabilityStatus;
                             if (userHasBooked) {
                                 displayStatus = "Already Booked";
                             }
 
-                            // Append the slot to the HTML list with availability class
                             timeSlotsHtml.append("<li data-availability=\"")
                                     .append(displayStatus)
                                     .append("\" style='cursor:")
                                     .append(("Fully Booked".equals(availabilityStatus) || userHasBooked) ? "not-allowed" : "pointer")
                                     .append(";' ");
 
-                            // Only add onClick handler if not fully booked and not already booked by user
+
                             if (!"Fully Booked".equals(availabilityStatus) && !userHasBooked) {
                                 timeSlotsHtml.append("onClick='selectSlot(\"")
                                         .append(selectedDate)
@@ -179,13 +165,12 @@ public class RescheduleBookingServlet extends HttpServlet {
                                     .append("</li>");
                         }
 
-                        // Move to the next slot (1 hour duration)
                         currentSlot = currentSlot.plusHours(1);
                     }
 
-                    // Handle the last slot (if any) that is less than 1 hour
+
                     if (!currentSlot.equals(end)) {
-                        // Check if this time slot is the same as the original booking
+
                         boolean isOriginalTimeSlot = false;
                         if (originalDate != null && originalTime != null) {
                             LocalDate originalLocalDate = originalDate.toLocalDate();
@@ -201,30 +186,28 @@ public class RescheduleBookingServlet extends HttpServlet {
                             String lastSlotDisplay = currentSlot.format(DateTimeFormatter.ofPattern("h:mm a")) + " - "
                                     + end.format(DateTimeFormatter.ofPattern("h:mm a"));
 
-                            // Convert LocalTime to java.sql.Time for checking availability
                             java.sql.Date sqlDate = java.sql.Date.valueOf(selected);
                             java.sql.Time sqlTime = java.sql.Time.valueOf(currentSlot);
 
-                            // Get availability status
+
                             String availabilityStatus = bookSessionDAO.getSessionAvailabilityLabel(sqlDate, sqlTime);
 
-                            // Check if the user has already booked this slot (other than the current booking being rescheduled)
+
                             boolean userHasBooked = bookSessionDAO.hasUserBookedSlot(userId, sqlDate, sqlTime);
 
-                            // Set status for already booked slots by this user
+
                             String displayStatus = availabilityStatus;
                             if (userHasBooked) {
                                 displayStatus = "Already Booked";
                             }
 
-                            // Append the slot to the HTML list with availability class
                             timeSlotsHtml.append("<li data-availability=\"")
                                     .append(displayStatus)
                                     .append("\" style='cursor:")
                                     .append(("Fully Booked".equals(availabilityStatus) || userHasBooked) ? "not-allowed" : "pointer")
                                     .append(";' ");
 
-                            // Only add onClick handler if not fully booked and not already booked by user
+
                             if (!"Fully Booked".equals(availabilityStatus) && !userHasBooked) {
                                 timeSlotsHtml.append("onClick='selectSlot(\"")
                                         .append(selectedDate)
@@ -243,7 +226,6 @@ public class RescheduleBookingServlet extends HttpServlet {
                         }
                     }
 
-                    // Check if any time slots were added
                     if (timeSlotsHtml.length() == 0) {
                         if (selected.equals(originalDate.toLocalDate())) {
                             response.getWriter().write("<p>Your session is already booked for this date. Please select a different date or time.</p>");
@@ -264,7 +246,7 @@ public class RescheduleBookingServlet extends HttpServlet {
             return;
         }
 
-        // If not an AJAX request, this is the form submission for rescheduling
+
         String bookingIdParam = request.getParameter("bookingId");
         String newDateParam = request.getParameter("newDate");
         String newTimeParam = request.getParameter("newTime");
@@ -274,22 +256,18 @@ public class RescheduleBookingServlet extends HttpServlet {
             try {
                 int bookingId = Integer.parseInt(bookingIdParam);
 
-                // Convert the date string to a SQL Date
                 Date sqlDate = Date.valueOf(newDateParam);
 
-                // Convert the time string to a SQL Time
                 Time sqlTime = Time.valueOf(LocalTime.parse(newTimeParam));
 
-                // Call the DAO to reschedule the session
                 BookSessionDAO bookSessionDAO = new BookSessionDAO();
                 boolean success = bookSessionDAO.rescheduleSession(sqlDate, sqlTime, bookingId);
 
                 if (success) {
-                    // Set a success message in the session
                     session.setAttribute("message", "Session rescheduled successfully!");
                     response.sendRedirect(request.getContextPath() + "/clientBookings");
                 } else {
-                    // Set an error message
+
                     request.setAttribute("error", "Failed to reschedule session.");
                     request.getRequestDispatcher("/WEB-INF/views/client/rescheduleBooking.jsp").forward(request, response);
                 }

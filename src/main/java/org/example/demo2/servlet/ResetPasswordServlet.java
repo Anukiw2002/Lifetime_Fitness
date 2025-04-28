@@ -20,10 +20,8 @@ public class ResetPasswordServlet extends HttpServlet {
         String newPassword = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
 
-        // Debugging
         System.out.println("Received resetCode: " + resetCode);
 
-        // Validate inputs
         if (resetCode == null || resetCode.isEmpty() ||
                 newPassword == null || newPassword.isEmpty() ||
                 confirmPassword == null || confirmPassword.isEmpty()) {
@@ -54,13 +52,12 @@ public class ResetPasswordServlet extends HttpServlet {
                 return;
             }
 
-            // Pass the plain password to updatePassword method
-            // The method will handle the hashing internally
+
             userDAO.updatePassword(user.getEmail(), newPassword);
 
             System.out.println("Password reset successful for user: " + user.getEmail());
 
-            // Redirect to login page
+
             response.sendRedirect(request.getContextPath() + "/testView?page=login");
 
         } catch (SQLException e) {

@@ -28,7 +28,7 @@ public class ReviewPaymentServlet extends HttpServlet {
         String payerId = request.getParameter("PayerID");
 
         if (paymentId == null || payerId == null) {
-            response.sendRedirect("error.jsp"); // Or a custom error page
+            response.sendRedirect("error.jsp");
             return;
         }
 
@@ -36,7 +36,7 @@ public class ReviewPaymentServlet extends HttpServlet {
 
         if (durationIdParam != null) {
             int durationId = Integer.parseInt(durationIdParam);
-            request.setAttribute("durationId", durationId); // For reviewPayment.jsp
+            request.setAttribute("durationId", durationId);
         }
 
 
@@ -49,17 +49,15 @@ public class ReviewPaymentServlet extends HttpServlet {
                 Transaction transaction = payment.getTransactions().get(0);
                 ShippingAddress shippingAddress = transaction.getItemList().getShippingAddress();
 
-                // Just set the data to view it in the reviewPayment.jsp page
                 request.setAttribute("payer", payerInfo);
                 request.setAttribute("transaction", transaction);
                 request.setAttribute("paymentId", paymentId);
                 request.setAttribute("PayerID", payerId);
 
-                // Go to review page
                 request.getRequestDispatcher("/WEB-INF/views/client/reviewPayment.jsp")
                         .forward(request, response);
             } else {
-                response.sendRedirect("error.jsp"); // Fallback if something goes wrong
+                response.sendRedirect("error.jsp");
             }
 
         } catch (PayPalRESTException e) {

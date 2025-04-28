@@ -21,7 +21,7 @@ public class ClientSearchServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        DBConnection dbConnection = new DBConnection(); // Assume you have this configured
+        DBConnection dbConnection = new DBConnection();
         this.clientDAO = new ClientDAO(dbConnection);
     }
 
@@ -32,7 +32,7 @@ public class ClientSearchServlet extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         String clientPhone = request.getParameter("clientPhone");
 
-        // Use clientPhone parameter if phoneNumber is not provided
+
         if (clientPhone != null && !clientPhone.trim().isEmpty()) {
             phoneNumber = clientPhone;
         }
@@ -41,11 +41,11 @@ public class ClientSearchServlet extends HttpServlet {
             try {
                 Client client = clientDAO.findByPhoneNumber(phoneNumber);
                 if (client != null) {
-                    // Store client ID in session for further operations
+
                     HttpSession session = request.getSession();
                     session.setAttribute("clientUserId", client.getUserId());
 
-                    // Redirect to client workouts page
+
                     response.sendRedirect("clientWorkouts?phoneNumber=" + phoneNumber);
                 } else {
                     request.setAttribute("errorMessage", "No client found with this phone number");
@@ -55,7 +55,7 @@ public class ClientSearchServlet extends HttpServlet {
                 throw new ServletException("Database error occurred", e);
             }
         } else {
-            // First time visiting the page or no phone number entered
+
             request.getRequestDispatcher("/WEB-INF/views/instructor/client-search.jsp").forward(request, response);
         }
     }

@@ -13,10 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const labels = weightEntries.map(entry => entry.date);
         const dataPoints = weightEntries.map(entry => parseFloat(entry.weight));
 
-        // Create two separate datasets:
-        // 1. Connected line for beginning weight through current weights
-        // 2. Separate point for target weight
-
         // Connected line dataset (beginning + all recorded weights)
         const connectedData = {
             label: 'Weight Progress (kg)',
@@ -78,13 +74,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     legend: {
                         display: true,
                         labels: {
+                            color: '#ffffff', // Set legend text to white
                             filter: function(legendItem) {
                                 // Only show "Weight Progress" and "Target Goal" in legend
                                 return legendItem.text === 'Weight Progress (kg)' ||
                                     legendItem.text === 'Target Goal';
                             }
                         }
-
                     },
                     tooltip: {
                         backgroundColor: 'rgba(42, 42, 42, 0.9)',
@@ -123,21 +119,28 @@ document.addEventListener("DOMContentLoaded", function () {
                             borderColor: 'rgba(255, 255, 255, 0.2)'
                         },
                         ticks: {
-                            color: 'rgba(255, 255, 255, 0.7)'
+                            color: '#ffffff' // Set Y-axis tick labels to white
                         },
                         title: {
                             display: true,
-
-                            text: 'Weight (kg)'
+                            text: 'Weight (kg)',
+                            color: '#ffffff' // Set Y-axis title to white
                         },
                         // Adjust y-axis to show slight padding above and below actual data range
                         suggestedMin: Math.min(beginningWeight, currentWeight, targetWeight) - 2,
                         suggestedMax: Math.max(beginningWeight, currentWeight, targetWeight) + 2
                     },
                     x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.05)'
+                        },
+                        ticks: {
+                            color: '#ffffff' // Set X-axis tick labels to white
+                        },
                         title: {
                             display: true,
-                            text: 'Date'
+                            text: 'Date',
+                            color: '#ffffff' // Set X-axis title to white
                         }
                     }
                 }
@@ -198,12 +201,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     ticks: {
                         precision: 0,  // Show only whole numbers
-                        color: 'rgba(255, 255, 255, 0.7)'
+                        color: '#ffffff' // Set Y-axis tick labels to white
                     },
                     title: {
                         display: true,
                         text: 'Number of Sessions',
-                        color: 'rgba(255, 255, 255, 0.9)',
+                        color: '#ffffff', // Set Y-axis title to white
                         font: {
                             size: 12
                         }
@@ -214,12 +217,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         display: false
                     },
                     ticks: {
-                        color: 'rgba(255, 255, 255, 0.7)'
+                        color: '#ffffff' // Set X-axis tick labels to white
                     },
                     title: {
                         display: true,
                         text: 'Date',
-                        color: 'rgba(255, 255, 255, 0.9)',
+                        color: '#ffffff', // Set X-axis title to white
                         font: {
                             size: 12
                         }
@@ -228,7 +231,10 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             plugins: {
                 legend: {
-                    display: false
+                    display: false,
+                    labels: {
+                        color: '#ffffff' // Set legend text to white (even though it's not displayed)
+                    }
                 },
                 tooltip: {
                     backgroundColor: 'rgba(42, 42, 42, 0.9)',
@@ -238,6 +244,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     borderWidth: 1,
                     padding: 10,
                     cornerRadius: 6
+                },
+                title: {
+                    display: true,
+                    text: 'Weekly Workout Sessions',
+                    color: '#ffffff', // Set title text to white
+                    font: {
+                        size: 16
+                    }
                 }
             }
         }

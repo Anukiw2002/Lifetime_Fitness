@@ -25,10 +25,10 @@ public class BookServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         Event event = mapper.readValue(req.getInputStream(), Event.class);
 
-        // Add a unique ID to each event
+
         event.setId(String.valueOf(EventServlet.getEvents().size() + 1));
 
-        EventServlet.getEvents().add(event); // Add the event to the list
+        EventServlet.getEvents().add(event);
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 }

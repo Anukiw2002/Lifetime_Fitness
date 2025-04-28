@@ -24,7 +24,7 @@ public class ViewMemberProfileServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Only this check is needed!
+
         if (!SessionUtils.isUserAuthorized(request, response, "owner", "instructor")) {
             return;
         }

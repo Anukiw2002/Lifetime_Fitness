@@ -28,17 +28,15 @@ public class SelfOnBoardingStep3Servlet extends HttpServlet {
 
         int userId = (int) session.getAttribute("userId");
 
-        // Get the arrays of certification data
         String[] certificationNames = request.getParameterValues("certificationName[]");
         String[] certificationProviders = request.getParameterValues("certificationProvider[]");
 
         InstructorOnBoardingDAO instructorOnBoardingDAO = new InstructorOnBoardingDAO();
         boolean allSuccess = true;
 
-        // Process each certification
+
         if (certificationNames != null) {
             for (int i = 0; i < certificationNames.length; i++) {
-                // Skip empty entries
                 if (certificationNames[i].isEmpty()) continue;
 
                 String certName = certificationNames[i];

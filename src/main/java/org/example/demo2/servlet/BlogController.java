@@ -36,7 +36,6 @@ public class BlogController {
                     );
                     blogs.add(blog);
 
-                    // Optional debug print
                     System.out.println("Blog ID: " + blog.getId());
                     System.out.println("Name: " + blog.getName());
                     System.out.println("Description: " + blog.getDescription());
@@ -52,12 +51,10 @@ public class BlogController {
         return blogs;
     }
 
-    // Insert new blog with image
     public static boolean insertBlogWithImage(String name, String description, String content, InputStream imageStream) {
         try (Connection connection = DBConnection.getConnection()) {
             if (connection == null) throw new RuntimeException("Failed to connect to the database.");
 
-            // Disable auto-commit mode to allow large objects
             connection.setAutoCommit(false);
 
             String query = "INSERT INTO blogs (name, description, content, image) VALUES (?, ?, ?, ?)";
@@ -69,21 +66,20 @@ public class BlogController {
 
                 int rowsAffected = ps.executeUpdate();
                 if (rowsAffected > 0) {
-                    // Commit the transaction
                     connection.commit();
                     return true;
                 } else {
-                    // If insertion failed, rollback the transaction
+
                     connection.rollback();
                     return false;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                // Rollback the transaction in case of an exception
+
                 connection.rollback();
                 throw new RuntimeException("Error while inserting blog: " + e.getMessage());
             } finally {
-                // Reset the auto-commit mode to its default state
+
                 connection.setAutoCommit(true);
             }
         } catch (Exception e) {
@@ -92,7 +88,7 @@ public class BlogController {
         }
     }
 
-    // Update blog without changing the image
+
     public static boolean updateBlog(int id, String name, String description, String content) {
         try (Connection connection = DBConnection.getConnection()) {
             if (connection == null) throw new RuntimeException("Failed to connect to the database.");
@@ -112,7 +108,7 @@ public class BlogController {
         }
     }
 
-    // Update blog including a new image
+
     public static boolean updateBlogWithImage(int id, String name, String description, String content, InputStream imageStream) {
         try (Connection connection = DBConnection.getConnection()) {
             if (connection == null) throw new RuntimeException("Failed to connect to the database.");

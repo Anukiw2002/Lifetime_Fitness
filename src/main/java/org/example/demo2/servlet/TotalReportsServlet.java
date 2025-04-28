@@ -22,7 +22,7 @@ public class TotalReportsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         try (Connection con = DBConnection.getConnection()) {
             if (con != null) {
@@ -30,22 +30,20 @@ public class TotalReportsServlet extends HttpServlet {
             } else {
                 System.out.println("Failed to establish database connection.");
             }
-            // Query to fetch approved emails
+
             String query = "SELECT email FROM approved_emails";
             PreparedStatement stmt = con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
-            // Store the emails in a list
             List<String> approvedEmails = new ArrayList<>();
             while (rs.next()) {
                 approvedEmails.add(rs.getString("email"));
             }
 
-            // Set the list as a request attribute
             request.setAttribute("approvedEmails", approvedEmails);
             System.out.println("Fetched emails: " + approvedEmails);
 
-            // Forward to JSP
+
             request.getRequestDispatcher("/jsp/first.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

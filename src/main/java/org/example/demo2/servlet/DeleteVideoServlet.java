@@ -58,7 +58,7 @@ public class DeleteVideoServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response); // Handle deletion via GET or POST
+        doGet(request, response);
     }
 
     private void sendAlert(HttpServletResponse response, String message, String redirectUrl) throws IOException {

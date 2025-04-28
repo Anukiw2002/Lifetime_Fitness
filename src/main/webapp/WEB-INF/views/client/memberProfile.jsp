@@ -53,41 +53,11 @@
             </div>
         </div>
 
-        <div class="grid metric-grid gap-lg mb-4">
-            <div class="card">
-                <h3 class="mb-3">Gym Activity</h3>
-                <p class="mb-2">Days Active This Month: 15</p>
-                <p class="mb-2">Total Classes Attended: 45</p>
-                <p>Workout Streak: 5 days</p>
-            </div>
-
-            <div class="card">
-                <h3 class="mb-3">Fitness Goals</h3>
-                <p class="mb-2">Target Weight: ${report != null ? report.target_weight : 'N/A'} kg</p>
-                <p>Weekly Goal: 4 sessions</p>
-            </div>
-
-            <div class="card">
-                <h3 class="mb-3">Recent Activities</h3>
-                <ul class="activity-list">
-                    <li>Cardio Session - 45 mins</li>
-                    <li>Weight Training - Upper Body</li>
-                </ul>
-            </div>
-        </div>
-
         <!-- Action Buttons -->
         <div class="flex justify-center gap-md">
             <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/clientEditProfile'">
                 Edit Profile
             </button>
-            <button class="btn btn-secondary" onclick="location.href='${pageContext.request.contextPath}/handleReview'">
-                Review
-            </button>
-            <button class="btn btn-secondary">
-                Complaints
-            </button>
-
         </div>
     </div>
 </div>

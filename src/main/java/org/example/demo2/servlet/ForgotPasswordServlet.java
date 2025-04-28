@@ -24,7 +24,6 @@ public class ForgotPasswordServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         String email = request.getParameter("email");
 
-        // Validate email input
         if (email == null || email.trim().isEmpty()) {
             request.setAttribute("message", "Email is required.");
             request.getRequestDispatcher("/WEB-INF/views/client/resetPassword.jsp").forward(request, response);
@@ -34,17 +33,17 @@ public class ForgotPasswordServlet extends HttpServlet {
         UserDAO userDAO = new UserDAO();
 
         try {
-            // Check if the user exists in the database
+
             User user = userDAO.getUserByEmail(email);
             if (user != null) {
-                // Generate a reset token and expiry time
-                String token = TokenUtil.generateNumericToken(6); // Generate a 6-digit numeric token
-                Timestamp expiry = new Timestamp(System.currentTimeMillis() + 3600 * 1000); // 1 hour expiry
 
-                // Save the token and expiry in the database
+                String token = TokenUtil.generateNumericToken(6);
+                Timestamp expiry = new Timestamp(System.currentTimeMillis() + 3600 * 1000);
+
+
                 userDAO.setResetToken(email, token, expiry);
 
-                // Create the email content
+
                 String resetLink = request.getRequestURL()
                         .toString()
                         .replace(request.getServletPath(), "/resetPassword?token=" + token);
@@ -54,7 +53,7 @@ public class ForgotPasswordServlet extends HttpServlet {
                         + "<p>This code will expire in 1 hour.</p>"
                         + "<p>If you did not request this, please ignore this email.</p>";
 
-                // Send the email
+
                 try {
                     EmailUtil.sendEmail(email, "Password Reset Request", emailBody);
                     request.setAttribute("message", "A reset code has been sent to your email.");
@@ -65,7 +64,7 @@ public class ForgotPasswordServlet extends HttpServlet {
             }
 
 
-            // Redirect to the reset code entry page
+
             request.getRequestDispatcher("/WEB-INF/views/client/resetPasswordForm.jsp").forward(request, response);
 
 

@@ -34,7 +34,7 @@ public class EditWorkoutServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == "instructor") {
-            // If the session is invalid or user is not logged in, redirect to the login page
+
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
@@ -46,14 +46,14 @@ public class EditWorkoutServlet extends HttpServlet {
                 return;
             }
 
-            // Load the workout with exercises
+
             ClientWorkout workout = clientWorkoutDAO.findWithExercises(Long.parseLong(workoutId));
             if (workout == null) {
                 response.sendRedirect("clientWorkouts");
                 return;
             }
 
-            // Load all available exercises for the add exercise dropdown
+
             List<Exercise> availableExercises = exerciseDAO.findAll();
 
             request.setAttribute("workout", workout);
@@ -83,33 +83,33 @@ public class EditWorkoutServlet extends HttpServlet {
             String[] reps = request.getParameterValues("reps");
             String[] notes = request.getParameterValues("notes");
 
-            // Validate that we have all required arrays and they're the same length
+
             if (exerciseIds == null || setNumbers == null || reps == null || notes == null ||
                     exerciseIds.length != setNumbers.length || exerciseIds.length != reps.length ||
                     exerciseIds.length != notes.length) {
                 throw new ServletException("Invalid form data submitted");
             }
 
-            // Check for duplicate exercises
+
             List<Long> uniqueExerciseIds = new ArrayList<>();
             for (String exerciseId : exerciseIds) {
                 if (exerciseId != null && !exerciseId.trim().isEmpty()) {
                     Long parsedExerciseId = Long.parseLong(exerciseId.trim());
                     if (uniqueExerciseIds.contains(parsedExerciseId)) {
                         request.setAttribute("errorMessage", "Duplicate exercises are not allowed.");
-                        doGet(request, response); // Reload the page with an error message
+                        doGet(request, response);
                         return;
                     }
                     uniqueExerciseIds.add(parsedExerciseId);
                 }
             }
 
-            // Delete existing exercises
+
             workoutExerciseDAO.deleteByWorkoutId(workoutId);
 
-            // Add all exercises from the form
+
             for (int i = 0; i < exerciseIds.length; i++) {
-                // Skip if essential values are empty
+
                 if (exerciseIds[i] == null || exerciseIds[i].trim().isEmpty() ||
                         setNumbers[i] == null || setNumbers[i].trim().isEmpty() ||
                         reps[i] == null || reps[i].trim().isEmpty()) {
@@ -126,7 +126,7 @@ public class EditWorkoutServlet extends HttpServlet {
                 workoutExerciseDAO.create(workoutExercise);
             }
 
-            // Get the workout to get client phone for redirection
+
             ClientWorkout workout = clientWorkoutDAO.findWithExercises(workoutId);
             response.sendRedirect(request.getContextPath() +
                     "/instructor/workoutDetails?workoutId=" + workoutId);

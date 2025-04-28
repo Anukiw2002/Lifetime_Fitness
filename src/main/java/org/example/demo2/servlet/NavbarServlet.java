@@ -12,7 +12,6 @@ public class NavbarServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Forward the request to navbar.html
         request.getRequestDispatcher("/WEB-INF/views/common/navbar.jsp").forward(request, response);
     }
 }

@@ -36,7 +36,6 @@ public class MemberProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        // If session is invalid or the user is not a client, redirect to the landing page
         if (session == null || !"client".equals(session.getAttribute("userRole"))) {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
@@ -47,7 +46,6 @@ public class MemberProfileServlet extends HttpServlet {
 
         try {
             Client client = clientDAO.findByUserId(userId);
-            // Set attributes for the JSP
             request.setAttribute("client", client);
 
 
@@ -59,7 +57,6 @@ public class MemberProfileServlet extends HttpServlet {
             request.setAttribute("report", report);
 
 
-            // Forward to the JSP page
             request.getRequestDispatcher("/WEB-INF/views/client/memberProfile.jsp").forward(request, response);
 
         } catch (SQLException e) {

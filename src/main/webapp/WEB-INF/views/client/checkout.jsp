@@ -45,7 +45,6 @@
                 </td>
             </tr>
         </table>
-        <p>Duration ID: <%= request.getParameter("durationId") %></p>
 
     </form>
 </div>
