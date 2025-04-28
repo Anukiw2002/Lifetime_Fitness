@@ -51,7 +51,7 @@ public class ReportDAO {
 
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
-                    return rs.getInt(1); // report_id
+                    return rs.getInt(1);
                 }
             }
         }
@@ -106,7 +106,7 @@ public class ReportDAO {
             }
 
             if (!allWeights.isEmpty()) {
-                data.setCurrentWeight(allWeights.get(allWeights.size() - 1)); // Latest inserted
+                data.setCurrentWeight(allWeights.get(allWeights.size() - 1));
             }
             data.setAllWeights(allWeights);
             data.setWeightDates(weightDates);
@@ -149,14 +149,14 @@ public class ReportDAO {
                 Connection conn = DBConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(SQL);
         ) {
-            stmt.setInt(1, userId); // Set the user ID as parameter
-            try (ResultSet rs = stmt.executeQuery()) { // ResultSet in try-with-resources
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     age = rs.getInt("age");
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Log any exceptions
+            e.printStackTrace();
         }
         return age;
     }
@@ -168,14 +168,14 @@ public class ReportDAO {
                 Connection conn = DBConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(SQL);
         ) {
-            stmt.setString(1, Email); // Set the user ID as parameter
-            try (ResultSet rs = stmt.executeQuery()) { // ResultSet in try-with-resources
+            stmt.setString(1, Email);
+            try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     userId = rs.getInt("id");
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Log any exceptions
+            e.printStackTrace();
         }
         return userId;
 
@@ -188,14 +188,14 @@ public class ReportDAO {
                 Connection conn = DBConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(SQL);
         ) {
-            stmt.setString(1, Email); // Set the user ID as parameter
-            try (ResultSet rs = stmt.executeQuery()) { // ResultSet in try-with-resources
+            stmt.setString(1, Email);
+            try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     full_name = rs.getString("full_name");
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Log any exceptions
+            e.printStackTrace();
         }
         return full_name;
 

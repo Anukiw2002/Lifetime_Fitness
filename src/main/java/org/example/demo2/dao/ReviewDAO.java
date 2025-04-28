@@ -133,7 +133,7 @@ public class ReviewDAO {
 
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                int count = rs.getInt(1); // Get the count from the first column
+                int count = rs.getInt(1);
                 return count > 0;
             }
         } catch (SQLException e) {
