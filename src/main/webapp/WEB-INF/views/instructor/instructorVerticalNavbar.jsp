@@ -30,12 +30,12 @@
         <a href="/leaderBoardDetails" class="nav-link">
             <i class="fas fa-circle-info icon"></i>Leaderboard Details
         </a>
-        <a href="viewNotification" class="nav-link notification-wrapper">
-            <i class="fas fa-bell icon"></i>Notifications
-            <c:if test="${hasUnread}">
-                <span class="notification-dot"></span>  <!-- Red dot for unread notifications -->
-            </c:if>
-        </a>
+        <div class="notification-container">
+            <a href="viewNotification" class="nav-link">
+                <i class="fas fa-bell icon"></i>Notifications
+            </a>
+            <span class="notification-dot ${sessionScope.hasUnread ? '' : 'hidden'}"></span>
+        </div>
         <a href="clientMemberships" class="nav-link">
             <i class="fas fa-users icon"></i>Members
         </a>

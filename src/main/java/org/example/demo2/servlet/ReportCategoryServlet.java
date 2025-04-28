@@ -17,7 +17,7 @@ public class ReportCategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(req, resp, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         ReportCategoryDAO dao = new ReportCategoryDAO();
         Map<String, Integer> revenueByType = dao.getPlanType();
