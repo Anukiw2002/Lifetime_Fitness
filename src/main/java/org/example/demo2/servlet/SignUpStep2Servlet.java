@@ -23,7 +23,7 @@ public class SignUpStep2Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Forward the request to calendar.jsp in WEB-INF
+
         request.getRequestDispatcher("/WEB-INF/views/client/signUp2.jsp").forward(request, response);
     }
 

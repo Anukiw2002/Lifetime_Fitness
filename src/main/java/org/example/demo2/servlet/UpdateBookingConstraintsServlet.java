@@ -18,51 +18,45 @@ public class UpdateBookingConstraintsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
-        // Get current constraints from the database
         BookingConstraintsDAO dao = new BookingConstraintsDAO();
         BookingConstraints constraints = dao.getLatestConstraints();
 
-        // If constraints exist, add them to the request
         if (constraints != null) {
             request.setAttribute("constraints", constraints);
         }
 
-        // Forward to the JSP page
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/owner/bookingConstraints.jsp");
         dispatcher.forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Ensure correct encoding
+
         request.setCharacterEncoding("UTF-8");
 
         try {
-            // Get the current constraint record first to get its ID
             BookingConstraintsDAO bookingConstraintDAO = new BookingConstraintsDAO();
             BookingConstraints currentConstraints = bookingConstraintDAO.getLatestConstraints();
 
-            // If no constraints exist yet, we'll need to create one
             boolean isUpdate = (currentConstraints != null);
             int constraintId = isUpdate ? currentConstraints.getConstraintId() : 0;
 
-            // Parse weeks value (no conversion needed for this field)
             int maxBookingAdvanceWeeks = Integer.parseInt(request.getParameter("maxBookingAdvanceValue"));
             if ("months".equals(request.getParameter("maxBookingAdvanceUnit"))) {
-                // Convert months to weeks (approximate)
+
                 maxBookingAdvanceWeeks = maxBookingAdvanceWeeks * 4;
             }
 
-            // Parse max bookings per slot
-            int maxBookingsPerSlot = 50;  // Default value if disabled
+
+            int maxBookingsPerSlot = 50;
             if (!"false".equals(request.getParameter("maxBookingsEnabled"))) {
                 maxBookingsPerSlot = Integer.parseInt(request.getParameter("maxBookingsPerSlot"));
             }
 
             boolean success;
 
-            // Update or insert based on whether constraints already exist
+
             if (isUpdate) {
                 success = bookingConstraintDAO.updateConstraints(
                         constraintId,
@@ -77,7 +71,6 @@ public class UpdateBookingConstraintsServlet extends HttpServlet {
             }
 
             if (success) {
-                // Redirect with status param
                 response.sendRedirect(request.getContextPath() + "/booking/constraints?status=updateSuccess");
             } else {
                 request.setAttribute("errorMessage", "Failed to save booking constraints");
@@ -96,7 +89,6 @@ public class UpdateBookingConstraintsServlet extends HttpServlet {
         }
     }
 
-    // Converts a value to minutes based on the specified time unit
     private int convertToMinutes(String valueStr, String unit) {
         int value = Integer.parseInt(valueStr);
 
@@ -108,7 +100,7 @@ public class UpdateBookingConstraintsServlet extends HttpServlet {
             case "days":
                 return value * 24 * 60;
             default:
-                return value; // Default to minutes if unknown unit
+                return value;
         }
     }
 }
