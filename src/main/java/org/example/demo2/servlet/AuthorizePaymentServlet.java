@@ -32,12 +32,11 @@ public class AuthorizePaymentServlet extends HttpServlet {
 
 
         if (!SessionUtils.isUserAuthorized(request, response, "client")) {
-            return; // The utility handles the redirection
+            return;
         }
 
         String product = request.getParameter("product");
         String subtotalStr = request.getParameter("subtotal");
-        // AuthorizePaymentServlet.java
 
         HttpSession session = request.getSession();
 
@@ -47,7 +46,6 @@ public class AuthorizePaymentServlet extends HttpServlet {
             int durationId = Integer.parseInt(durationIdStr); // ✅ Convert to Integer
             session.setAttribute("durationId", durationId);
         } catch (NumberFormatException e) {
-            // Handle invalid durationId
         }
 
 
@@ -58,7 +56,6 @@ public class AuthorizePaymentServlet extends HttpServlet {
 
             float subtotal = Float.parseFloat(subtotalStr.trim());
 
-            // Pass subtotal as both subtotal and total (since no tax/shipping)
             OrderDetails orderDetail = new OrderDetails(product, subtotal, subtotal);
 
             PaymentServicesDAO paymentServices = new PaymentServicesDAO();
