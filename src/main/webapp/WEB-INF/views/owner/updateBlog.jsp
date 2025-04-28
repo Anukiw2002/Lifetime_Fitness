@@ -28,7 +28,8 @@
             </c:if>
 
             <!-- Form for updating a blog -->
-            <form action="${pageContext.request.contextPath}/UpdateBlog" method="post" id="updateBlogForm">
+            <!-- ENCTYPE is important for uploading files -->
+            <form action="${pageContext.request.contextPath}/UpdateBlog" method="post" enctype="multipart/form-data" id="updateBlogForm">
                 <!-- Blog ID (hidden) -->
                 <input type="hidden" name="id" value="${blog.id}" />
 
@@ -65,14 +66,33 @@
                               required>${blog.content}</textarea>
                 </div>
 
+                <!-- Current Blog Image -->
+                <div class="blog-image">
+                    <label class="form-label">Current Image :</label><br/>
+
+                    <img src="${pageContext.request.contextPath}/image?id=${blog.id}" width="200" height="auto" />
+                </div>
+
+                <!-- New Image Upload -->
+                <div class="form-group">
+                    <label class="form-label" for="image">Upload New Image (optional):</label>
+                    <input type="file" id="image" name="image" class="form-control" accept="image/*" />
+                </div>
+
+                <!-- Hidden field to store existing image if no new one is uploaded -->
+                <input type="hidden" name="oldImage" value="${blog.image}" />
+
                 <!-- Submit Button -->
-                <div class="flex justify-center mt-4">
-                    <button type="submit" class="btn btn-primary">Update Blog</button>
+
+                <div class="blog-actions">
+                    <form action="${pageContext.request.contextPath}/getAllBlogs" method="get">
+                        <button type="submit" class="btn btn-primary">Updatevjkgj</button>
+                    </form>
                 </div>
             </form>
+
         </div>
     </div>
 </div>
 </body>
 </html>
-

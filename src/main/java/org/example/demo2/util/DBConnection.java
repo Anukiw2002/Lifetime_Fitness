@@ -5,9 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String URL = "jdbc:postgresql://localhost:5432/backup6";
+
+
+
+    // Update with Railway PostgreSQL connection details
+    private static final String URL = "jdbc:postgresql://localhost:6000/NewDB25";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "Ishn@2002";
+    private static final String PASSWORD = "45121556Aa#";// Use your actual password
+
 
 
     static {
