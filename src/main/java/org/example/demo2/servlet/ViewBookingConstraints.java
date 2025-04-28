@@ -21,16 +21,14 @@ public class ViewBookingConstraints extends HttpServlet {
             return;
         }
 
-        // Get current constraints from the database
+
         BookingConstraintsDAO dao = new BookingConstraintsDAO();
         BookingConstraints constraints = dao.getLatestConstraints();
 
-        // If constraints exist, add them to the request
         if (constraints != null) {
             request.setAttribute("constraints", constraints);
         }
 
-        // Forward to the JSP page
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/owner/bookingConstraints.jsp");
         dispatcher.forward(request, response);
     }
