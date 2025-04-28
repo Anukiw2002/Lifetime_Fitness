@@ -11,6 +11,7 @@ public class DBConnection {
     private static final String USER = "postgres";
     private static final String PASSWORD = "45121556Aa#";// Use your actual password
 
+
     static {
         try {
             Class.forName("org.postgresql.Driver");
