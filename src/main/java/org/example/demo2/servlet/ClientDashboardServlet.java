@@ -47,13 +47,11 @@ public class ClientDashboardServlet extends HttpServlet {
         System.out.println("email" +email);
         int user_id = (int)session.getAttribute("userId");
 
-        // Use NotificationsDAO to check for unread notifications
-        boolean hasUnread = NotificationsDAO.hasUnreadNotifications(user_id);  // Call DAO method to check unread notifications
+        boolean hasUnread = NotificationsDAO.hasUnreadNotifications(user_id);
 
         session.setAttribute("hasUnread", hasUnread);
-        // Pass the boolean value to the JSP
 
-        // Fetch user information (name) - This is still directly done in the servlet for simplicity
+
         try (Connection connection = DBConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT full_name || ' ' || username AS name FROM users WHERE id = ?"
@@ -90,7 +88,7 @@ public class ClientDashboardServlet extends HttpServlet {
         int streak = dashboardDAO.getWorkoutSteakById(user_id);
         UserWeightData data = reportDAO.getWeightByEmail(email);
 
-// create list of entries with date & weight for chart
+
         List<Map<String, Object>> weightEntries = new ArrayList<>();
         for (int i = 0; i < data.getAllWeights().size(); i++) {
             Map<String, Object> entry = new HashMap<>();
