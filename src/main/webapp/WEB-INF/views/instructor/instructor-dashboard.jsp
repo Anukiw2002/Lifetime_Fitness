@@ -52,7 +52,8 @@
                     <i class="fas fa-dumbbell"></i>
                 </div>
                 <div>
-                    <h3>Today's Workouts</h3>
+                    <h3>Number of Sessions</h3>
+                    <p class="text-muted">Today</p>
                     <div class="flex items-center justify-between">
                         <span class="text-2xl">${countWorkout}</span>
                     </div>

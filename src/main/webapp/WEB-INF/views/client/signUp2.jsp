@@ -44,7 +44,7 @@
                  required>
         </div>
 
-        <!-- Address Section -->
+
         <div class="address-section">
           <label class="form-label">Address</label>
           <div class="address-grid">
@@ -69,7 +69,7 @@
           </div>
         </div>
 
-        <!-- Personal Details -->
+
         <div class="details-grid">
           <div class="input-wrapper">
             <label class="form-label">Gender</label>
@@ -89,7 +89,7 @@
           </div>
         </div>
 
-        <!-- Additional Suggested Fields -->
+
         <div class="input-wrapper">
           <label class="form-label">Emergency Contact</label>
           <input type="tel" name="emergencyContact" id="emergencyContact"

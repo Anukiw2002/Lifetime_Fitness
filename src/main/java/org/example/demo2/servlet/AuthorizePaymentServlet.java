@@ -30,7 +30,7 @@ public class AuthorizePaymentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Authorization check
+
         if (!SessionUtils.isUserAuthorized(request, response, "client")) {
             return; // The utility handles the redirection
         }

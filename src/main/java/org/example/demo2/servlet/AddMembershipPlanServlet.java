@@ -52,7 +52,7 @@ public class AddMembershipPlanServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         request.getRequestDispatcher("/WEB-INF/views/owner/addMembershipPlan.jsp")
                 .forward(request, response);
@@ -62,14 +62,13 @@ public class AddMembershipPlanServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         Map<String, Object> jsonResponse = new HashMap<>();
 
         try {
-            // Get and validate basic plan details
             String planName = request.getParameter("planName");
             String startTimeStr = request.getParameter("startTime");
             String endTimeStr = request.getParameter("endTime");
@@ -80,7 +79,6 @@ public class AddMembershipPlanServlet extends HttpServlet {
                 throw new IllegalArgumentException("Missing required fields");
             }
 
-            // Check if plan name already exists
             if (membershipPlanDAO.isPlanNameExists(planName)) {
                 jsonResponse.put("success", false);
                 jsonResponse.put("message", "A plan with this name already exists. Please choose a different name.");
@@ -88,19 +86,18 @@ public class AddMembershipPlanServlet extends HttpServlet {
                 return;
             }
 
-            // Create membership plan
             LocalTime startTime = LocalTime.parse(startTimeStr);
             LocalTime endTime = LocalTime.parse(endTimeStr);
             MembershipPlan membershipPlan = new MembershipPlan(planName, startTime, endTime, pricingType, colour);
             membershipPlan = membershipPlanDAO.create(membershipPlan);
 
-            // Get all duration values and types
+
             String[] durationValues = request.getParameterValues("durationValue");
             String[] durationTypes = request.getParameterValues("durationType");
 
             if (durationValues != null) {
                 for (int i = 0; i < durationValues.length; i++) {
-                    // Create duration
+
                     Duration duration = new Duration(
                             membershipPlan.getPlanId(),
                             Integer.parseInt(durationValues[i]),
@@ -109,7 +106,6 @@ public class AddMembershipPlanServlet extends HttpServlet {
                     duration = durationDAO.create(duration);
                     System.out.println("Created duration with ID: " + duration.getDurationId());
 
-                    // Handle pricing based on type
                     if ("uniform".equals(pricingType)) {
                         String uniformPriceStr = request.getParameter("uniformPrice");
                         if (uniformPriceStr != null && !uniformPriceStr.trim().isEmpty()) {
@@ -125,7 +121,6 @@ public class AddMembershipPlanServlet extends HttpServlet {
                         String ladiesPrice = request.getParameter("categoryPriceLadies");
                         String couplePrice = request.getParameter("categoryPriceCouple");
 
-                        // Create Gents pricing
                         if (gentsPrice != null && !gentsPrice.trim().isEmpty()) {
                             CategoryPricing gents = new CategoryPricing(
                                     duration.getDurationId(),
@@ -135,7 +130,6 @@ public class AddMembershipPlanServlet extends HttpServlet {
                             categoryPricingDAO.create(gents);
                         }
 
-                        // Create Ladies pricing
                         if (ladiesPrice != null && !ladiesPrice.trim().isEmpty()) {
                             CategoryPricing ladies = new CategoryPricing(
                                     duration.getDurationId(),
@@ -145,7 +139,6 @@ public class AddMembershipPlanServlet extends HttpServlet {
                             categoryPricingDAO.create(ladies);
                         }
 
-                        // Create Couple pricing
                         if (couplePrice != null && !couplePrice.trim().isEmpty()) {
                             CategoryPricing couple = new CategoryPricing(
                                     duration.getDurationId(),
