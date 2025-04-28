@@ -24,7 +24,7 @@
             </c:if>
 
             <!-- Form for updating a video -->
-            <form action="${pageContext.request.contextPath}/UpdateVideo" method="post" id="updateVideoForm">
+            <form action="${pageContext.request.contextPath}/UpdateVideo" method="post" enctype="multipart/form-data" id="updateVideoForm">
 
                 <!-- Hidden field for Video ID -->
                 <input type="hidden" name="id" value="${video.id}" />
@@ -60,10 +60,26 @@
                            required />
                 </div>
 
+                <!-- Current Video Image -->
+                <div class="video-image">
+                    <label class="form-label">Current Video Image:</label><br/>
+                    <img src="${pageContext.request.contextPath}/image2?id=${video.id}" width="200" height="auto" />
+                </div>
+
+                <!-- New Image Upload (Optional) -->
+                <div class="form-group">
+                    <label class="form-label" for="image">Upload New Image (optional):</label>
+                    <input type="file" id="image" name="image" class="form-control" accept="image/*" />
+                </div>
+
+                <!-- Hidden field to store existing image if no new one is uploaded -->
+                <input type="hidden" name="oldImage" value="${video.image}" />
+
                 <!-- Submit Button -->
                 <div class="flex justify-center mt-4">
                     <button type="submit" class="btn btn-primary">Update Video</button>
                 </div>
+
             </form>
         </div>
     </div>
