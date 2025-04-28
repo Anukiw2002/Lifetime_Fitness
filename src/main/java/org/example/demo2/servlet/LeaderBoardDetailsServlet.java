@@ -20,11 +20,9 @@ public class LeaderBoardDetailsServlet extends HttpServlet {
         String userRole = (String)session.getAttribute("userRole");
         request.setAttribute("role", userRole);
         System.out.println("role ;" + userRole);
-        // Forward the request to leaderBoardDetails.jsp
         request.getRequestDispatcher("/WEB-INF/views/common/leaderBoardDetails.jsp").forward(request, response);
     }
 
-    // Handles POST requests from the form submission
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String phoneNumber = request.getParameter("clientSearch");
@@ -55,7 +53,6 @@ public class LeaderBoardDetailsServlet extends HttpServlet {
 
             String fullName = leaderboardDAO.getFullNameByUserId(userId);
 
-            // Insert into leaderboard
             boolean success = leaderboardDAO.insertIntoLeaderBoard(userId, fullName, category, Double.parseDouble(amount));
 
             if (success) {
@@ -71,7 +68,6 @@ public class LeaderBoardDetailsServlet extends HttpServlet {
             request.setAttribute("errorMessage", "Invalid amount value.");
         }
 
-        // Forward back to JSP to display the message
         request.getRequestDispatcher("/WEB-INF/views/common/leaderBoardDetails.jsp").forward(request, response);
     }
 }

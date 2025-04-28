@@ -28,7 +28,6 @@ public class LandingPageServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        // Initialize DBConnection and DAOs
         dbConnection = new DBConnection();
         membershipPlanDAO = new MembershipPlanDAO(dbConnection);
         durationDAO = new DurationDAO(dbConnection);
@@ -40,17 +39,14 @@ public class LandingPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // Fetch all membership plans
             List<MembershipPlan> membershipPlans = membershipPlanDAO.findAll();
             System.out.println("Number of plans fetched: " + membershipPlans.size());
 
-            // For each plan, fetch its durations and pricing
             for (MembershipPlan plan : membershipPlans) {
                 System.out.println("Processing plan: " + plan.getPlanName());
                 List<Duration> durations = durationDAO.findByPlanId(plan.getPlanId());
                 System.out.println("Number of durations for plan: " + durations.size());
 
-                // For each duration, fetch its pricing based on pricing type
                 for (Duration duration : durations) {
                     if ("uniform".equals(plan.getPricingType())) {
                         UniformPricing pricing = uniformPricingDAO.findByDurationId(duration.getDurationId());
@@ -67,7 +63,6 @@ public class LandingPageServlet extends HttpServlet {
                 plan.setDurations(durations);
             }
 
-            // Store the data in request attribute
             request.setAttribute("membershipPlans", membershipPlans);
 
             ReviewDAO reviewDAO = new ReviewDAO();
@@ -80,13 +75,10 @@ public class LandingPageServlet extends HttpServlet {
 
 
         } catch (SQLException e) {
-            // Log the error
             e.printStackTrace();
-            // Set error message in request
             request.setAttribute("errorMessage", "An error occurred while fetching membership plans.");
         }
 
-        // Forward to JSP
         request.getRequestDispatcher("/WEB-INF/views/common/landingPage.jsp").forward(request, response);
     }
 }
