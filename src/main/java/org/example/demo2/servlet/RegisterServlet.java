@@ -22,7 +22,6 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve input parameters
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
@@ -31,30 +30,25 @@ public class RegisterServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("userEmail", email);
 
-        // Validate inputs
         if (isInvalidInput(firstName, lastName, email, password, confirmPassword)) {
             sendAlert(response, "All fields are required, passwords must match, and email must be valid.", "testView?page=page1");
             return;
         }
 
-        // Hash the password
         String hashedPassword = HashUtil.hashPassword(password);
 
         try {
             UserDAO userDAO = new UserDAO();
 
-            // Check for existing username or email
             if (userDAO.emailExists(email)) {
                 sendAlert(response, "Email already exists.", "testView?page=page1");
                 return;
             }
 
-            // Create the user with role set to "client"
             User user = new User(firstName, lastName, email, hashedPassword, "client");
             userDAO.registerUser(user);
             session.setAttribute("userId", user.getUser_id());
 
-            // Redirect to login page after successful registration
             sendAlert(response, "Registration successful. ", "/signup/step2");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,7 +61,6 @@ public class RegisterServlet extends HttpServlet {
         request.getRequestDispatcher("signup.jsp").forward(request, response);
     }
 
-    // Helper method to validate inputs
     private boolean isInvalidInput(String firstName, String lastName, String email, String password, String confirmPassword) {
         return firstName == null || firstName.isEmpty() || !firstName.matches("[A-Za-z .'-]+")
                 || lastName == null || lastName.isEmpty() || !lastName.matches("[A-Za-z .'-]+")
@@ -79,13 +72,11 @@ public class RegisterServlet extends HttpServlet {
                 || !isValidEmail(email);
     }
 
-    // Validate email format using regex
     private boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         return Pattern.compile(emailRegex).matcher(email).matches();
     }
 
-    // Helper method to send JavaScript alerts and redirect
     private void sendAlert(HttpServletResponse response, String message, String redirectUrl) throws IOException {
         response.setContentType("text/html");
         response.getWriter().println("<script type=\"text/javascript\">");
@@ -94,7 +85,6 @@ public class RegisterServlet extends HttpServlet {
         response.getWriter().println("</script>");
     }
 
-    // Escape JavaScript strings to prevent injection
     private String escapeJavaScript(String message) {
         return message.replace("\\", "\\\\")
                 .replace("'", "\\'")

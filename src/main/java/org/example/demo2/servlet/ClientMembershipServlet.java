@@ -20,7 +20,6 @@ public class ClientMembershipServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        // Create your DBConnection instance as needed by your project.
         DBConnection dbConnection = new DBConnection();
         membershipDAO = new ClientMembershipDAO(dbConnection);
     }
@@ -28,7 +27,6 @@ public class ClientMembershipServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Add the authorization check at the beginning
         if (!SessionUtils.isUserAuthorized(request, response, "owner", "instructor")) {
             return;
         }

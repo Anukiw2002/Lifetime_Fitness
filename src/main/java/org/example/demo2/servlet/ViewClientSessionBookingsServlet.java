@@ -39,19 +39,15 @@ public class ViewClientSessionBookingsServlet extends HttpServlet {
 
             formattedSession.put("bookingId", String.valueOf(slot.getBookingId()));
 
-            // Format the date (this part is fine as is)
             formattedSession.put("formattedDate", dateFormatter.format(slot.getDate()));
 
-            // Convert java.sql.Time to java.util.Date
             java.util.Date startTime = new java.util.Date(slot.getTimeSlot().getTime());
 
-            // Add 1 hour
             Calendar cal = Calendar.getInstance();
             cal.setTime(startTime);
             cal.add(Calendar.HOUR_OF_DAY, 1);
             java.util.Date endTime = cal.getTime();
 
-            // Format times
             formattedSession.put("startTime", timeFormatter.format(startTime));
             formattedSession.put("endTime", timeFormatter.format(endTime));
 

@@ -27,7 +27,7 @@ public class InstructorDashboardDAO {
 
     public int getWorkouts() throws SQLException{
         int count = -1;
-        String sql = "SELECT COUNT(*) AS count FROM client_workouts WHERE created_at = CURRENT_DATE";
+        String sql = "SELECT COUNT(*) AS count FROM bookings WHERE date = CURRENT_DATE ";
         try(Connection conn = DBConnection.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql)){
             ResultSet rs = stmt.executeQuery();
@@ -57,10 +57,10 @@ public class InstructorDashboardDAO {
 
     public WorkoutCounts getDayWorkouts() throws SQLException{
         String sql = "SELECT " +
-                "COUNT(*) FILTER (WHERE created_at = CURRENT_DATE) AS todays_count, " +
-                "COUNT(*) FILTER (WHERE created_at = CURRENT_DATE - INTERVAL '1 day') AS yesterdays_count, " +
-                "COUNT(*) FILTER (WHERE created_at = CURRENT_DATE + INTERVAL '1 day') AS tomorrows_count " +
-                "FROM client_workouts";
+                "COUNT(*) FILTER (WHERE date = CURRENT_DATE) AS todays_count, " +
+                "COUNT(*) FILTER (WHERE date = CURRENT_DATE - INTERVAL '1 day') AS yesterdays_count, " +
+                "COUNT(*) FILTER (WHERE date = CURRENT_DATE + INTERVAL '1 day') AS tomorrows_count " +
+                "FROM bookings";
 
         try(Connection conn = DBConnection.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);

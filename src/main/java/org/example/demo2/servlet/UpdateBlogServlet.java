@@ -95,7 +95,7 @@ public class UpdateBlogServlet extends HttpServlet {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, name);
                 statement.setString(2, description);
-                statement.setString(3, content); // updated here
+                statement.setString(3, content);
                 statement.setInt(4, id);
 
                 int rowsUpdated = statement.executeUpdate();

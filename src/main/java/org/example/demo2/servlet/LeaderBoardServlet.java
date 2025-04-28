@@ -33,7 +33,6 @@ public class LeaderBoardServlet extends HttpServlet {
         String userRole = (String)session.getAttribute("userRole");
         request.setAttribute("user_id", user_id);
 
-        // Store role in session so it's available to the JSP
         session.setAttribute("role", userRole);
 
         LeaderboardDAO dao = new LeaderboardDAO();
@@ -41,7 +40,6 @@ public class LeaderBoardServlet extends HttpServlet {
             List<LeaderBoard> leaderboardWL = dao.getWeightLossLeaderboard();
             List<LeaderBoard> streakList = dao.getStreakLeaderboard();
 
-            // 🖨️ Print each user and their weight loss
             for (LeaderBoard entry : leaderboardWL) {
                 System.out.println("User: " + entry.getName() + ", Weight Loss: " + entry.getWeightLoss());
 
@@ -64,13 +62,11 @@ public class LeaderBoardServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        // Check if user is logged in
         if(session == null || session.getAttribute("userId") == null){
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
-        // Get and set user role to maintain it between requests
         String userRole = (String)session.getAttribute("userRole");
         session.setAttribute("role", userRole);
 
@@ -79,7 +75,6 @@ public class LeaderBoardServlet extends HttpServlet {
 
         LeaderboardDAO dao = new LeaderboardDAO();
         try {
-            // Need to also get the basic leaderboard data to maintain view state
             List<LeaderBoard> leaderboardWL = dao.getWeightLossLeaderboard();
             List<LeaderBoard> streakList = dao.getStreakLeaderboard();
             List<LeaderBoardEntry> leaderBoard = dao.getEntriesByExercise(exercise_type);

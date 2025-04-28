@@ -20,7 +20,6 @@ public class CheckUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
@@ -40,7 +39,7 @@ public class CheckUserServlet extends HttpServlet {
             String userQuery = "SELECT email FROM users WHERE email = ?";
             try (PreparedStatement userStmt = con.prepareStatement(userQuery)) {
                 userStmt.setString(1, email);
-                System.out.println("Executing query: " + userQuery); // Debugging log
+                System.out.println("Executing query: " + userQuery);
 
                 ResultSet userRs = userStmt.executeQuery();
                 if (userRs.next()) {

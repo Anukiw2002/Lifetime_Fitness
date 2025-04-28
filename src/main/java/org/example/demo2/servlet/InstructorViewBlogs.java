@@ -19,20 +19,16 @@ public class InstructorViewBlogs extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
 
         try {
-            // Fetch all blogs using BlogController
             List<BlogModel> allBlogs = BlogController.getAllBlogs();
 
-            // Debugging log
             System.out.println("Retrieved Blogs: " + allBlogs);
 
-            // Set the blogs in request scope
             request.setAttribute("blogs", allBlogs);
 
-            // Forward to JSP
             request.getRequestDispatcher("/WEB-INF/views/instructor/instructorViewBlogs.jsp").forward(request, response);
         } catch (Exception e) {
             System.err.println("Error while fetching blogs:");

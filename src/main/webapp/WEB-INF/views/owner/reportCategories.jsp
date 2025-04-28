@@ -95,7 +95,7 @@
 
     const ctx = document.getElementById('revenueByTypeChart').getContext('2d');
     new Chart(ctx, {
-        type: 'bar', // You can change to 'pie', 'line', etc.
+        type: 'bar',
         data: {
             labels: revenueByTypeData.labels,
             datasets: [{
@@ -148,7 +148,7 @@
 
     const ctx3 = document.getElementById('membersEncounteredChart').getContext('2d');
     new Chart(ctx3, {
-        type: 'line', // You can change to 'pie', 'line', etc.
+        type: 'line',
         data: {
             labels: membersEncountered.labels,
             datasets: [{

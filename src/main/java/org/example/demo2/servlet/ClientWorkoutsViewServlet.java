@@ -42,11 +42,11 @@ public class ClientWorkoutsViewServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "client")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
+
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
@@ -55,26 +55,22 @@ public class ClientWorkoutsViewServlet extends HttpServlet {
         request.setAttribute("userId", userId);
 
         try {
-            // Create a new DBConnection instance
             DBConnection dbConnection = new DBConnection();
             ClientDAO clientDAO = new ClientDAO(dbConnection);
 
-            // Get client information
             Client client = clientDAO.findByUserId(userId);
             if (client == null) {
                 response.sendRedirect("clientWorkoutView");
                 return;
             }
 
-            // Store client ID in session for further operations if not already stored
+
             if (session.getAttribute("clientUserId") == null) {
                 session.setAttribute("clientUserId", client.getUserId());
             }
 
-            // Get all workouts for the client
             List<ClientWorkout> workouts = clientWorkoutDAO.findByUserId(userId);
 
-            // Convert LocalDateTime to Date for each workout
             for (ClientWorkout workout : workouts) {
                 if (workout.getCreatedAt() != null) {
                     Date date = Date.from(workout.getCreatedAt()
@@ -84,11 +80,9 @@ public class ClientWorkoutsViewServlet extends HttpServlet {
                 }
             }
 
-            // Set attributes for the JSP
             request.setAttribute("client", client);
             request.setAttribute("workouts", workouts);
 
-            // Forward to the JSP page
             request.getRequestDispatcher("/WEB-INF/views/client/clientWorkout.jsp").forward(request, response);
 
         } catch (SQLException e) {

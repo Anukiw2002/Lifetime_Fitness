@@ -64,14 +64,13 @@ public class CreateWorkoutServlet extends HttpServlet {
         Connection connection = null;
 
         try {
-            // Log all request parameters for debugging
+
             System.out.println("=== DEBUG: All request parameters ===");
             request.getParameterMap().forEach((k, v) -> {
                 System.out.println(k + ": " + String.join(", ", v));
             });
             System.out.println("===================================");
 
-            // Get parameters
             String clientPhone = request.getParameter("clientPhone");
             String workoutName = request.getParameter("workoutName");
             String categoryIdStr = request.getParameter("categoryId");
@@ -93,9 +92,9 @@ public class CreateWorkoutServlet extends HttpServlet {
             }
 
             Long categoryId = Long.parseLong(categoryIdStr);
-            Long instructorId = 1L; // This should come from session in a real app
+            Long instructorId = 1L;
 
-            // Get the user ID from client lookup
+
             System.out.println("Looking up client with phone: " + clientPhone);
             Client client = clientDAO.findByPhoneNumber(clientPhone);
             if (client == null) {
@@ -111,7 +110,7 @@ public class CreateWorkoutServlet extends HttpServlet {
             Long userId = client.getUserId();
             System.out.println("Found client user ID: " + userId);
 
-            // Check if workout name already exists for this client
+
             if (clientWorkoutDAO.workoutNameExists(userId, workoutName)) {
                 System.err.println("Workout name already exists: " + workoutName);
                 request.setAttribute("error", "A workout with this name already exists for this client.");
@@ -122,13 +121,13 @@ public class CreateWorkoutServlet extends HttpServlet {
                 return;
             }
 
-            // Start transaction
+
             connection = dbConnection.getConnection();
             connection.setAutoCommit(false);
             System.out.println("Started transaction");
 
             try {
-                // Create workout with user_id instead of client_phone
+
                 System.out.println("Creating workout with userId: " + userId);
                 ClientWorkout workout = new ClientWorkout(userId, workoutName, categoryId, instructorId);
                 workout = clientWorkoutDAO.create(workout);
@@ -138,7 +137,7 @@ public class CreateWorkoutServlet extends HttpServlet {
                     throw new ServletException("Failed to create workout");
                 }
 
-                // Process exercises
+
                 String[] exerciseIds = request.getParameterValues("exerciseId");
                 String[] setNumbers = request.getParameterValues("setNumber");
                 String[] reps = request.getParameterValues("reps");
@@ -162,16 +161,16 @@ public class CreateWorkoutServlet extends HttpServlet {
                     }
                 }
 
-                // Commit transaction
+
                 connection.commit();
                 System.out.println("Transaction committed successfully");
 
-                // Set client phone for the redirect
+
                 workout.setClientPhone(clientPhone);
 
                 response.sendRedirect("clientWorkouts?phoneNumber=" + clientPhone);
             } catch (Exception e) {
-                // Rollback on error
+
                 System.err.println("Error creating workout: " + e.getMessage());
                 e.printStackTrace();
                 if (connection != null) {

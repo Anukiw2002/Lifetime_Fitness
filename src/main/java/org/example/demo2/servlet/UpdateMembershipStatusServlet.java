@@ -25,7 +25,7 @@ public class UpdateMembershipStatusServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
+
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
@@ -35,13 +35,13 @@ public class UpdateMembershipStatusServlet extends HttpServlet {
         Map<String, Object> responseData = new HashMap<>();
 
         try {
-            // Read the request body
+
             String requestBody = request.getReader().lines()
                     .reduce("", (accumulator, actual) -> accumulator + actual);
 
             System.out.println("Received request body: " + requestBody);
 
-            // Parse the JSON request
+
             Map<String, Object> requestData = objectMapper.readValue(requestBody, Map.class);
 
             if (!requestData.containsKey("planId")) {
@@ -51,18 +51,18 @@ public class UpdateMembershipStatusServlet extends HttpServlet {
             Long planId = Long.valueOf(requestData.get("planId").toString());
             MembershipPlanDAO planDAO = new MembershipPlanDAO(new DBConnection());
 
-            // Get current status
+
             String currentStatus = planDAO.getStatus(planId);
             System.out.println("Current status in database: " + currentStatus);
 
-            // Toggle the status
+
             String newStatus = "ACTIVE".equals(currentStatus) ? "INACTIVE" : "ACTIVE";
             System.out.println("Toggling status to: " + newStatus);
 
-            // Update status
+
             planDAO.updateStatus(planId, newStatus);
 
-            // Verify update
+
             String updatedStatus = planDAO.getStatus(planId);
             System.out.println("New status in database: " + updatedStatus);
 
@@ -70,7 +70,7 @@ public class UpdateMembershipStatusServlet extends HttpServlet {
                 throw new SQLException("Status update verification failed");
             }
 
-            // Success response
+
             responseData.put("status", "success");
             responseData.put("message", "Status updated successfully");
             responseData.put("newStatus", updatedStatus);
@@ -91,7 +91,7 @@ public class UpdateMembershipStatusServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
-        // Write the response
+
         objectMapper.writeValue(response.getWriter(), responseData);
     }
 }

@@ -43,7 +43,6 @@ public class SaveUpdatedReportServlet extends HttpServlet {
 
         System.out.println("Email being used for update: " + email);
 
-        // Retrieve updated report details
         String name = request.getParameter("name");
         int age = parseInteger(request.getParameter("age"), 0);
         String programNo = request.getParameter("program_no");
@@ -74,7 +73,7 @@ public class SaveUpdatedReportServlet extends HttpServlet {
             conn.setAutoCommit(false); // Start transaction
 
             try {
-                // First, get the report_id for this user
+
                 int reportId = 0;
                 String getReportIdQuery = "SELECT id FROM user_reports WHERE email = ?";
                 try (PreparedStatement idStmt = conn.prepareStatement(getReportIdQuery)) {
@@ -89,7 +88,7 @@ public class SaveUpdatedReportServlet extends HttpServlet {
                     }
                 }
 
-                // Update the report details
+
                 String updateReportQuery = "UPDATE user_reports SET name = ?, age = ?, program_no = ?, " +
                         "starting_date = ?, expire_date = ?, max_heart_rate = ?, bpm_65 = ?, " +
                         "bpm_75 = ?, bpm_85 = ?, waist_circumference = ?, body_weight = ?, " +
@@ -123,20 +122,19 @@ public class SaveUpdatedReportServlet extends HttpServlet {
                     System.out.println("Updated rows in user_reports: " + rowsUpdated);
                 }
 
-                // Handle exercise data
+
                 if (exerciseDates != null && weights != null && exerciseDates.length > 0) {
-                    // Delete existing exercises for this report
+
                     String deleteExercisesQuery = "DELETE FROM user_exercises WHERE email = ?";
                     try (PreparedStatement deleteStmt = conn.prepareStatement(deleteExercisesQuery)) {
                         deleteStmt.setString(1, email);
                         deleteStmt.executeUpdate();
                     }
 
-                    // Insert new exercise entries with report_id
                     String insertExerciseQuery = "INSERT INTO user_exercises (email, exercise_date, weight, report_id) VALUES (?, ?, ?, ?)";
                     try (PreparedStatement insertStmt = conn.prepareStatement(insertExerciseQuery)) {
                         for (int i = 0; i < exerciseDates.length; i++) {
-                            // Skip empty entries
+
                             if (exerciseDates[i] == null || exerciseDates[i].trim().isEmpty()) {
                                 continue;
                             }
@@ -152,15 +150,15 @@ public class SaveUpdatedReportServlet extends HttpServlet {
                     }
                 }
 
-                conn.commit(); // Commit transaction
+                conn.commit();
 
-                // Success response
+
                 jsonResponse.put("status", "success");
                 jsonResponse.put("message", "Report updated successfully!");
                 jsonResponse.put("redirectUrl", request.getContextPath() + "/viewReport?email=" + email);
 
             } catch (SQLException e) {
-                conn.rollback(); // Rollback transaction on error
+                conn.rollback();
                 e.printStackTrace();
                 jsonResponse.put("status", "error");
                 jsonResponse.put("message", "Database error: " + e.getMessage());
@@ -171,7 +169,7 @@ public class SaveUpdatedReportServlet extends HttpServlet {
             jsonResponse.put("message", "Database connection error: " + e.getMessage());
         }
 
-        // Send JSON response
+
         sendJsonResponse(response, jsonResponse);
     }
 
@@ -181,7 +179,6 @@ public class SaveUpdatedReportServlet extends HttpServlet {
         }
     }
 
-    // Helper method to parse integers safely
     private int parseInteger(String value, int defaultValue) {
         try {
             return value != null && !value.trim().isEmpty() ? Integer.parseInt(value) : defaultValue;
@@ -190,7 +187,6 @@ public class SaveUpdatedReportServlet extends HttpServlet {
         }
     }
 
-    // Helper method to parse doubles safely
     private double parseDouble(String value, double defaultValue) {
         try {
             return value != null && !value.trim().isEmpty() ? Double.parseDouble(value) : defaultValue;
@@ -199,7 +195,6 @@ public class SaveUpdatedReportServlet extends HttpServlet {
         }
     }
 
-    // Helper method to parse dates safely
     private Date parseDate(String value) {
         try {
             return value != null && !value.trim().isEmpty() ? Date.valueOf(value) : null;

@@ -21,9 +21,8 @@ import java.util.List;
 public class OwnerDetailedNotificationsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Check if user is authorized as "owner"
         if (!SessionUtils.isUserAuthorized(req, resp, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
 
         HttpSession session = req.getSession(false);
@@ -31,7 +30,6 @@ public class OwnerDetailedNotificationsServlet extends HttpServlet {
 
         System.out.println("User role from the session: " + userRole);
 
-        // Validate user role
         if (userRole == null || !userRole.equals("owner")) {
             System.out.println("Invalid or missing user role");
             req.setAttribute("errorMessage", "Invalid or missing user role");
@@ -72,7 +70,7 @@ public class OwnerDetailedNotificationsServlet extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/views/owner/ownerDetailedNotification.jsp").forward(req, resp);
 
         } catch (Exception e) {
-            // Catch any exceptions that occur during the database query or request forwarding
+
             e.printStackTrace();
             req.setAttribute("errorMessage", "An error occurred: " + e.getMessage());
             req.getRequestDispatcher("/WEB-INF/views/owner/ownerDetailedNotification.jsp").forward(req, resp);

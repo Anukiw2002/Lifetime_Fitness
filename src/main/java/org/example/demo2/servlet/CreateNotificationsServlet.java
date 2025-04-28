@@ -37,7 +37,7 @@ public class CreateNotificationsServlet extends HttpServlet {
             return;
         }
 
-        // Send notifications based on the target group
+
         if ("customers".equals(targetGroup)) {
             sendToCustomers(notificationTitle, notificationMessage);
         } else if ("instructors".equals(targetGroup)) {
@@ -47,7 +47,6 @@ public class CreateNotificationsServlet extends HttpServlet {
             sendToInstructors(notificationTitle, notificationMessage);
         }
 
-        // Redirect back with success message
         request.setAttribute("successMessage", "Notification sent successfully.");
         request.getRequestDispatcher("/WEB-INF/views/owner/createNotifications.jsp").forward(request, response);
     }

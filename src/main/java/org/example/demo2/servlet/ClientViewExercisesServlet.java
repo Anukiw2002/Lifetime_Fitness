@@ -34,7 +34,7 @@ public class ClientViewExercisesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || !"client".equals(session.getAttribute("userRole"))) {
-            // If the session is invalid or user is not logged in, redirect to the login page
+
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
@@ -81,14 +81,13 @@ public class ClientViewExercisesServlet extends HttpServlet {
             String[] reps = request.getParameterValues("reps");
             String[] notes = request.getParameterValues("notes");
 
-            // Validate that we have all required arrays and they're the same length
+
             if (exerciseIds == null || setNumbers == null || reps == null || notes == null ||
                     exerciseIds.length != setNumbers.length || exerciseIds.length != reps.length ||
                     exerciseIds.length != notes.length) {
                 throw new ServletException("Invalid form data submitted");
             }
 
-            // Check for duplicate exercises
             List<Long> uniqueExerciseIds = new ArrayList<>();
             for (String exerciseId : exerciseIds) {
                 if (exerciseId != null && !exerciseId.trim().isEmpty()) {
@@ -102,12 +101,10 @@ public class ClientViewExercisesServlet extends HttpServlet {
                 }
             }
 
-            // Delete existing exercises
             workoutExerciseDAO.deleteByWorkoutId(workoutId);
 
-            // Add all exercises from the form
             for (int i = 0; i < exerciseIds.length; i++) {
-                // Skip if essential values are empty
+
                 if (exerciseIds[i] == null || exerciseIds[i].trim().isEmpty() ||
                         setNumbers[i] == null || setNumbers[i].trim().isEmpty() ||
                         reps[i] == null || reps[i].trim().isEmpty()) {

@@ -58,7 +58,7 @@ public class DeleteBlogServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response); // Allow deletion via POST too
+        doGet(request, response);
     }
 
     private void sendAlert(HttpServletResponse response, String message, String redirectUrl) throws IOException {
