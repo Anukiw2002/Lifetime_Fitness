@@ -16,7 +16,7 @@ public class InsertReviewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "client")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         request.getRequestDispatcher("/WEB-INF/views/client/insertReview.jsp").forward(request, response);
     }

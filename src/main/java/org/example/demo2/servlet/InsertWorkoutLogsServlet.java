@@ -39,7 +39,7 @@ public class InsertWorkoutLogsServlet extends HttpServlet {
             Integer sessionId = (Integer) session.getAttribute("currentWorkoutSessionId");
 
             if (sessionId == null) {
-                // Create a new workout session if it doesn't exist
+
                 sessionId = dao.createWorkoutSession(userId, workoutId);
                 session.setAttribute("currentWorkoutSessionId", sessionId);
             }
@@ -73,30 +73,30 @@ public class InsertWorkoutLogsServlet extends HttpServlet {
                     }
                 }
 
-                // Insert logs with sessionId, passing sessionId to the DAO method
+
                 boolean setInserted = dao.insertOrUpdateWorkoutLogsWithSession(
                         sessionId, userId, workoutId, exerciseId, set, weight, reps, userNotes
                 );
                 insertSuccess |= setInserted;
             }
 
-            // Handle navigation actions (previous, next, finish)
+
             if ("previous".equals(action)) {
                 response.sendRedirect(request.getContextPath() + "/StartExercises?workoutId=" + workoutId + "&exerciseIndex=" + (exerciseIndex - 1));
             } else if ("next".equals(action)) {
                 response.sendRedirect(request.getContextPath() + "/StartExercises?workoutId=" + workoutId + "&exerciseIndex=" + (exerciseIndex + 1));
             } else if ("finish".equals(action)) {
-                // Update the end time in the workout session
+
                 boolean endTimeUpdated = dao.updateWorkoutEndTime(sessionId);
 
                 if (endTimeUpdated) {
-                    // Remove the session attribute since the workout is finished
+
                     session.removeAttribute("currentWorkoutSessionId");
 
-                    // Redirect to the WorkoutStats page with necessary parameters
+
                     response.sendRedirect(request.getContextPath() + "/WorkoutStats?workoutId=" + workoutId + "&sessionId=" + sessionId);
                 } else {
-                    // If end time update fails, forward to an error page
+
                     request.setAttribute("errorMessage", "Error updating workout end time");
                     request.getRequestDispatcher("/WEB-INF/views/client/wrong.jsp").forward(request, response);
                 }
