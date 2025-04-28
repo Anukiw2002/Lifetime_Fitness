@@ -15,7 +15,7 @@ public class CheckoutServlet extends HttpServlet {
         String planId = request.getParameter("planId");
         String durationId = request.getParameter("durationId");
 
-        // You can fetch plan/duration data from DB here and set attributes
+
         request.setAttribute("planId", planId);
         request.setAttribute("durationId", durationId);
         System.out.println("duration ID :" + durationId);
