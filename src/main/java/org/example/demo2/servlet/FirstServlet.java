@@ -21,10 +21,10 @@ public class FirstServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Ensure the user is logged in
+
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
+
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
@@ -35,27 +35,27 @@ public class FirstServlet extends HttpServlet {
                 return;
             }
 
-            // Query to fetch approved emails from the database
+
             String query = "SELECT email FROM approved_emails";
             PreparedStatement stmt = con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
-            // Store the emails in a list
+
             List<String> approvedEmails = new ArrayList<>();
             while (rs.next()) {
                 approvedEmails.add(rs.getString("email"));
             }
 
-            // Debugging: Log fetched emails to the console
+
             System.out.println("Fetched emails: " + approvedEmails);
 
-            // Set the list of emails as a request attribute
+
             request.setAttribute("approvedEmails", approvedEmails);
 
-            // Forward the request to the JSP page
+
             request.getRequestDispatcher("/WEB-INF/views/owner/first.jsp").forward(request, response);
         } catch (Exception e) {
-            // Log the exception and send an error response
+
             System.err.println("Error fetching emails: " + e.getMessage());
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching approved emails.");
