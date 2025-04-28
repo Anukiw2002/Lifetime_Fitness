@@ -18,7 +18,6 @@ public class DeleteWorkoutServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        // Initialize the DAO and DB connection
         try {
             DBConnection dbConnection = new DBConnection();
             this.clientWorkoutDAO = new ClientWorkoutDAO(dbConnection);
@@ -30,7 +29,7 @@ public class DeleteWorkoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Support for GET requests (in case the delete is triggered by a link)
+
         doPost(request, response);
     }
 
@@ -39,10 +38,10 @@ public class DeleteWorkoutServlet extends HttpServlet {
             throws ServletException, IOException {
         System.out.println("DeleteWorkoutServlet: doPost method called");
 
-        // Check session validity and user role
+
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // Redirect to landing page if session is invalid or user is not logged in
+
             System.out.println("Session invalid or user not logged in");
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
@@ -55,14 +54,14 @@ public class DeleteWorkoutServlet extends HttpServlet {
             return;
         }
 
-        // Get the parameters from the request
+
         String workoutIdStr = request.getParameter("workoutId");
         String clientPhone = request.getParameter("clientPhone"); // Keep for redirect
 
-        // Log the received parameters for debugging
+
         System.out.println("Received workoutId: " + workoutIdStr + " clientPhone: " + clientPhone);
 
-        // Validate parameters
+
         if (workoutIdStr == null || workoutIdStr.trim().isEmpty()) {
             System.out.println("workoutId parameter is missing or empty");
             response.sendRedirect(request.getContextPath() + "/instructor/searchClient");
@@ -75,29 +74,29 @@ public class DeleteWorkoutServlet extends HttpServlet {
         }
 
         try {
-            // Parse workoutId and handle potential parsing errors
+
             Long workoutId = Long.parseLong(workoutIdStr);
 
-            // Attempt to delete the workout - note this method doesn't return a boolean
+
             clientWorkoutDAO.delete(workoutId);
 
-            // Log successful attempt (we can't know if it was actually successful)
+
             System.out.println("Attempted to delete workout with ID " + workoutId);
 
-            // Redirect back to client workouts page
+
             response.sendRedirect(request.getContextPath() + "/instructor/clientWorkouts?phoneNumber=" + clientPhone);
 
         } catch (NumberFormatException e) {
-            // Handle invalid workoutId format
+
             System.out.println("Invalid workoutId format: " + workoutIdStr);
             response.sendRedirect(request.getContextPath() + "/instructor/searchClient");
         } catch (SQLException e) {
-            // Handle SQL errors with more detailed logging
+
             System.out.println("SQL Exception during workout deletion: " + e.getMessage());
             e.printStackTrace();
             throw new ServletException("Database error occurred during workout deletion", e);
         } catch (Exception e) {
-            // Catch any other exceptions
+
             System.out.println("Unexpected error during workout deletion: " + e.getMessage());
             e.printStackTrace();
             throw new ServletException("Error occurred during workout deletion", e);

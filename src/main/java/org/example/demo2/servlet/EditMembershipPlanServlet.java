@@ -38,7 +38,7 @@ public class EditMembershipPlanServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         String planIdParam = request.getParameter("planId");
         if (planIdParam == null) {
@@ -55,7 +55,7 @@ public class EditMembershipPlanServlet extends HttpServlet {
                 return;
             }
 
-            // Load durations with their pricing
+
             List<Duration> durations = durationDAO.findByPlanId(planId);
             for (Duration duration : durations) {
                 if ("uniform".equals(plan.getPricingType())) {
@@ -84,10 +84,10 @@ public class EditMembershipPlanServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         try {
-            // Update basic plan details
+
             Long planId = Long.parseLong(request.getParameter("planId"));
             MembershipPlan plan = membershipPlanDAO.findById(planId);
             if (plan == null) {
@@ -103,23 +103,22 @@ public class EditMembershipPlanServlet extends HttpServlet {
 
             membershipPlanDAO.update(plan);
 
-            // Handle duration updates
+
             String[] durationValues = request.getParameterValues("durationValue[]");
             String[] durationTypes = request.getParameterValues("durationType[]");
 
             if (durationValues != null && durationTypes != null) {
-                // First, get existing durations
+
                 List<Duration> existingDurations = durationDAO.findByPlanId(planId);
 
-                // Update or create durations
+
                 for (int i = 0; i < durationValues.length; i++) {
                     Duration duration;
                     if (i < existingDurations.size()) {
                         duration = existingDurations.get(i);
                         duration.setDurationValue(Integer.parseInt(durationValues[i]));
                         duration.setDurationType(durationTypes[i]);
-                        // Update duration (you'll need to add this method to DurationDAO)
-                        // durationDAO.update(duration);
+
                     } else {
                         duration = new Duration(planId,
                                 Integer.parseInt(durationValues[i]),
@@ -127,8 +126,7 @@ public class EditMembershipPlanServlet extends HttpServlet {
                         duration = durationDAO.create(duration);
                     }
 
-                    // Handle pricing based on type
-                    // Replace the pricing handling section in doPost with this:
+
                     if ("uniform".equals(plan.getPricingType())) {
                         String priceStr = request.getParameter("uniformPrice");
                         if (priceStr != null && !priceStr.isEmpty()) {
@@ -145,7 +143,7 @@ public class EditMembershipPlanServlet extends HttpServlet {
                             }
                         }
                     } else {
-                        // Handle category pricing
+
                         String[] categories = request.getParameterValues("category");
                         String[] prices = request.getParameterValues("categoryPrice");
                         if (categories != null && prices != null) {
