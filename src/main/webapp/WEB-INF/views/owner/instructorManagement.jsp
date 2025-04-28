@@ -45,7 +45,7 @@
                     <div class="instructor-image-container">
                         <c:choose>
                             <c:when test="${empty instructor.profilePictureBase64}">
-                                <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" alt="Default Profile Picture">
+                                <img src="${pageContext.request.contextPath}/images/profilePicAvatar.jpg" class="instructor-image" alt="Default Profile Picture">
                             </c:when>
                             <c:otherwise>
                                 <img src="data:image/jpeg;base64,${instructor.profilePictureBase64}" class="instructor-image" alt="${instructor.firstName} ${instructor.surname}">
