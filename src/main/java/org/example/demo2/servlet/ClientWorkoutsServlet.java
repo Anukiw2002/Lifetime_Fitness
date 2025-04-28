@@ -34,11 +34,10 @@ public class ClientWorkoutsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
@@ -46,7 +45,7 @@ public class ClientWorkoutsServlet extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         String clientPhone = request.getParameter("clientPhone");
 
-        // Use clientPhone parameter if phoneNumber is not provided
+
         if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
             phoneNumber = clientPhone;
         }
@@ -57,22 +56,21 @@ public class ClientWorkoutsServlet extends HttpServlet {
         }
 
         try {
-            // Get client information
+
             Client client = clientDAO.findByPhoneNumber(phoneNumber);
             if (client == null) {
                 response.sendRedirect("searchClient");
                 return;
             }
 
-            // Store client ID in session for further operations if not already stored
             if (session.getAttribute("clientUserId") == null) {
                 session.setAttribute("clientUserId", client.getUserId());
             }
 
-            // Get all workouts for the client
+
             List<ClientWorkout> workouts = clientWorkoutDAO.findByClientPhone(phoneNumber);
 
-            // Convert LocalDateTime to Date for each workout
+
             for (ClientWorkout workout : workouts) {
                 if (workout.getCreatedAt() != null) {
                     Date date = Date.from(workout.getCreatedAt()
@@ -82,11 +80,10 @@ public class ClientWorkoutsServlet extends HttpServlet {
                 }
             }
 
-            // Set attributes for the JSP
             request.setAttribute("client", client);
             request.setAttribute("workouts", workouts);
 
-            // Forward to the JSP page
+
             request.getRequestDispatcher("/WEB-INF/views/instructor/instructor-workouts.jsp").forward(request, response);
 
         } catch (SQLException e) {
