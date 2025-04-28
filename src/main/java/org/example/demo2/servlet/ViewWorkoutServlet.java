@@ -36,14 +36,14 @@ public class ViewWorkoutServlet extends HttpServlet {
         String page = request.getParameter("page");
 
         try {
-            // Default to search page
+
             if (pathInfo == null || pathInfo.equals("/")) {
                 request.getRequestDispatcher("/WEB-INF/views/instructor/searchClient.jsp")
                         .forward(request, response);
                 return;
             }
 
-            // Handle workout list page
+
             if (pathInfo.equals("/list")) {
                 String clientPhone = (String) request.getSession().getAttribute("clientPhone");
                 if (clientPhone != null) {
@@ -60,7 +60,7 @@ public class ViewWorkoutServlet extends HttpServlet {
                 return;
             }
 
-            // Handle workout details
+
             if (pathInfo.startsWith("/details/")) {
                 String workoutId = pathInfo.substring(9);
                 ClientWorkout workout = workoutDAO.findWithExercises(Long.parseLong(workoutId));
@@ -86,7 +86,7 @@ public class ViewWorkoutServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         try {
-            // Handle search
+
             if (pathInfo != null && pathInfo.equals("/search")) {
                 String clientPhone = request.getParameter("clientPhone");
 
@@ -94,12 +94,12 @@ public class ViewWorkoutServlet extends HttpServlet {
                     Client client = clientDAO.findByPhoneNumber(clientPhone);
 
                     if (client != null) {
-                        // Store in session
+
                         HttpSession session = request.getSession();
                         session.setAttribute("clientPhone", clientPhone);
                         session.setAttribute("clientName", client.getName());
 
-                        // Redirect to workout list
+
                         response.sendRedirect(request.getContextPath() + "/workoutOptions/list");
                     } else {
                         request.setAttribute("error", "No client found with this phone number");
