@@ -37,7 +37,6 @@ public class OwnerAddInstructorServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("userEmail", email);
 
-        // Hash the password
         String hashedPassword = HashUtil.hashPassword(password);
 
         try {

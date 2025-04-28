@@ -15,7 +15,6 @@ public class MedicalDetails2Servlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
             resp.sendRedirect(req.getContextPath() + "/landingPage");
             return;
         }

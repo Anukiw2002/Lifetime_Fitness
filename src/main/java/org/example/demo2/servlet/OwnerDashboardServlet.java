@@ -15,7 +15,7 @@ public class OwnerDashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(req, resp, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
 
 
@@ -26,7 +26,6 @@ public class OwnerDashboardServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
             resp.sendRedirect(req.getContextPath() + "/landingPage");
             return;
         }
