@@ -18,7 +18,6 @@ public class OwnerViewInstructorServlet extends HttpServlet {
             response.sendRedirect("landingPage");
             return;
         }
-        // Check if an instructor ID was provided
         String instructorIdParam = request.getParameter("id");
 
         if (instructorIdParam != null && !instructorIdParam.isEmpty()) {
@@ -28,7 +27,6 @@ public class OwnerViewInstructorServlet extends HttpServlet {
                 Instructor instructor = instructorOnBoardingDAO.getInstructorById(instructorId);
 
                 if (instructor == null) {
-                    // Instructor not found, redirect to the instructor management page
                     response.sendRedirect("instructorManagement");
                     return;
                 }
@@ -36,12 +34,10 @@ public class OwnerViewInstructorServlet extends HttpServlet {
                 request.setAttribute("instructor", instructor);
                 request.getRequestDispatcher("/WEB-INF/views/owner/viewInstructor.jsp").forward(request, response);
             } catch (NumberFormatException e) {
-                // Invalid ID format, redirect to instructor management
                 response.sendRedirect("instructorManagement");
                 return;
             }
         } else {
-            // No ID provided, redirect to instructor management
             response.sendRedirect("instructorManagement");
             return;
         }
