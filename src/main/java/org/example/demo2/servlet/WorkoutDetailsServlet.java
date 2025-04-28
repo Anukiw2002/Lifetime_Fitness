@@ -15,7 +15,7 @@ import org.example.demo2.util.SessionUtils;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/instructor/workoutDetails")
+@WebServlet("/workoutDetails")
 public class WorkoutDetailsServlet extends HttpServlet {
 
     private ClientWorkoutDAO clientWorkoutDAO;
