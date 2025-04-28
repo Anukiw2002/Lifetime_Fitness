@@ -34,9 +34,9 @@ public class PaymentServicesDAO {
         payer.setPaymentMethod("paypal");
 
         PayerInfo payerInfo = new PayerInfo();
-        payerInfo.setFirstName("William")
-                .setLastName("Peterson")
-                .setEmail("william.peterson@company.com");
+        payerInfo.setFirstName("Ravindi")
+                .setLastName("Fernando")
+                .setEmail("ravindi03@gmail.com");
 
         payer.setPayerInfo(payerInfo);
         return payer;

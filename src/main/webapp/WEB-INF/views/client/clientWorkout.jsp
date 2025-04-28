@@ -104,7 +104,7 @@
                                                 <i class="fas fa-spa exercise-icon"></i>
                                             </c:when>
                                             <c:otherwise>
-                                                <i class="fas fa-heartbeat exercise-icon"></i>
+                                                <i class="fas fa-dumbbell exercise-icon"></i>
                                             </c:otherwise>
                                         </c:choose>
                                     </div>
