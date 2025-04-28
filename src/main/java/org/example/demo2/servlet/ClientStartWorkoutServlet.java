@@ -37,13 +37,13 @@ public class ClientStartWorkoutServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || !"client".equals(session.getAttribute("userRole"))) {
-            // If the session is invalid or user is not logged in, redirect to the login page
+
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
 
         String workoutId = request.getParameter("workoutId");
-        // Get the current exercise index if available
+
         String exerciseIndexParam = request.getParameter("exerciseIndex");
         int exerciseIndex = 0;
 
@@ -51,7 +51,6 @@ public class ClientStartWorkoutServlet extends HttpServlet {
             try {
                 exerciseIndex = Integer.parseInt(exerciseIndexParam);
             } catch (NumberFormatException e) {
-                // If index parsing fails, start from the first exercise
                 exerciseIndex = 0;
             }
         }
@@ -62,7 +61,7 @@ public class ClientStartWorkoutServlet extends HttpServlet {
                 return;
             }
 
-            // Load the workout with exercises
+
             ClientWorkout workout = clientWorkoutDAO.findWithExercises(Long.parseLong(workoutId));
             if (workout == null) {
                 response.sendRedirect("clientWorkouts");
@@ -71,7 +70,7 @@ public class ClientStartWorkoutServlet extends HttpServlet {
 
             List<WorkoutExercise> exercises = workout.getExercises();
 
-            // Ensure we have a valid exercise index
+
             if (exercises == null || exercises.isEmpty()) {
                 // No exercises in this workout
                 request.setAttribute("errorMessage", "This workout has no exercises.");
@@ -79,15 +78,14 @@ public class ClientStartWorkoutServlet extends HttpServlet {
                 return;
             }
 
-            // Ensure the exercise index is within bounds
+
             if (exerciseIndex >= exercises.size()) {
-                exerciseIndex = 0; // Reset to first exercise if out of bounds
+                exerciseIndex = 0;
             }
 
-            // Get the current exercise
+
             WorkoutExercise currentExercise = exercises.get(exerciseIndex);
 
-            // Set attributes for the JSP
             request.setAttribute("workout", workout);
             request.setAttribute("currentExercise", currentExercise);
             request.setAttribute("exerciseIndex", exerciseIndex);
@@ -95,11 +93,9 @@ public class ClientStartWorkoutServlet extends HttpServlet {
             request.setAttribute("isFirstExercise", exerciseIndex == 0);
             request.setAttribute("isLastExercise", exerciseIndex == exercises.size() - 1);
 
-            // Forward to the JSP
             request.getRequestDispatcher("/WEB-INF/views/client/workoutLogs.jsp")
                     .forward(request, response);
-            // If the above path doesn't work, try with a different path:
-            // request.getRequestDispatcher("/views/client/workoutLogs.jsp").forward(request, response);
+
 
         } catch (SQLException e) {
             throw new ServletException("Database error occurred: " + e.getMessage(), e);
@@ -137,10 +133,10 @@ public class ClientStartWorkoutServlet extends HttpServlet {
                     "/client/StartExercises?workoutId=" + workoutId +
                     "&exerciseIndex=" + prevIndex);
         } else if ("finish".equals(action)) {
-            // Finish the workout
+
             response.sendRedirect(request.getContextPath() + "/workoutOptionss?page=workoutStats");
         } else {
-            // Default back to the first exercise
+
             response.sendRedirect(request.getContextPath() +
                     "/client/StartExercises?workoutId=" + workoutId);
         }
