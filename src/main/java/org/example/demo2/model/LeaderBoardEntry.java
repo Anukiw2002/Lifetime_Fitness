@@ -14,7 +14,7 @@ public class LeaderBoardEntry {
     }
 
     public LeaderBoardEntry() {
-        // default constructor
+
     }
 
 

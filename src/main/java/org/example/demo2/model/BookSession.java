@@ -14,7 +14,7 @@ public class BookSession {
     private String phoneNumber;
     private String displayDateLabel;
 
-    //Constructor which is needed to retreive the sessions of a client
+
     public BookSession(Date date, Time timeSlot){
         this.date = date;
         this.timeSlot = timeSlot;

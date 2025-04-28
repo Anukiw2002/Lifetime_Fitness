@@ -12,7 +12,7 @@ public class SessionCheckFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // Initialization code if needed
+
     }
 
     @Override
@@ -23,14 +23,14 @@ public class SessionCheckFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
 
         if (session != null && session.getAttribute("user") != null) {
-            chain.doFilter(request, response); // User is logged in, continue request
+            chain.doFilter(request, response);
         } else {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/logIn.jsp"); // Redirect to login page
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/logIn.jsp");
         }
     }
 
     @Override
     public void destroy() {
-        // Cleanup code if needed
+
     }
 }

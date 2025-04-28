@@ -7,9 +7,9 @@ public class WorkoutExercise {
     private Integer setNumber;
     private Integer reps;
     private String notes;
-    private Exercise exercise;  // For joining with exercise details
+    private Exercise exercise;
 
-    // Constructors
+
     public WorkoutExercise() {}
 
     public WorkoutExercise(Long workoutId, Long exerciseId, Integer setNumber, Integer reps) {
@@ -19,7 +19,7 @@ public class WorkoutExercise {
         this.reps = reps;
     }
 
-    // Getters and Setters
+
     public Long getWorkoutExerciseId() { return workoutExerciseId; }
     public void setWorkoutExerciseId(Long workoutExerciseId) { this.workoutExerciseId = workoutExerciseId; }
     public Long getWorkoutId() { return workoutId; }
