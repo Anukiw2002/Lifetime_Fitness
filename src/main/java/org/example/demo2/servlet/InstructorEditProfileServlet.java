@@ -59,7 +59,7 @@ public class InstructorEditProfileServlet extends HttpServlet {
         String emergencyContactRelationship = request.getParameter("emergencyContactRelationship");
         String emergencyContactNumber = request.getParameter("emergencyContactNumber");
 
-        // Handle profile picture upload
+
         Part filePart = request.getPart("profilePicture");
         byte[] profilePicture = null;
 
@@ -69,25 +69,23 @@ public class InstructorEditProfileServlet extends HttpServlet {
             fileContent.close();
         }
 
-        // Process certifications
+
         String[] certificationNames = request.getParameterValues("certificationName");
         String[] certificationProviders = request.getParameterValues("certificationProvider");
 
         InstructorOnBoardingDAO dao = new InstructorOnBoardingDAO();
 
-        // Update instructor details
+
         boolean updateSuccess = dao.updateInstructorDetailsWithProfilePicture(
                 userId, firstName, surname, dateOfBirth, emergencyContactRelationship,
                 email, phoneNumber, houseNumber, streetName, city,
                 emergencyContactName, emergencyContactNumber, profilePicture, nic
         );
 
-        // Handle certifications separately - first delete existing ones and then add new ones
+
         if (updateSuccess && certificationNames != null && certificationProviders != null) {
-            // Delete existing certifications (this method needs to be added to the DAO)
             dao.deleteCertificates(userId);
 
-            // Add new certifications
             for (int i = 0; i < certificationNames.length; i++) {
                 if (certificationNames[i] != null && !certificationNames[i].trim().isEmpty() &&
                         certificationProviders[i] != null && !certificationProviders[i].trim().isEmpty()) {
