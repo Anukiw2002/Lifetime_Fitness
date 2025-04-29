@@ -16,6 +16,6 @@ public class OwnerLeaderboardDetailsServlet extends HttpServlet {
         if (!SessionUtils.isUserAuthorized(req, resp, "owner")) {
             return; // If not authorized, the redirection will be handled by the utility method
         }
-        req.getRequestDispatcher("/WEB-INF/views/owner/ownerLeaderboardDetails.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/ownerLeaderboardDetails.jsp").forward(req, resp);
     }
 }
