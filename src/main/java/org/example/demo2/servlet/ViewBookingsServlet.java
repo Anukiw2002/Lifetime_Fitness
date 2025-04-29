@@ -20,7 +20,7 @@ public class ViewBookingsServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        // Only this check is needed!
         if (!SessionUtils.isUserAuthorized(request, response, "owner", "instructor")) {
             return;
         }

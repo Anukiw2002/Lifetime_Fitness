@@ -31,7 +31,7 @@ public class BookSessionDAO {
                 String startTime = rs.getString("start_time");
                 String endTime = rs.getString("end_time");
 
-
+                // Set these in session
                 session.setAttribute("startTime", startTime);
                 session.setAttribute("endTime", endTime);
             }
@@ -53,7 +53,7 @@ public class BookSessionDAO {
 
         try (Connection con = DBConnection.getConnection()) {
 
-
+            // Step 1: Check existing bookings
             try (PreparedStatement countStmt = con.prepareStatement(countQuery)) {
                 countStmt.setDate(1, date);
                 countStmt.setTime(2, timeSlot);
@@ -62,7 +62,7 @@ public class BookSessionDAO {
                 if (rs.next()) {
                     int currentBookings = rs.getInt(1);
 
-
+                    // Step 2: Compare against the limit
                     if (currentBookings < maxBookings) {
                         // Step 3: Insert the booking
                         try (PreparedStatement insertStmt = con.prepareStatement(insertQuery)) {
@@ -115,7 +115,7 @@ public class BookSessionDAO {
 
             if (!booked) {
                 success = false;
-
+                // Optional: log or collect failed dates
             }
 
             switch (frequency.toLowerCase()) {
@@ -205,20 +205,20 @@ public class BookSessionDAO {
              PreparedStatement pstmt = con.prepareStatement(sql)) {
 
             try (ResultSet rs = pstmt.executeQuery()) {
-
+                // Get current date and time
                 LocalDate currentDate = LocalDate.now();
                 LocalTime currentTime = LocalTime.now();
 
                 while (rs.next()) {
-
+                    // Get the values from ResultSet first
                     Date date = rs.getDate("date");
                     Time timeSlot = rs.getTime("timeSlot");
                     String dbStatus = rs.getString("status");
 
-
+                    // Create the object with constructor
                     BookSession b = new BookSession(date, timeSlot);
 
-
+                    // Check if this session is currently in progress
                     if (dbStatus.equals("booked") &&
                             date.toLocalDate().equals(currentDate) &&
                             currentTime.isAfter(timeSlot.toLocalTime()) &&
@@ -231,7 +231,7 @@ public class BookSessionDAO {
                     b.setFname(rs.getString("fname"));
                     b.setLname(rs.getString("lname"));
 
-
+                    // Add the object to the list
                     sessionList.add(b);
                 }
             }
@@ -257,18 +257,18 @@ public class BookSessionDAO {
             try (ResultSet rs = pstmt.executeQuery()) {
 
                 while (rs.next()) {
-
+                    // Get the values from ResultSet first
                     Date date = rs.getDate("date");
                     Time timeSlot = rs.getTime("timeSlot");
 
-
+                    // Create the object with constructor
                     BookSession b = new BookSession(date, timeSlot);
 
                     b.setFname(rs.getString("fname"));
                     b.setLname(rs.getString("lname"));
                     b.setPhoneNumber(rs.getString("phone_number"));
 
-
+                    // Add the object to the list
                     sessionList.add(b);
                 }
             }
@@ -366,15 +366,15 @@ public class BookSessionDAO {
     }
 
     public String getSessionAvailabilityLabel(Date date, Time timeSlot) {
-
+        // Check for blocked first
         if (isSlotBlocked(date, timeSlot)) {
             return "Blocked";
         }
 
-
+        // Existing availability logic
         String sql = "SELECT COUNT(*) FROM bookings WHERE date = ? AND timeSlot = ? AND status IN ('booked', 'rescheduled')";
         BookingConstraints constraints = new BookingConstraintsDAO().getLatestConstraints();
-        int maxBookings = constraints != null ? constraints.getMaxBookingsPerSlot() : 5;
+        int maxBookings = constraints != null ? constraints.getMaxBookingsPerSlot() : 5; // default
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {

@@ -28,31 +28,31 @@ public class BookSessionConfirmationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-
+        // If session is invalid or the user is not a client, redirect to the landing page
         if (session == null || !"client".equals(session.getAttribute("userRole"))) {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
 
-
+        // Get booking constraints for max weeks
         BookingConstraintsDAO constraintsDAO = new BookingConstraintsDAO();
         BookingConstraints constraints = constraintsDAO.getLatestConstraints();
         int maxAdvanceWeeks = constraints != null ? constraints.getMaxBookingAdvanceWeeks() : 2;
 
-
+        // Calculate the maximum end date
         Calendar maxCal = Calendar.getInstance();
         maxCal.add(Calendar.WEEK_OF_YEAR, maxAdvanceWeeks);
         Date maxEndDate = new Date(maxCal.getTimeInMillis());
 
-
+        // Format for display
         LocalDate maxLocalDate = maxEndDate.toLocalDate();
         String maxEndDateFormatted = maxLocalDate.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy"));
 
+        // Calculate reasonable max occurrences (e.g., max days * 2 for safety)
+        int maxOccurrences = maxAdvanceWeeks * 14; // 2 weeks = 14 days
 
-        int maxOccurrences = maxAdvanceWeeks * 14;
-
-
-        String maxEndDateISO = maxLocalDate.toString();
+        // For date inputs
+        String maxEndDateISO = maxLocalDate.toString(); // yyyy-MM-dd format
 
         request.setAttribute("maxAdvanceWeeks", maxAdvanceWeeks);
         request.setAttribute("maxEndDate", maxEndDateISO);
@@ -73,10 +73,12 @@ public class BookSessionConfirmationServlet extends HttpServlet {
             String frequency = request.getParameter("frequency");
 
             String timeOnly = selectedTimeStr.split(" - ")[0];
+            System.out.println("Time extracted: " + timeOnly);
 
             DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("h:mm a");
             DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             String formattedTime = LocalTime.parse(timeOnly, inputFormatter).format(outputFormatter);
+            System.out.println("Formatted time: " + formattedTime);
 
             Date date = Date.valueOf(selectedDateStr);
             Time timeSlot = Time.valueOf(formattedTime);
@@ -85,7 +87,7 @@ public class BookSessionConfirmationServlet extends HttpServlet {
             boolean insertSuccess = false;
 
             if ("custom".equals(frequency)) {
-
+                // Handle custom recurrence
                 String[] selectedDays = request.getParameterValues("weekday");
                 String endRecurrenceType = request.getParameter("endRecurrenceType");
 
@@ -93,6 +95,7 @@ public class BookSessionConfirmationServlet extends HttpServlet {
                 if (selectedDays != null) {
                     daysList = Arrays.asList(selectedDays);
                 } else {
+                    // If no days selected, default to the day of the selected date
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(date);
                     int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -117,7 +120,7 @@ public class BookSessionConfirmationServlet extends HttpServlet {
                 insertSuccess = bookSessionDAO.createCustomRecurringBooking(
                         date, timeSlot, status, userId, daysList, endDate, occurrences);
             } else {
-
+                // Use existing method for simple recurrence
                 insertSuccess = bookSessionDAO.createRecurringSessionBooking(
                         date, timeSlot, status, userId, frequency);
             }
@@ -132,12 +135,13 @@ public class BookSessionConfirmationServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Error parsing time: " + e.getMessage());
             request.setAttribute("errorMessage", "Invalid booking details: " + e.getMessage());
             request.getRequestDispatcher("/bookSession").forward(request, response);
         }
     }
 
-
+    // Add the helper method to convert Calendar day constant to string
     private String getDayName(int dayOfWeek) {
         switch (dayOfWeek) {
             case Calendar.MONDAY: return "MONDAY";
@@ -161,5 +165,4 @@ public class BookSessionConfirmationServlet extends HttpServlet {
 
 
 }
-
 

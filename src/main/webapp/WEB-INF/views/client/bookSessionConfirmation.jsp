@@ -170,12 +170,12 @@
     const form = document.querySelector('form');
     if (form) {
       form.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent the default form submission
-        showSuccessModal(); // Show the success modal
+        // Don't prevent default submission - let it go through normally
+        // Instead, just show the success modal
+        showSuccessModal();
 
-        setTimeout(() => {
-           form.submit();
-        }, 3000);
+        // Allow form to submit naturally after a short delay
+        return true;
       });
     }
   });
