@@ -64,7 +64,7 @@
 <jsp:include page="../common/verticalNavBar.jsp" />
 <div class="main-content">
     <div class="container">
-        <h2>Financial Report</h2>
+        <h2>Plan Enrollment Overdue</h2>
         <button id="printPieChart" class="print-btn">Print Report</button>
         <canvas id="planChart" width="200" height="100"></canvas>
     </div>
