@@ -43,7 +43,7 @@ public class AuthorizePaymentServlet extends HttpServlet {
 
         String durationIdStr = request.getParameter("durationId");
         try {
-            int durationId = Integer.parseInt(durationIdStr); // ✅ Convert to Integer
+            int durationId = Integer.parseInt(durationIdStr);
             session.setAttribute("durationId", durationId);
         } catch (NumberFormatException e) {
         }

@@ -7,7 +7,7 @@ public class BlogModel {
     private String content;
     private byte[] image; // New image field
 
-    // Constructors
+
     public BlogModel() {}
 
     public BlogModel(int id, String name, String description, String content, byte[] image) {
@@ -18,7 +18,7 @@ public class BlogModel {
         this.image = image;
     }
 
-    // Existing constructor for cases without image
+
     public BlogModel(int id, String name, String description, String content) {
         this.id = id;
         this.name = name;
@@ -26,7 +26,7 @@ public class BlogModel {
         this.content = content;
     }
 
-    // Getters and Setters
+
     public int getId() {
         return id;
     }
