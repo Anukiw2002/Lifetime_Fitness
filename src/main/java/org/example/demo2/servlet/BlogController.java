@@ -13,7 +13,7 @@ import java.util.List;
 
 public class BlogController {
 
-    // Fetch all blogs
+
     public static List<BlogModel> getAllBlogs() {
         List<BlogModel> blogs = new ArrayList<>();
 

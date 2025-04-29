@@ -23,6 +23,7 @@ public class GetAllBlogsClientServlet extends HttpServlet {
             return;
         }
 
+
         try {
             List<BlogModel> allBlogs = BlogController.getAllBlogs();
             System.out.println("Retrieved Blogs for Client: " + allBlogs);
