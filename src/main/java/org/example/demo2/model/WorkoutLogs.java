@@ -5,15 +5,15 @@ public class WorkoutLogs {
     private int workout_id;
     private int exercise_id;
     private int set_number;
-    private Double weight; // Changed from Long to Double to match DAO
+    private Double weight;
     private int reps;
     private String notes;
 
-    // Default constructor
+
     public WorkoutLogs() {
     }
 
-    // Full constructor
+
     public WorkoutLogs(int user_id, int workout_id, int exercise_id, int set_number, Double weight, int reps, String notes) {
         this.user_id = user_id;
         this.workout_id = workout_id;

@@ -13,10 +13,10 @@ public class MedicalHistoryDAO {
 
     public MedicalHistoryDAO() {
         try {
-            this.conn = DBConnection.getConnection(); // Establish the connection within a try block
+            this.conn = DBConnection.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle the exception, e.g., logging it or throwing a runtime exception
+
         }
     }
     public boolean insertMedicalHistory(MedicalHistory history) {

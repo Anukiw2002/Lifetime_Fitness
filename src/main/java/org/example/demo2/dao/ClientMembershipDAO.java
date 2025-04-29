@@ -54,12 +54,12 @@ public class ClientMembershipDAO {
                 cm.setClientName(rs.getString("client_name"));
                 cm.setPlanName(rs.getString("plan_name"));
 
-                // Convert SQL Date to LocalDate
+
                 Date sqlStartDate = rs.getDate("start_date");
                 LocalDate startDate = sqlStartDate.toLocalDate();
                 cm.setStartDate(startDate);
 
-                // Compute end date based on duration info
+
                 int durationValue = rs.getInt("duration_value");
                 String durationType = rs.getString("duration_type");
                 LocalDate computedEndDate;
@@ -74,7 +74,7 @@ public class ClientMembershipDAO {
                 }
                 cm.setEndDate(computedEndDate);
 
-                // Determine membership status dynamically
+
                 boolean isCancelled = rs.getBoolean("is_cancelled");
                 String status;
                 if (isCancelled) {
@@ -110,13 +110,13 @@ public class ClientMembershipDAO {
                     ClientMembership cm = new ClientMembership();
                     cm.setPlanName(rs.getString("plan_name"));
 
-                    // Convert SQL Date to LocalDate
+
                     Date sqlStartDate = rs.getDate("start_date");
                     if (sqlStartDate != null) {
                         LocalDate startDate = sqlStartDate.toLocalDate();
                         cm.setStartDate(startDate);
 
-                        // Compute end date based on duration info
+
                         int durationValue = rs.getInt("duration_value");
                         String durationType = rs.getString("duration_type");
 

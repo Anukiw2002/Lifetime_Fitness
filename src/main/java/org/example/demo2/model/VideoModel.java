@@ -15,7 +15,7 @@ public class VideoModel {
         this.image = image;
     }
 
-    // Getters and setters
+
     public int getId() {
         return id;
     }

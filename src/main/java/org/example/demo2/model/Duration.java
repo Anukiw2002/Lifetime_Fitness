@@ -9,7 +9,7 @@ public class Duration {
     private List<UniformPricing> uniformPricing;
     private List<CategoryPricing> categoryPricing;
 
-    // Constructors
+
     public Duration() {}
 
     public Duration(Long planId, Integer durationValue, String durationType) {
@@ -18,7 +18,7 @@ public class Duration {
         this.durationType = durationType;
     }
 
-    // Getters and Setters
+
     public Long getDurationId() { return durationId; }
     public void setDurationId(Long durationId) { this.durationId = durationId; }
     public Long getPlanId() { return planId; }

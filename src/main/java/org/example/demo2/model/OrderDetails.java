@@ -41,7 +41,7 @@ public class OrderDetails {
         this.total = total;
     }
 
-    // Optional: Formatted String getters for UI display
+
     public String getSubtotalFormatted() {
         return String.format("%.2f", subtotal);
     }

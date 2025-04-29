@@ -13,13 +13,13 @@ public class ClientWorkout {
     private LocalDateTime createdAt;
     private List<WorkoutExercise> exercises;
     private WorkoutCategory category;
-    private Date createdAtDate; // For joining with category details
+    private Date createdAtDate;
 
-    // For backward compatibility or UI convenience
+
     private String clientPhone;
     private String clientName;
 
-    // Constructors
+
     public ClientWorkout() {}
 
     public ClientWorkout(Long userId, String workoutName, Long categoryId, Long instructorId) {
@@ -29,7 +29,7 @@ public class ClientWorkout {
         this.instructorId = instructorId;
     }
 
-    // Getters and Setters
+
     public Long getWorkoutId() { return workoutId; }
     public void setWorkoutId(Long workoutId) { this.workoutId = workoutId; }
     public Long getUserId() { return userId; }
@@ -49,7 +49,7 @@ public class ClientWorkout {
     public Date getCreatedAtDate() { return createdAtDate; }
     public void setCreatedAtDate(Date createdAtDate) { this.createdAtDate = createdAtDate; }
 
-    // For backward compatibility
+
     public String getClientPhone() { return clientPhone; }
     public void setClientPhone(String clientPhone) { this.clientPhone = clientPhone; }
     public String getClientName() { return clientName; }

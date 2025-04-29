@@ -6,7 +6,7 @@ public class Event {
     private String start;
     private String end;
 
-    // Getters and setters
+
     public String getId() {
         return id;
     }

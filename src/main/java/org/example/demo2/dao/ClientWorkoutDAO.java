@@ -41,7 +41,7 @@ public class ClientWorkoutDAO {
                     workout.setClientPhone(rs.getString("phone_number"));
                     workout.setClientName(rs.getString("client_name"));
 
-                    // Create and set the category
+
                     WorkoutCategory category = new WorkoutCategory();
                     category.setCategoryId(rs.getLong("category_id"));
                     category.setCategoryName(rs.getString("category_name"));
