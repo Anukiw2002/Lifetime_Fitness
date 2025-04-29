@@ -16,6 +16,7 @@
     <p>Thank you for purchasing the workout plan!</p>
 
     <h2>Receipt Details</h2>
+
     <table>
         <tr>
             <td><strong>Payer:</strong></td>
@@ -38,6 +39,12 @@
             <td><strong>Total:</strong></td>
             <td><strong>${transaction.amount.total} USD</strong></td>
         </tr>
+        <tr>
+            <td colspan="2" align="center" style="padding-top: 1rem;">
+                <input type="button" value="Print Receipt" onclick="window.print()" />
+            </td>
+        </tr>
+
         <tr>
             <td colspan="2" align="center">
                 <input type="button" value="Go to the Dashboard" onclick="window.location.href='${pageContext.request.contextPath}/clientDashboard'" style="margin-left: 1rem;" />

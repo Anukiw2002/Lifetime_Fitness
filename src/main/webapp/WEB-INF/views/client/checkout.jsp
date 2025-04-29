@@ -22,22 +22,23 @@
             <tr>
                 <td>Product/Service:</td>
                 <td>
-                    <input type="text" name="product" value="<%= request.getParameter("product") != null ? request.getParameter("product") : "Next iPhone" %>" />
+                    <input type="text" name="product" value="<%= request.getParameter("product") != null ? request.getParameter("product") : "Next iPhone" %>"readonly />
                 </td>
             </tr>
             <tr>
                 <td>Sub Total:</td>
                 <td>
-                    <input type="text" name="subtotal" value="<%= request.getParameter("subtotal") != null ? request.getParameter("subtotal") : "100" %>" />
+                    <input type="text" name="subtotal" value="<%= request.getParameter("subtotal") != null ? request.getParameter("subtotal") : "100" %>" readonly />
                 </td>
             </tr>
             <tr>
                 <td>Total Amount:</td>
                 <td>
-                    <input type="text" name="total" value="<%= request.getParameter("subtotal") != null ? request.getParameter("subtotal") : "100" %>" />
+                    <input type="text" name="total" value="<%= request.getParameter("subtotal") != null ? request.getParameter("subtotal") : "100"%>" readonly />
                 </td>
             </tr>
-            <tr>
+
+            </tr>
             <tr>
                 <td colspan="2" align="center">
                     <input type="submit" value="Checkout" />
