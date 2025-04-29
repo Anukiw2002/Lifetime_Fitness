@@ -86,7 +86,7 @@
 
                 <div class="blog-actions">
                     <form action="${pageContext.request.contextPath}/getAllBlogs" method="get">
-                        <button type="submit" class="btn btn-primary">Updatevjkgj</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </form>
                 </div>
             </form>
