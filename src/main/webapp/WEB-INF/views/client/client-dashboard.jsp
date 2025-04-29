@@ -16,8 +16,26 @@
 <jsp:include page="../client/clientVerticalNavbar.jsp" />
 <div class="main-content">
     <div class="container">
+
+        <jsp:useBean id="now" class="java.util.Date" />
+        <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="todayFormatted" />
+        <fmt:parseDate value="${todayFormatted}" pattern="yyyy-MM-dd" var="today" />
+
+        <fmt:parseDate value="${membership[0].endDate}" pattern="yyyy-MM-dd" var="parsedDate" />
+
+        <c:set var="diffInMillis" value="${parsedDate.time - today.time}" />
+        <c:set var="diffInDays" value="${diffInMillis / (1000*60*60*24)}" />
+
+        <c:if test="${diffInDays <= 7 && diffInDays >= 0}">
+            <div class="alert-message">
+                <p>Reminder! Your <strong>${membership[0].planName}</strong> membership will expire on <strong><fmt:formatDate value="${parsedDate}" pattern="MMMM d, yyyy"/></strong>.</p>
+            </div>
+        </c:if>
+
+
         <!-- Welcome Section -->
         <div class="welcome-section">
+
             <div>
                 <h1>Welcome back, ${userName}!</h1>
                 <p class="text-muted">Let's crush your fitness goals today</p>
@@ -70,7 +88,7 @@
             <div>
                 <div class="card mb-4">
                     <div class="card-header">
-                        <h2><i class="fas fa-chart-line"></i> Progress Overview</h2>
+                        <h2><i class="fas fa-chart-line"></i>Weight Fluctuation</h2>
                     </div>
                     <div class="card-body">
                         <div id="weight-data"
@@ -147,8 +165,7 @@
                         <h2><i class="fas fa-id-card"></i> Current Plan</h2>
                     </div>
                     <div class="card-body">
-                        <h3>${membership[0].planName} Membership Plan</h3>
-                        <fmt:parseDate value="${membership[0].endDate}" pattern="yyyy-MM-dd" var="parsedDate" />
+
                         <p class="text-muted mb-4">Valid until: <fmt:formatDate value="${parsedDate}" pattern="MMMM d, yyyy" /></p>
                     </div>
                 </div>

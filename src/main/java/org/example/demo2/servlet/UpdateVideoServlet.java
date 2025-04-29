@@ -45,7 +45,9 @@ public class UpdateVideoServlet extends HttpServlet {
                                 resultSet.getInt("id"),
                                 resultSet.getString("name"),
                                 resultSet.getString("description"),
-                                resultSet.getString("url")
+                                resultSet.getString("url"),
+                                resultSet.getString("image").getBytes()
+
                         );
                         request.setAttribute("video", video);
                         request.getRequestDispatcher("/WEB-INF/views/owner/updateVideo.jsp").forward(request, response);
@@ -69,9 +71,13 @@ public class UpdateVideoServlet extends HttpServlet {
         }
 
         String idParam = request.getParameter("id");
+        System.out.println("idParam: " + idParam);
         String name = request.getParameter("videoName");
+        System.out.println("name: " + name);
         String description = request.getParameter("videoDescription");
+        System.out.println("description: " + description);
         String url = request.getParameter("videoUrl");
+        System.out.println("url: " + url);
 
         if (idParam == null || idParam.isEmpty() ||
                 name == null || name.isEmpty() ||
@@ -79,6 +85,7 @@ public class UpdateVideoServlet extends HttpServlet {
                 url == null || url.isEmpty()) {
 
             request.setAttribute("errorMessage", "All fields are required!");
+            System.out.println("printed..");
             request.getRequestDispatcher("/WEB-INF/views/owner/updateVideo.jsp").forward(request, response);
             return;
         }
