@@ -244,14 +244,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     borderWidth: 1,
                     padding: 10,
                     cornerRadius: 6
-                },
-                title: {
-                    display: true,
-                    text: 'Weekly Workout Sessions',
-                    color: '#ffffff', // Set title text to white
-                    font: {
-                        size: 16
-                    }
                 }
             }
         }

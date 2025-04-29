@@ -24,11 +24,11 @@
         <a href="clientDashboard" class="nav-link">
             <i class="fas fa-chart-line icon"></i>Dashboard
         </a>
-        <a href="leaderBoard" class="nav-link">
-            <i class="fas fa-trophy icon"></i>Leaderboard
-        </a>
         <a href="${pageContext.request.contextPath}/clientWorkoutView" class="nav-link">
             <i class="fas fa-dumbbell icon"></i>Workouts
+        </a>
+        <a href="leaderBoard" class="nav-link">
+            <i class="fas fa-trophy icon"></i>Leaderboard
         </a>
         <div class="notification-container">
             <a href="viewNotification" class="nav-link">
@@ -43,14 +43,14 @@
         <a href="GetAllBlogsClient" class="nav-link">
             <i class="fas fa-book icon"></i>Blogs
         </a>
-        <a href="memberProfile" class="nav-link">
-            <i class="fas fa-user icon"></i>My Profile
-        </a>
         <a href="${pageContext.request.contextPath}/clientViewReport" class="nav-link">
             <i class="fas fa-file-alt icon"></i>Reports
         </a>
         <a href="${pageContext.request.contextPath}/handleReview" class="nav-link">
             <i class="fas fa-star icon"></i>Reviews
+        </a>
+        <a href="memberProfile" class="nav-link">
+            <i class="fas fa-user icon"></i>My Profile
         </a>
     </div>
 

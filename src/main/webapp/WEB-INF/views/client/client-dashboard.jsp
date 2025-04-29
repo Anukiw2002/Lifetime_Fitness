@@ -119,7 +119,7 @@
 
                 <div class="card mb-4">
                     <div class="card-header">
-                        <h2><i class="fas fa-chart-bar"></i> Weekly Workout Activity</h2>
+                        <h2><i class="fas fa-chart-bar"></i> Workouts Per Week</h2>
                     </div>
                     <div class="card-body">
                         <div class="workout-trend">
@@ -165,7 +165,8 @@
                         <h2><i class="fas fa-id-card"></i> Current Plan</h2>
                     </div>
                     <div class="card-body">
-
+                        <h3>${membership[0].planName} Membership Plan</h3>
+                        <fmt:parseDate value="${membership[0].endDate}" pattern="yyyy-MM-dd" var="parsedDate" />
                         <p class="text-muted mb-4">Valid until: <fmt:formatDate value="${parsedDate}" pattern="MMMM d, yyyy" /></p>
                     </div>
                 </div>
