@@ -73,7 +73,7 @@
                                 </c:choose>
                             </div>
                             <h3>${entry.name}</h3>
-                            <p>-${entry.weightLoss}kg</p>
+                            <p>${entry.weightLoss}kg</p>
                         </div>
                     </c:if>
                 </c:forEach>

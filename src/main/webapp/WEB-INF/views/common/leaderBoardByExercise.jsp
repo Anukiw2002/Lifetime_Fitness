@@ -78,7 +78,7 @@
                         <div class="rank-entry">
                             <span class="rank-number">${status.index + 1}</span>
                             <span class="rank-name">${entry.name}</span>
-                            <span class="rank-score">-${entry.amount}kg</span>
+                            <span class="rank-score">${entry.amount}kg</span>
                         </div>
                     </c:if>
                 </c:forEach>
