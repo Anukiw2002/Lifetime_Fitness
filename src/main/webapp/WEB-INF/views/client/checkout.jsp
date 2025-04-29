@@ -37,7 +37,6 @@
                     <input type="text" name="total" value="<%= request.getParameter("subtotal") != null ? request.getParameter("subtotal") : "100"%>" readonly />
                 </td>
             </tr>
-            <%--<tr><td><input type="text" name="couponCode" placeholder="Enter coupon (optional)" class="coupon-input" rea /></td>--%>
 
             </tr>
             <tr>
