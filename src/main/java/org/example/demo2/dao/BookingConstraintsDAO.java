@@ -13,7 +13,7 @@ import java.util.List;
 
 public class BookingConstraintsDAO {
 
-
+    // Inserting the constraints (fallback if no record exists)
     public boolean insertConstraints(int maxBookingAdvanceWeeks, int maxBookingsPerSlot) {
         String sql = "INSERT INTO bookingConstraints (maxBookingAdvanceWeeks, maxBookingsPerSlot) VALUES (?, ?)";
 
