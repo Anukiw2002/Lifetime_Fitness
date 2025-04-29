@@ -30,7 +30,7 @@ public class WorkoutDetailsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         String workoutIdStr = request.getParameter("workoutId");
 
@@ -44,21 +44,21 @@ public class WorkoutDetailsServlet extends HttpServlet {
             ClientWorkout workout = clientWorkoutDAO.findWithExercises(workoutId);
 
             if (workout == null) {
-                // Log error and redirect
+
                 System.out.println("No workout found with ID: " + workoutId);
                 response.sendRedirect("searchClient");
                 return;
             }
 
-            // Log workout details for debugging
+
             System.out.println("Found workout: " + workout.getWorkoutName());
             System.out.println("Number of exercises: " +
                     (workout.getExercises() != null ? workout.getExercises().size() : 0));
 
-            // Set the workout in request scope
+
             request.setAttribute("workout", workout);
 
-            // Forward to the JSP page
+
             request.getRequestDispatcher("/WEB-INF/views/instructor/workout-details.jsp")
                     .forward(request, response);
 

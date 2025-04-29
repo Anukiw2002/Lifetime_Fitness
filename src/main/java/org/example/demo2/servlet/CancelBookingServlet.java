@@ -15,7 +15,7 @@ public class CancelBookingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {
-            // If the session is invalid or the user is not logged in, redirect to the login page
+
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
         }
@@ -29,10 +29,9 @@ public class CancelBookingServlet extends HttpServlet {
                 boolean success = bookSession.cancelSession(bookingId);
 
                 if (success) {
-                    // Redirect back to the session list or confirmation page
                     response.sendRedirect(request.getContextPath() + "/clientBookings");
                 } else {
-                    // Could not cancel (maybe invalid bookingId?)
+
                     request.setAttribute("error", "Could not cancel the session.");
                     request.getRequestDispatcher("/WEB-INF/views/client/clientSession.jsp").forward(request, response);
                 }
@@ -60,10 +59,8 @@ public class CancelBookingServlet extends HttpServlet {
                 boolean success = bookSession.cancelSession(bookingId);
 
                 if (success) {
-                    // Redirect back to the session list or confirmation page
                     response.sendRedirect(request.getContextPath() + "/clientBookings");
                 } else {
-                    // Could not cancel (maybe invalid bookingId?)
                     request.setAttribute("error", "Could not cancel the session.");
                     request.getRequestDispatcher("/WEB-INF/views/client/clientSession.jsp").forward(request, response);
                 }
@@ -72,7 +69,6 @@ public class CancelBookingServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid booking ID format.");
             }
         } else {
-            // If no bookingId provided, just display the page
             request.getRequestDispatcher("/WEB-INF/views/client/clientSession.jsp").forward(request, response);
         }
     }

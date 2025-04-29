@@ -19,23 +19,23 @@ public class GetAllVideosClientServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            // Fetch all videos using the VideoController
+
             List<VideoModel> allVideos = VideoController.getAllVideos();
 
-            // Log the retrieved videos for debugging purposes
+
             System.out.println("Retrieved Videos for Client: " + allVideos);
 
-            // Set the videos as a request attribute to be accessible in the JSP
+
             request.setAttribute("videos", allVideos);
 
-            // Forward the request to the JSP page for display
+
             request.getRequestDispatcher("/WEB-INF/views/client/viewVideos.jsp").forward(request, response);
         } catch (Exception e) {
-            // Log any errors
+
             System.err.println("Error while fetching videos for the client:");
             e.printStackTrace();
 
-            // Set an error message to display on the JSP
+
             request.setAttribute("error  rMessage", "An error occurred while fetching videos.");
             request.getRequestDispatcher("/WEB-INF/views/client/viewVideos.jsp").forward(request, response);
         }
@@ -44,7 +44,7 @@ public class GetAllVideosClientServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // For this servlet, forward POST requests to doGet
+
         doGet(request, response);
     }
 }

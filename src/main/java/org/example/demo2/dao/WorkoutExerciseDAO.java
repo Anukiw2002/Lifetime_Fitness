@@ -21,7 +21,7 @@ public class WorkoutExerciseDAO {
         try {
             connection = dbConnection.getConnection();
 
-            // Debug output
+
             System.out.println("Saving workout exercise:");
             System.out.println("Workout ID: " + workoutExercise.getWorkoutId());
             System.out.println("Exercise ID: " + workoutExercise.getExerciseId());
@@ -116,7 +116,7 @@ public class WorkoutExerciseDAO {
         }
     }
 
-    // Add this method to your DashboardDAO class
+
     public Map<String, Integer> getNumberOfSessionsPerWeek(int userId) {
         String sql = "SELECT DATE_TRUNC('week', started_at)::date AS week_start, COUNT(*) AS workout_count " +
                 "FROM workout_sessions " +
@@ -133,7 +133,7 @@ public class WorkoutExerciseDAO {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    // Format the date as a string to avoid serialization issues
+
                     String weekStart = rs.getDate("week_start").toString();
                     int count = rs.getInt("workout_count");
                     weeklyStats.put(weekStart, count);

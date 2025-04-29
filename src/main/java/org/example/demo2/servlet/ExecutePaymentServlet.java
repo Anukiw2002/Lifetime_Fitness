@@ -31,7 +31,7 @@ public class ExecutePaymentServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
 
-        // ExecutePaymentServlet.java
+
         Integer durationId = (Integer) session.getAttribute("durationId");
         if (durationId == null) {
             throw new ServletException("Missing duration ID in payment flow");
@@ -39,7 +39,7 @@ public class ExecutePaymentServlet extends HttpServlet {
 
 
 
-        // Retrieve paymentId and payerId from the request parameters
+
         String paymentId = request.getParameter("paymentId");
         String payerId = request.getParameter("PayerID");
 
@@ -50,25 +50,25 @@ public class ExecutePaymentServlet extends HttpServlet {
         }
 
         try {
-            // Execute the payment using the service DAO
+
             PaymentServicesDAO paymentServices = new PaymentServicesDAO();
             Payment payment = paymentServices.executePayment(paymentId, payerId);
 
-            // Extract payment details
+
             PayerInfo payerInfo = payment.getPayer().getPayerInfo();
             Transaction transaction = payment.getTransactions().get(0);
 
-            // Extract details for saving to the orders table
+
             String buyerName = payerInfo.getFirstName() + " " + payerInfo.getLastName();
             String planName = transaction.getDescription();
             String orderId = payment.getId();
             BigDecimal amount = new BigDecimal(transaction.getAmount().getTotal());
 
-            // Save order details into the database
+
             OrderDAO orderDAO = new OrderDAO();
             orderDAO.saveOrder(orderId, userId, buyerName, planName, amount, durationId);
 
-            // Set attributes for displaying in the receipt
+
             request.setAttribute("payer", payerInfo);
             request.setAttribute("transaction", transaction);
 

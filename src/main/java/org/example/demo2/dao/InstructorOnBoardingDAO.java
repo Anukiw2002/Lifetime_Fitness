@@ -25,11 +25,11 @@ public class InstructorOnBoardingDAO {
             pstmt.setString(4, user.getHashedPassword());
             pstmt.setString(5, user.getRole());
 
-            // Use executeQuery when expecting results back
+
             var rs = pstmt.executeQuery();
             if (rs.next()) {
                 int newUserId = rs.getInt("id");
-                // Set the newly created instructor's status
+
                 return setInstructorStatus(newUserId, "in-progress");
             }
             return false;
@@ -40,7 +40,7 @@ public class InstructorOnBoardingDAO {
         }
     }
 
-    // Fixed the method name typo and parameter indexing
+
     public boolean setInstructorStatus(int userId, String onBoardingStatus){
         String sql= "INSERT INTO instructors (userId, onboardingStatus) VALUES (?,?)";
 

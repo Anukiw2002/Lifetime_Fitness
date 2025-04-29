@@ -34,35 +34,34 @@ public class CheckEmailExistenceServlet extends HttpServlet {
         }
 
         try (Connection conn = DBConnection.getConnection()) {
-            // Check in `users` table
+
             String userQuery = "SELECT 1 FROM users WHERE email = ?";
             try (PreparedStatement userStmt = conn.prepareStatement(userQuery)) {
                 userStmt.setString(1, email);
                 ResultSet userRs = userStmt.executeQuery();
 
                 if (!userRs.next()) {
-                    // Email not in `users`
+
                     response.setContentType("application/json");
                     response.getWriter().write("{\"status\": \"not_in_users\", \"message\": \"This email is not registered in the system.\"}");
                     return;
                 }
             }
 
-            // Check in `approved_emails` table
+
             String approvedQuery = "SELECT 1 FROM approved_emails WHERE email = ?";
             try (PreparedStatement approvedStmt = conn.prepareStatement(approvedQuery)) {
                 approvedStmt.setString(1, email);
                 ResultSet approvedRs = approvedStmt.executeQuery();
 
                 if (approvedRs.next()) {
-                    // Email in `approved_emails`
                     response.setContentType("application/json");
                     response.getWriter().write("{\"status\": \"already_approved\", \"message\": \"Report is already added.\"}");
                     return;
                 }
             }
 
-            // Email can be added
+
             response.setContentType("application/json");
             response.getWriter().write("{\"status\": \"not_approved\", \"message\": \"Email is verified and can be added.\"}");
         } catch (Exception e) {

@@ -35,7 +35,7 @@ public class SearchClientServlet extends HttpServlet {
 
             String fullName = leaderboardDAO.getFullNameByUserId(userId);
 
-            // Return success with user details
+
             String jsonResponse = String.format(
                     "{\"success\": true, \"userId\": %d, \"fullName\": \"%s\", \"phone\": \"%s\"}",
                     userId, fullName, phoneNumber

@@ -43,9 +43,7 @@ public class WorkoutLogsDAO {
     }
 
 
-    /**
-     * Get all workout logs for a specific user and workout
-     */
+
     public List<WorkoutLogs> getWorkoutLogsByUserAndWorkout(int userId, int workoutId) {
         List<WorkoutLogs> logs = new ArrayList<>();
         String sql = "SELECT * FROM user_workout_logs WHERE user_id = ? AND workout_id = ? ORDER BY exercise_id, set_number";
@@ -77,7 +75,7 @@ public class WorkoutLogsDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Replace with proper logging in production
+            e.printStackTrace();
         }
 
         return logs;
@@ -112,7 +110,7 @@ public class WorkoutLogsDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Replace with logging
+            e.printStackTrace();
         }
 
         return stats;
@@ -217,7 +215,7 @@ public class WorkoutLogsDAO {
                     double totalWeight = rs.getDouble("total_weight");
                     int totalReps = rs.getInt("total_reps");
 
-                    WorkoutStats stats = new WorkoutStats(); // Use default constructor
+                    WorkoutStats stats = new WorkoutStats();
                     stats.setTotalSets(sets);
                     stats.setTotalWeight(totalWeight);
                     stats.setTotalReps(totalReps);
@@ -285,7 +283,7 @@ public class WorkoutLogsDAO {
     public List<Map<String, Object>> getPersonalBests(int userId, int workoutId, int sessionId) {
         List<Map<String, Object>> personalBests = new ArrayList<>();
 
-        // Find the maximum weight lifted for each exercise in the current session
+
         String currentSessionSql =
                 "SELECT e.exercise_name, uwl.exercise_id, MAX(uwl.weight) as session_max_weight " +
                         "FROM user_workout_logs uwl " +
@@ -294,7 +292,7 @@ public class WorkoutLogsDAO {
                         "GROUP BY e.exercise_name, uwl.exercise_id " +
                         "ORDER BY uwl.exercise_id";
 
-        // Find historical personal bests (before this session)
+
         String historicalSql =
                 "SELECT exercise_id, MAX(weight) as historical_max " +
                         "FROM user_workout_logs " +
@@ -304,7 +302,7 @@ public class WorkoutLogsDAO {
         try (Connection con = DBConnection.getConnection()) {
             Map<Integer, Double> historicalMaxes = new HashMap<>();
 
-            // First, get historical maxes
+
             try (PreparedStatement pstmt = con.prepareStatement(historicalSql)) {
                 pstmt.setInt(1, userId);
                 pstmt.setInt(2, sessionId);
@@ -318,7 +316,7 @@ public class WorkoutLogsDAO {
                 }
             }
 
-            // Then get current session maxes and compare
+
             try (PreparedStatement pstmt = con.prepareStatement(currentSessionSql)) {
                 pstmt.setInt(1, userId);
                 pstmt.setInt(2, sessionId);
@@ -329,8 +327,8 @@ public class WorkoutLogsDAO {
                         String exerciseName = rs.getString("exercise_name");
                         double sessionMaxWeight = rs.getDouble("session_max_weight");
 
-                        // If exercise has no history, or current max is greater than historical max
-                        // then it's a personal best
+
+
                         if (!historicalMaxes.containsKey(exerciseId) ||
                                 sessionMaxWeight > historicalMaxes.get(exerciseId)) {
 
@@ -364,7 +362,7 @@ public class WorkoutLogsDAO {
         ResultSet rs = checkStmt.executeQuery();
 
         if (rs.next()) {
-            // If entry exists, update it
+
             String updateSql = "UPDATE user_workout_logs SET weight = ?, reps = ?, notes = ? WHERE session_id = ? AND exercise_id = ? AND set_number = ?";
             PreparedStatement updateStmt = conn.prepareStatement(updateSql);
             updateStmt.setObject(1, weight);
@@ -375,7 +373,7 @@ public class WorkoutLogsDAO {
             updateStmt.setInt(6, setNumber);
             return updateStmt.executeUpdate() > 0;
         } else {
-            // If not exists, insert
+
             return insertWorkoutLogsWithSession(sessionId, userId, workoutId, exerciseId, setNumber, weight, reps, notes);
         }
     }

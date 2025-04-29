@@ -1,5 +1,4 @@
 
-    /* ... (previous root and base styles remain the same) ... */
 :root {
     --bg-color: #333;
     --bg-dark: #1a1a1a;
@@ -52,7 +51,6 @@ body {
     transition: var(--transition);
 }
 
-/* Updated logo container styles */
 .logo-container {
     display: flex;
     justify-content: center;
@@ -62,7 +60,6 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* Updated logo styles */
 .logo {
     width: 150px;
     height: auto;
@@ -127,7 +124,12 @@ body {
     .notification-wrapper {
         display: flex;
         align-items: center;
-        justify-content: flex-start;  /* Keep content left-aligned */
+        justify-content: flex-start;
+    }
+    .notification-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
     }
 
     .notification-dot {
@@ -138,16 +140,23 @@ body {
         height: 10px;
         background-color: red;
         border-radius: 50%;
-        border: 2px solid white;
+        border: 2px solid var(--bg-dark);
         z-index: 2;
         pointer-events: none;
-        /* 👇 This ensures it doesn't occupy layout space */
-        display: inline-block;
+    }
+    .hidden {
+        visibility: hidden;
+        opacity: 0;
     }
 
-    /* Add this to preserve the layout when link is clicked/active */
+
+    .nav-link {
+
+    }
+
+
     .nav-link:active, .nav-link:focus {
-        padding-right: 1.25rem;  /* Match the original padding */
+        padding-right: 1.25rem;
     }
     .hidden {
         visibility: hidden;

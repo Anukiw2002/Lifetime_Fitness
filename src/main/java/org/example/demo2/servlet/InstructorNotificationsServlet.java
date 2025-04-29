@@ -63,7 +63,6 @@ public class InstructorNotificationsServlet extends HttpServlet {
                 notification.setTimeAge(resultSet.getTimestamp("created_at").toString());
                 notifications.add(notification);
 
-                // Print each notification to console
                 System.out.println("Fetched Notification: ");
                 System.out.println("Title: " + notification.getTitle());
                 System.out.println("Description: " + notification.getDescription());

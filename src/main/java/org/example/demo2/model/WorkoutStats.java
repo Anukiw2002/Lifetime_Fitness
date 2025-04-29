@@ -7,7 +7,7 @@ public class WorkoutStats {
     private int userId;
     private int workoutId;
 
-    // Getters and setters
+
     public double getTotalWeight() {
         return totalWeight;
     }

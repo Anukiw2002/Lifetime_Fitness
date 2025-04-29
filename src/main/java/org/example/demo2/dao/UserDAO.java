@@ -109,15 +109,15 @@ public class UserDAO implements IUserDAO {
                     String hashedPassword = rs.getString("hashed_password");
 
                     if (verifyPassword(plainPassword, hashedPassword)) {
-                        // Fetch reset_token and token_expiry
+
                         String resetToken = rs.getString("reset_token");
                         Timestamp tokenExpiry = rs.getTimestamp("token_expiry");
 
-                        // Debugging logs
+
                         System.out.println("reset_token: " + resetToken);
                         System.out.println("token_expiry: " + tokenExpiry);
 
-                        // Return the User object
+
                         return new User(
                                 rs.getInt("id"),
                                 rs.getString("full_name"),

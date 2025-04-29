@@ -8,7 +8,7 @@ public class CategoryPricing {
     private String category;
     private BigDecimal price;
 
-    // Constructors
+
     public CategoryPricing() {}
 
     public CategoryPricing(Long durationId, String category, BigDecimal price) {
@@ -17,7 +17,7 @@ public class CategoryPricing {
         this.price = price;
     }
 
-    // Getters and Setters
+
     public Long getCategoryPricingId() { return categoryPricingId; }
     public void setCategoryPricingId(Long categoryPricingId) { this.categoryPricingId = categoryPricingId; }
     public Long getDurationId() { return durationId; }

@@ -5,15 +5,17 @@ public class VideoModel {
     private String name;
     private String description;
     private String url;
+    private byte[] image;
 
-    public VideoModel(int id, String name, String description, String url) {
+    public VideoModel(int id, String name, String description, String url,byte[] image) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.url = url;
+        this.image = image;
     }
 
-    // Getters and setters
+
     public int getId() {
         return id;
     }
@@ -44,5 +46,13 @@ public class VideoModel {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

@@ -13,9 +13,9 @@ public class Client {
     private String emergencyContactName;
     private String emergencyContactNumber;
     private String gender;
-    private String name; // We'll keep this for convenience, retrieving from users table
+    private String name;
     private String email;
-    private String username;// We'll keep this for convenience, retrieving from users table
+    private String username;
     private String houseNo;
     private String streetName;
     private String city;
@@ -23,7 +23,7 @@ public class Client {
     private byte[] profilePicture;
     private String profilePictureBase64;
 
-    // Constructors
+
     public Client() {}
 
     public Client(Long userId, String phoneNumber, String address, String dateOfBirth,
@@ -36,7 +36,7 @@ public class Client {
         this.emergencyContactNumber = emergencyContactNumber;
     }
 
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getUserId() { return userId; }

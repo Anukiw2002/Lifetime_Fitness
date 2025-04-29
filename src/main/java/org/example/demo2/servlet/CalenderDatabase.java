@@ -13,9 +13,8 @@ public class CalenderDatabase {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            // Log the exception for debugging purposes
             System.err.println("Failed to connect to database: " + e.getMessage());
-            throw new SQLException("Database connection error", e);  // Rethrow the exception for higher-level handling
+            throw new SQLException("Database connection error", e);
         }
     }
 }

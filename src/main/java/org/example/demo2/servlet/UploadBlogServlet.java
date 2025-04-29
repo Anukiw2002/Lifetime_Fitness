@@ -15,60 +15,56 @@ import java.nio.file.Files;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 10 * 1024 * 1024)
 public class UploadBlogServlet extends HttpServlet {
 
-    private static final String UPLOAD_DIR = "uploads"; // Folder inside webapp to store uploaded images
+    private static final String UPLOAD_DIR = "uploads";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Authorize only owners to access this page
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
             return;
         }
 
-        // Forward to the JSP page to show the blog upload form
         request.getRequestDispatcher("/WEB-INF/views/owner/uploadBlog.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Check user authorization
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
             return;
         }
 
         request.setCharacterEncoding("UTF-8");
 
-        // Retrieve form fields
+
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         String content = request.getParameter("content");
         Part imagePart = request.getPart("image");
 
-        // Basic validation
+
         if (name == null || description == null || content == null || imagePart == null || imagePart.getSize() == 0) {
             request.setAttribute("errorMessage", "All fields including image are required!");
             request.getRequestDispatcher("/WEB-INF/views/owner/uploadBlog.jsp").forward(request, response);
             return;
         }
 
-        // Set upload directory path
+
         String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) uploadDir.mkdirs();
 
-        // Generate unique file name and save path
+
         String fileName = System.currentTimeMillis() + "_" + imagePart.getSubmittedFileName();
         String image = UPLOAD_DIR + "/" + fileName;
         File file = new File(uploadPath + File.separator + fileName);
 
-        // Save uploaded image to disk
+
         try (InputStream input = imagePart.getInputStream()) {
             Files.copy(input, file.toPath());
         }
 
-        // Insert blog details into the database by calling the BlogController
         try (InputStream imageStream = imagePart.getInputStream()) {
             boolean success = BlogController.insertBlogWithImage(name, description, content, imageStream);
             if (success) {

@@ -30,7 +30,6 @@ public class WorkoutStatsServlet extends HttpServlet {
 
         int userId = (int) session.getAttribute("userId");
 
-        // Get workoutId and sessionId from request
         String workoutIdParam = request.getParameter("workoutId");
         String sessionIdParam = request.getParameter("sessionId");
 
@@ -44,7 +43,7 @@ public class WorkoutStatsServlet extends HttpServlet {
 
         WorkoutLogsDAO dao = new WorkoutLogsDAO();
 
-        // Get stats for the session
+
         WorkoutStats stats = dao.getStatsForSession(userId, workoutId, sessionId);
 
         double avgWeight = 0;
@@ -52,14 +51,14 @@ public class WorkoutStatsServlet extends HttpServlet {
             avgWeight = stats.getTotalWeight() / stats.getTotalSets();
         }
 
-        // Get session details for duration display
+
         WorkoutSession sessionDetails = dao.getWorkoutSessionDetails(sessionId);
         if (sessionDetails == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Session not found");
             return;
         }
 
-        // Calculate workout duration
+
         long duration = 0;
         if (sessionDetails.getStarted_at() != null && sessionDetails.getEnded_at() != null) {
             duration = sessionDetails.getEnded_at().getTime() - sessionDetails.getStarted_at().getTime();
@@ -69,10 +68,10 @@ public class WorkoutStatsServlet extends HttpServlet {
         long minutes = (duration % (1000 * 60 * 60)) / (1000 * 60);
         long seconds = (duration % (1000 * 60)) / 1000;
 
-        // Get personal bests
+
         List<Map<String, Object>> personalBests = dao.getPersonalBests(userId, workoutId, sessionId);
 
-        // Set attributes for the view
+
         request.setAttribute("duration", String.format("%02d:%02d:%02d", hours, minutes, seconds));
         request.setAttribute("sessionDetails", sessionDetails);
         request.setAttribute("stats", stats);

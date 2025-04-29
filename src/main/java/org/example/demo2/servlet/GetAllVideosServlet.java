@@ -20,29 +20,29 @@ public class GetAllVideosServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Check for a valid session
+
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
 
         try {
-            // Fetch all videos using the VideoController
+
             List<VideoModel> allVideos = VideoController.getAllVideos();
 
-            // Log retrieved videos for debugging purposes
+
             System.out.println("Retrieved Videos: " + allVideos);
 
-            // Set the videos as a request attribute for the JSP
+
             request.setAttribute("videos", allVideos);
 
-            // Forward the request to the JSP page for display
+
             request.getRequestDispatcher("/WEB-INF/views/owner/viewVideos.jsp").forward(request, response);
         } catch (Exception e) {
-            // Log any errors
+
             System.err.println("Error while fetching videos:");
             e.printStackTrace();
 
-            // Set an error message for the JSP
+
             request.setAttribute("errorMessage", "An error occurred while fetching videos.");
             request.getRequestDispatcher("/WEB-INF/views/owner/viewVideos.jsp").forward(request, response);
         }
@@ -51,9 +51,9 @@ public class GetAllVideosServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "owner")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
-        // Forward GET requests to doPost
+
         doPost(request, response);
     }
 }

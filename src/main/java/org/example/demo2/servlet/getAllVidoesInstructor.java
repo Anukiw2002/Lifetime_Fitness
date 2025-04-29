@@ -11,32 +11,26 @@ import org.example.demo2.util.SessionUtils;
 import java.io.IOException;
 import java.util.List;
 @WebServlet("/InstructorViewVideos")
-public class InstructorViewVideos extends HttpServlet {
+public class getAllVidoesInstructor extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
         try {
-            // Fetch all videos using the VideoController
             List<VideoModel> allVideos = VideoController.getAllVideos();
 
-            // Log the retrieved videos for debugging purposes
             System.out.println("Retrieved Videos for Client: " + allVideos);
 
-            // Set the videos as a request attribute to be accessible in the JSP
             request.setAttribute("videos", allVideos);
 
-            // Forward the request to the JSP page for display
             request.getRequestDispatcher("/WEB-INF/views/instructor/instructorViewVideos.jsp").forward(request, response);
         } catch (Exception e) {
-            // Log any errors
             System.err.println("Error while fetching videos for the client:");
             e.printStackTrace();
 
-            // Set an error message to display on the JSP
             request.setAttribute("errorMessage", "An error occurred while fetching videos.");
             request.getRequestDispatcher("/WEB-INF/views/instructor/instructorViewVideos.jsp").forward(request, response);
         }
@@ -45,9 +39,8 @@ public class InstructorViewVideos extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!SessionUtils.isUserAuthorized(request, response, "instructor")) {
-            return; // If not authorized, the redirection will be handled by the utility method
+            return;
         }
-        // For this servlet, forward POST requests to doGet
         doGet(request, response);
     }
 }

@@ -12,7 +12,7 @@ public class User {
     private Timestamp tokenExpiry;
     private String role;
 
-    // Constructor with fullName, username, email, hashedPassword, and role
+
     public User( String fullName, String username, String email, String hashedPassword, String role) {
         this.fullName = fullName;
         this.username = username;
@@ -21,7 +21,7 @@ public class User {
         this.role = role;
     }
 
-    // Constructor with fullName, username, email, hashedPassword, tokenExpiry, and role
+
     public User(int user_id,String fullName, String username, String email, String hashedPassword, Timestamp tokenExpiry, String role) {
         this.user_id = user_id;
         this.fullName = fullName;
@@ -32,7 +32,7 @@ public class User {
         this.role = role;
     }
 
-    // Constructor with all fields: fullName, username, email, hashedPassword, resetToken, tokenExpiry, and role
+
     public User(int user_id, String fullName, String username, String email, String hashedPassword, String resetToken, Timestamp tokenExpiry, String role) {
         this.user_id = user_id;
         this.fullName = fullName;
@@ -44,7 +44,7 @@ public class User {
         this.role = role;
     }
 
-    // Constructor that includes user_id along with other fields
+
     public User(int user_id, String fullName, String username, String email, String hashedPassword, String role) {
         this.user_id = user_id;
         this.fullName = fullName;
@@ -58,7 +58,7 @@ public class User {
     public int getUser_id() {return user_id;}
 
     public void setUser_id(int user_id) {this.user_id = user_id;}
-    // Getters and setters for all fields
+
     public String getFullName() {
         return fullName;
     }
@@ -115,7 +115,7 @@ public class User {
         this.role = role;
     }
 
-    // ToString method for debugging
+
     @Override
     public String toString() {
         return "User{" +

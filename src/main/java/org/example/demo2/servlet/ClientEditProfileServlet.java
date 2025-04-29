@@ -16,9 +16,9 @@ import java.sql.SQLException;
 
 @WebServlet("/clientEditProfile")
 @MultipartConfig(
-        fileSizeThreshold = 1024 * 1024, // 1 MB
-        maxFileSize = 1024 * 1024 * 5,   // 5 MB
-        maxRequestSize = 1024 * 1024 * 10 // 10 MB
+        fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 10
 )
 public class ClientEditProfileServlet extends HttpServlet {
     private ClientDAO clientDAO;
@@ -34,7 +34,7 @@ public class ClientEditProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        // If session is invalid or the user is not a client, redirect to the landing page
+
         if (session == null || !"client".equals(session.getAttribute("userRole"))) {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
@@ -45,7 +45,7 @@ public class ClientEditProfileServlet extends HttpServlet {
         try {
             Client client = clientDAO.findByUserId(userId);
 
-            // Set attributes for the JSP
+
             request.setAttribute("client", client);
 
             Report report = reportDAO.getById(userId);
@@ -61,7 +61,7 @@ public class ClientEditProfileServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        // Check if user is authorized - if not, redirect
+
         if (session == null || !"client".equals(session.getAttribute("userRole"))) {
             response.sendRedirect(request.getContextPath() + "/landingPage");
             return;
@@ -69,7 +69,7 @@ public class ClientEditProfileServlet extends HttpServlet {
 
         int userId = (int) session.getAttribute("userId");
 
-        // Get form parameters
+
         String name = request.getParameter("name");
         String username = request.getParameter("username");
         String dateOfBirth = request.getParameter("dateOfBirth");

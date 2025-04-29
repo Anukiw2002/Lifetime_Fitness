@@ -8,7 +8,7 @@ public class Exercise {
     private String exerciseName;
     private String description;
 
-    // Constructors
+
     public Exercise() {}
 
     public Exercise(String exerciseName, String description) {
@@ -16,7 +16,7 @@ public class Exercise {
         this.description = description;
     }
 
-    // Getters and Setters
+
     public Long getExerciseId() { return exerciseId; }
     public void setExerciseId(Long exerciseId) { this.exerciseId = exerciseId; }
     public String getExerciseName() { return exerciseName; }

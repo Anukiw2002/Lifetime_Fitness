@@ -30,7 +30,7 @@ public class Report {
     private Timestamp updatedAt;
     private double target_weight;
 
-    // Getters and setters for all fields
+
     public int getId() {
         return id;
     }
@@ -232,9 +232,9 @@ public class Report {
             return 0;
         }
 
-        // Determine if height is likely in cm (usually over 100) and convert to meters if needed
+
         double heightInMeters = height;
-        if (height > 3) { // Assuming height > 3 means it's in cm
+        if (height > 3) {
             heightInMeters = height / 100.0;
         }
 
