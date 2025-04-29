@@ -102,6 +102,8 @@
                                                     <c:set var="totalCat" value="${pricing.price}" />
                                                     <input type="hidden" name="total" value="${totalCat}" />
                                                     <input type="hidden" name="durationId" value="${duration.durationId}" />
+                                                    <input type="hidden" name="planId" value="${plan.planId}" />
+
                                                     <button type="submit" class="select-btn">Select</button>
                                                 </form>
                                             </div>
