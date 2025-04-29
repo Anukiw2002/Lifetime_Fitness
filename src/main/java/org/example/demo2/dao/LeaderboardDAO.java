@@ -184,4 +184,55 @@ public class LeaderboardDAO {
         }
         return entries;
     }
+
+    public int getIdByPhonenumber(String phonenumber){
+        int id = -1;
+        String sql = "SELECT user_id AS userId from client_details WHERE phone_number = ?";
+        try(Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, phonenumber);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()){
+                id = rs.getInt("userId");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public String getEmailById(Integer id){
+        String email = null;
+        String sql = "SELECT email AS email FROM users WHERE id = ?";
+        try(Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()){
+                email = rs.getString("email");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return email;
+
+    }
+
+    public double getWeightByEmail(String email){
+        double weight = -1.0;
+        String sql = "SELECT body_weight as weight FROM user_reports WHERE email = ?";
+        try(Connection conn = DBConnection.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1,email);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                weight = rs.getDouble(1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return weight;
+
+    }
+
 }

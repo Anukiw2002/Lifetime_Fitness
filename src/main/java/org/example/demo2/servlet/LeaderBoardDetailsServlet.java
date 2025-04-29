@@ -26,8 +26,11 @@ public class LeaderBoardDetailsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String phoneNumber = request.getParameter("clientSearch");
+
         String category = request.getParameter("category");
         String amount = request.getParameter("amount");
+        System.out.println(amount);
+
 
 
         // Validate inputs
@@ -40,9 +43,19 @@ public class LeaderBoardDetailsServlet extends HttpServlet {
             return;
         }
 
-        LeaderboardDAO leaderboardDAO = new LeaderboardDAO();
+
+
 
         try {
+            LeaderboardDAO leaderboardDAO = new LeaderboardDAO();
+            int id = leaderboardDAO.getIdByPhonenumber(phoneNumber);
+            System.out.println(id);
+            String email = leaderboardDAO.getEmailById(id);
+            System.out.println(email);
+            double weight = leaderboardDAO.getWeightByEmail(email);
+            System.out.println(weight);
+
+            double equiityWeight = Double.parseDouble(amount) / weight ;
             int userId = leaderboardDAO.getUserByPhone(phoneNumber);
 
             if (userId == -1) {
@@ -53,7 +66,7 @@ public class LeaderBoardDetailsServlet extends HttpServlet {
 
             String fullName = leaderboardDAO.getFullNameByUserId(userId);
 
-            boolean success = leaderboardDAO.insertIntoLeaderBoard(userId, fullName, category, Double.parseDouble(amount));
+            boolean success = leaderboardDAO.insertIntoLeaderBoard(userId, fullName, category, equiityWeight);
 
             if (success) {
                 request.setAttribute("successMessage", "Leaderboard entry added successfully!");
