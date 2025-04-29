@@ -7,7 +7,7 @@ public class UniformPricing {
     private Long durationId;
     private BigDecimal price;
 
-    // Constructors
+
     public UniformPricing() {}
 
     public UniformPricing(Long durationId, BigDecimal price) {
@@ -15,7 +15,7 @@ public class UniformPricing {
         this.price = price;
     }
 
-    // Getters and Setters
+
     public Long getPricingId() { return pricingId; }
     public void setPricingId(Long pricingId) { this.pricingId = pricingId; }
     public Long getDurationId() { return durationId; }

@@ -5,7 +5,7 @@ public class BlogModel {
     private String name;
     private String description;
     private String content;
-    private byte[] image; // New image field
+    private byte[] image;
 
 
     public BlogModel() {}

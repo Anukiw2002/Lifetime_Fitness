@@ -6,14 +6,14 @@ import java.util.Date;
 public class WorkoutSession {
     private int session_Id;
     private int user_Id;
-    private Date started_at;  // Renamed to match the database column
-    private Date ended_at;    // Renamed to match the database column
+    private Date started_at;
+    private Date ended_at;
     private String notes;
     private int workout_id;
     private Time duration;
     private String workoutName;
 
-    // Constructor with all required parameters
+
     public WorkoutSession(int sessionId, int userId, Date startedAt, Date endedAt, String notes) {
         this.session_Id = sessionId;
         this.user_Id = userId;
@@ -24,7 +24,7 @@ public class WorkoutSession {
 
     public WorkoutSession(){}
 
-    // Getters and Setters
+
     public int getSession_Id() {
         return session_Id;
     }

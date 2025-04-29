@@ -7,8 +7,8 @@ import java.io.IOException;
 
 public class SessionUtils {
 
-    // Method to check if the user is authorized
-    // Accepts any number of allowed roles
+
+
     public static boolean isUserAuthorized(HttpServletRequest request, HttpServletResponse response, String... allowedRoles) throws IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userRole") == null) {

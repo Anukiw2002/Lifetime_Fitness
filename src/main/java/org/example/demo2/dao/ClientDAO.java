@@ -184,7 +184,7 @@ public class ClientDAO {
         boolean detailsUpdated = updateClientDetails(userId, name, username, dateOfBirth, gender, emailAddress, phoneNumber,
                 houseNo, streetName, city, emergencyContactName, emergencyContactNumber);
 
-        // If profile picture is provided, update it
+
         if (profilePicture != null && profilePicture.length > 0) {
             boolean pictureUpdated = updateProfilePicture(userId, profilePicture);
             return detailsUpdated && pictureUpdated;

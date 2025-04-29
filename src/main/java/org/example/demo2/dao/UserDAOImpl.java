@@ -112,7 +112,7 @@ public class UserDAOImpl implements IUserDAO {
                 if (rs.next()) {
                     return mapUserFromResultSet(rs);
                 }
-                return null; // Return null if no user is found
+                return null;
             }
         }
     }
@@ -150,11 +150,11 @@ public class UserDAOImpl implements IUserDAO {
     }
 
     private User mapUserFromResultSet(ResultSet rs) throws SQLException {
-        // Fetch reset_token
+
         String resetToken = rs.getString("reset_token");
         System.out.println("reset_token: " + resetToken);
 
-        // Fetch token_expiry as String and convert to Timestamp
+
         String tokenExpiryString = rs.getString("token_expiry");
         Timestamp tokenExpiry = null;
         if (tokenExpiryString != null) {
@@ -168,7 +168,7 @@ public class UserDAOImpl implements IUserDAO {
 
         int userId = rs.getInt("id");
 
-        // Return the User object
+
         return new User(
                 userId,
                 rs.getString("full_name"),

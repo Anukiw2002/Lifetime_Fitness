@@ -13,7 +13,7 @@ public class MembershipPlan {
     private String status;
     private String colour;
 
-    // Constructors
+
     public MembershipPlan() {}
 
     public MembershipPlan(String planName, LocalTime startTime, LocalTime endTime, String pricingType, String colour) {
@@ -24,7 +24,7 @@ public class MembershipPlan {
         this.colour =  colour;
     }
 
-    // Getters and Setters
+
     public Long getPlanId() { return planId; }
     public void setPlanId(Long planId) { this.planId = planId; }
     public String getPlanName() { return planName; }

@@ -28,7 +28,7 @@ public class OrderDAO {
         }
     }
 
-    // ✅ New method to fetch duration_id from durations table
+
     public int getDurationId() throws SQLException {
         int durationId = -1;
         String query = "SELECT duration_id FROM durations WHERE user_id = ?";
